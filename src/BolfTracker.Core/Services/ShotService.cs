@@ -17,11 +17,11 @@ namespace BolfTracker.Services
         private readonly IHoleRepository _holeRepository;
         private readonly IUnitOfWork _unitOfWork;
 
-        private const int ShotTypeMake = 8;
-        private const int ShotTypeMiss = 9;
-        private const int ShotTypePush = 1;
-        private const int ShotTypeSteal = 2;
-        private const int ShotTypeSugarFreeSteal = 10;
+        private const int ShotTypeMake = 1;
+        private const int ShotTypeMiss = 2;
+        private const int ShotTypePush = 3;
+        private const int ShotTypeSteal = 4;
+        private const int ShotTypeSugarFreeSteal = 5;
 
         public ShotService(IShotRepository shotRepository, IShotTypeRepository shotTypeRepository, IGameRepository gameRepository, IPlayerRepository playerRepository, IHoleRepository holeRepository, IUnitOfWork unitOfWork)
         {
@@ -100,7 +100,7 @@ namespace BolfTracker.Services
                         if (currentLowestShotMade.Attempts == currentShot.Attempts)
                         {
                             // This is a push
-                            currentShot.ShotType = allShotTypes.Single(st => st.Id == 1);
+                            currentShot.ShotType = allShotTypes.Single(st => st.Id == ShotTypePush);
 
                             // Zero out other player's points that this player pushed.
                             Update(currentLowestShotMade.Id, 0, allShotTypes.Single(st => st.Id == ShotTypeMake));
@@ -110,14 +110,14 @@ namespace BolfTracker.Services
                             // Then it is a steal (because someone has already made it if we got to this point)
 
                             // First figure out if the hole had been pushed, because then it will be a "Sugar-Free Steal"
-                            if (game.Shots.Any(s => s.Hole.Id == currentShot.Hole.Id && s.ShotType.Id == 1))
+                            if (game.Shots.Any(s => s.Hole.Id == currentShot.Hole.Id && s.ShotType.Id == ShotTypePush))
                             {
                                 // This is a sugar-free steal
-                                currentShot.ShotType = allShotTypes.Single(st => st.Id == 10);
+                                currentShot.ShotType = allShotTypes.Single(st => st.Id == ShotTypeSugarFreeSteal);
                                 currentShot.Points = pointsAvailable;
 
                                 // Reset the person who had a push to just be a "Make" now
-                                var playerWithPush = game.Shots.Single(s => s.Hole.Id == currentShot.Hole.Id && s.ShotType.Id == 1);
+                                var playerWithPush = game.Shots.Single(s => s.Hole.Id == currentShot.Hole.Id && s.ShotType.Id == ShotTypePush);
                                 Update(playerWithPush.Id, 0, allShotTypes.Single(st => st.Id == ShotTypeMake));
                             }
                             else
@@ -125,7 +125,7 @@ namespace BolfTracker.Services
                                 var playerWithPoints = game.Shots.Single(s => s.Hole.Id == currentShot.Hole.Id && s.Points > 0);
                                 
                                 // This is a regular steal
-                                currentShot.ShotType = allShotTypes.Single(st => st.Id == 2);
+                                currentShot.ShotType = allShotTypes.Single(st => st.Id == ShotTypeSteal);
                                 currentShot.Points = playerWithPoints.Points;
 
                                 // Reset the score to zero for the player who previously had the points
