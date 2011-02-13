@@ -1,0 +1,206 @@
+﻿@model BolfTracker.Web.GamePanelViewModel
+@{
+    ViewBag.Title = "Game Panel";
+}
+<h2>
+    Game Panel</h2>
+<fieldset>
+    <legend>Game Information</legend>
+    <div class="display-field">@String.Format("{0:d}", Model.Game.Date)</div>
+    @if (!Model.GameFinalized)
+    {
+        using (Html.BeginForm("Finalize", "Game", FormMethod.Post))
+        {
+        @Html.Hidden("gameId", Model.Game.Id)
+        <input type="submit" value="Finalize Game" />
+        }
+    }
+</fieldset>
+@if (!Model.GameFinalized)
+{
+    <fieldset>
+        <legend>Enter Score</legend>
+        @using (Html.BeginForm("Create", "Score", FormMethod.Post))
+        {
+            @Html.HiddenFor(m => m.Game.Id)
+            <label for="player">
+                Player:
+            </label>@Html.DropDownListFor(m => m.Player, Model.AllPlayers)
+            <label for="hole">
+                Hole:
+            </label>@Html.DropDownListFor(m => m.Hole, Model.AllHoles)
+            <label for="attempts">
+                Attempts:
+            </label>
+            <input type="text" name="attempts" id="attempts" />
+            <label for="shotMade">
+                Shot Made:
+            </label>
+            <input type="checkbox" name="shotMade" id="shotMade" />
+            <input type="submit" value="Save Shot" />
+        }
+    </fieldset>
+}
+<fieldset>
+    <legend>Leaderboard</legend>
+    @if (Model.Game.Shots.Any())
+    {
+        <table id="leaderboard">
+            <tr>
+                <th style="width: 150px; text-align: left;">
+                    Player
+                </th>
+                <th style="width: 70px; text-align: left;">
+                    Points
+                </th>
+                <th style="width: 70px; text-align: left;">
+                    Shooting
+                </th>
+                <th style="width: 70px; text-align: left;">
+                    Steals
+                </th>
+                <th style="width: 70px; text-align: left;">
+                    Pushes
+                </th>
+            </tr>
+            @foreach (var player in Model.ActivePlayers.Distinct())
+            {
+                <tr>
+                    <td>@player.Name
+                    </td>
+                    <td>@player.Shots.Where(s => s.Game.Id == Model.Game.Id).Sum(s => s.Points)
+                    </td>
+                    <td>@player.Shots.Count(s => s.Game.Id == Model.Game.Id && s.ShotMade)/@player.Shots.Where(s => s.Game.Id == Model.Game.Id).Sum(s => s.Attempts)
+                    </td>
+                    <td>@player.Shots.Count(s => s.Game.Id == Model.Game.Id && (s.ShotType.Id == 2 || s.ShotType.Id == 10))
+                    </td>
+                    <td>@player.Shots.Count(s => s.Game.Id == Model.Game.Id && s.ShotType.Id == 1)
+                    </td>
+                </tr>
+            }
+        </table>
+    }
+    else
+    {
+        <p>
+            Game has not started.</p> 
+    }
+</fieldset>
+<fieldset>
+    <legend>Scoreboard</legend>
+    @if (Model.Game.Shots.Any())
+    {
+        int holeNumber = 0;
+        <table id="scoreboard">
+            @foreach (var hole in Model.AllHoles)
+            {
+                holeNumber++;
+                if (holeNumber % 5 == 0)
+                {
+                <tr>
+                </tr>
+                }
+
+            }
+        </table>
+    }
+</fieldset>
+<fieldset>
+    <legend>Hole History</legend>
+    @if (Model.Game.Shots.Any())
+    {
+        int lastShot = Model.Game.Shots.Max(s => s.Id);
+        
+        <table id="hole-history">
+            <tr>
+                <th style="width: 50px; text-align: left;">
+                    Hole
+                </th>
+                <th style="width: 150px; text-align: left;">
+                    Player
+                </th>
+                <th style="width: 85px; text-align: left;">
+                    Attempts
+                </th>
+                <th style="width: 200px; text-align: left;">
+                    Result
+                </th>
+                <th>
+                </th>
+            </tr>
+            @foreach (var score in Model.Game.Shots.OrderBy(s => s.Id))
+            {
+                if (score.Points > 0)
+                { 
+                <tr style="font-weight: bold;">
+                    <td>@score.Hole.Id
+                    </td>
+                    <td>@score.Player.Name
+                    </td>
+                    <td>@score.Attempts
+                    </td>
+                    <td>@score.ShotType.Name (@score.Points Points)
+                    </td>
+                    <td>
+                        @if (score.Id == lastShot && !Model.GameFinalized)
+                        {
+                            using (Html.BeginForm("Delete", "Score", FormMethod.Post))
+                            { 
+                                @Html.Hidden("scoreId", score.Id)
+                                @Html.Hidden("gameId", score.Game.Id)
+                                <input type="submit" value="Delete" />
+                            }
+                        }
+                    </td>
+                </tr>
+                }
+                else
+                { 
+                <tr>
+                    <td>@score.Hole.Id
+                    </td>
+                    <td>@score.Player.Name
+                    </td>
+                    <td>@score.Attempts
+                    </td>
+                    <td>@score.ShotType.Name
+                    </td>
+                    <td>
+                        @if (score.Id == lastShot && !Model.GameFinalized)
+                        {
+                            using (Html.BeginForm("Delete", "Score", FormMethod.Post))
+                            { 
+                                @Html.Hidden("scoreId", score.Id)
+                                @Html.Hidden("gameId", score.Game.Id)
+                                <input type="submit" value="Delete" />
+                            }
+                        }
+                    </td>
+                </tr>
+                }
+            }
+        </table>
+    }
+    else
+    { 
+        <p>
+            Game has not started.</p> 
+    }
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Game.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+@section javascript
+{
+    @if (false)
+    {
+        <script type="text/javascript" src="../../Scripts/jquery-1.5.js"></script>
+        <script src="../../Scripts/jquery-ui.js" type="text/javascript"></script>
+    }
+    <script type="text/javascript">
+        $(function () {
+            $("#attempts").focus();
+        });
+    </script>
+}

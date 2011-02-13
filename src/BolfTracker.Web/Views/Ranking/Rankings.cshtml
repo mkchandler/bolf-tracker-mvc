@@ -1,0 +1,37 @@
+﻿@model IEnumerable<BolfTracker.Models.Ranking>
+@{
+    ViewBag.Title = "Rankings";
+}
+
+<h2>Rankings</h2>
+
+<table id="rankings" class="stats">
+    <tr>
+        <th style="width: 120px; text-align:left" title="Player">Player</th>
+        <th style="width: 35px; text-align: right" title="Wins">W</th>
+        <th style="width: 35px; text-align: right" title="Losses">L</th>
+        <th style="width: 55px; text-align: right" title="Winning Percentage">PCT</th>
+        <th style="width: 40px; text-align: right" title="Games Back">GB</th>
+        <th style="width: 40px; text-align: right" title="Total Points">P</th>
+        <th style="width: 40px; text-align: right" title="Points Per Game">PPG</th>
+        <th style="width: 40px; text-align: right" title="Last 10 Record">L10</th>
+    </tr>
+    @foreach (var ranking in Model)
+    { 
+        <tr>
+            <td>@ranking.Player.Name</td>
+            <td style="text-align: right">@ranking.Wins</td>
+            <td style="text-align: right">@ranking.Losses</td>
+            <td style="text-align: right">@ranking.WinningPercentage</td>
+            <td style="text-align: right">@ranking.GamesBack</td>
+            <td style="text-align: right">@ranking.TotalPoints</td>
+            <td style="text-align: right">@ranking.PointsPerGame</td>
+            <td style="text-align: right">@ranking.LastTenWins-@ranking.LastTenLosses</td>
+        </tr>
+    }
+</table>
+
+@using (Html.BeginForm("Calculate", "Ranking", FormMethod.Post))
+{ 
+    <input type="submit" value="Calculate Rankings" />
+}

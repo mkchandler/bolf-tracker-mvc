@@ -1,0 +1,141 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MvcExtensions.Unity</name>
+    </assembly>
+    <members>
+        <member name="T:MvcExtensions.Unity.IModule">
+            <summary>
+            Represents an interface that is used to register a set of related services.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.Unity.IModule.Load(Microsoft.Practices.Unity.IUnityContainer)">
+            <summary>
+            Loads the module.
+            </summary>
+            <param name="container">The container.</param>
+        </member>
+        <member name="T:MvcExtensions.Unity.UnityMvcApplication">
+            <summary>
+            Defines a <see cref="T:System.Web.HttpApplication"/> which uses <seealso cref="T:MvcExtensions.Unity.UnityBootstrapper"/>.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.Unity.UnityMvcApplication.CreateBootstrapper">
+            <summary>
+            Creates the bootstrapper.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.Unity.UnityMvcApplication.OnPerRequestTasksDisposed">
+            <summary>
+            Executes after the registered <see cref="T:MvcExtensions.PerRequestTask"/> disposes.
+            </summary>
+        </member>
+        <member name="T:MvcExtensions.Unity.UnityBootstrapper">
+            <summary>
+            Defines a <seealso cref="T:MvcExtensions.Bootstrapper">Bootstrapper</seealso> which is backed by <seealso cref="T:MvcExtensions.Unity.UnityAdapter"/>.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.Unity.UnityBootstrapper.#ctor(MvcExtensions.IBuildManager)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MvcExtensions.Unity.UnityBootstrapper"/> class.
+            </summary>
+            <param name="buildManager">The build manager.</param>
+        </member>
+        <member name="M:MvcExtensions.Unity.UnityBootstrapper.CreateAdapter">
+            <summary>
+            Creates the container adapter.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.Unity.UnityBootstrapper.LoadModules">
+            <summary>
+            Loads the container specific modules.
+            </summary>
+        </member>
+        <member name="T:MvcExtensions.Unity.UnityAdapter">
+            <summary>
+            Defines an adapter class which is backed by Unity <seealso cref="T:Microsoft.Practices.Unity.IUnityContainer">Container</seealso>.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.Unity.UnityAdapter.#ctor(Microsoft.Practices.Unity.IUnityContainer)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MvcExtensions.Unity.UnityAdapter"/> class.
+            </summary>
+            <param name="container">The container.</param>
+        </member>
+        <member name="M:MvcExtensions.Unity.UnityAdapter.RegisterType(System.String,System.Type,System.Type,MvcExtensions.LifetimeType)">
+            <summary>
+            Registers the type.
+            </summary>
+            <param name="key">The key.</param>
+            <param name="serviceType">Type of the service.</param>
+            <param name="implementationType">Type of the implementation.</param>
+            <param name="lifetime">The lifetime of the service.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.Unity.UnityAdapter.RegisterInstance(System.String,System.Type,System.Object)">
+            <summary>
+            Registers the instance.
+            </summary>
+            <param name="key">The key.</param>
+            <param name="serviceType">Type of the service.</param>
+            <param name="instance">The instance.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.Unity.UnityAdapter.Inject(System.Object)">
+            <summary>
+            Injects the matching dependences.
+            </summary>
+            <param name="instance">The instance.</param>
+        </member>
+        <member name="M:MvcExtensions.Unity.UnityAdapter.DoGetInstance(System.Type,System.String)">
+            <summary>
+            Gets the matching instance for the given type and key.
+            </summary>
+            <param name="serviceType">Type of the service.</param>
+            <param name="key">The key.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.Unity.UnityAdapter.DoGetAllInstances(System.Type)">
+            <summary>
+            Gets all the instances for the given type.
+            </summary>
+            <param name="serviceType">Type of the service.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.Unity.UnityAdapter.DisposeCore">
+            <summary>
+            Releases unmanaged and - optionally - managed resources
+            </summary>
+        </member>
+        <member name="P:MvcExtensions.Unity.UnityAdapter.Container">
+            <summary>
+            Gets the container.
+            </summary>
+            <value>The container.</value>
+        </member>
+        <member name="T:MvcExtensions.Unity.PerRequestLifetimeManager">
+            <summary>
+            Defines a <see cref="T:Microsoft.Practices.Unity.LifetimeManager"/> which returns the same object for a web request.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.Unity.PerRequestLifetimeManager.GetValue">
+            <summary>
+            Gets the value.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.Unity.PerRequestLifetimeManager.SetValue(System.Object)">
+            <summary>
+            Sets the value.
+            </summary>
+            <param name="newValue">The new value.</param>
+        </member>
+        <member name="M:MvcExtensions.Unity.PerRequestLifetimeManager.RemoveValue">
+            <summary>
+            Removes the value.
+            </summary>
+        </member>
+    </members>
+</doc>

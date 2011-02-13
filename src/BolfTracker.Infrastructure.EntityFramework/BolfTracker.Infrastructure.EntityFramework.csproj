@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{AAC59F10-B95A-4B08-9557-1218B72DB341}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BolfTracker.Infrastructure.EntityFramework</RootNamespace>
+    <AssemblyName>BolfTracker.Infrastructure.EntityFramework</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Configuration\GameConfiguration.cs" />
+    <Compile Include="Configuration\GameStatisticsConfiguration.cs" />
+    <Compile Include="Configuration\HoleConfiguration.cs" />
+    <Compile Include="Configuration\PlayerConfiguration.cs" />
+    <Compile Include="Configuration\RankingConfiguration.cs" />
+    <Compile Include="Configuration\ShotConfiguration.cs" />
+    <Compile Include="Configuration\ShotTypeConfiguration.cs" />
+    <Compile Include="Database.cs" />
+    <Compile Include="DatabaseFactory.cs" />
+    <Compile Include="GameRepository.cs" />
+    <Compile Include="GameStatisticsRepository.cs" />
+    <Compile Include="HoleRepository.cs" />
+    <Compile Include="IDatabaseFactory.cs" />
+    <Compile Include="PlayerRepository.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Query\GamesByMonthAndYearQuery.cs" />
+    <Compile Include="Query\IQuery.cs" />
+    <Compile Include="Query\IQueryFactory.cs" />
+    <Compile Include="Query\PlayerByNameQuery.cs" />
+    <Compile Include="Query\QueryBase.cs" />
+    <Compile Include="Query\QueryFactory.cs" />
+    <Compile Include="Query\RankingsByMonthAndYearQuery.cs" />
+    <Compile Include="RankingRepository.cs" />
+    <Compile Include="RepositoryBase.cs" />
+    <Compile Include="ShotRepository.cs" />
+    <Compile Include="ShotTypeRepository.cs" />
+    <Compile Include="UnitOfWork.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BolfTracker.Core\BolfTracker.Core.csproj">
+      <Project>{A8BD7DEF-773E-4391-81EF-8330084AC454}</Project>
+      <Name>BolfTracker.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

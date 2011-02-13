@@ -1,0 +1,23 @@
+﻿@model BolfTracker.Models.Player
+
+@{
+    ViewBag.Title = "Delete Player";
+}
+
+<h2>Delete Player</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<fieldset>
+    <legend>Player</legend>
+
+    <div class="display-label">Name</div>
+    <div class="display-field">@Model.Name</div>
+</fieldset>
+@using (Html.BeginForm()) {
+    <p>
+        <input type="submit" value="Delete" /> |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+}
+
+

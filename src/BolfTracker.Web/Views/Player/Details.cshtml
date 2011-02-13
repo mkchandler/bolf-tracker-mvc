@@ -1,0 +1,19 @@
+﻿@model BolfTracker.Models.Player
+
+@{
+    ViewBag.Title = "Player Details";
+}
+
+<h2>Player Details</h2>
+
+<fieldset>
+    <legend>Player</legend>
+
+    <div class="display-label">Name</div>
+    <div class="display-field">@Model.Name</div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+
