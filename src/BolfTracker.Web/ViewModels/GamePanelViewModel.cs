@@ -59,6 +59,13 @@ namespace BolfTracker.Web
                 // Check to see if we've had any duplicate players yet (if so, that means we can determine the order)
                 if (duplicatePlayers.Any())
                 {
+                    // If we are on the last hole or in overtime, the order could change because not
+                    // everyone can win
+                    if (GetCurrentHole() >= 10)
+                    {
+
+                    }
+
                     return playersDescending.Last();
                 }
                 else
@@ -128,8 +135,20 @@ namespace BolfTracker.Web
         {
             get
             {
+                int currentHole = GetCurrentHole();
 
-                return 0;
+                if (currentHole == 1)
+                {
+                    return _allHoles.Single(h => h.Id == 1).Par;
+                }
+                else
+                {
+                    int totalPoints = _allHoles.Where(h => h.Id <= currentHole).Sum(h => h.Par);
+                    int totalPointsTaken = Game.Shots.Where(s => s.Hole.Id < currentHole).Sum(s => s.Points);
+                    int pointsAvailable = totalPoints - totalPointsTaken;
+
+                    return pointsAvailable;
+                }
             }
         }
 
