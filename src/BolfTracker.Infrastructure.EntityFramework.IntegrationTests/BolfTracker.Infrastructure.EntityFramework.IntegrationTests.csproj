@@ -48,13 +48,15 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\SharedAssemblyInfo.cs">
+      <Link>Properties\SharedAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="DatabaseTest.cs" />
     <Compile Include="GameRepositoryTests.cs" />
     <Compile Include="GameStatisticsRepositoryTests.cs" />
     <Compile Include="HoleRepositoryTests.cs" />
     <Compile Include="ObjectMother.cs" />
     <Compile Include="PlayerRepositoryTests.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RankingRepositoryTests.cs" />
     <Compile Include="ScoreRepositoryTests.cs" />
   </ItemGroup>

@@ -72,9 +72,9 @@
                     </td>
                     <td>@player.Shots.Count(s => s.Game.Id == Model.Game.Id && s.ShotMade)/@player.Shots.Where(s => s.Game.Id == Model.Game.Id).Sum(s => s.Attempts)
                     </td>
-                    <td>@player.Shots.Count(s => s.Game.Id == Model.Game.Id && (s.ShotType.Id == 2 || s.ShotType.Id == 10))
+                    <td>@player.Shots.Count(s => s.Game.Id == Model.Game.Id && (s.ShotType.Id == 4 || s.ShotType.Id == 5))
                     </td>
-                    <td>@player.Shots.Count(s => s.Game.Id == Model.Game.Id && s.ShotType.Id == 1)
+                    <td>@player.Shots.Count(s => s.Game.Id == Model.Game.Id && s.ShotType.Id == 3)
                     </td>
                 </tr>
             }

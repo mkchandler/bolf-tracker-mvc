@@ -90,9 +90,9 @@ namespace BolfTracker.Services
                 gameStatistics.Points          = player.Shots.Where(s => s.Game.Id == gameId).Sum(s => s.Points);
                 gameStatistics.ShotsMade       = player.Shots.Count(s => s.Game.Id == gameId && s.ShotMade);
                 gameStatistics.Attempts        = player.Shots.Where(s => s.Game.Id == gameId).Sum(s => s.Attempts);
-                gameStatistics.Pushes          = player.Shots.Count(s => s.Game.Id == gameId && s.ShotType.Id == 1);
-                gameStatistics.Steals          = player.Shots.Count(s => s.Game.Id == gameId && s.ShotType.Id == 2);
-                gameStatistics.SugarFreeSteals = player.Shots.Count(s => s.Game.Id == gameId && s.ShotType.Id == 10);
+                gameStatistics.Pushes          = player.Shots.Count(s => s.Game.Id == gameId && s.ShotType.Id == 3);
+                gameStatistics.Steals          = player.Shots.Count(s => s.Game.Id == gameId && s.ShotType.Id == 4);
+                gameStatistics.SugarFreeSteals = player.Shots.Count(s => s.Game.Id == gameId && s.ShotType.Id == 5);
                 gameStatistics.Winner          = (gameStatistics.Points == maxPoints);
 
                 _gameStatisticsRepository.Add(gameStatistics);
