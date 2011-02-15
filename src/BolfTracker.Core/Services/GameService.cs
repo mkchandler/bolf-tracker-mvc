@@ -14,6 +14,11 @@ namespace BolfTracker.Services
         private readonly IGameStatisticsRepository _gameStatisticsRepository;
         private readonly IUnitOfWork _unitOfWork;
 
+        // TODO: Really need to figure out a better way to do this
+        private const int ShotTypePush = 3;
+        private const int ShotTypeSteal = 4;
+        private const int ShotTypeSugarFreeSteal = 5;
+
         public GameService(IGameRepository gameRepository, IGameStatisticsRepository gameStatisticsRepository, IUnitOfWork unitOfWork)
         {
             _gameRepository = gameRepository;
@@ -90,9 +95,9 @@ namespace BolfTracker.Services
                 gameStatistics.Points          = player.Shots.Where(s => s.Game.Id == gameId).Sum(s => s.Points);
                 gameStatistics.ShotsMade       = player.Shots.Count(s => s.Game.Id == gameId && s.ShotMade);
                 gameStatistics.Attempts        = player.Shots.Where(s => s.Game.Id == gameId).Sum(s => s.Attempts);
-                gameStatistics.Pushes          = player.Shots.Count(s => s.Game.Id == gameId && s.ShotType.Id == 3);
-                gameStatistics.Steals          = player.Shots.Count(s => s.Game.Id == gameId && s.ShotType.Id == 4);
-                gameStatistics.SugarFreeSteals = player.Shots.Count(s => s.Game.Id == gameId && s.ShotType.Id == 5);
+                gameStatistics.Pushes          = player.Shots.Count(s => s.Game.Id == gameId && s.ShotType.Id == ShotTypePush);
+                gameStatistics.Steals          = player.Shots.Count(s => s.Game.Id == gameId && s.ShotType.Id == ShotTypeSteal);
+                gameStatistics.SugarFreeSteals = player.Shots.Count(s => s.Game.Id == gameId && s.ShotType.Id == ShotTypeSugarFreeSteal);
                 gameStatistics.Winner          = (gameStatistics.Points == maxPoints);
 
                 _gameStatisticsRepository.Add(gameStatistics);

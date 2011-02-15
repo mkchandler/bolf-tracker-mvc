@@ -39,9 +39,20 @@ namespace BolfTracker.Services
             var shots = games.SelectMany(g => g.Shots);
             var players = shots.Select(s => s.Player).Distinct();
 
-            // The first thing that needs to be done is to find the eligibility line, which is half the average 
-            // of games played by each player
-            int eligibilityLine = 0;
+            int totalGamesCombinedForAllPlayers = 0;
+
+            // Calculate the eligibility line, which will be used to determin the top player and will be
+            // a recorded stat for each player in the rankings
+            foreach (var player in players)
+            {
+                int wins = gamesStatistics.Count(gs => gs.Player.Id == player.Id && gs.Winner);
+                int losses = gamesStatistics.Count(gs => gs.Player.Id == player.Id && !gs.Winner);
+
+                // Add the games played to the summed variable so that we can use it to determine the eligibility line later
+                totalGamesCombinedForAllPlayers += wins + losses;
+            }
+
+            int eligibilityLine = Convert.ToInt32(Decimal.Round((Decimal.Round(totalGamesCombinedForAllPlayers / players.Count(), 1, MidpointRounding.AwayFromZero)) / 2M, 0, MidpointRounding.AwayFromZero));
 
             // The second thing we want to do is find the top ranked player because we will need their stats
             // to be able to calculate the "games back" for all other players
@@ -67,27 +78,32 @@ namespace BolfTracker.Services
 
                 decimal winningPercentage = (losses > 0) ? Decimal.Round(Convert.ToDecimal(wins) / Convert.ToDecimal(wins + losses), 3, MidpointRounding.AwayFromZero) : 1.00M;
 
-                if (winningPercentage > topPlayerWinningPercentage)
+                // Player must first be eligible to be determined as the top player
+                if ((wins + losses) >= eligibilityLine)
                 {
-                    setTopPlayerStats(winningPercentage, wins, losses, totalPoints, pointsPerGame);
-                }
-                else if (winningPercentage == topPlayerWinningPercentage)
-                {
-                    if (pointsPerGame > topPlayerPointsPerGame)
+                    // From here on down, use our top player algorithm to determine result (winning percentage --> ppg --> total points)
+                    if (winningPercentage > topPlayerWinningPercentage)
                     {
                         setTopPlayerStats(winningPercentage, wins, losses, totalPoints, pointsPerGame);
                     }
-                    else if (pointsPerGame == topPlayerPointsPerGame)
+                    else if (winningPercentage == topPlayerWinningPercentage)
                     {
-                        if (totalPoints > topPlayerTotalPoints)
+                        if (pointsPerGame > topPlayerPointsPerGame)
                         {
                             setTopPlayerStats(winningPercentage, wins, losses, totalPoints, pointsPerGame);
+                        }
+                        else if (pointsPerGame == topPlayerPointsPerGame)
+                        {
+                            if (totalPoints > topPlayerTotalPoints)
+                            {
+                                setTopPlayerStats(winningPercentage, wins, losses, totalPoints, pointsPerGame);
+                            }
                         }
                     }
                 }
             }
 
-            // Next go through each player and calculate ranking stats
+            // Next go through each player and calculate ranking stats to be put in the database
             foreach (var player in players)
             {
                 var ranking = new Ranking() { Player = player, Month = month, Year = year };
@@ -97,6 +113,7 @@ namespace BolfTracker.Services
                 ranking.WinningPercentage = Decimal.Round(Convert.ToDecimal(ranking.Wins) / Convert.ToDecimal(ranking.TotalGames), 3, MidpointRounding.AwayFromZero);
                 ranking.TotalPoints = gamesStatistics.Where(gs => gs.Player.Id == player.Id).Sum(gs => gs.Points);
                 ranking.PointsPerGame = ranking.TotalPoints / ranking.TotalGames;
+                ranking.Eligible = ranking.TotalGames >= eligibilityLine;
 
                 var lastTenGames = gamesStatistics.Where(gs => gs.Player.Id == player.Id).OrderByDescending(gs => gs.Game.Date).Take(10);
 

@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Linq;
 using System.Web.Mvc;
 
-using BolfTracker.Models;
 using BolfTracker.Services;
 
 namespace BolfTracker.Web.Controllers
@@ -20,13 +18,7 @@ namespace BolfTracker.Web.Controllers
         {
             var rankings = _rankingService.GetRankings(DateTime.Today.Month, DateTime.Today.Year);
 
-            // Order the rankings based on our formula
-            rankings = rankings.OrderBy(r => r.GamesBack)
-                               .ThenByDescending(r => r.WinningPercentage)
-                               .ThenByDescending(r => r.PointsPerGame)
-                               .ThenByDescending(r => r.TotalPoints);
-
-            return View("Rankings", rankings);
+            return View("Rankings", new RankingsViewModel(rankings));
         }
 
         [HttpPost]

@@ -17,6 +17,7 @@ namespace BolfTracker.Services
         private readonly IHoleRepository _holeRepository;
         private readonly IUnitOfWork _unitOfWork;
 
+        // TODO: Really need to figure out a better way to do this
         private const int ShotTypeMake = 1;
         private const int ShotTypeMiss = 2;
         private const int ShotTypePush = 3;
