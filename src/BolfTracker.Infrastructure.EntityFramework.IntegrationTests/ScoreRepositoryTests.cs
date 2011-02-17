@@ -31,12 +31,11 @@ namespace BolfTracker.Infrastructure.EntityFramework.IntegrationTests
         [TestMethod]
         public void Should_be_able_to_add_score()
         {
-            var score = ObjectMother.CreateScore();
-
-            var hole = ObjectMother.CreateHole(20);
+            var hole = ObjectMother.CreateHole(Int32.MaxValue);
             _holeRepository.Add(hole);
             UnitOfWork.Commit();
 
+            var score = ObjectMother.CreateScore();
             score.Hole = hole;
 
             _scoreRepository.Add(score);

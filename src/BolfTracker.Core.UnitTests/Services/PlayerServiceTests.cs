@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using BolfTracker.Infrastructure;
+﻿using BolfTracker.Infrastructure;
 using BolfTracker.Repositories;
 using BolfTracker.Services;
 
@@ -19,6 +14,8 @@ namespace BolfTracker.UnitTests.Services
         private const string PlayerName = "Furia Roja";
 
         private Mock<IPlayerRepository> _playerRepository;
+        private Mock<IPlayerStatisticsRepository> _playerStatisticsRepository;
+        private Mock<IGameStatisticsRepository> _gameStatisticsRepository;
         private Mock<IUnitOfWork> _unitOfWork;
 
         private PlayerService _playerService;
@@ -27,9 +24,11 @@ namespace BolfTracker.UnitTests.Services
         public void TestInitialize()
         {
             _playerRepository = new Mock<IPlayerRepository>();
+            _playerStatisticsRepository = new Mock<IPlayerStatisticsRepository>();
+            _gameStatisticsRepository = new Mock<IGameStatisticsRepository>();
             _unitOfWork = new Mock<IUnitOfWork>();
 
-            _playerService = new PlayerService(_playerRepository.Object, _unitOfWork.Object);
+            _playerService = new PlayerService(_playerRepository.Object, _playerStatisticsRepository.Object, _gameStatisticsRepository.Object, _unitOfWork.Object);
         }
 
         [TestMethod]

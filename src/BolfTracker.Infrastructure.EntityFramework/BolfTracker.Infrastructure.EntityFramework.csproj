@@ -48,6 +48,7 @@
     <Compile Include="Configuration\GameStatisticsConfiguration.cs" />
     <Compile Include="Configuration\HoleConfiguration.cs" />
     <Compile Include="Configuration\PlayerConfiguration.cs" />
+    <Compile Include="Configuration\PlayerStatisticsConfiguration.cs" />
     <Compile Include="Configuration\RankingConfiguration.cs" />
     <Compile Include="Configuration\ShotConfiguration.cs" />
     <Compile Include="Configuration\ShotTypeConfiguration.cs" />
@@ -58,10 +59,15 @@
     <Compile Include="HoleRepository.cs" />
     <Compile Include="IDatabaseFactory.cs" />
     <Compile Include="PlayerRepository.cs" />
+    <Compile Include="PlayerStatisticsRepository.cs" />
     <Compile Include="Query\GamesByMonthAndYearQuery.cs" />
+    <Compile Include="Query\GameStatisticsByPlayerAndMonthQuery.cs" />
     <Compile Include="Query\IQuery.cs" />
     <Compile Include="Query\IQueryFactory.cs" />
     <Compile Include="Query\PlayerByNameQuery.cs" />
+    <Compile Include="Query\PlayerStatisticsByMonthAndYearQuery.cs" />
+    <Compile Include="Query\PlayerStatisticsByPlayerAndMonthQuery.cs" />
+    <Compile Include="Query\PlayerStatisticsByPlayerQuery.cs" />
     <Compile Include="Query\QueryBase.cs" />
     <Compile Include="Query\QueryFactory.cs" />
     <Compile Include="Query\RankingsByMonthAndYearQuery.cs" />

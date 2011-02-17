@@ -21,14 +21,14 @@ namespace BolfTracker.Infrastructure.EntityFramework.IntegrationTests
             return new Hole { Id = id, Par = 1 };
         }
 
-        public static ShotType CreateScoreType()
+        public static ShotType CreateShotType()
         {
-            return new ShotType { Name = Random(), Description = Random() };
+            return new ShotType { Id = Int32.MaxValue, Name = Random(), Description = Random() };
         }
 
         public static Shot CreateScore()
         {
-            return new Shot { Game = CreateGame(), Player = CreatePlayer(), ShotType = CreateScoreType(), Attempts = 1 };
+            return new Shot { Game = CreateGame(), Player = CreatePlayer(), ShotType = CreateShotType(), Attempts = 1 };
         }
 
         public static GameStatistics CreateGameStatistics()
@@ -45,6 +45,25 @@ namespace BolfTracker.Infrastructure.EntityFramework.IntegrationTests
                     SugarFreeSteals = 1,
                     Points = 12,
                     Winner = true
+                };
+        }
+
+        public static PlayerStatistics CreatePlayerStatistics()
+        {
+            return
+                new PlayerStatistics
+                {
+                    Player = CreatePlayer(),
+                    Month = DateTime.Today.Month,
+                    Year = DateTime.Today.Year,
+                    Attempts = 10,
+                    ShotsMade = 5,
+                    Points = 12,
+                    Pushes = 3,
+                    Steals = 2,
+                    SugarFreeSteals = 1,
+                    Wins = 6,
+                    Losses = 5
                 };
         }
 

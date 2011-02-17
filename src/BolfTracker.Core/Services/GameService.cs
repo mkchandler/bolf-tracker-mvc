@@ -90,15 +90,15 @@ namespace BolfTracker.Services
             {
                 var gameStatistics = new GameStatistics();
 
-                gameStatistics.Game            = game;
-                gameStatistics.Player          = player;
-                gameStatistics.Points          = player.Shots.Where(s => s.Game.Id == gameId).Sum(s => s.Points);
-                gameStatistics.ShotsMade       = player.Shots.Count(s => s.Game.Id == gameId && s.ShotMade);
-                gameStatistics.Attempts        = player.Shots.Where(s => s.Game.Id == gameId).Sum(s => s.Attempts);
-                gameStatistics.Pushes          = player.Shots.Count(s => s.Game.Id == gameId && s.ShotType.Id == ShotTypePush);
-                gameStatistics.Steals          = player.Shots.Count(s => s.Game.Id == gameId && s.ShotType.Id == ShotTypeSteal);
+                gameStatistics.Game = game;
+                gameStatistics.Player = player;
+                gameStatistics.Points = player.Shots.Where(s => s.Game.Id == gameId).Sum(s => s.Points);
+                gameStatistics.ShotsMade = player.Shots.Count(s => s.Game.Id == gameId && s.ShotMade);
+                gameStatistics.Attempts = player.Shots.Where(s => s.Game.Id == gameId).Sum(s => s.Attempts);
+                gameStatistics.Pushes = player.Shots.Count(s => s.Game.Id == gameId && s.ShotType.Id == ShotTypePush);
+                gameStatistics.Steals = player.Shots.Count(s => s.Game.Id == gameId && s.ShotType.Id == ShotTypeSteal);
                 gameStatistics.SugarFreeSteals = player.Shots.Count(s => s.Game.Id == gameId && s.ShotType.Id == ShotTypeSugarFreeSteal);
-                gameStatistics.Winner          = (gameStatistics.Points == maxPoints);
+                gameStatistics.Winner = (gameStatistics.Points == maxPoints);
 
                 _gameStatisticsRepository.Add(gameStatistics);
             }
