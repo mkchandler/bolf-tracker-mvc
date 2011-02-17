@@ -3,6 +3,7 @@ using System.Linq;
 using System.Web.Mvc;
 
 using BolfTracker.Models;
+using System;
 
 namespace BolfTracker.Web
 {
@@ -35,14 +36,7 @@ namespace BolfTracker.Web
         {
             get
             {
-                var players = new List<Player>();
-
-                foreach (var score in Game.Shots)
-                {
-                    players.Add(score.Player);
-                }
-
-                return players;
+                return Game.Shots.Select(s => s.Player).Distinct();
             }
         }
 
@@ -52,8 +46,8 @@ namespace BolfTracker.Web
 
             if (Game.Shots.Any())
             {
-                var distinctPlayers = Game.Shots.Select(s => s.Player).Distinct();
-                var playersDescending = Game.Shots.OrderByDescending(s => s.Id).Take(distinctPlayers.Count()).Select(s => s.Player);
+                var activePlayers = ActivePlayers;
+                var playersDescending = Game.Shots.OrderByDescending(s => s.Id).Take(activePlayers.Count()).Select(s => s.Player);
                 var duplicatePlayers = Game.Shots.GroupBy(s => s.Player.Id).Where(p => p.Count() > 1);
 
                 // Check to see if we've had any duplicate players yet (if so, that means we can determine the order)
@@ -61,9 +55,35 @@ namespace BolfTracker.Web
                 {
                     // If we are on the last hole or in overtime, the order could change because not
                     // everyone can win
-                    if (GetCurrentHole() >= 10)
-                    {
+                    int currentHole = GetCurrentHole();
 
+                    if (currentHole >= 10)
+                    {
+                        int currentPointsAvailable = PointsAvailable;
+                        int maxPointsAtCurrentHole = _allHoles.Where(h => h.Id <= currentHole).Sum(h => h.Par);
+                        int totalPointsTaken = maxPointsAtCurrentHole - currentPointsAvailable;
+                        var leaderboard = Leaderboard;
+                        var leaderPoints = leaderboard.Max(l => l.Points);
+
+                        var playersWhoCanWin = new List<LeaderboardViewModel>();
+
+                        foreach (var player in leaderboard)
+                        {
+                            if ((player.Points + currentPointsAvailable) > leaderPoints)
+                            {
+                                if (!player.Player.Shots.Any(s => s.Game.Id == Game.Id && s.Hole.Id == currentHole))
+                                {
+                                    playersWhoCanWin.Add(player);
+                                }
+                            }
+                        }
+
+                        if (!playersWhoCanWin.Any())
+                        {
+                            return playersDescending.Last();
+                        }
+
+                        return playersWhoCanWin.OrderByDescending(l => l.Points).First().Player;
                     }
 
                     return playersDescending.Last();
@@ -73,7 +93,7 @@ namespace BolfTracker.Web
                     // If we can't determine the order, just get the next player who has not gone already
                     foreach (var player in _allPlayers)
                     {
-                        if (!distinctPlayers.Contains(player))
+                        if (!activePlayers.Contains(player))
                         {
                             return player;
                         }
@@ -82,6 +102,11 @@ namespace BolfTracker.Web
             }
 
             return playerResult;
+        }
+
+        private IEnumerable<Player> PlayersWhoCanWin()
+        {
+            throw new NotImplementedException();
         }
 
         private int GetCurrentHole()
@@ -152,11 +177,11 @@ namespace BolfTracker.Web
             }
         }
 
-        public IEnumerable<Player> Leaderboard
+        public IEnumerable<LeaderboardViewModel> Leaderboard
         {
             get
             {
-                return ActivePlayers.OrderBy(p => p.Shots.Where(s => s.Game.Id == Game.Id).Sum(s => s.Attempts));
+                return ActivePlayers.Select(p => new LeaderboardViewModel(p, Game.Id)).OrderByDescending(l => l.Points);
             }
         }
 
@@ -195,6 +220,62 @@ namespace BolfTracker.Web
             {
                 return _scoreTypes.Select(scoreType => new SelectListItem() { Text = scoreType.Name, Value = scoreType.Id.ToString() }).ToList();
             }
+        }
+    }
+
+    public class LeaderboardViewModel
+    {
+        public LeaderboardViewModel(Player player, int gameId)
+        {
+            Player = player;
+            Points = player.Shots.Where(s => s.Game.Id == gameId).Sum(s => s.Points);
+            ShotsMade = player.Shots.Count(s => s.Game.Id == gameId && s.ShotMade);
+            Attempts = player.Shots.Where(s => s.Game.Id == gameId).Sum(s => s.Attempts);
+            ShootingPercentage = Decimal.Round(Convert.ToDecimal(ShotsMade) / Convert.ToDecimal(Attempts), 2, MidpointRounding.AwayFromZero);
+            Steals = player.Shots.Count(s => s.Game.Id == gameId && (s.ShotType.Id == 4 || s.ShotType.Id == 5));
+            Pushes = player.Shots.Count(s => s.Game.Id == gameId && s.ShotType.Id == 3);
+        }
+
+        public Player Player
+        {
+            get;
+            private set;
+        }
+
+        public int Points
+        {
+            get;
+            private set;
+        }
+
+        public int ShotsMade
+        {
+            get;
+            private set;
+        }
+
+        public int Attempts
+        {
+            get;
+            private set;
+        }
+
+        public decimal ShootingPercentage
+        {
+            get;
+            private set;
+        }
+
+        public int Steals
+        {
+            get;
+            private set;
+        }
+
+        public int Pushes
+        {
+            get;
+            private set;
         }
     }
 }

@@ -19,8 +19,7 @@ namespace BolfTracker.Web
             get
             {
                 return _rankings.Where(r => r.Eligible)
-                                .OrderBy(r => r.GamesBack)
-                                .ThenByDescending(r => r.WinningPercentage)
+                                .OrderByDescending(r => r.WinningPercentage)
                                 .ThenByDescending(r => r.PointsPerGame)
                                 .ThenByDescending(r => r.TotalPoints);
             }
@@ -31,8 +30,7 @@ namespace BolfTracker.Web
             get
             {
                 return _rankings.Where(r => !r.Eligible)
-                                .OrderBy(r => r.GamesBack)
-                                .ThenByDescending(r => r.WinningPercentage)
+                                .OrderByDescending(r => r.WinningPercentage)
                                 .ThenByDescending(r => r.PointsPerGame)
                                 .ThenByDescending(r => r.TotalPoints);
             }

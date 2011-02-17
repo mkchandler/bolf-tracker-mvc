@@ -1,3 +1,5 @@
+/* Initial ShotType Data */
+
 INSERT INTO [BolfTracker].[dbo].[ShotType]
            ([Id]
            ,[Name]

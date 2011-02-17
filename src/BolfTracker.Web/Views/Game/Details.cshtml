@@ -53,7 +53,7 @@
                 <th style="width: 70px; text-align: left;">
                     Points
                 </th>
-                <th style="width: 70px; text-align: left;">
+                <th style="width: 95px; text-align: left;">
                     Shooting
                 </th>
                 <th style="width: 70px; text-align: left;">
@@ -63,18 +63,18 @@
                     Pushes
                 </th>
             </tr>
-            @foreach (var player in Model.ActivePlayers.Distinct())
+            @foreach (var player in Model.Leaderboard)
             {
                 <tr>
-                    <td>@player.Name
+                    <td>@player.Player.Name
                     </td>
-                    <td>@player.Shots.Where(s => s.Game.Id == Model.Game.Id).Sum(s => s.Points)
+                    <td>@player.Points
                     </td>
-                    <td>@player.Shots.Count(s => s.Game.Id == Model.Game.Id && s.ShotMade)/@player.Shots.Where(s => s.Game.Id == Model.Game.Id).Sum(s => s.Attempts)
+                    <td>@player.ShotsMade/@player.Attempts (@player.ShootingPercentage.ToString("P0"))
                     </td>
-                    <td>@player.Shots.Count(s => s.Game.Id == Model.Game.Id && (s.ShotType.Id == 4 || s.ShotType.Id == 5))
+                    <td>@player.Steals
                     </td>
-                    <td>@player.Shots.Count(s => s.Game.Id == Model.Game.Id && s.ShotType.Id == 3)
+                    <td>@player.Pushes
                     </td>
                 </tr>
             }
