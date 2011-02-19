@@ -38,7 +38,19 @@
             set;
         }
 
+        public virtual decimal ShootingPercentage
+        {
+            get;
+            set;
+        }
+
         public virtual int Points
+        {
+            get;
+            set;
+        }
+
+        public virtual decimal PointsPerGame
         {
             get;
             set;
@@ -64,7 +76,19 @@
             }
         }
 
+        public virtual decimal WinningPercentage
+        {
+            get;
+            set;
+        }
+
         public virtual int Pushes
+        {
+            get;
+            set;
+        }
+
+        public virtual decimal PushesPerGame
         {
             get;
             set;
@@ -76,7 +100,19 @@
             set;
         }
 
+        public virtual decimal StealsPerGame
+        {
+            get;
+            set;
+        }
+
         public virtual int SugarFreeSteals
+        {
+            get;
+            set;
+        }
+
+        public virtual decimal SugarFreeStealsPerGame
         {
             get;
             set;

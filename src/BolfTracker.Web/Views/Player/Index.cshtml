@@ -1,4 +1,4 @@
-﻿@model IEnumerable<BolfTracker.Models.Player>
+﻿@model BolfTracker.Web.PlayersViewModel
 @{
     ViewBag.Title = "Players";
 }
@@ -15,16 +15,102 @@
             Name
         </th>
     </tr>
-    @foreach (var item in Model)
+    @foreach (var player in Model.Players)
     {
         <tr>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                @Html.ActionLink("Edit", "Edit", new { id = player.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = player.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = player.Id })
             </td>
             <td>
-                @item.Name
+                @player.Name
+            </td>
+        </tr>
+    }
+</table>
+<h2>
+    Monthly Player Statistics</h2>
+<table>
+    <tr>
+        <th title="Player">
+            Player
+        </th>
+        <th title="Wins">
+            W
+        </th>
+        <th title="Losses">
+            L
+        </th>
+        <th title="Winning Percentage">
+            Winning %
+        </th>
+        <th title="Shots Made ">
+            Shots Made
+        </th>
+        <th title="Attempts">
+            Attempts
+        </th>
+        <th title="Shooting Percentage">
+            Shooting %
+        </th>
+        <th title="Points">
+            Points
+        </th>
+        <th title="Points Per Game">
+            PPG
+        </th>
+        <th title="Pushes">
+            Pushes
+        </th>
+        <th title="Pushes Per Game">
+            Pushes PG
+        </th>
+        <th title="Steals">
+            Steals
+        </th>
+        <th title="Steals Per Game">
+            SPG
+        </th>
+        <th title="Sugar-Free Steals">
+            SF Steals
+        </th>
+        <th title="Sugar-Free Steals Per Game">
+            SF-SPG
+        </th>
+    </tr>
+    @foreach (var player in Model.PlayerStatistics)
+    {
+        <tr>
+            <td>@player.Player.Name
+            </td>
+            <td>@player.Wins
+            </td>
+            <td>@player.Losses
+            </td>
+            <td>@player.WinningPercentage
+            </td>
+            <td>@player.ShotsMade
+            </td>
+            <td>@player.Attempts
+            </td>
+            <td>@player.ShootingPercentage
+            </td>
+            <td>@player.Points
+            </td>
+            <td>@player.PointsPerGame
+            </td>
+            <td>@player.Pushes
+            </td>
+            <td>@player.PushesPerGame
+            </td>
+            <td>@player.Steals
+            </td>
+            <td>@player.StealsPerGame
+            </td>
+            <td>@player.SugarFreeSteals
+            </td>
+            <td>@player.SugarFreeStealsPerGame
             </td>
         </tr>
     }

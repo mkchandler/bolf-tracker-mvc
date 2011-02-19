@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
 
 using BolfTracker.Services;
 
@@ -15,9 +16,13 @@ namespace BolfTracker.Web.Controllers
 
         public ActionResult Index()
         {
-            var players = _playerService.GetPlayers();
+            int month = DateTime.Today.Month;
+            int year = DateTime.Today.Year;
 
-            return View(players);
+            var players = _playerService.GetPlayers();
+            var playerStatistics = _playerService.GetPlayerStatistics(month, year);
+
+            return View(new PlayersViewModel(players, playerStatistics));
         }
 
         public ActionResult Details(int id)
