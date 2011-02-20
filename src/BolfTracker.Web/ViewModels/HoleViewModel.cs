@@ -49,7 +49,7 @@ namespace BolfTracker.Web.ViewModels
         
         const string MADE_FORMAT = "{0} Wins Hole";
         const string PUSH_FORMAT  = "{0} Pushed {1}";
-        const string STEAL_FORMAT = "{0} Store From {1}";
+        const string STEAL_FORMAT = "{0} Stole From {1}";
         const string SFS_FORMAT   = "{0} SFS From {1}";
 
         public string ShotDisplayName
@@ -129,13 +129,15 @@ namespace BolfTracker.Web.ViewModels
                         case 4 :
                             var stolenShot = hole.Shots.LastOrDefault(s => s.Attempts > shot.Attempts && s.ShotMade == true);
                             result.FirstPlayer = stolenShot.Player;
+                            result.Points = hole.Par;
                             break;
                         //Try and find the players who pushed the hole
                         case 5 :
                             var lastPushedShot  = hole.Shots.LastOrDefault(s => s.ShotMade == true && s.Attempts > shot.Attempts);
                             var firstPushedShot = hole.Shots.LastOrDefault(s => s.ShotMade == true && s.Attempts == lastPushedShot.Attempts && s.Id != lastPushedShot.Id);
-
                             result.FirstPlayer = new Player() { Name = lastPushedShot.Player.Name + "/" + firstPushedShot.Player.Name };
+                            result.Points = hole.Par;
+
                             break;
                         default :
                             result.FirstPlayer = null;
