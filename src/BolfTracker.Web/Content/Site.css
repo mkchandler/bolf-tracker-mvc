@@ -66,3 +66,15 @@ textarea
 {
     display: none;
 }
+
+.scoreboard
+{
+    width:550px;
+}
+
+.hole
+{
+    width : 100px;
+    height : 100px;
+    border : 3px double;
+}

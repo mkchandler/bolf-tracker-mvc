@@ -45,7 +45,7 @@ namespace BolfTracker.Web.Controllers
 
         public ActionResult Create()
         {
-            return View();
+            return View(new Game());
         }
 
         [HttpPost]

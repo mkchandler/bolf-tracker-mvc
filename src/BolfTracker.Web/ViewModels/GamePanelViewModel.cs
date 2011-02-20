@@ -198,6 +198,14 @@ namespace BolfTracker.Web
             }
         }
 
+        public IEnumerable<Hole> Holes
+        {
+            get
+            {
+                return _allHoles;
+            }
+        }
+
         private IEnumerable<Hole> _allHoles;
         public string Hole;
 
