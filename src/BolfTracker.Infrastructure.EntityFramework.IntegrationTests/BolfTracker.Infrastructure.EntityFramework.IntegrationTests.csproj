@@ -55,7 +55,9 @@
     <Compile Include="GameRepositoryTests.cs" />
     <Compile Include="GameStatisticsRepositoryTests.cs" />
     <Compile Include="HoleRepositoryTests.cs" />
+    <Compile Include="HoleStatisticsRepositoryTests.cs" />
     <Compile Include="ObjectMother.cs" />
+    <Compile Include="PlayerHoleStatisticsRepositoryTests.cs" />
     <Compile Include="PlayerRepositoryTests.cs" />
     <Compile Include="PlayerStatisticsRepositoryTests.cs" />
     <Compile Include="RankingRepositoryTests.cs" />

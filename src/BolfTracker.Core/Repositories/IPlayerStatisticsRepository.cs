@@ -1,11 +1,12 @@
-﻿using BolfTracker.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+
+using BolfTracker.Models;
 
 namespace BolfTracker.Repositories
 {
     public interface IPlayerStatisticsRepository : IRepository<PlayerStatistics>
     {
-        PlayerStatistics GetByPlayerAndMonth(int playerId, int month, int year);
+        PlayerStatistics GetByPlayerMonthAndYear(int playerId, int month, int year);
 
         IEnumerable<PlayerStatistics> GetByPlayer(int playerId);
 

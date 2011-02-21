@@ -4,7 +4,7 @@ namespace BolfTracker.Models
 {
     public class ShotType : IEntity
     {
-        private ICollection<Shot> _shots;
+        private readonly ICollection<Shot> _shots;
 
         public ShotType()
         {

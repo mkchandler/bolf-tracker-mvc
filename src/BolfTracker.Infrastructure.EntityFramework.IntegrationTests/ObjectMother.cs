@@ -67,6 +67,43 @@ namespace BolfTracker.Infrastructure.EntityFramework.IntegrationTests
                 };
         }
 
+        public static HoleStatistics CreateHoleStatistics()
+        {
+            return
+                new HoleStatistics
+                {
+                    Hole = CreateHole(Int32.MaxValue),
+                    Month = DateTime.Today.Month,
+                    Year = DateTime.Today.Year,
+                    Attempts = 10,
+                    ShotsMade = 5,
+                    ShootingPercentage = .500M,
+                    PointsScored = 12,
+                    Pushes = 3,
+                    Steals = 2,
+                    SugarFreeSteals = 1
+                };
+        }
+
+        public static PlayerHoleStatistics CreatePlayerHoleStatistics()
+        {
+            return
+                new PlayerHoleStatistics
+                {
+                    Player = CreatePlayer(),
+                    Hole = CreateHole(Int32.MaxValue),
+                    Month = DateTime.Today.Month,
+                    Year = DateTime.Today.Year,
+                    Attempts = 10,
+                    ShotsMade = 5,
+                    ShootingPercentage = .500M,
+                    PointsScored = 12,
+                    Pushes = 3,
+                    Steals = 2,
+                    SugarFreeSteals = 1
+                };
+        }
+
         public static Ranking CreateRanking()
         {
             return

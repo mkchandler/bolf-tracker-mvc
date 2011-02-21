@@ -12,13 +12,15 @@ namespace BolfTracker.Services
     {
         private readonly IPlayerRepository _playerRepository;
         private readonly IPlayerStatisticsRepository _playerStatisticsRepository;
+        private readonly IPlayerHoleStatisticsRepository _playerHoleStatisticsRepository;
         private readonly IGameStatisticsRepository _gameStatisticsRepository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public PlayerService(IPlayerRepository playerRepository, IPlayerStatisticsRepository playerStatisticsRepository, IGameStatisticsRepository gameStatisticsRepository, IUnitOfWork unitOfWork)
+        public PlayerService(IPlayerRepository playerRepository, IPlayerStatisticsRepository playerStatisticsRepository, IPlayerHoleStatisticsRepository playerHoleStatisticsRepository, IGameStatisticsRepository gameStatisticsRepository, IUnitOfWork unitOfWork)
         {
             _playerRepository = playerRepository;
             _playerStatisticsRepository = playerStatisticsRepository;
+            _playerHoleStatisticsRepository = playerHoleStatisticsRepository;
             _gameStatisticsRepository = gameStatisticsRepository;
             _unitOfWork = unitOfWork;
         }
@@ -105,13 +107,18 @@ namespace BolfTracker.Services
             _unitOfWork.Commit();
         }
 
+        public void CalculatePlayerHoleStatistics(int month, int year)
+        {
+            throw new NotImplementedException();
+        }
+
         public PlayerStatistics GetPlayerStatistics(int playerId, int month, int year)
         {
             Check.Argument.IsNotZeroOrNegative(playerId, "playerId");
             Check.Argument.IsNotZeroOrNegative(month, "month");
             Check.Argument.IsNotZeroOrNegative(year, "year");
 
-            return _playerStatisticsRepository.GetByPlayerAndMonth(playerId, month, year);
+            return _playerStatisticsRepository.GetByPlayerMonthAndYear(playerId, month, year);
         }
 
         public IEnumerable<PlayerStatistics> GetPlayerStatistics(int playerId)
@@ -133,7 +140,7 @@ namespace BolfTracker.Services
         {
             var playerStatistics = new PlayerStatistics() { Player = player, Month = month, Year = year };
 
-            var playerGameStatistics = _gameStatisticsRepository.GetByPlayerAndMonth(player.Id, month, year);
+            var playerGameStatistics = _gameStatisticsRepository.GetByPlayerMonthAndYear(player.Id, month, year);
 
             playerStatistics.Wins = playerGameStatistics.Count(gs => gs.Winner);
             playerStatistics.Losses = playerGameStatistics.Count(gs => !gs.Winner);
@@ -160,6 +167,18 @@ namespace BolfTracker.Services
             foreach (var playerStatistic in playerStatistics)
             {
                 _playerStatisticsRepository.Delete(playerStatistic);
+            }
+
+            _unitOfWork.Commit();
+        }
+
+        private void DeletePlayerHoleStatistics(int month, int year)
+        {
+            var playerHoleStatistics = _playerHoleStatisticsRepository.GetByPlayerMonthAndYear(1, month, year);
+
+            foreach (var playerHoleStatistic in playerHoleStatistics)
+            {
+                _playerHoleStatisticsRepository.Delete(playerHoleStatistic);
             }
 
             _unitOfWork.Commit();

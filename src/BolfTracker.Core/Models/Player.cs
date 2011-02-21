@@ -7,6 +7,7 @@ namespace BolfTracker.Models
         private readonly ICollection<Shot> _shots;
         private readonly ICollection<GameStatistics> _gameStatistics;
         private readonly ICollection<PlayerStatistics> _playerStatistics;
+        private readonly ICollection<PlayerHoleStatistics> _playerHoleStatistics;
         private readonly ICollection<Ranking> _rankings;
 
         public Player()
@@ -14,6 +15,7 @@ namespace BolfTracker.Models
             _shots = new List<Shot>();
             _gameStatistics = new List<GameStatistics>();
             _playerStatistics = new List<PlayerStatistics>();
+            _playerHoleStatistics = new List<PlayerHoleStatistics>();
             _rankings = new List<Ranking>();
         }
 
@@ -42,6 +44,11 @@ namespace BolfTracker.Models
         public virtual ICollection<PlayerStatistics> PlayerStatistics
         {
             get { return _playerStatistics; }
+        }
+
+        public virtual ICollection<PlayerHoleStatistics> PlayerHoleStatistics
+        {
+            get { return _playerHoleStatistics; }
         }
 
         public virtual ICollection<Ranking> Rankings

@@ -9,11 +9,13 @@ namespace BolfTracker.Web.Controllers
     {
         private readonly IRankingService _rankingService;
         private readonly IPlayerService _playerService;
+        private readonly IHoleService _holeService;
 
-        public RankingController(IRankingService rankingService, IPlayerService playerService)
+        public RankingController(IRankingService rankingService, IPlayerService playerService, IHoleService holeService)
         {
             _rankingService = rankingService;
             _playerService = playerService;
+            _holeService = holeService;
         }
 
         public ActionResult Index()
@@ -32,6 +34,8 @@ namespace BolfTracker.Web.Controllers
             _rankingService.CalculateRankings(month, year);
 
             _playerService.CalculatePlayerStatistics(month, year);
+
+            _holeService.CalculateHoleStatistics(month, year);
 
             return RedirectToAction("Index");
         }

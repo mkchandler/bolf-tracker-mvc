@@ -5,7 +5,7 @@ using BolfTracker.Models;
 
 namespace BolfTracker.Infrastructure.EntityFramework.Configuration
 {
-    public class PlayerStatisticsConfiguration: EntityTypeConfiguration<PlayerStatistics>
+    public class PlayerStatisticsConfiguration : EntityTypeConfiguration<PlayerStatistics>
     {
         public PlayerStatisticsConfiguration()
         {

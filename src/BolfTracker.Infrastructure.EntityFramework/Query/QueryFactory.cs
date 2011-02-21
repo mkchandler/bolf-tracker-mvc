@@ -40,9 +40,9 @@ namespace BolfTracker.Infrastructure.EntityFramework
             return new RankingsByMonthAndYearQuery(UseCompiled, month, year);
         }
 
-        public IQuery<PlayerStatistics> CreatePlayerStatisticsByPlayerAndMonthQuery(int playerId, int month, int year)
+        public IQuery<PlayerStatistics> CreatePlayerStatisticsByPlayerMonthAndYearQuery(int playerId, int month, int year)
         {
-            return new PlayerStatisticsByPlayerAndMonthQuery(UseCompiled, playerId, month, year);
+            return new PlayerStatisticsByPlayerMonthAndYearQuery(UseCompiled, playerId, month, year);
         }
 
         public IQuery<IEnumerable<PlayerStatistics>> CreatePlayerStatisticsByPlayerQuery(int playerId)
@@ -55,9 +55,24 @@ namespace BolfTracker.Infrastructure.EntityFramework
             return new PlayerStatisticsByMonthAndYearQuery(UseCompiled, month, year);
         }
 
-        public IQuery<IEnumerable<GameStatistics>> CreateGameStatisticsByPlayerAndMonthQuery(int playerId, int month, int year)
+        public IQuery<IEnumerable<GameStatistics>> CreateGameStatisticsByPlayerMonthAndYearQuery(int playerId, int month, int year)
         {
-            return new GameStatisticsByPlayerAndMonthQuery(UseCompiled, playerId, month, year);
+            return new GameStatisticsByPlayerMonthAndYearQuery(UseCompiled, playerId, month, year);
+        }
+
+        public IQuery<IEnumerable<HoleStatistics>> CreateHoleStatisticsByMonthAndYearQuery(int month, int year)
+        {
+            return new HoleStatisticsByMonthAndYearQuery(UseCompiled, month, year);
+        }
+
+        public IQuery<PlayerHoleStatistics> CreatePlayerHoleStatisticsByPlayerHoleMonthAndYearQuery(int playerId, int holeId, int month, int year)
+        {
+            return new PlayerHoleStatisticsByPlayerHoleMonthAndYearQuery(UseCompiled, playerId, holeId, month, year);
+        }
+
+        public IQuery<IEnumerable<PlayerHoleStatistics>> CreatePlayerHoleStatisticsByPlayerMonthAndYearQuery(int playerId, int month, int year)
+        {
+            return new PlayerHoleStatisticsByPlayerMonthAndYearQuery(UseCompiled, playerId, month, year);
         }
     }
 }

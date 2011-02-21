@@ -20,6 +20,8 @@ namespace BolfTracker.Services
 
         void CalculatePlayerStatistics(int playerId, int month, int year);
 
+        void CalculatePlayerHoleStatistics(int month, int year);
+
         PlayerStatistics GetPlayerStatistics(int playerId, int month, int year);
 
         IEnumerable<PlayerStatistics> GetPlayerStatistics(int playerId);

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.Objects;
 using System.Linq;
 using System.Linq.Expressions;
@@ -8,17 +7,17 @@ using BolfTracker.Models;
 
 namespace BolfTracker.Infrastructure.EntityFramework.Query
 {
-    public class GameStatisticsByPlayerAndMonthQuery : QueryBase<IEnumerable<GameStatistics>>
+    public class PlayerStatisticsByPlayerMonthAndYearQuery : QueryBase<PlayerStatistics>
     {
-        private static readonly Expression<Func<Database, int, int, int, IQueryable<GameStatistics>>> _expression = (database, playerId, month, year) => database.GameStatistics.Where(gs => gs.Player.Id == playerId && gs.Game.Date.Month == month && gs.Game.Date.Year == year);
-        private static readonly Func<Database, int, int, int, IQueryable<GameStatistics>> _plainQuery = _expression.Compile();
-        private static readonly Func<Database, int, int, int, IQueryable<GameStatistics>> _compiledQuery = CompiledQuery.Compile(_expression);
+        private static readonly Expression<Func<Database, int, int, int, PlayerStatistics>> _expression = (database, playerId, month, year) => database.PlayerStatistics.Single(ps => ps.Player.Id == playerId && ps.Month == month && ps.Year == year);
+        private static readonly Func<Database, int, int, int, PlayerStatistics> _plainQuery = _expression.Compile();
+        private static readonly Func<Database, int, int, int, PlayerStatistics> _compiledQuery = CompiledQuery.Compile(_expression);
 
         private readonly int _playerId;
         private readonly int _month;
         private readonly int _year;
 
-        public GameStatisticsByPlayerAndMonthQuery(bool useCompiled, int playerId, int month, int year)
+        public PlayerStatisticsByPlayerMonthAndYearQuery(bool useCompiled, int playerId, int month, int year)
             : base(useCompiled)
         {
             Check.Argument.IsNotZeroOrNegative(playerId, "playerId");
@@ -30,7 +29,7 @@ namespace BolfTracker.Infrastructure.EntityFramework.Query
             _year = year;
         }
 
-        public override IEnumerable<GameStatistics> Execute(Database database)
+        public override PlayerStatistics Execute(Database database)
         {
             Check.Argument.IsNotNull(database, "database");
 

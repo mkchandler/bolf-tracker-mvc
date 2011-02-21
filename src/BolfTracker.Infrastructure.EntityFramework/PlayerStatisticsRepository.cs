@@ -11,9 +11,9 @@ namespace BolfTracker.Infrastructure.EntityFramework
         {
         }
 
-        public PlayerStatistics GetByPlayerAndMonth(int playerId, int month, int year)
+        public PlayerStatistics GetByPlayerMonthAndYear(int playerId, int month, int year)
         {
-            IQuery<PlayerStatistics> query = QueryFactory.CreatePlayerStatisticsByPlayerAndMonthQuery(playerId, month, year);
+            IQuery<PlayerStatistics> query = QueryFactory.CreatePlayerStatisticsByPlayerMonthAndYearQuery(playerId, month, year);
 
             return query.Execute(Database);
         }
