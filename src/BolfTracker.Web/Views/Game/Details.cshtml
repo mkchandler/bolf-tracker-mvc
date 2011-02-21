@@ -41,6 +41,7 @@
         }
     </fieldset>
 }
+
 <fieldset>
     <legend>Leaderboard</legend>
     @if (Model.Game.Shots.Any())
@@ -92,22 +93,7 @@
 </fieldset>
 <fieldset>
     <legend>Scoreboard</legend>
-    @if (Model.Game.Shots.Any())
-    {
-        int holeNumber = 0;
-        <table id="scoreboard">
-            @foreach (var hole in Model.AllHoles)
-            {
-                holeNumber++;
-                if (holeNumber % 5 == 0)
-                {
-                <tr>
-                </tr>
-                }
-
-            }
-        </table>
-    }
+   @Html.Partial("_Scoreboard", new BolfTracker.Web.ViewModels.HoleViewModel(Model.Holes))
 </fieldset>
 <fieldset>
     <legend>Hole History</legend>

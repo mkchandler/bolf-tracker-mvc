@@ -14,7 +14,7 @@ namespace BolfTracker.Models
             _shots = new List<Shot>();
             _gameStatistics = new List<GameStatistics>();
 
-            Date = DateTime.Parse("1/1/1900");
+            Date = DateTime.Now;
         }
 
         public virtual int Id

@@ -1,0 +1,33 @@
+﻿@model BolfTracker.Web.ViewModels.HoleViewModel
+
+<div id="scoreboard" class="scoreboard">
+    <table>
+    <tbody>
+    <tr>
+    @foreach (var hole in Model.Holes)
+    {
+        var holeResult = Model.GetHoleResult(hole);
+                
+        <td class="hole">
+            <div id="hole" >
+                <div>
+                    <span>Hole: @hole.Id</span>
+                    <span>Par : @hole.Par</span>
+                </div>
+                <div>@holeResult.ShotDisplayName</div>
+                @if (holeResult.Points > 0)
+                {
+                    <div><span>Points :@holeResult.Points</span></div>
+                }
+            </div>
+        </td>    
+        
+        if (hole.Id % 5 == 0)
+        {
+            @:</tr><tr>
+        }
+    }
+    </tr>
+    </tbody>
+    </table>
+</div>

@@ -51,6 +51,6 @@ namespace BolfTracker.Models
         {
             get;
             set;
-        }
+        }                
     }
 }
