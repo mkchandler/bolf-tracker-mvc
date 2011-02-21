@@ -73,6 +73,7 @@ namespace BolfTracker.Web
                      .RegisterType<IGameStatisticsRepository, GameStatisticsRepository>(new HttpContextLifetimeManager<IGameStatisticsRepository>())
                      .RegisterType<IPlayerStatisticsRepository, PlayerStatisticsRepository>(new HttpContextLifetimeManager<IPlayerStatisticsRepository>())
                      .RegisterType<IHoleStatisticsRepository, HoleStatisticsRepository>(new HttpContextLifetimeManager<IHoleStatisticsRepository>())
+                     .RegisterType<IPlayerHoleStatisticsRepository, PlayerHoleStatisticsRepository>(new HttpContextLifetimeManager<IPlayerHoleStatisticsRepository>())
                      .RegisterType<IShotTypeRepository, ShotTypeRepository>(new HttpContextLifetimeManager<IShotTypeRepository>());
 
             ConnectionStringSettings connectionStringSettings = ConfigurationManager.ConnectionStrings["BolfTracker"];
