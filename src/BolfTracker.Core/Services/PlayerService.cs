@@ -109,6 +109,8 @@ namespace BolfTracker.Services
 
         public void CalculatePlayerHoleStatistics(int month, int year)
         {
+            DeletePlayerHoleStatistics(month, year);
+
             throw new NotImplementedException();
         }
 
