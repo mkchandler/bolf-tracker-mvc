@@ -72,13 +72,13 @@ namespace BolfTracker.Web.ViewModels
                         switch (Shot.ShotType.Id)
                         {
                             case 1:
-                                return string.Format(MADE_FORMAT, LastPlayer.Name);
+                                return string.Format(MADE_FORMAT, LastPlayer.Initials);
                             case 3:
-                                return string.Format(PUSH_FORMAT, LastPlayer.Name, FirstPlayer.Name);
+                                return string.Format(PUSH_FORMAT, LastPlayer.Initials, FirstPlayer.Initials);
                             case 4:
-                                return string.Format(STEAL_FORMAT, LastPlayer.Name, FirstPlayer.Name);
+                                return string.Format(STEAL_FORMAT, LastPlayer.Initials, FirstPlayer.Initials);
                             case 5:
-                                return string.Format(SFS_FORMAT, LastPlayer.Name, FirstPlayer.Name);
+                                return string.Format(SFS_FORMAT, LastPlayer.Initials, FirstPlayer.Initials);
                             default:
                                 return "Infinity";
                         }
@@ -135,7 +135,7 @@ namespace BolfTracker.Web.ViewModels
                         case 5 :
                             var lastPushedShot  = hole.Shots.LastOrDefault(s => s.ShotMade == true && s.Attempts > shot.Attempts);
                             var firstPushedShot = hole.Shots.LastOrDefault(s => s.ShotMade == true && s.Attempts == lastPushedShot.Attempts && s.Id != lastPushedShot.Id);
-                            result.FirstPlayer = new Player() { Name = lastPushedShot.Player.Name + "/" + firstPushedShot.Player.Name };
+                            result.FirstPlayer = new Player() { Initials = lastPushedShot.Player.Initials + "/" + firstPushedShot.Player.Initials };
                             result.Points = hole.Par;
 
                             break;

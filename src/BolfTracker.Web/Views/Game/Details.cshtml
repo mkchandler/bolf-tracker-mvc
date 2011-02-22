@@ -28,7 +28,7 @@
             </label>@Html.DropDownListFor(m => m.Player, Model.AllPlayers)
             <label for="hole">
                 Hole:
-            </label>@Html.DropDownListFor(m => m.Hole, Model.AllHoles)
+            </label>@Html.DropDownListFor(m => m.Hole, Model.AllHoles, new { @id = "currentHole" })
             <label for="attempts">
                 Attempts:
             </label>
@@ -191,6 +191,9 @@
     <script type="text/javascript">
         $(function () {
             $("#attempts").focus();
+
+
+            
         });
     </script>
 }

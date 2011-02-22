@@ -30,6 +30,12 @@ namespace BolfTracker.Models
             get;
             set;
         }
+        
+        public virtual string Initials
+        {
+            get;
+            set;
+        }
 
         public virtual ICollection<Shot> Shots
         {
