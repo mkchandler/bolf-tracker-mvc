@@ -28,11 +28,13 @@ namespace BolfTracker.Web
             routes.MapRoute("Rankings", "rankings", new { controller = "Ranking", action = "Index" });
 
             routes.MapRoute("Games", "games", new { controller = "Game", action = "Index" });
-            routes.MapRoute("GamePanel", "games/{id}", new { controller = "Game", action = "Details" });
+            routes.MapRoute("GameDetails", "games/{id}", new { controller = "Game", action = "Details" });
 
             routes.MapRoute("Holes", "holes", new { controller = "Hole", action = "Index" });
+            routes.MapRoute("HoleDetails", "holes/{id}", new { controller = "Hole", action = "Details" });
 
             routes.MapRoute("Players", "players", new { controller = "Player", action = "Index" });
+            routes.MapRoute("PlayerDetails", "players/{id}", new { controller = "Player", action = "Details" });
 
             routes.MapRoute("Default", "{controller}/{action}/{id}", new { controller = "Ranking", action = "Index", id = UrlParameter.Optional });
         }

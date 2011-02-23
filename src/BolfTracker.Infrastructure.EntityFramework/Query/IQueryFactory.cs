@@ -30,5 +30,7 @@ namespace BolfTracker.Infrastructure.EntityFramework
         IQuery<PlayerHoleStatistics> CreatePlayerHoleStatisticsByPlayerHoleMonthAndYearQuery(int playerId, int holeId, int month, int year);
 
         IQuery<IEnumerable<PlayerHoleStatistics>> CreatePlayerHoleStatisticsByPlayerMonthAndYearQuery(int playerId, int month, int year);
+
+        IQuery<IEnumerable<PlayerHoleStatistics>> CreatePlayerHoleStatisticsByMonthAndYearQuery(int month, int year);
     }
 }

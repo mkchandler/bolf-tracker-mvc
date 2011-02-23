@@ -1,17 +1,20 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 
 using BolfTracker.Services;
 
 namespace BolfTracker.Web.Controllers
 {
-    public class PlayerController : Controller
+    public class HoleController : Controller
     {
-        private readonly IPlayerService _playerService;
+        private readonly IHoleService _holeService;
 
-        public PlayerController(IPlayerService playerService)
+        public HoleController(IHoleService holeService)
         {
-            _playerService = playerService;
+            _holeService = holeService;
         }
 
         public ActionResult Index()
@@ -19,17 +22,15 @@ namespace BolfTracker.Web.Controllers
             int month = DateTime.Today.Month;
             int year = DateTime.Today.Year;
 
-            var players = _playerService.GetPlayers();
-            var playerStatistics = _playerService.GetPlayerStatistics(month, year);
+            var holes = _holeService.GetHoles();
+            var holesStatistics = _holeService.GetHoleStatistics(month, year);
 
-            return View(new PlayersViewModel(players, playerStatistics));
+            return View("Holes", new HolesViewModel(holes, holesStatistics));
         }
 
         public ActionResult Details(int id)
         {
-            var player = _playerService.GetPlayer(id);
-
-            return View(new PlayerViewModel(player));
+            return View();
         }
 
         public ActionResult Create()
@@ -38,11 +39,11 @@ namespace BolfTracker.Web.Controllers
         } 
 
         [HttpPost]
-        public ActionResult Create(string name)
+        public ActionResult Create(FormCollection collection)
         {
             try
             {
-                _playerService.Create(name);
+                // TODO: Add insert logic here
 
                 return RedirectToAction("Index");
             }
@@ -51,20 +52,18 @@ namespace BolfTracker.Web.Controllers
                 return View();
             }
         }
- 
+        
         public ActionResult Edit(int id)
         {
-            var player = _playerService.GetPlayer(id);
-
-            return View(player);
+            return View();
         }
 
         [HttpPost]
-        public ActionResult Edit(int id, string name)
+        public ActionResult Edit(int id, FormCollection collection)
         {
             try
             {
-                _playerService.Update(id, name);
+                // TODO: Add update logic here
  
                 return RedirectToAction("Index");
             }
@@ -76,17 +75,15 @@ namespace BolfTracker.Web.Controllers
 
         public ActionResult Delete(int id)
         {
-            var player = _playerService.GetPlayer(id);
-
-            return View(player);
+            return View();
         }
 
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection formCollection)
+        public ActionResult Delete(int id, FormCollection collection)
         {
             try
             {
-                _playerService.Delete(id);
+                // TODO: Add delete logic here
  
                 return RedirectToAction("Index");
             }

@@ -74,5 +74,10 @@ namespace BolfTracker.Infrastructure.EntityFramework
         {
             return new PlayerHoleStatisticsByPlayerMonthAndYearQuery(UseCompiled, playerId, month, year);
         }
+
+        public IQuery<IEnumerable<PlayerHoleStatistics>> CreatePlayerHoleStatisticsByMonthAndYearQuery(int month, int year)
+        {
+            return new PlayerHoleStatisticsByMonthAndYearQuery(UseCompiled, month, year);
+        }
     }
 }

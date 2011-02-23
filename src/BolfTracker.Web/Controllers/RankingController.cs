@@ -35,6 +35,8 @@ namespace BolfTracker.Web.Controllers
 
             _playerService.CalculatePlayerStatistics(month, year);
 
+            _playerService.CalculatePlayerHoleStatistics(month, year);
+
             _holeService.CalculateHoleStatistics(month, year);
 
             return RedirectToAction("Index");

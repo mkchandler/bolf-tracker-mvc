@@ -1,0 +1,39 @@
+﻿@model BolfTracker.Web.HolesViewModel
+@{
+    ViewBag.Title = "Holes";
+}
+<h2>
+    Holes</h2>
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table>
+    <tr>
+        <th>
+        </th>
+        <th>
+            Number
+        </th>
+        <th>
+            Par
+        </th>
+    </tr>
+    @foreach (var item in Model.Holes)
+    {
+        <tr>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+            <td>
+                @item.Id
+            </td>
+            <td>
+                @item.Par
+            </td>
+        </tr>
+    }
+</table>
+<h2>Monthly Hole Statistics</h2>
+@Html.Partial("_HoleStatistics", Model.CurrentMonthHoleStatistics)

@@ -17,7 +17,7 @@
     @foreach (var ranking in Model.Rankings)
     { 
         <tr>
-            <td>@ranking.Player.Name</td>
+            <td>@Html.ActionLink(ranking.Player.Name, "Details", "Player", new { id = ranking.Player.Id }, null)</td>
             <td style="text-align: right">@ranking.Wins</td>
             <td style="text-align: right">@ranking.Losses</td>
             <td style="text-align: right">@ranking.WinningPercentage</td>
@@ -41,7 +41,7 @@
     @foreach (var ranking in Model.IneligibleRankings)
     { 
         <tr>
-            <td>@ranking.Player.Name</td>
+            <td>@Html.ActionLink(ranking.Player.Name, "Details", "Player", new { id = ranking.Player.Id }, null)</td>
             <td style="text-align: right">@ranking.Wins</td>
             <td style="text-align: right">@ranking.Losses</td>
             <td style="text-align: right">@ranking.WinningPercentage</td>

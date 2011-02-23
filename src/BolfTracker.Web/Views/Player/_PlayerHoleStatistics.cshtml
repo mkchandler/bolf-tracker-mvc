@@ -1,0 +1,58 @@
+﻿@model IEnumerable<BolfTracker.Models.PlayerHoleStatistics>
+<table>
+    <tr>
+        <th>
+            Hole
+        </th>
+        <th>
+            Made
+        </th>
+        <th>
+            Shots
+        </th>
+        <th>
+            Shooting %
+        </th>
+        <th>
+            PF
+        </th>
+        <th>
+            Pushes
+        </th>
+        <th>
+            Steals
+        </th>
+        <th>
+            SFS
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @item.Hole.Id
+        </td>
+        <td>
+            @item.ShotsMade
+        </td>
+        <td>
+            @item.Attempts
+        </td>
+        <td>
+            @String.Format("{0:#.###}", item.ShootingPercentage)
+        </td>
+        <td>
+            @item.PointsScored
+        </td>
+        <td>
+            @item.Pushes
+        </td>
+        <td>
+            @item.Steals
+        </td>
+        <td>
+            @item.SugarFreeSteals
+        </td>
+    </tr>
+}
+</table>

@@ -30,7 +30,7 @@ namespace BolfTracker.UnitTests.Services
             _gameStatisticsRepository = new Mock<IGameStatisticsRepository>();
             _unitOfWork = new Mock<IUnitOfWork>();
 
-            _playerService = new PlayerService(_playerRepository.Object, _playerStatisticsRepository.Object, _playerHoleStatisticsRepository.Object, _gameStatisticsRepository.Object, _unitOfWork.Object);
+            //_playerService = new PlayerService(_playerRepository.Object, _playerStatisticsRepository.Object, _playerHoleStatisticsRepository.Object, _gameStatisticsRepository.Object, _unitOfWork.Object);
         }
 
         [TestMethod]

@@ -27,7 +27,9 @@ namespace BolfTracker.Infrastructure.EntityFramework
 
         public IEnumerable<PlayerHoleStatistics> GetByMonthAndYear(int month, int year)
         {
-            throw new System.NotImplementedException();
+            IQuery<IEnumerable<PlayerHoleStatistics>> query = QueryFactory.CreatePlayerHoleStatisticsByMonthAndYearQuery(month, year);
+
+            return query.Execute(Database);
         }
     }
 }

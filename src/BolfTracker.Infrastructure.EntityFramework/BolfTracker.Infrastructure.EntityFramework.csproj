@@ -70,6 +70,7 @@
     <Compile Include="Query\IQuery.cs" />
     <Compile Include="Query\IQueryFactory.cs" />
     <Compile Include="Query\PlayerByNameQuery.cs" />
+    <Compile Include="Query\PlayerHoleStatisticsByMonthAndYearQuery.cs" />
     <Compile Include="Query\PlayerHoleStatisticsByPlayerMonthAndYearQuery.cs" />
     <Compile Include="Query\PlayerHoleStatisticsByPlayerHoleMonthAndYearQuery.cs" />
     <Compile Include="Query\PlayerStatisticsByMonthAndYearQuery.cs" />

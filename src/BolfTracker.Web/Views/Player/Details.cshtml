@@ -1,19 +1,18 @@
-﻿@model BolfTracker.Models.Player
-
+﻿@model BolfTracker.Web.PlayerViewModel
 @{
     ViewBag.Title = "Player Details";
 }
-
-<h2>Player Details</h2>
-
+<h2>
+    Player Details</h2>
 <fieldset>
     <legend>Player</legend>
-
-    <div class="display-label">Name</div>
-    <div class="display-field">@Model.Name</div>
+    <div class="display-field">@Model.Player.Name</div>
 </fieldset>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id=Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
-
+<fieldset>
+    <legend>Statistics</legend>
+    @Html.Partial("_PlayerStatistics", Model.CurrentMonthPlayerStatistics)
+</fieldset>
+<fieldset>
+    <legend>Hole Statistics</legend>
+    @Html.Partial("_PlayerHoleStatistics", Model.CurrentMonthPlayerHoleStatistics)
+</fieldset>

@@ -60,6 +60,7 @@
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Controllers\GameController.cs" />
+    <Compile Include="Controllers\HoleController.cs" />
     <Compile Include="Controllers\PlayerController.cs" />
     <Compile Include="Controllers\RankingController.cs" />
     <Compile Include="Controllers\ScoreController.cs" />
@@ -68,8 +69,10 @@
     </Compile>
     <Compile Include="DependencyResolvers\UnityDependencyResolver.cs" />
     <Compile Include="ViewModels\GamePanelViewModel.cs" />
+    <Compile Include="ViewModels\HolesViewModel.cs" />
     <Compile Include="ViewModels\PlayersViewModel.cs" />
     <Compile Include="ViewModels\HoleViewModel.cs" />
+    <Compile Include="ViewModels\PlayerViewModel.cs" />
     <Compile Include="ViewModels\RankingsViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -154,6 +157,18 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Game\_Scoreboard.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Player\_PlayerStatistics.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Player\_PlayerHoleStatistics.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Hole\Holes.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Hole\_HoleStatistics.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

@@ -27,5 +27,9 @@ namespace BolfTracker.Services
         IEnumerable<PlayerStatistics> GetPlayerStatistics(int playerId);
 
         IEnumerable<PlayerStatistics> GetPlayerStatistics(int month, int year);
+
+        IEnumerable<PlayerHoleStatistics> GetPlayerHoleStatistics(int month, int year);
+
+        IEnumerable<PlayerHoleStatistics> GetPlayerHoleStatistics(int playerId, int month, int year);
     }
 }
