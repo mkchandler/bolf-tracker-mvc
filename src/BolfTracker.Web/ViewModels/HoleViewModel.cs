@@ -92,6 +92,14 @@ namespace BolfTracker.Web.ViewModels
 
     public class HoleViewModel
     {
+        public HoleViewModel(Game game)
+        {
+            var holes =  (from s in game.Shots
+                         select s.Hole).Distinct();
+
+            Holes = holes;
+        }
+
         public HoleViewModel(IEnumerable<Hole> holes)
         {
             Holes = holes;

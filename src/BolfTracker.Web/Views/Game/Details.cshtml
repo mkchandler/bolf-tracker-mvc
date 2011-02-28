@@ -93,7 +93,7 @@
 </fieldset>
 <fieldset>
     <legend>Scoreboard</legend>
-   @Html.Partial("_Scoreboard", new BolfTracker.Web.ViewModels.HoleViewModel(Model.Holes))
+   @Html.Partial("_Scoreboard", new BolfTracker.Web.ViewModels.HoleViewModel(Model.Game))
 </fieldset>
 <fieldset>
     <legend>Hole History</legend>
@@ -189,6 +189,9 @@
         <script src="../../Scripts/jquery-ui.js" type="text/javascript"></script>
     }
     <script type="text/javascript">
+
+        
+
         $(function () {
             $("#attempts").focus();
 
