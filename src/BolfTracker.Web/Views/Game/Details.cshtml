@@ -46,6 +46,8 @@
     <legend>Leaderboard</legend>
     @if (Model.Game.Shots.Any())
     {
+        
+        
         <table id="leaderboard">
             <tr>
                 <th style="width: 150px; text-align: left;">
@@ -100,6 +102,8 @@
     @if (Model.Game.Shots.Any())
     {
         int lastShot = Model.Game.Shots.Max(s => s.Id);
+        
+        
         
         <table id="hole-history">
             <tr>
@@ -190,13 +194,155 @@
     }
     <script type="text/javascript">
 
+        var par = 0;
+        var lastAttempt = 0;
         
+        @if(Model.Game.Shots.Any())   
+        {
+            @: par = @Model.Holes.FirstOrDefault(h => h.Id == Model.GetCurrentHole()).Par;
 
-        $(function () {
+            var lastShotAttempt = Model.Game.Shots.LastOrDefault(s => s.Hole.Id == Model.GetCurrentHole());
+            if(lastShotAttempt != null)
+            {
+                @: lastAttempt = @lastShotAttempt.Attempts;
+            }
+        }
+
+        $(function ()
+        {
+            if(lastAttempt == 1)
+            {
+                $("#attempts").val(1);
+            }
+
             $("#attempts").focus();
 
+            $("#attempts").keydown(function (event)
+            {
+                if (event.keyCode == 46 || event.keyCode == 8 || event.keyCode == 13)
+                {
+                } else
+                {
+                    if (event.keyCode < 95)
+                    {
+                        if (event.keyCode < 48 || event.keyCode > 57)
+                        {
+                            event.preventDefault();
+                        }
+                    } else
+                    {
+                        if (event.keyCode < 96 || event.keyCode > 105)
+                        {
+                            event.preventDefault();
+                        }
+                    }
+                }
+            });
 
+            $("#attempts").keyup(function()
+            {
+                validateAttempts();
+            });
             
+            $("body").keydown(function (event)
+            {
+                switch (event.keyCode)
+                {
+                    case 38:
+                    case 40:
+
+                        var currVal = parseInt($("#attempts").val());
+
+                        if (isNaN(currVal))
+                        {
+                            currVal = 0;
+                        }
+
+                        if (event.keyCode == 38)
+                        {
+                            currVal++;
+                        } 
+                        else if (currVal > 0)
+                        {
+                            currVal--;
+                        }
+                        
+                        $("#attempts").val(currVal);
+
+                        validateAttempts();
+
+                        break;
+                    case 77:
+                        if ($("#shotMade").attr("checked"))
+                        {
+                            $("#shotMade").removeAttr("checked");
+                        }
+                        else
+                        {
+                            $("#shotMade").attr("checked", "checked");
+                        }
+                        break;
+
+                    case 13 :
+                        
+                        var currVal = parseInt($("#attempts").val());
+
+                        if (isNaN(currVal))
+                        {
+                            currVal = 0;
+                        }
+
+                        if(currVal < par )
+                        {
+                            if(lastAttempt > 0)
+                            {
+                                if(currVal > 0 && currVal < lastAttempt)
+                                {
+                                    $("#shotMade").attr("checked", "checked");
+                                }
+                                else
+                                {
+                                    $("#attempts").val(lastAttempt);
+                                }
+                            }
+                            else
+                            {
+                                $("#shotMade").attr("checked", "checked");
+                            }
+                        }
+                        break;
+                }
+            });
         });
+
+        function validateAttempts()
+        {
+            if(par > 0)
+            {
+                var currVal = parseInt($("#attempts").val());
+            
+                if(isNaN(currVal))
+                {
+                    currVal = 0;
+                }
+                if(currVal > par && par > 0)
+                {
+                    currVal = par;
+                }
+
+                if(currVal > lastAttempt && lastAttempt > 0)
+                {
+                    currVal = lastAttempt;
+                }
+                
+                if(currVal == 0 && lastAttempt == 1)
+                {
+                    currVal = 1
+                }
+
+                $("#attempts").val(currVal);
+            }
+        }
+
     </script>
 }

@@ -109,7 +109,7 @@ namespace BolfTracker.Web
             throw new NotImplementedException();
         }
 
-        private int GetCurrentHole()
+        public int GetCurrentHole()
         {
             int currentHole = 1;
 
