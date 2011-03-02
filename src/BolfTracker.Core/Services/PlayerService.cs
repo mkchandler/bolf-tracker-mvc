@@ -133,12 +133,11 @@ namespace BolfTracker.Services
 
                     foreach (var hole in holes)
                     {
-                        var playerHoleShots = player.Shots.Where(s => s.Hole.Id == hole.Id);
+                        var playerHoleShots = player.Shots.Where(s => s.Hole.Id == hole.Id && s.Game.Date.Month == month && s.Game.Date.Year == year);
+                        var playerHoleStatistics = new PlayerHoleStatistics() { Player = player, Hole = hole, Month = month, Year = year };
 
                         if (playerHoleShots.Any())
                         {
-                            var playerHoleStatistics = new PlayerHoleStatistics() { Player = player, Hole = hole, Month = month, Year = year };
-
                             playerHoleStatistics.ShotsMade = playerHoleShots.Count(s => s.ShotMade);
                             playerHoleStatistics.Attempts = playerHoleShots.Sum(s => s.Attempts);
                             playerHoleStatistics.ShootingPercentage = Decimal.Round(Convert.ToDecimal(playerHoleStatistics.ShotsMade) / Convert.ToDecimal(playerHoleStatistics.Attempts), 3, MidpointRounding.AwayFromZero);
@@ -146,9 +145,9 @@ namespace BolfTracker.Services
                             playerHoleStatistics.Pushes = playerHoleShots.Count(s => s.ShotType.Id == ShotTypePush);
                             playerHoleStatistics.Steals = playerHoleShots.Count(s => s.ShotType.Id == ShotTypeSteal);
                             playerHoleStatistics.SugarFreeSteals = playerHoleShots.Count(s => s.ShotType.Id == ShotTypeSugarFreeSteal);
-
-                            _playerHoleStatisticsRepository.Add(playerHoleStatistics);
                         }
+
+                        _playerHoleStatisticsRepository.Add(playerHoleStatistics);
                     }
                 }
             }
