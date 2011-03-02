@@ -47,7 +47,12 @@ namespace BolfTracker.Web
             if (Game.Shots.Any())
             {
                 var activePlayers = ActivePlayers;
+
+                // TODO: This logic is flawed because it is using the player count, which could change if a player drops
+                // out midgame.  This logic keeps on counting the player that drops out, which messes up the order the rest
+                // of the game.
                 var playersDescending = Game.Shots.OrderByDescending(s => s.Id).Take(activePlayers.Count()).Select(s => s.Player);
+                
                 var duplicatePlayers = Game.Shots.GroupBy(s => s.Player.Id).Where(p => p.Count() > 1);
 
                 // Check to see if we've had any duplicate players yet (if so, that means we can determine the order)
@@ -60,27 +65,41 @@ namespace BolfTracker.Web
                     if (currentHole >= 10)
                     {
                         int currentPointsAvailable = PointsAvailable;
-                        int maxPointsAtCurrentHole = _allHoles.Where(h => h.Id <= currentHole).Sum(h => h.Par);
-                        int totalPointsTaken = maxPointsAtCurrentHole - currentPointsAvailable;
-                        var leaderboard = Leaderboard;
-                        var leaderPoints = leaderboard.Max(l => l.Points);
+                        //int maxPointsAtCurrentHole = _allHoles.Where(h => h.Id <= currentHole).Sum(h => h.Par);
+                        //int totalPointsTaken = maxPointsAtCurrentHole - currentPointsAvailable;
+                        var leaderboard = Leaderboard.OrderByDescending(l => l.Points);
 
+                        var leader = leaderboard.First();
+
+                        // This is the leader's points not counting any temporary points scored on the current hole
+                        var leaderPoints = Game.Shots.Where(s => s.Game.Id == Game.Id && s.Player.Id == leader.Player.Id && s.Hole.Id < currentHole).Sum(s => s.Points);
+                        
                         var playersWhoCanWin = new List<LeaderboardViewModel>();
 
                         foreach (var player in leaderboard)
                         {
-                            if ((player.Points + currentPointsAvailable) > leaderPoints)
+                            // If the player has already gone on this hole and made the shot then we need to 
+                            // subtract those points for the next calculation
+                            var playerCurrentHoleShot = player.Player.Shots.Where(s => s.Game.Id == Game.Id && s.Player.Id == player.Player.Id && s.Hole.Id == currentHole && s.Points > 0);
+
+                            int playerCurrentHolePoints = playerCurrentHoleShot.Any() ? playerCurrentHoleShot.First().Points : 0;
+
+                            // If the player can at least tie the leader, then he gets to take all shots
+                            if (((player.Points - playerCurrentHolePoints) + currentPointsAvailable) >= leaderPoints)
                             {
-                                if (!player.Player.Shots.Any(s => s.Game.Id == Game.Id && s.Hole.Id == currentHole))
-                                {
-                                    playersWhoCanWin.Add(player);
-                                }
+                                playersWhoCanWin.Add(player);
                             }
                         }
 
-                        if (!playersWhoCanWin.Any())
+                        if (!playersWhoCanWin.Any() || playersWhoCanWin.Count() == playersDescending.Count())
                         {
+                            // If all of the players can win, we will go in normal order
                             return playersDescending.Last();
+                        }
+                        else
+                        {
+                            // If only some of the players can win, we will go in descending order by points
+
                         }
 
                         return playersWhoCanWin.OrderByDescending(l => l.Points).First().Player;
@@ -135,6 +154,11 @@ namespace BolfTracker.Web
                 }
                 else
                 {
+                    // TODO: Need to account for the last hole/overtime holes, where not all players will go,
+                    // and the pushing/winning of holes will be different
+
+                    // TODO: If all players in the system have taken shots, then we can advance to the next hole
+
                     // If the hole was pushed on 1, go to the next hole
                     if (holeShots.Count(s => s.Attempts == 1 && s.ShotMade == true) > 1)
                     {
