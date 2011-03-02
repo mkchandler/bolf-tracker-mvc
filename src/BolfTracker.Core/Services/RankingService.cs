@@ -39,21 +39,9 @@ namespace BolfTracker.Services
             var shots = games.SelectMany(g => g.Shots);
             var players = shots.Select(s => s.Player).Distinct();
 
-            int totalGamesCombinedForAllPlayers = 0;
-
-            // Calculate the eligibility line, which will be used to determin the top player and will be
-            // a recorded stat for each player in the rankings
-            foreach (var player in players)
-            {
-                int wins = gamesStatistics.Count(gs => gs.Player.Id == player.Id && gs.Winner);
-                int losses = gamesStatistics.Count(gs => gs.Player.Id == player.Id && !gs.Winner);
-
-                // Add the games played to the summed variable so that we can use it to determine the eligibility line later
-                totalGamesCombinedForAllPlayers += wins + losses;
-            }
-
-            int eligibilityLine = Convert.ToInt32(Decimal.Round((Decimal.Round(totalGamesCombinedForAllPlayers / players.Count(), 1, MidpointRounding.AwayFromZero)) / 2M, 0, MidpointRounding.AwayFromZero));
-
+            // The eligibility line will only sample the top half of players sorted by number of games played
+            int eligibilityLine = DetermineEligibilityLine(month, year);
+            
             // The second thing we want to do is find the top ranked player because we will need their stats
             // to be able to calculate the "games back" for all other players
             decimal topPlayerWinningPercentage = 0.00M;
@@ -130,6 +118,33 @@ namespace BolfTracker.Services
             }
 
             _unitOfWork.Commit();
+        }
+
+        private int DetermineEligibilityLine(int month, int year)
+        {
+            var gameCounts = new List<int>();
+
+            var games = _gameRepository.GetByMonthAndYear(month, year);
+            var players = games.SelectMany(g => g.Shots).Select(s => s.Player).Distinct();
+
+            foreach (var player in players)
+            {
+                int playerGameCount = games.Count(g => g.Shots.Count(s => s.Player.Id == player.Id) > 0);
+
+                gameCounts.Add(playerGameCount);
+            }
+
+            // This will put the game counts in a descending order
+            gameCounts.Sort();
+            gameCounts.Reverse();
+
+            // We only want to take the top half of the games played, but we will always round up
+            var gameCountsToSample = gameCounts.Take(Convert.ToInt32(Decimal.Ceiling(Decimal.Round(Convert.ToDecimal(gameCounts.Count) / 2M, 1, MidpointRounding.AwayFromZero))));
+
+            // The line is half the average of the game counts determined by the above formula
+            int eligibilityLine = Convert.ToInt32(Decimal.Round((Decimal.Round(gameCountsToSample.Sum() / gameCountsToSample.Count(), 1, MidpointRounding.AwayFromZero)) / 2M, 0, MidpointRounding.AwayFromZero));
+
+            return eligibilityLine;
         }
 
         private void DeleteRankings(int month, int year)
