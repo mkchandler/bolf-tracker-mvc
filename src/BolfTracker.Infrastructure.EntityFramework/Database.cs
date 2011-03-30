@@ -20,6 +20,7 @@ namespace BolfTracker.Infrastructure.EntityFramework
         private IObjectSet<PlayerStatistics> _playerStatistics;
         private IObjectSet<HoleStatistics> _holeStatistics;
         private IObjectSet<PlayerHoleStatistics> _playerHoleStatistics;
+        private IObjectSet<PlayerGameStatistics> _playerGameStatistics;
 
         public Database(EntityConnection connection) : base(connection)
         {
@@ -96,6 +97,14 @@ namespace BolfTracker.Infrastructure.EntityFramework
             get
             {
                 return _playerHoleStatistics ?? (_playerHoleStatistics = ObjectSet<PlayerHoleStatistics>());
+            }
+        }
+
+        public IObjectSet<PlayerGameStatistics> PlayerGameStatistics
+        {
+            get
+            {
+                return _playerGameStatistics ?? (_playerGameStatistics = ObjectSet<PlayerGameStatistics>());
             }
         }
 

@@ -31,6 +31,13 @@ namespace BolfTracker.Web.Controllers
             return View(games);
         }
 
+        public ActionResult RecalculateGameStatistics()
+        {
+            _gameService.CalculateGameStatistics();
+
+            return RedirectToAction("Index");
+        }
+
         public ActionResult Details(int id)
         {
             var game = _gameService.GetGame(id);

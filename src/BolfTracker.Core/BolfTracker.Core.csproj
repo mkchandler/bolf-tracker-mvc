@@ -48,6 +48,7 @@
     <Compile Include="Models\HoleStatistics.cs" />
     <Compile Include="Models\IEntity.cs" />
     <Compile Include="Models\Player.cs" />
+    <Compile Include="Models\PlayerGameStatistics.cs" />
     <Compile Include="Models\PlayerHoleStatistics.cs" />
     <Compile Include="Models\PlayerStatistics.cs" />
     <Compile Include="Models\Ranking.cs" />
@@ -57,6 +58,7 @@
     <Compile Include="Repositories\IGameStatisticsRepository.cs" />
     <Compile Include="Repositories\IHoleRepository.cs" />
     <Compile Include="Repositories\IHoleStatisticsRepository.cs" />
+    <Compile Include="Repositories\IPlayerGameStatistics.cs" />
     <Compile Include="Repositories\IPlayerHoleStatisticsRepository.cs" />
     <Compile Include="Repositories\IPlayerRepository.cs" />
     <Compile Include="Repositories\IPlayerStatisticsRepository.cs" />

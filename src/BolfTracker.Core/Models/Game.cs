@@ -8,11 +8,13 @@ namespace BolfTracker.Models
     {
         private readonly ICollection<Shot> _shots;
         private readonly ICollection<GameStatistics> _gameStatistics;
+        private readonly ICollection<PlayerGameStatistics> _playerGameStatistics;
 
         public Game()
         {
             _shots = new List<Shot>();
             _gameStatistics = new List<GameStatistics>();
+            _playerGameStatistics = new List<PlayerGameStatistics>();
 
             Date = DateTime.Now;
         }
@@ -38,6 +40,11 @@ namespace BolfTracker.Models
         public virtual ICollection<GameStatistics> GameStatistics
         {
             get { return _gameStatistics; }
+        }
+
+        public virtual ICollection<PlayerGameStatistics> PlayerGameStatistics
+        {
+            get { return _playerGameStatistics; }
         }
     }
 }

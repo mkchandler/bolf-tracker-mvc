@@ -17,6 +17,8 @@ namespace BolfTracker.Services
 
         void DeleteGame(int id);
 
+        void CalculateGameStatistics();
+
         void CalculateGameStatistics(int gameId);
     }
 }

@@ -35,7 +35,7 @@ namespace BolfTracker.Services
             DeleteRankings(month, year);
 
             var games = _gameRepository.GetByMonthAndYear(month, year);
-            var gamesStatistics = games.SelectMany(g => g.GameStatistics);
+            var playerGameStatistics = games.SelectMany(g => g.PlayerGameStatistics);
             var shots = games.SelectMany(g => g.Shots);
             var players = shots.Select(s => s.Player).Distinct();
 
@@ -59,9 +59,9 @@ namespace BolfTracker.Services
 
             foreach (var player in players)
             {
-                int wins = gamesStatistics.Count(gs => gs.Player.Id == player.Id && gs.Winner);
-                int losses = gamesStatistics.Count(gs => gs.Player.Id == player.Id && !gs.Winner);
-                int totalPoints = gamesStatistics.Where(gs => gs.Player.Id == player.Id).Sum(gs => gs.Points);
+                int wins = playerGameStatistics.Count(gs => gs.Player.Id == player.Id && gs.Winner);
+                int losses = playerGameStatistics.Count(gs => gs.Player.Id == player.Id && !gs.Winner);
+                int totalPoints = playerGameStatistics.Where(gs => gs.Player.Id == player.Id).Sum(gs => gs.Points);
                 int pointsPerGame = totalPoints / (wins + losses);
 
                 decimal winningPercentage = (losses > 0) ? Decimal.Round(Convert.ToDecimal(wins) / Convert.ToDecimal(wins + losses), 3, MidpointRounding.AwayFromZero) : 1.00M;
@@ -96,14 +96,14 @@ namespace BolfTracker.Services
             {
                 var ranking = new Ranking() { Player = player, Month = month, Year = year };
 
-                ranking.Wins = gamesStatistics.Count(gs => gs.Player.Id == player.Id && gs.Winner);
-                ranking.Losses = gamesStatistics.Count(gs => gs.Player.Id == player.Id && !gs.Winner);
+                ranking.Wins = playerGameStatistics.Count(gs => gs.Player.Id == player.Id && gs.Winner);
+                ranking.Losses = playerGameStatistics.Count(gs => gs.Player.Id == player.Id && !gs.Winner);
                 ranking.WinningPercentage = Decimal.Round(Convert.ToDecimal(ranking.Wins) / Convert.ToDecimal(ranking.TotalGames), 3, MidpointRounding.AwayFromZero);
-                ranking.TotalPoints = gamesStatistics.Where(gs => gs.Player.Id == player.Id).Sum(gs => gs.Points);
+                ranking.TotalPoints = playerGameStatistics.Where(gs => gs.Player.Id == player.Id).Sum(gs => gs.Points);
                 ranking.PointsPerGame = ranking.TotalPoints / ranking.TotalGames;
                 ranking.Eligible = ranking.TotalGames >= eligibilityLine;
 
-                var lastTenGames = gamesStatistics.Where(gs => gs.Player.Id == player.Id).OrderByDescending(gs => gs.Game.Date).Take(10);
+                var lastTenGames = playerGameStatistics.Where(gs => gs.Player.Id == player.Id).OrderByDescending(gs => gs.Game.Date).Take(10);
 
                 ranking.LastTenWins = lastTenGames.Count(gs => gs.Player.Id == player.Id && gs.Winner);
                 ranking.LastTenLosses = lastTenGames.Count(gs => gs.Player.Id == player.Id && !gs.Winner);
@@ -142,7 +142,7 @@ namespace BolfTracker.Services
             var gameCountsToSample = gameCounts.Take(Convert.ToInt32(Decimal.Ceiling(Decimal.Round(Convert.ToDecimal(gameCounts.Count) / 2M, 1, MidpointRounding.AwayFromZero))));
 
             // The line is half the average of the game counts determined by the above formula
-            int eligibilityLine = Convert.ToInt32(Decimal.Round((Decimal.Round(gameCountsToSample.Sum() / gameCountsToSample.Count(), 1, MidpointRounding.AwayFromZero)) / 2M, 0, MidpointRounding.AwayFromZero));
+            int eligibilityLine = Convert.ToInt32(Decimal.Round((Decimal.Round(gameCountsToSample.Sum() / gameCountsToSample.Count(), 1, MidpointRounding.AwayFromZero)) * .5M, 0, MidpointRounding.AwayFromZero));
 
             return eligibilityLine;
         }

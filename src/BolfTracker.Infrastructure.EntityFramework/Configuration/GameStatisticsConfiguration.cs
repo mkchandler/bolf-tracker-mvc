@@ -14,7 +14,6 @@ namespace BolfTracker.Infrastructure.EntityFramework.Configuration
             Property(gs => gs.Id).HasDatabaseGenerationOption(DatabaseGenerationOption.Identity);
 
             HasRequired(gs => gs.Game).WithMany(g => g.GameStatistics);
-            HasRequired(gs => gs.Player).WithMany(p => p.GameStatistics);
 
             ToTable("GameStatistics");
         }

@@ -37,14 +37,12 @@ namespace BolfTracker.Infrastructure.EntityFramework.IntegrationTests
                 new GameStatistics
                 {
                     Game = CreateGame(),
-                    Player = CreatePlayer(),
                     Attempts = 10,
                     ShotsMade = 5,
                     Pushes = 3,
                     Steals = 2,
                     SugarFreeSteals = 1,
-                    Points = 12,
-                    Winner = true
+                    Points = 12
                 };
         }
 

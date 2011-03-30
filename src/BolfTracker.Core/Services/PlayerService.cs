@@ -15,6 +15,7 @@ namespace BolfTracker.Services
         private readonly IPlayerStatisticsRepository _playerStatisticsRepository;
         private readonly IPlayerHoleStatisticsRepository _playerHoleStatisticsRepository;
         private readonly IGameStatisticsRepository _gameStatisticsRepository;
+        private readonly IPlayerGameStatisticsRepository _playerGameStatisticsRepository;
         private readonly IUnitOfWork _unitOfWork;
 
         // TODO: Really need to figure out a better way to do this
@@ -24,13 +25,14 @@ namespace BolfTracker.Services
         private const int ShotTypeSteal = 4;
         private const int ShotTypeSugarFreeSteal = 5;
 
-        public PlayerService(IPlayerRepository playerRepository, IHoleRepository holeRepository, IPlayerStatisticsRepository playerStatisticsRepository, IPlayerHoleStatisticsRepository playerHoleStatisticsRepository, IGameStatisticsRepository gameStatisticsRepository, IUnitOfWork unitOfWork)
+        public PlayerService(IPlayerRepository playerRepository, IHoleRepository holeRepository, IPlayerStatisticsRepository playerStatisticsRepository, IPlayerHoleStatisticsRepository playerHoleStatisticsRepository, IGameStatisticsRepository gameStatisticsRepository, IPlayerGameStatisticsRepository playerGameStatisticsRepository, IUnitOfWork unitOfWork)
         {
             _playerRepository = playerRepository;
             _holeRepository = holeRepository;
             _playerStatisticsRepository = playerStatisticsRepository;
             _playerHoleStatisticsRepository = playerHoleStatisticsRepository;
             _gameStatisticsRepository = gameStatisticsRepository;
+            _playerGameStatisticsRepository = playerGameStatisticsRepository;
             _unitOfWork = unitOfWork;
         }
 
@@ -201,7 +203,7 @@ namespace BolfTracker.Services
         {
             var playerStatistics = new PlayerStatistics() { Player = player, Month = month, Year = year };
 
-            var playerGameStatistics = _gameStatisticsRepository.GetByPlayerMonthAndYear(player.Id, month, year);
+            var playerGameStatistics = _playerGameStatisticsRepository.GetByPlayerMonthAndYear(player.Id, month, year);
 
             playerStatistics.Wins = playerGameStatistics.Count(gs => gs.Winner);
             playerStatistics.Losses = playerGameStatistics.Count(gs => !gs.Winner);

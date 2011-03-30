@@ -6,6 +6,6 @@ namespace BolfTracker.Repositories
 {
     public interface IGameStatisticsRepository : IRepository<GameStatistics>
     {
-        IEnumerable<GameStatistics> GetByPlayerMonthAndYear(int playerId, int month, int year);
+        //IEnumerable<GameStatistics> GetByPlayerMonthAndYear(int playerId, int month, int year);
     }
 }

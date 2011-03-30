@@ -12,6 +12,7 @@ namespace BolfTracker.Services
     {
         private readonly IGameRepository _gameRepository;
         private readonly IGameStatisticsRepository _gameStatisticsRepository;
+        private readonly IPlayerGameStatisticsRepository _playerGameStatisticsRepository;
         private readonly IUnitOfWork _unitOfWork;
 
         // TODO: Really need to figure out a better way to do this
@@ -19,10 +20,11 @@ namespace BolfTracker.Services
         private const int ShotTypeSteal = 4;
         private const int ShotTypeSugarFreeSteal = 5;
 
-        public GameService(IGameRepository gameRepository, IGameStatisticsRepository gameStatisticsRepository, IUnitOfWork unitOfWork)
+        public GameService(IGameRepository gameRepository, IGameStatisticsRepository gameStatisticsRepository, IPlayerGameStatisticsRepository playerGameStatisticsRepository, IUnitOfWork unitOfWork)
         {
             _gameRepository = gameRepository;
             _gameStatisticsRepository = gameStatisticsRepository;
+            _playerGameStatisticsRepository = playerGameStatisticsRepository;
             _unitOfWork = unitOfWork;
         }
 
@@ -65,6 +67,71 @@ namespace BolfTracker.Services
             throw new NotImplementedException();
         }
 
+        public void CalculateGameStatistics()
+        {
+            var games = _gameRepository.All();
+
+            foreach (var game in games)
+            {
+                var players = game.Shots.Select(s => s.Player).Distinct();
+
+                int maxPoints = 0;
+
+                // The first thing that we want to calculate is the max number of points scored (the winner's points). This way 
+                // we can easily determine who the winner is later when actually adding the stats to the repository.
+                foreach (var player in players)
+                {
+                    int playerPoints = player.Shots.Where(s => s.Game.Id == game.Id).Sum(s => s.Points);
+
+                    if (playerPoints > maxPoints)
+                    {
+                        maxPoints = playerPoints;
+                    }
+                }
+
+                // Calculate all of the game statistics for each player individually
+                foreach (var player in players)
+                {
+                    var playerGameStatistics = new PlayerGameStatistics();
+
+                    playerGameStatistics.Game = game;
+                    playerGameStatistics.Player = player;
+                    playerGameStatistics.Points = player.Shots.Where(s => s.Game.Id == game.Id).Sum(s => s.Points);
+                    playerGameStatistics.ShotsMade = player.Shots.Count(s => s.Game.Id == game.Id && s.ShotMade);
+                    playerGameStatistics.Attempts = player.Shots.Where(s => s.Game.Id == game.Id).Sum(s => s.Attempts);
+                    playerGameStatistics.Pushes = player.Shots.Count(s => s.Game.Id == game.Id && s.ShotType.Id == ShotTypePush);
+                    playerGameStatistics.Steals = player.Shots.Count(s => s.Game.Id == game.Id && s.ShotType.Id == ShotTypeSteal);
+                    playerGameStatistics.SugarFreeSteals = player.Shots.Count(s => s.Game.Id == game.Id && s.ShotType.Id == ShotTypeSugarFreeSteal);
+                    playerGameStatistics.StainlessSteals = player.Shots.Count(s => s.Game.Id == game.Id && ((s.ShotType.Id == ShotTypeSteal || s.ShotType.Id == ShotTypeSteal) && s.Attempts == 1));
+                    playerGameStatistics.GameWinningSteal = player.Shots.Any(s => s.Game.Id == game.Id && ((s.ShotType.Id == ShotTypeSteal || s.ShotType.Id == ShotTypeSteal) && s.Hole.Id == (game.Shots.Max(shot => shot.Hole.Id))));
+                    playerGameStatistics.Winner = (playerGameStatistics.Points == maxPoints);
+
+                    _playerGameStatisticsRepository.Add(playerGameStatistics);
+                }
+
+                var gameShots = game.Shots.ToList();
+
+                // Calculate the total stats for the game
+                var gameStatistics = new GameStatistics();
+
+                gameStatistics.Game = game;
+                gameStatistics.HoleCount = gameShots.Select(s => s.Hole.Id).Distinct().Count();
+                gameStatistics.PlayerCount = gameShots.Select(s => s.Player.Id).Distinct().Count();
+                gameStatistics.Points = gameShots.Sum(s => s.Points);
+                gameStatistics.ShotsMade = gameShots.Count(s => s.ShotMade);
+                gameStatistics.Attempts = gameShots.Sum(s => s.Attempts);
+                gameStatistics.ShotsMissed = gameStatistics.Attempts - gameStatistics.ShotsMade;
+                gameStatistics.Pushes = gameShots.Count(s => s.ShotType.Id == ShotTypePush);
+                gameStatistics.Steals = gameShots.Count(s => s.ShotType.Id == ShotTypeSteal);
+                gameStatistics.SugarFreeSteals = gameShots.Count(s => s.ShotType.Id == ShotTypeSugarFreeSteal);
+                gameStatistics.StainlessSteals = gameShots.Count(s => (s.ShotType.Id == ShotTypeSteal || s.ShotType.Id == ShotTypeSteal) && s.ShotMade && s.Attempts == 1);
+
+                _gameStatisticsRepository.Add(gameStatistics);
+            }
+
+            _unitOfWork.Commit();
+        }
+
         public void CalculateGameStatistics(int gameId)
         {
             Check.Argument.IsNotZeroOrNegative(gameId, "gameId");
@@ -86,22 +153,43 @@ namespace BolfTracker.Services
                 }
             }
 
+            // Calculate all of the game statistics for each player individually
             foreach (var player in players)
             {
-                var gameStatistics = new GameStatistics();
+                var playerGameStatistics = new PlayerGameStatistics();
 
-                gameStatistics.Game = game;
-                gameStatistics.Player = player;
-                gameStatistics.Points = player.Shots.Where(s => s.Game.Id == gameId).Sum(s => s.Points);
-                gameStatistics.ShotsMade = player.Shots.Count(s => s.Game.Id == gameId && s.ShotMade);
-                gameStatistics.Attempts = player.Shots.Where(s => s.Game.Id == gameId).Sum(s => s.Attempts);
-                gameStatistics.Pushes = player.Shots.Count(s => s.Game.Id == gameId && s.ShotType.Id == ShotTypePush);
-                gameStatistics.Steals = player.Shots.Count(s => s.Game.Id == gameId && s.ShotType.Id == ShotTypeSteal);
-                gameStatistics.SugarFreeSteals = player.Shots.Count(s => s.Game.Id == gameId && s.ShotType.Id == ShotTypeSugarFreeSteal);
-                gameStatistics.Winner = (gameStatistics.Points == maxPoints);
+                playerGameStatistics.Game = game;
+                playerGameStatistics.Player = player;
+                playerGameStatistics.Points = player.Shots.Where(s => s.Game.Id == gameId).Sum(s => s.Points);
+                playerGameStatistics.ShotsMade = player.Shots.Count(s => s.Game.Id == gameId && s.ShotMade);
+                playerGameStatistics.Attempts = player.Shots.Where(s => s.Game.Id == gameId).Sum(s => s.Attempts);
+                playerGameStatistics.Pushes = player.Shots.Count(s => s.Game.Id == gameId && s.ShotType.Id == ShotTypePush);
+                playerGameStatistics.Steals = player.Shots.Count(s => s.Game.Id == gameId && s.ShotType.Id == ShotTypeSteal);
+                playerGameStatistics.SugarFreeSteals = player.Shots.Count(s => s.Game.Id == gameId && s.ShotType.Id == ShotTypeSugarFreeSteal);
+                playerGameStatistics.Winner = (playerGameStatistics.Points == maxPoints);
 
-                _gameStatisticsRepository.Add(gameStatistics);
+                _playerGameStatisticsRepository.Add(playerGameStatistics);
+
             }
+
+            var gameShots = game.Shots.ToList();
+
+            // Calculate the total stats for the game
+            var gameStatistics = new GameStatistics();
+
+            gameStatistics.Game = game;
+            gameStatistics.HoleCount = gameShots.Select(s => s.Hole.Id).Distinct().Count();
+            gameStatistics.PlayerCount = gameShots.Select(s => s.Player.Id).Distinct().Count();
+            gameStatistics.Points = gameShots.Sum(s => s.Points);
+            gameStatistics.ShotsMade = gameShots.Count(s => s.ShotMade);
+            gameStatistics.Attempts = gameShots.Sum(s => s.Attempts);
+            gameStatistics.ShotsMissed = gameStatistics.Attempts - gameStatistics.ShotsMade;
+            gameStatistics.Pushes = gameShots.Count(s => s.ShotType.Id == ShotTypePush);
+            gameStatistics.Steals = gameShots.Count(s => s.ShotType.Id == ShotTypeSteal);
+            gameStatistics.SugarFreeSteals = gameShots.Count(s => s.ShotType.Id == ShotTypeSugarFreeSteal);
+            gameStatistics.StainlessSteals = gameShots.Count(s => (s.ShotType.Id == ShotTypeSteal || s.ShotType.Id == ShotTypeSteal) && s.ShotMade && s.Attempts == 1);
+
+            _gameStatisticsRepository.Add(gameStatistics);
 
             _unitOfWork.Commit();
         }

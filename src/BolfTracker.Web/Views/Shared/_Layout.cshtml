@@ -6,6 +6,18 @@
     <script src="@Url.Content("~/Scripts/jquery-1.5.min.js")" type="text/javascript"></script>
 </head>
 <body>
+    <header>
+        <h1>
+            Bolf Tracker</h1>
+        <nav>
+            <ul>
+                <li>@Html.ActionLink("Rankings", "Index", "Ranking")</li>
+                <li>@Html.ActionLink("Games", "Index", "Game")</li>
+                <li>@Html.ActionLink("Players", "Index", "Player")</li>
+                <li>@Html.ActionLink("Holes", "Index", "Hole")</li>
+            </ul>
+        </nav>
+    </header>
     @RenderBody()
     @RenderSection("javascript", required: false)
 </body>

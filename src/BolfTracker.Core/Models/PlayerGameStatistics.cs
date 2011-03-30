@@ -1,6 +1,6 @@
 ﻿namespace BolfTracker.Models
 {
-    public class GameStatistics : IEntity
+    public class PlayerGameStatistics : IEntity
     {
         public virtual int Id
         {
@@ -14,13 +14,7 @@
             set;
         }
 
-        public virtual int HoleCount
-        {
-            get;
-            set;
-        }
-
-        public virtual int PlayerCount
+        public virtual Player Player
         {
             get;
             set;
@@ -32,13 +26,13 @@
             set;
         }
 
-        public virtual int ShotsMade
+        public virtual bool Winner
         {
             get;
             set;
         }
 
-        public virtual int ShotsMissed
+        public virtual int ShotsMade
         {
             get;
             set;
@@ -69,6 +63,12 @@
         }
 
         public virtual int StainlessSteals
+        {
+            get;
+            set;
+        }
+
+        public virtual bool GameWinningSteal
         {
             get;
             set;

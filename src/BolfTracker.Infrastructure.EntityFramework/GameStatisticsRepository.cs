@@ -11,11 +11,11 @@ namespace BolfTracker.Infrastructure.EntityFramework
         {
         }
 
-        public IEnumerable<GameStatistics> GetByPlayerMonthAndYear(int playerId, int month, int year)
-        {
-            IQuery<IEnumerable<GameStatistics>> query = QueryFactory.CreateGameStatisticsByPlayerMonthAndYearQuery(playerId, month, year);
+        //public IEnumerable<GameStatistics> GetByPlayerMonthAndYear(int playerId, int month, int year)
+        //{
+        //    IQuery<IEnumerable<GameStatistics>> query = QueryFactory.CreateGameStatisticsByPlayerMonthAndYearQuery(playerId, month, year);
 
-            return query.Execute(Database);
-        }
+        //    return query.Execute(Database);
+        //}
     }
 }

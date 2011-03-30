@@ -110,6 +110,8 @@ namespace BolfTracker.Services
                         {
                             // Then it is a steal (because someone has already made it if we got to this point)
 
+                            // TODO: Need to account for StainlessSteals here
+
                             // First figure out if the hole had been pushed, because then it will be a "Sugar-Free Steal"
                             if (game.Shots.Any(s => s.Hole.Id == currentShot.Hole.Id && s.ShotType.Id == ShotTypePush))
                             {
