@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Configuration;
 using System.Web.Mvc;
+using System.Web.Security;
 
 using BolfTracker.Services;
 
@@ -14,6 +16,7 @@ namespace BolfTracker.Web.Controllers
             _playerService = playerService;
         }
 
+        [Authorize]
         public ActionResult Index()
         {
             int month = DateTime.Today.Month;
@@ -25,6 +28,7 @@ namespace BolfTracker.Web.Controllers
             return View(new PlayersViewModel(players, playerStatistics));
         }
 
+        [Authorize]
         public ActionResult Details(int id)
         {
             var player = _playerService.GetPlayer(id);
@@ -32,11 +36,13 @@ namespace BolfTracker.Web.Controllers
             return View(new PlayerViewModel(player));
         }
 
+        [Authorize]
         public ActionResult Create()
         {
             return View();
-        } 
+        }
 
+        [Authorize]
         [HttpPost]
         public ActionResult Create(string name)
         {
@@ -51,7 +57,8 @@ namespace BolfTracker.Web.Controllers
                 return View();
             }
         }
- 
+
+        [Authorize]
         public ActionResult Edit(int id)
         {
             var player = _playerService.GetPlayer(id);
@@ -59,6 +66,7 @@ namespace BolfTracker.Web.Controllers
             return View(player);
         }
 
+        [Authorize]
         [HttpPost]
         public ActionResult Edit(int id, string name)
         {
@@ -74,6 +82,7 @@ namespace BolfTracker.Web.Controllers
             }
         }
 
+        [Authorize]
         public ActionResult Delete(int id)
         {
             var player = _playerService.GetPlayer(id);
@@ -81,6 +90,7 @@ namespace BolfTracker.Web.Controllers
             return View(player);
         }
 
+        [Authorize]
         [HttpPost]
         public ActionResult Delete(int id, FormCollection formCollection)
         {
@@ -94,6 +104,33 @@ namespace BolfTracker.Web.Controllers
             {
                 return View();
             }
+        }
+
+        public ActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Authenticate(string password)
+        {
+            var privateBetaCode = ConfigurationManager.AppSettings["PrivateBetaCode"];
+
+            if (password == privateBetaCode)
+            {
+                FormsAuthentication.SetAuthCookie("PrivateBetaUser", false);
+
+                return RedirectToAction("Index", "Ranking");
+            }
+
+            return RedirectToAction("Login");
+        }
+
+        public ActionResult SignOut()
+        {
+            FormsAuthentication.SignOut();
+
+            return RedirectToAction("Login");
         }
     }
 }

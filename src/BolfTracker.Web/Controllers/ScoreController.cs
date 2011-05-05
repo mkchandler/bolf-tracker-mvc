@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 using BolfTracker.Services;
 
 namespace BolfTracker.Web.Controllers
 {
+    [Authorize]
     public class ScoreController : Controller
     {
         private readonly IShotService _shotService;

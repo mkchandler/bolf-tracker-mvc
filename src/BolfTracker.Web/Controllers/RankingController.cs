@@ -5,6 +5,7 @@ using BolfTracker.Services;
 
 namespace BolfTracker.Web.Controllers
 {
+    [Authorize]
     public class RankingController : Controller
     {
         private readonly IRankingService _rankingService;

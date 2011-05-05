@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 using BolfTracker.Models;
@@ -9,6 +6,7 @@ using BolfTracker.Services;
 
 namespace BolfTracker.Web.Controllers
 {
+    [Authorize]
     public class GameController : Controller
     {
         private readonly IGameService _gameService;

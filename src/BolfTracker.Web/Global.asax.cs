@@ -25,6 +25,9 @@ namespace BolfTracker.Web
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            routes.MapRoute("Login", "login", new { controller = "Player", action = "Login" });
+            routes.MapRoute("SignOut", "signout", new { controller = "Player", action = "SignOut" });
+
             routes.MapRoute("Rankings", "rankings", new { controller = "Ranking", action = "Index" });
 
             routes.MapRoute("Games", "games", new { controller = "Game", action = "Index" });
