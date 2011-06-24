@@ -16,6 +16,7 @@ namespace BolfTracker.Services
         private readonly IPlayerHoleStatisticsRepository _playerHoleStatisticsRepository;
         private readonly IGameStatisticsRepository _gameStatisticsRepository;
         private readonly IPlayerGameStatisticsRepository _playerGameStatisticsRepository;
+        private readonly IPlayerCareerStatisticsRepository _playerCareerStatisticsRepository;
         private readonly IUnitOfWork _unitOfWork;
 
         // TODO: Really need to figure out a better way to do this
@@ -25,7 +26,7 @@ namespace BolfTracker.Services
         private const int ShotTypeSteal = 4;
         private const int ShotTypeSugarFreeSteal = 5;
 
-        public PlayerService(IPlayerRepository playerRepository, IHoleRepository holeRepository, IPlayerStatisticsRepository playerStatisticsRepository, IPlayerHoleStatisticsRepository playerHoleStatisticsRepository, IGameStatisticsRepository gameStatisticsRepository, IPlayerGameStatisticsRepository playerGameStatisticsRepository, IUnitOfWork unitOfWork)
+        public PlayerService(IPlayerRepository playerRepository, IHoleRepository holeRepository, IPlayerStatisticsRepository playerStatisticsRepository, IPlayerHoleStatisticsRepository playerHoleStatisticsRepository, IGameStatisticsRepository gameStatisticsRepository, IPlayerGameStatisticsRepository playerGameStatisticsRepository, IPlayerCareerStatisticsRepository playerCareerStatisticsRepository, IUnitOfWork unitOfWork)
         {
             _playerRepository = playerRepository;
             _holeRepository = holeRepository;
@@ -33,6 +34,7 @@ namespace BolfTracker.Services
             _playerHoleStatisticsRepository = playerHoleStatisticsRepository;
             _gameStatisticsRepository = gameStatisticsRepository;
             _playerGameStatisticsRepository = playerGameStatisticsRepository;
+            _playerCareerStatisticsRepository = playerCareerStatisticsRepository;
             _unitOfWork = unitOfWork;
         }
 
@@ -86,6 +88,7 @@ namespace BolfTracker.Services
             Check.Argument.IsNotZeroOrNegative(year, "year");
 
             DeletePlayerStatistics(month, year);
+            DeletePlayerCareerStatistics();
 
             var players = _playerRepository.All();
 
@@ -93,30 +96,36 @@ namespace BolfTracker.Services
             {
                 if (player.Shots.Any(s => s.Game.Date.Month == month && s.Game.Date.Year == year))
                 {
+                    // Calculate the player's monthly stats
                     var playerStatistics = CalculatePlayerStatistics(player, month, year);
 
                     _playerStatisticsRepository.Add(playerStatistics);
+
+                    // Calculate the player's career stats
+                    var playerCareerStatistics = CalculatePlayerCareerStatistics(player);
+
+                    _playerCareerStatisticsRepository.Add(playerCareerStatistics);
                 }
             }
 
             _unitOfWork.Commit();
         }
 
-        public void CalculatePlayerStatistics(int playerId, int month, int year)
-        {
-            Check.Argument.IsNotZeroOrNegative(playerId, "playerId");
-            Check.Argument.IsNotZeroOrNegative(month, "month");
-            Check.Argument.IsNotZeroOrNegative(year, "year");
+        //public void CalculatePlayerStatistics(int playerId, int month, int year)
+        //{
+        //    Check.Argument.IsNotZeroOrNegative(playerId, "playerId");
+        //    Check.Argument.IsNotZeroOrNegative(month, "month");
+        //    Check.Argument.IsNotZeroOrNegative(year, "year");
 
-            DeletePlayerStatistics(month, year);
+        //    DeletePlayerStatistics(month, year);
 
-            var player = _playerRepository.GetById(playerId);
+        //    var player = _playerRepository.GetById(playerId);
 
-            var playerStatistics = CalculatePlayerStatistics(player, month, year);
+        //    var playerStatistics = CalculatePlayerStatistics(player, month, year);
 
-            _playerStatisticsRepository.Add(playerStatistics);
-            _unitOfWork.Commit();
-        }
+        //    _playerStatisticsRepository.Add(playerStatistics);
+        //    _unitOfWork.Commit();
+        //}
 
         public void CalculatePlayerHoleStatistics(int month, int year)
         {
@@ -142,7 +151,7 @@ namespace BolfTracker.Services
                         {
                             playerHoleStatistics.ShotsMade = playerHoleShots.Count(s => s.ShotMade);
                             playerHoleStatistics.Attempts = playerHoleShots.Sum(s => s.Attempts);
-                            playerHoleStatistics.ShootingPercentage = Decimal.Round(Convert.ToDecimal(playerHoleStatistics.ShotsMade) / Convert.ToDecimal(playerHoleStatistics.Attempts), 3, MidpointRounding.AwayFromZero);
+                            playerHoleStatistics.ShootingPercentage = Decimal.Round((decimal)playerHoleStatistics.ShotsMade / (decimal)playerHoleStatistics.Attempts, 3, MidpointRounding.AwayFromZero);
                             playerHoleStatistics.PointsScored = playerHoleShots.Sum(s => s.Points);
                             playerHoleStatistics.Pushes = playerHoleShots.Count(s => s.ShotType.Id == ShotTypePush);
                             playerHoleStatistics.Steals = playerHoleShots.Count(s => s.ShotType.Id == ShotTypeSteal);
@@ -181,7 +190,6 @@ namespace BolfTracker.Services
             return _playerStatisticsRepository.GetByMonthAndYear(month, year);
         }
 
-
         public IEnumerable<PlayerHoleStatistics> GetPlayerHoleStatistics(int playerId, int month, int year)
         {
             Check.Argument.IsNotZeroOrNegative(playerId, "playerId");
@@ -207,20 +215,47 @@ namespace BolfTracker.Services
 
             playerStatistics.Wins = playerGameStatistics.Count(gs => gs.Winner);
             playerStatistics.Losses = playerGameStatistics.Count(gs => !gs.Winner);
-            playerStatistics.WinningPercentage = Decimal.Round(Convert.ToDecimal(playerStatistics.Wins) / Convert.ToDecimal(playerStatistics.TotalGames), 3, MidpointRounding.AwayFromZero);
+            playerStatistics.WinningPercentage = Decimal.Round((decimal)playerStatistics.Wins / (decimal)playerStatistics.TotalGames, 3, MidpointRounding.AwayFromZero);
             playerStatistics.ShotsMade = playerGameStatistics.Sum(gs => gs.ShotsMade);
             playerStatistics.Attempts = playerGameStatistics.Sum(gs => gs.Attempts);
-            playerStatistics.ShootingPercentage = Decimal.Round(Convert.ToDecimal(playerStatistics.ShotsMade) / Convert.ToDecimal(playerStatistics.Attempts), 3, MidpointRounding.AwayFromZero);
+            playerStatistics.ShootingPercentage = Decimal.Round((decimal)playerStatistics.ShotsMade / (decimal)playerStatistics.Attempts, 3, MidpointRounding.AwayFromZero);
             playerStatistics.Points = playerGameStatistics.Sum(gs => gs.Points);
-            playerStatistics.PointsPerGame = Decimal.Round(Convert.ToDecimal(playerStatistics.Points) / Convert.ToDecimal(playerStatistics.TotalGames), 1, MidpointRounding.AwayFromZero);
+            playerStatistics.PointsPerGame = Decimal.Round((decimal)playerStatistics.Points / (decimal)playerStatistics.TotalGames, 1, MidpointRounding.AwayFromZero);
             playerStatistics.Pushes = playerGameStatistics.Sum(gs => gs.Pushes);
-            playerStatistics.PushesPerGame = Decimal.Round(Convert.ToDecimal(playerStatistics.Pushes) / Convert.ToDecimal(playerStatistics.TotalGames), 1, MidpointRounding.AwayFromZero);
+            playerStatistics.PushesPerGame = Decimal.Round((decimal)playerStatistics.Pushes / (decimal)playerStatistics.TotalGames, 1, MidpointRounding.AwayFromZero);
             playerStatistics.Steals = playerGameStatistics.Sum(gs => gs.Steals);
-            playerStatistics.StealsPerGame = Decimal.Round(Convert.ToDecimal(playerStatistics.Steals) / Convert.ToDecimal(playerStatistics.TotalGames), 1, MidpointRounding.AwayFromZero); ;
+            playerStatistics.StealsPerGame = Decimal.Round((decimal)playerStatistics.Steals / (decimal)playerStatistics.TotalGames, 1, MidpointRounding.AwayFromZero); ;
             playerStatistics.SugarFreeSteals = playerGameStatistics.Sum(gs => gs.SugarFreeSteals);
-            playerStatistics.SugarFreeStealsPerGame = Decimal.Round(Convert.ToDecimal(playerStatistics.SugarFreeSteals) / Convert.ToDecimal(playerStatistics.TotalGames), 1, MidpointRounding.AwayFromZero);
+            playerStatistics.SugarFreeStealsPerGame = Decimal.Round((decimal)playerStatistics.SugarFreeSteals / (decimal)playerStatistics.TotalGames, 1, MidpointRounding.AwayFromZero);
 
             return playerStatistics;
+        }
+
+        private PlayerCareerStatistics CalculatePlayerCareerStatistics(Player player)
+        {
+            var playerCareerStatistics = new PlayerCareerStatistics() { Player = player };
+
+            var playerGameStatistics = _playerGameStatisticsRepository.GetByPlayer(player.Id);
+
+            playerCareerStatistics.Wins = playerGameStatistics.Count(pgs => pgs.Winner);
+            playerCareerStatistics.Losses = playerGameStatistics.Count(pgs => !pgs.Winner);
+            playerCareerStatistics.WinningPercentage = Decimal.Round((decimal)playerCareerStatistics.Wins / (decimal)playerCareerStatistics.TotalGames, 3, MidpointRounding.AwayFromZero);
+            playerCareerStatistics.ShotsMade = playerGameStatistics.Sum(pgs => pgs.ShotsMade);
+            playerCareerStatistics.Attempts = playerGameStatistics.Sum(pgs => pgs.Attempts);
+            playerCareerStatistics.ShootingPercentage = Decimal.Round((decimal)playerCareerStatistics.ShotsMade / (decimal)playerCareerStatistics.Attempts, 3, MidpointRounding.AwayFromZero);
+            playerCareerStatistics.Points = playerGameStatistics.Sum(pgs => pgs.Points);
+            playerCareerStatistics.PointsPerGame = Decimal.Round((decimal)playerCareerStatistics.Points / (decimal)playerCareerStatistics.TotalGames, 3, MidpointRounding.AwayFromZero);
+            playerCareerStatistics.Pushes = playerGameStatistics.Sum(pgs => pgs.Pushes);
+            playerCareerStatistics.PushesPerGame = Decimal.Round((decimal)playerCareerStatistics.Pushes / (decimal)playerCareerStatistics.TotalGames, 3, MidpointRounding.AwayFromZero);
+            playerCareerStatistics.Steals = playerGameStatistics.Sum(pgs => pgs.Steals);
+            playerCareerStatistics.StealsPerGame = Decimal.Round((decimal)playerCareerStatistics.Steals / (decimal)playerCareerStatistics.TotalGames, 3, MidpointRounding.AwayFromZero); ;
+            playerCareerStatistics.SugarFreeSteals = playerGameStatistics.Sum(pgs => pgs.SugarFreeSteals);
+            playerCareerStatistics.SugarFreeStealsPerGame = Decimal.Round((decimal)playerCareerStatistics.SugarFreeSteals / (decimal)playerCareerStatistics.TotalGames, 3, MidpointRounding.AwayFromZero);
+            playerCareerStatistics.StainlessSteals = playerGameStatistics.Sum(pgs => pgs.StainlessSteals);
+            playerCareerStatistics.StainlessStealsPerGame = Decimal.Round((decimal)playerCareerStatistics.StainlessSteals / (decimal)playerCareerStatistics.TotalGames, 3, MidpointRounding.AwayFromZero);
+            playerCareerStatistics.GameWinningSteals = playerGameStatistics.Count(pgs => pgs.GameWinningSteal);
+
+            return playerCareerStatistics;
         }
 
         private void DeletePlayerStatistics(int month, int year)
@@ -230,6 +265,18 @@ namespace BolfTracker.Services
             foreach (var playerStatistic in playerStatistics)
             {
                 _playerStatisticsRepository.Delete(playerStatistic);
+            }
+
+            _unitOfWork.Commit();
+        }
+
+        private void DeletePlayerCareerStatistics()
+        {
+            var playerCareerStatistics = _playerCareerStatisticsRepository.All();
+
+            foreach (var playerCareerStatistic in playerCareerStatistics)
+            {
+                _playerCareerStatisticsRepository.Delete(playerCareerStatistic);
             }
 
             _unitOfWork.Commit();

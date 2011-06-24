@@ -20,6 +20,12 @@
             set;
         }
 
+        public virtual int OvertimeCount
+        {
+            get;
+            set;
+        }
+
         public virtual int PlayerCount
         {
             get;
@@ -45,6 +51,12 @@
         }
 
         public virtual int Attempts
+        {
+            get;
+            set;
+        }
+
+        public virtual decimal ShootingPercentage
         {
             get;
             set;

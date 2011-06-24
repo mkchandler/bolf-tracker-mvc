@@ -16,6 +16,8 @@ namespace BolfTracker.Infrastructure.EntityFramework.Configuration
             HasRequired(ps => ps.Player).WithMany(p => p.PlayerStatistics);
 
             Ignore(ps => ps.TotalGames);
+            Ignore(ps => ps.NormalSteals);
+            Ignore(ps => ps.NormalStealsPerGame);
 
             ToTable("PlayerStatistics");
         }

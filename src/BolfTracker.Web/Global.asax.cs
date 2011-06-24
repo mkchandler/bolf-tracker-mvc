@@ -39,6 +39,8 @@ namespace BolfTracker.Web
             routes.MapRoute("Players", "players", new { controller = "Player", action = "Index" });
             routes.MapRoute("PlayerDetails", "players/{id}", new { controller = "Player", action = "Details" });
 
+            routes.MapRoute("Statistics", "stats", new { controller = "Statistics", action = "Index" });
+
             routes.MapRoute("Default", "{controller}/{action}/{id}", new { controller = "Ranking", action = "Index", id = UrlParameter.Optional });
         }
 
@@ -80,6 +82,7 @@ namespace BolfTracker.Web
                      .RegisterType<IHoleStatisticsRepository, HoleStatisticsRepository>(new HttpContextLifetimeManager<IHoleStatisticsRepository>())
                      .RegisterType<IPlayerHoleStatisticsRepository, PlayerHoleStatisticsRepository>(new HttpContextLifetimeManager<IPlayerHoleStatisticsRepository>())
                      .RegisterType<IPlayerGameStatisticsRepository, PlayerGameStatisticsRepository>(new HttpContextLifetimeManager<IPlayerGameStatisticsRepository>())
+                     .RegisterType<IPlayerCareerStatisticsRepository, PlayerCareerStatisticsRepository>(new HttpContextLifetimeManager<IPlayerCareerStatisticsRepository>())
                      .RegisterType<IShotTypeRepository, ShotTypeRepository>(new HttpContextLifetimeManager<IShotTypeRepository>());
 
             ConnectionStringSettings connectionStringSettings = ConfigurationManager.ConnectionStrings["BolfTracker"];

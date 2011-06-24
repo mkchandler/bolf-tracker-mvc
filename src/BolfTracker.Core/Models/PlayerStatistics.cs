@@ -106,6 +106,27 @@
             set;
         }
 
+        public virtual int NormalSteals
+        {
+            get
+            {
+                return Steals - SugarFreeSteals; 
+            }
+        }
+
+        public virtual decimal NormalStealsPerGame
+        {
+            get
+            {
+                if (TotalGames > 0)
+                {
+                    return NormalSteals / TotalGames;
+                }
+
+                return 0;
+            }
+        }
+
         public virtual int SugarFreeSteals
         {
             get;
@@ -113,6 +134,24 @@
         }
 
         public virtual decimal SugarFreeStealsPerGame
+        {
+            get;
+            set;
+        }
+
+        public virtual int StainlessSteals
+        {
+            get;
+            set;
+        }
+
+        public virtual decimal StainlessStealsPerGame
+        {
+            get;
+            set;
+        }
+
+        public virtual int GameWinningSteals
         {
             get;
             set;

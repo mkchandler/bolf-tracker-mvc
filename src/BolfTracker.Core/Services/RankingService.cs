@@ -98,7 +98,7 @@ namespace BolfTracker.Services
 
                 ranking.Wins = playerGameStatistics.Count(gs => gs.Player.Id == player.Id && gs.Winner);
                 ranking.Losses = playerGameStatistics.Count(gs => gs.Player.Id == player.Id && !gs.Winner);
-                ranking.WinningPercentage = Decimal.Round(Convert.ToDecimal(ranking.Wins) / Convert.ToDecimal(ranking.TotalGames), 3, MidpointRounding.AwayFromZero);
+                ranking.WinningPercentage = Decimal.Round((decimal)ranking.Wins / (decimal)ranking.TotalGames, 3, MidpointRounding.AwayFromZero);
                 ranking.TotalPoints = playerGameStatistics.Where(gs => gs.Player.Id == player.Id).Sum(gs => gs.Points);
                 ranking.PointsPerGame = ranking.TotalPoints / ranking.TotalGames;
                 ranking.Eligible = ranking.TotalGames >= eligibilityLine;
@@ -107,7 +107,7 @@ namespace BolfTracker.Services
 
                 ranking.LastTenWins = lastTenGames.Count(gs => gs.Player.Id == player.Id && gs.Winner);
                 ranking.LastTenLosses = lastTenGames.Count(gs => gs.Player.Id == player.Id && !gs.Winner);
-                ranking.LastTenWinningPercentage = Decimal.Round(Convert.ToDecimal(ranking.LastTenWins) / Convert.ToDecimal(ranking.LastTenTotalGames), 3, MidpointRounding.AwayFromZero);
+                ranking.LastTenWinningPercentage = Decimal.Round((decimal)ranking.LastTenWins / (decimal)ranking.LastTenTotalGames, 3, MidpointRounding.AwayFromZero);
 
                 if (ranking.WinningPercentage != topPlayerWinningPercentage)
                 {

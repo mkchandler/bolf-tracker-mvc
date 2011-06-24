@@ -5,19 +5,19 @@ namespace BolfTracker.Models
     public class Player : IEntity
     {
         private readonly ICollection<Shot> _shots;
-        //private readonly ICollection<GameStatistics> _gameStatistics;
         private readonly ICollection<PlayerStatistics> _playerStatistics;
         private readonly ICollection<PlayerHoleStatistics> _playerHoleStatistics;
         private readonly ICollection<PlayerGameStatistics> _playerGameStatistics;
+        private readonly ICollection<PlayerCareerStatistics> _playerCareerStatistics;
         private readonly ICollection<Ranking> _rankings;
 
         public Player()
         {
             _shots = new List<Shot>();
-            //_gameStatistics = new List<GameStatistics>();
             _playerStatistics = new List<PlayerStatistics>();
             _playerHoleStatistics = new List<PlayerHoleStatistics>();
             _playerGameStatistics = new List<PlayerGameStatistics>();
+            _playerCareerStatistics = new List<PlayerCareerStatistics>();
             _rankings = new List<Ranking>();
         }
 
@@ -44,11 +44,6 @@ namespace BolfTracker.Models
             get { return _shots; }
         }
 
-        //public virtual ICollection<GameStatistics> GameStatistics
-        //{
-        //    get { return _gameStatistics; }
-        //}
-
         public virtual ICollection<PlayerStatistics> PlayerStatistics
         {
             get { return _playerStatistics; }
@@ -62,6 +57,11 @@ namespace BolfTracker.Models
         public virtual ICollection<PlayerGameStatistics> PlayerGameStatistics
         {
             get { return _playerGameStatistics; }
+        }
+
+        public virtual ICollection<PlayerCareerStatistics> PlayerCareerStatistics
+        {
+            get { return _playerCareerStatistics; }
         }
 
         public virtual ICollection<Ranking> Rankings

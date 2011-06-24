@@ -99,12 +99,19 @@ namespace BolfTracker.Services
                     playerGameStatistics.Points = player.Shots.Where(s => s.Game.Id == game.Id).Sum(s => s.Points);
                     playerGameStatistics.ShotsMade = player.Shots.Count(s => s.Game.Id == game.Id && s.ShotMade);
                     playerGameStatistics.Attempts = player.Shots.Where(s => s.Game.Id == game.Id).Sum(s => s.Attempts);
+                    playerGameStatistics.ShootingPercentage = Decimal.Round((decimal)playerGameStatistics.ShotsMade / (decimal)playerGameStatistics.Attempts, 3, MidpointRounding.AwayFromZero);
                     playerGameStatistics.Pushes = player.Shots.Count(s => s.Game.Id == game.Id && s.ShotType.Id == ShotTypePush);
                     playerGameStatistics.Steals = player.Shots.Count(s => s.Game.Id == game.Id && s.ShotType.Id == ShotTypeSteal);
                     playerGameStatistics.SugarFreeSteals = player.Shots.Count(s => s.Game.Id == game.Id && s.ShotType.Id == ShotTypeSugarFreeSteal);
                     playerGameStatistics.StainlessSteals = player.Shots.Count(s => s.Game.Id == game.Id && ((s.ShotType.Id == ShotTypeSteal || s.ShotType.Id == ShotTypeSteal) && s.Attempts == 1));
                     playerGameStatistics.GameWinningSteal = player.Shots.Any(s => s.Game.Id == game.Id && ((s.ShotType.Id == ShotTypeSteal || s.ShotType.Id == ShotTypeSteal) && s.Hole.Id == (game.Shots.Max(shot => shot.Hole.Id))));
                     playerGameStatistics.Winner = (playerGameStatistics.Points == maxPoints);
+                    playerGameStatistics.OvertimeWin = player.Shots.Max(s => s.Hole.Id) > 10 && playerGameStatistics.Winner;
+
+                    int totalGamePoints = game.Shots.Sum(s => s.Points);
+
+                    playerGameStatistics.Shutout = playerGameStatistics.Points == totalGamePoints;
+                    playerGameStatistics.PerfectGame = playerGameStatistics.Shutout && (playerGameStatistics.ShotsMade == playerGameStatistics.Attempts);
 
                     _playerGameStatisticsRepository.Add(playerGameStatistics);
                 }
@@ -116,11 +123,13 @@ namespace BolfTracker.Services
 
                 gameStatistics.Game = game;
                 gameStatistics.HoleCount = gameShots.Select(s => s.Hole.Id).Distinct().Count();
+                gameStatistics.OvertimeCount = (gameShots.Max(s => s.Hole.Id) > 10) ? 1 : 0;
                 gameStatistics.PlayerCount = gameShots.Select(s => s.Player.Id).Distinct().Count();
                 gameStatistics.Points = gameShots.Sum(s => s.Points);
                 gameStatistics.ShotsMade = gameShots.Count(s => s.ShotMade);
                 gameStatistics.Attempts = gameShots.Sum(s => s.Attempts);
                 gameStatistics.ShotsMissed = gameStatistics.Attempts - gameStatistics.ShotsMade;
+                gameStatistics.ShootingPercentage = Decimal.Round((decimal)gameStatistics.ShotsMade / (decimal)gameStatistics.Attempts, 3, MidpointRounding.AwayFromZero);
                 gameStatistics.Pushes = gameShots.Count(s => s.ShotType.Id == ShotTypePush);
                 gameStatistics.Steals = gameShots.Count(s => s.ShotType.Id == ShotTypeSteal);
                 gameStatistics.SugarFreeSteals = gameShots.Count(s => s.ShotType.Id == ShotTypeSugarFreeSteal);
@@ -163,13 +172,13 @@ namespace BolfTracker.Services
                 playerGameStatistics.Points = player.Shots.Where(s => s.Game.Id == gameId).Sum(s => s.Points);
                 playerGameStatistics.ShotsMade = player.Shots.Count(s => s.Game.Id == gameId && s.ShotMade);
                 playerGameStatistics.Attempts = player.Shots.Where(s => s.Game.Id == gameId).Sum(s => s.Attempts);
+                playerGameStatistics.ShootingPercentage = Decimal.Round((decimal)playerGameStatistics.ShotsMade / (decimal)playerGameStatistics.Attempts, 3, MidpointRounding.AwayFromZero);
                 playerGameStatistics.Pushes = player.Shots.Count(s => s.Game.Id == gameId && s.ShotType.Id == ShotTypePush);
                 playerGameStatistics.Steals = player.Shots.Count(s => s.Game.Id == gameId && s.ShotType.Id == ShotTypeSteal);
                 playerGameStatistics.SugarFreeSteals = player.Shots.Count(s => s.Game.Id == gameId && s.ShotType.Id == ShotTypeSugarFreeSteal);
                 playerGameStatistics.Winner = (playerGameStatistics.Points == maxPoints);
 
                 _playerGameStatisticsRepository.Add(playerGameStatistics);
-
             }
 
             var gameShots = game.Shots.ToList();
@@ -179,15 +188,21 @@ namespace BolfTracker.Services
 
             gameStatistics.Game = game;
             gameStatistics.HoleCount = gameShots.Select(s => s.Hole.Id).Distinct().Count();
+
+            // if HoleCount mod NumberOfHoles = 0 --> OvertimeCount = HoleCount / NumberOfHoles
+            // else OvertimeCount = (HoleCount - (HoleCount mod NumberOfHoles)) / NumberOfHoles
+
+            gameStatistics.OvertimeCount = (gameShots.Max(s => s.Hole.Id) > 10) ? 1 : 0;
             gameStatistics.PlayerCount = gameShots.Select(s => s.Player.Id).Distinct().Count();
             gameStatistics.Points = gameShots.Sum(s => s.Points);
             gameStatistics.ShotsMade = gameShots.Count(s => s.ShotMade);
             gameStatistics.Attempts = gameShots.Sum(s => s.Attempts);
             gameStatistics.ShotsMissed = gameStatistics.Attempts - gameStatistics.ShotsMade;
+            gameStatistics.ShootingPercentage = Decimal.Round((decimal)gameStatistics.ShotsMade / (decimal)gameStatistics.Attempts, 3, MidpointRounding.AwayFromZero);
             gameStatistics.Pushes = gameShots.Count(s => s.ShotType.Id == ShotTypePush);
             gameStatistics.Steals = gameShots.Count(s => s.ShotType.Id == ShotTypeSteal);
             gameStatistics.SugarFreeSteals = gameShots.Count(s => s.ShotType.Id == ShotTypeSugarFreeSteal);
-            gameStatistics.StainlessSteals = gameShots.Count(s => (s.ShotType.Id == ShotTypeSteal || s.ShotType.Id == ShotTypeSteal) && s.ShotMade && s.Attempts == 1);
+            gameStatistics.StainlessSteals = gameShots.Count(s => (s.ShotType.Id == ShotTypeSteal || s.ShotType.Id == ShotTypeSugarFreeSteal) && s.ShotMade && s.Attempts == 1);
 
             _gameStatisticsRepository.Add(gameStatistics);
 

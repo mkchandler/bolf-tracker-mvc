@@ -53,7 +53,7 @@ namespace BolfTracker.Services
                 {
                     holeStatistics.ShotsMade = holeShots.Count(s => s.ShotMade);
                     holeStatistics.Attempts = holeShots.Sum(s => s.Attempts);
-                    holeStatistics.ShootingPercentage = Decimal.Round(Convert.ToDecimal(holeStatistics.ShotsMade) / Convert.ToDecimal(holeStatistics.Attempts), 3, MidpointRounding.AwayFromZero);
+                    holeStatistics.ShootingPercentage = Decimal.Round((decimal)holeStatistics.ShotsMade / (decimal)holeStatistics.Attempts, 3, MidpointRounding.AwayFromZero);
                     holeStatistics.PointsScored = holeShots.Sum(s => s.Points);
                     holeStatistics.Pushes = holeShots.Count(s => s.ShotType.Id == 3);
                     holeStatistics.Steals = holeShots.Count(s => s.ShotType.Id == 4);

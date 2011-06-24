@@ -48,6 +48,7 @@
     <Compile Include="Configuration\GameStatisticsConfiguration.cs" />
     <Compile Include="Configuration\HoleConfiguration.cs" />
     <Compile Include="Configuration\HoleStatisticsConfiguration.cs" />
+    <Compile Include="Configuration\PlayerCareerStatisticsConfiguration.cs" />
     <Compile Include="Configuration\PlayerConfiguration.cs" />
     <Compile Include="Configuration\PlayerGameStatisticsConfiguration.cs" />
     <Compile Include="Configuration\PlayerHoleStatisticsConfiguration.cs" />
@@ -62,6 +63,7 @@
     <Compile Include="HoleRepository.cs" />
     <Compile Include="HoleStatisticsRepository.cs" />
     <Compile Include="IDatabaseFactory.cs" />
+    <Compile Include="PlayerCareerStatisticsRepository.cs" />
     <Compile Include="PlayerGameStatisticsRepository.cs" />
     <Compile Include="PlayerHoleStatisticsRepository.cs" />
     <Compile Include="PlayerRepository.cs" />
