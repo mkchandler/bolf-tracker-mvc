@@ -20,6 +20,12 @@
             set;
         }
 
+        public virtual int ShotsMissed
+        {
+            get;
+            set;
+        }
+
         public virtual int Attempts
         {
             get;
@@ -119,6 +125,30 @@
         }
 
         public virtual int GameWinningSteals
+        {
+            get;
+            set;
+        }
+
+        public virtual int OvertimeWins
+        {
+            get;
+            set;
+        }
+
+        public virtual int RegulationWins
+        {
+            get;
+            set;
+        }
+
+        public virtual int Shutouts
+        {
+            get;
+            set;
+        }
+
+        public virtual int PerfectGames
         {
             get;
             set;

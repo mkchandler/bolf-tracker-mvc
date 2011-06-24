@@ -106,7 +106,7 @@ namespace BolfTracker.Services
                     playerGameStatistics.StainlessSteals = player.Shots.Count(s => s.Game.Id == game.Id && ((s.ShotType.Id == ShotTypeSteal || s.ShotType.Id == ShotTypeSteal) && s.Attempts == 1));
                     playerGameStatistics.GameWinningSteal = player.Shots.Any(s => s.Game.Id == game.Id && ((s.ShotType.Id == ShotTypeSteal || s.ShotType.Id == ShotTypeSteal) && s.Hole.Id == (game.Shots.Max(shot => shot.Hole.Id))));
                     playerGameStatistics.Winner = (playerGameStatistics.Points == maxPoints);
-                    playerGameStatistics.OvertimeWin = player.Shots.Max(s => s.Hole.Id) > 10 && playerGameStatistics.Winner;
+                    playerGameStatistics.OvertimeWin = player.Shots.Max(s => (s.Game.Id == game.Id && s.Hole.Id > 10) && playerGameStatistics.Winner);
 
                     int totalGamePoints = game.Shots.Sum(s => s.Points);
 
@@ -177,6 +177,12 @@ namespace BolfTracker.Services
                 playerGameStatistics.Steals = player.Shots.Count(s => s.Game.Id == gameId && s.ShotType.Id == ShotTypeSteal);
                 playerGameStatistics.SugarFreeSteals = player.Shots.Count(s => s.Game.Id == gameId && s.ShotType.Id == ShotTypeSugarFreeSteal);
                 playerGameStatistics.Winner = (playerGameStatistics.Points == maxPoints);
+                playerGameStatistics.OvertimeWin = player.Shots.Max(s => (s.Game.Id == game.Id && s.Hole.Id > 10) && playerGameStatistics.Winner);
+
+                int totalGamePoints = game.Shots.Sum(s => s.Points);
+
+                playerGameStatistics.Shutout = playerGameStatistics.Points == totalGamePoints;
+                playerGameStatistics.PerfectGame = playerGameStatistics.Shutout && (playerGameStatistics.ShotsMade == playerGameStatistics.Attempts);
 
                 _playerGameStatisticsRepository.Add(playerGameStatistics);
             }

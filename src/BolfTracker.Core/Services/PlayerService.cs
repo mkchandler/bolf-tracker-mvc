@@ -242,6 +242,7 @@ namespace BolfTracker.Services
             playerCareerStatistics.WinningPercentage = Decimal.Round((decimal)playerCareerStatistics.Wins / (decimal)playerCareerStatistics.TotalGames, 3, MidpointRounding.AwayFromZero);
             playerCareerStatistics.ShotsMade = playerGameStatistics.Sum(pgs => pgs.ShotsMade);
             playerCareerStatistics.Attempts = playerGameStatistics.Sum(pgs => pgs.Attempts);
+            playerCareerStatistics.ShotsMissed = playerCareerStatistics.Attempts - playerCareerStatistics.ShotsMade;
             playerCareerStatistics.ShootingPercentage = Decimal.Round((decimal)playerCareerStatistics.ShotsMade / (decimal)playerCareerStatistics.Attempts, 3, MidpointRounding.AwayFromZero);
             playerCareerStatistics.Points = playerGameStatistics.Sum(pgs => pgs.Points);
             playerCareerStatistics.PointsPerGame = Decimal.Round((decimal)playerCareerStatistics.Points / (decimal)playerCareerStatistics.TotalGames, 3, MidpointRounding.AwayFromZero);
@@ -254,6 +255,10 @@ namespace BolfTracker.Services
             playerCareerStatistics.StainlessSteals = playerGameStatistics.Sum(pgs => pgs.StainlessSteals);
             playerCareerStatistics.StainlessStealsPerGame = Decimal.Round((decimal)playerCareerStatistics.StainlessSteals / (decimal)playerCareerStatistics.TotalGames, 3, MidpointRounding.AwayFromZero);
             playerCareerStatistics.GameWinningSteals = playerGameStatistics.Count(pgs => pgs.GameWinningSteal);
+            playerCareerStatistics.OvertimeWins = playerGameStatistics.Count(pgs => pgs.OvertimeWin);
+            playerCareerStatistics.RegulationWins = playerGameStatistics.Count(pgs => !pgs.OvertimeWin && pgs.Winner);
+            playerCareerStatistics.Shutouts = playerGameStatistics.Count(pgs => pgs.Shutout);
+            playerCareerStatistics.PerfectGames = playerGameStatistics.Count(pgs => pgs.PerfectGame);
 
             return playerCareerStatistics;
         }
