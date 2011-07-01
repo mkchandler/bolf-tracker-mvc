@@ -91,10 +91,10 @@
         <span>@Model.PointsAvailable</span>
     </p>
 </fieldset>
-<fieldset>
+@*<fieldset>
     <legend>Scoreboard</legend>
    @Html.Partial("_Scoreboard", new BolfTracker.Web.ViewModels.HoleViewModel(Model.Game))
-</fieldset>
+</fieldset>*@
 <fieldset>
     <legend>Hole History</legend>
     @if (Model.Game.Shots.Any())

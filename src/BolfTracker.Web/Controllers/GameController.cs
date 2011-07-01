@@ -39,11 +39,10 @@ namespace BolfTracker.Web.Controllers
         public ActionResult Details(int id)
         {
             var game = _gameService.GetGame(id);
-            var scoreTypes = _scoreTypeService.GetScoreTypes();
             var allPlayers = _playerService.GetPlayers();
             var allHoles = _holeService.GetHoles();
 
-            var gamePanel = new GamePanelViewModel(game, scoreTypes, allPlayers, allHoles);
+            var gamePanel = new GamePanelViewModel(game, allPlayers, allHoles);
 
             return View(gamePanel);
         }

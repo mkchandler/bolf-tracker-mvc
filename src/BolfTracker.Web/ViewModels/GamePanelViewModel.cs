@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Objects;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -10,13 +11,16 @@ namespace BolfTracker.Web
     // WARNING: This class is a mess right now and needs to be cleaned up.  Beware all ye who enter.  I warned you.
     public class GamePanelViewModel
     {
-        public GamePanelViewModel(Game game, IEnumerable<ShotType> scoreTypes, IEnumerable<Player> allPlayers, IEnumerable<Hole> allHoles)
+        private int? _currentHole;
+        private int? _pointsAvailable;
+        private bool? _gameFinalized;
+
+        public GamePanelViewModel(Game game, IEnumerable<Player> allPlayers, IEnumerable<Hole> allHoles)
         {
             Game = game;
 
-            _allPlayers = allPlayers;
-            _allHoles = allHoles;
-            _scoreTypes = scoreTypes;
+            _allPlayers = allPlayers.ToList();
+            _allHoles = allHoles.ToList();
         }
 
         public Game Game
@@ -29,15 +33,26 @@ namespace BolfTracker.Web
         {
             get
             {
-                return Game.GameStatistics.Any();
+                if (_gameFinalized.HasValue)
+                {
+                    return _gameFinalized.Value;
+                }
+                else
+                {
+                    _gameFinalized = Game.GameStatistics.Any();
+
+                    return _gameFinalized.Value;
+                }
             }
         }
+
+        private IEnumerable<Player> _activePlayers = null;
 
         public IEnumerable<Player> ActivePlayers
         {
             get
             {
-                return Game.Shots.Select(s => s.Player).Distinct();
+                return _activePlayers ?? (_activePlayers = Game.Shots.Select(s => s.Player).Distinct());
             }
         }
 
@@ -65,7 +80,7 @@ namespace BolfTracker.Web
                         {
                             // If all of the players can win, we will go in normal order
                             var lastPlayerToShoot = Game.Shots.Where(s => s.Game.Id == Game.Id).OrderByDescending(s => s.Id).Select(s => s.Player).First();
-                            
+
                             var playerList = playersDescending.Reverse().ToList();
 
                             int index = playerList.IndexOf(lastPlayerToShoot);
@@ -137,126 +152,147 @@ namespace BolfTracker.Web
             return playerResult;
         }
 
+        private IEnumerable<Player> _currentActivePlayers = null;
+
         private IEnumerable<Player> GetCurrentActivePlayers(IEnumerable<Player> gamePlayers, bool includeOvertime)
         {
-            var currentActivePlayers = new List<Player>();
-
-            Func<Shot, bool> query;
-
-            if (includeOvertime)
+            if (_currentActivePlayers == null)
             {
-                query = s => s.Game.Id == Game.Id;
-            }
-            else
-            {
-                query = s => s.Game.Id == Game.Id && s.Hole.Id < 10;
-            }
+                var currentActivePlayers = new List<Player>();
 
-            // TODO: The part where we check for holes less than 10 will need to change when we implement the new hole logic
-            foreach (var shot in Game.Shots.Where(query).OrderByDescending(s => s.Id))
-            {
-                if (!currentActivePlayers.Any(p => p.Id == shot.Player.Id))
+                Func<Shot, bool> query;
+
+                if (includeOvertime)
                 {
-                    currentActivePlayers.Add(shot.Player);
+                    query = s => s.Game.Id == Game.Id;
                 }
                 else
                 {
-                    break;
+                    query = s => s.Game.Id == Game.Id && s.Hole.Id < 10;
                 }
+
+                // TODO: The part where we check for holes less than 10 will need to change when we implement the new hole logic
+                foreach (var shot in Game.Shots.Where(query).OrderByDescending(s => s.Id))
+                {
+                    if (!currentActivePlayers.Any(p => p.Id == shot.Player.Id))
+                    {
+                        currentActivePlayers.Add(shot.Player);
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+
+                _currentActivePlayers = currentActivePlayers;
             }
 
-            return currentActivePlayers;
+            return _currentActivePlayers;
         }
+
+        private IEnumerable<LeaderboardViewModel> _playersWhoCanWin = null;
 
         private IEnumerable<LeaderboardViewModel> GetPlayersWhoCanWin(int currentHole)
         {
-            int currentPointsAvailable = GetPointsAvailable(currentHole);
-            var leaderboard = Leaderboard.OrderByDescending(l => l.Points);
-
-            var leader = leaderboard.First();
-
-            // This is the leader's points not counting any temporary points scored on the current hole
-            var leaderPoints = Game.Shots.Where(s => s.Game.Id == Game.Id && s.Player.Id == leader.Player.Id && s.Hole.Id < currentHole).Sum(s => s.Points);
-
-            var playersWhoCanWin = new List<LeaderboardViewModel>();
-
-            foreach (var player in leaderboard)
+            if (_playersWhoCanWin == null)
             {
-                // If the player has already gone on this hole and made the shot then we need to 
-                // subtract those points for the next calculation
-                var playerCurrentHoleShot = player.Player.Shots.Where(s => s.Game.Id == Game.Id && s.Player.Id == player.Player.Id && s.Hole.Id == currentHole && s.Points > 0);
+                int currentPointsAvailable = GetPointsAvailable(currentHole);
+                var leaderboard = Leaderboard.OrderByDescending(l => l.Points);
 
-                int playerCurrentHolePoints = playerCurrentHoleShot.Any() ? playerCurrentHoleShot.First().Points : 0;
+                var leader = leaderboard.First();
 
-                // If the player can at least tie the leader, then he gets to take all shots
-                if (((player.Points - playerCurrentHolePoints) + currentPointsAvailable) >= leaderPoints)
+                // This is the leader's points not counting any temporary points scored on the current hole
+                var leaderPoints = Game.Shots.Where(s => s.Game.Id == Game.Id && s.Player.Id == leader.Player.Id && s.Hole.Id < currentHole).Sum(s => s.Points);
+
+                var playersWhoCanWin = new List<LeaderboardViewModel>();
+
+                foreach (var player in leaderboard)
                 {
-                    playersWhoCanWin.Add(player);
+                    // If the player has already gone on this hole and made the shot then we need to 
+                    // subtract those points for the next calculation
+                    var playerCurrentHoleShot = player.Player.Shots.Where(s => s.Game.Id == Game.Id && s.Player.Id == player.Player.Id && s.Hole.Id == currentHole && s.Points > 0);
+
+                    int playerCurrentHolePoints = playerCurrentHoleShot.Any() ? playerCurrentHoleShot.First().Points : 0;
+
+                    // If the player can at least tie the leader, then he gets to take all shots
+                    if (((player.Points - playerCurrentHolePoints) + currentPointsAvailable) >= leaderPoints)
+                    {
+                        playersWhoCanWin.Add(player);
+                    }
                 }
+
+                _playersWhoCanWin = playersWhoCanWin;
             }
 
-            return playersWhoCanWin;
+            return _playersWhoCanWin;
         }
 
         public int GetCurrentHole()
         {
-            int currentHole = 1;
-
-            if (Game.Shots.Any())
+            if (_currentHole.HasValue)
             {
-                currentHole = Game.Shots.Max(s => s.Hole.Id);
+                return _currentHole.Value;
+            }
+            else
+            {
+                _currentHole = 1;
 
-                var holeShots = Game.Shots.Where(s => s.Hole.Id == currentHole);
-
-                if (currentHole == 1)
+                if (Game.Shots.Any())
                 {
-                    // If we are on the first hole, there's no way of knowing when to go to the next hole
-                    // because we don't know how many players are going (unless it's been pushed on 1)
-                    if (holeShots.Count(s => s.Attempts == 1 && s.ShotMade == true) > 1)
-                    {
-                        currentHole += 1;
-                        return currentHole;
-                    }
-                    else
-                    {
-                        return currentHole;
-                    }
-                }
-                else
-                {
-                    // If the hole was pushed on 1, go to the next hole
-                    if (holeShots.Count(s => s.Attempts == 1 && s.ShotMade == true) > 1)
-                    {
-                        currentHole += 1;
-                        return currentHole;
-                    }
+                    _currentHole = Game.Shots.Max(s => s.Hole.Id);
+                    var holeShots = Game.Shots.Where(s => s.Hole.Id == _currentHole.Value).ToList();
 
-                    var totalPlayers = GetCurrentActivePlayers(ActivePlayers, includeOvertime: false).Count();
-
-                    // If everyone has gone, go to the next hole
-                    if (holeShots.Count() == totalPlayers)
+                    if (_currentHole.Value == 1)
                     {
-                        currentHole += 1;
-                    }
-
-                    // TODO: This needs to change to a MAX function for hole number when the new hole/overtime logic is added
-                    if (currentHole >= 10)
-                    {
-                        var playersWhoCanWin = GetPlayersWhoCanWin(currentHole).Where(l => l.Player.Shots.Count(s => s.Game.Id == Game.Id && s.Hole.Id == currentHole && !s.ShotMade) == 0);
-
-                        if (playersWhoCanWin.Count() == 0)
+                        // If we are on the first hole, there's no way of knowing when to go to the next hole
+                        // because we don't know how many players are going (unless it's been pushed on 1)
+                        if (holeShots.Count(s => s.Attempts == 1 && s.ShotMade == true) > 1)
                         {
-                            return currentHole += 1;
+                            _currentHole += 1;
+                            return _currentHole.Value;
                         }
                         else
                         {
-                            return currentHole;
+                            return _currentHole.Value;
+                        }
+                    }
+                    else
+                    {
+                        // If the hole was pushed on 1, go to the next hole
+                        if (holeShots.Count(s => s.Attempts == 1 && s.ShotMade == true) > 1)
+                        {
+                            _currentHole += 1;
+                            return _currentHole.Value;
+                        }
+
+                        var totalPlayers = GetCurrentActivePlayers(ActivePlayers, includeOvertime: false).Count();
+
+                        // If everyone has gone, go to the next hole
+                        if (holeShots.Count() == totalPlayers)
+                        {
+                            _currentHole++;
+                        }
+
+                        // TODO: This needs to change to a MAX function for hole number when the new hole/overtime logic is added
+                        if (_currentHole.Value >= 10)
+                        {
+                            var playersWhoCanWin = GetPlayersWhoCanWin(_currentHole.Value).Where(l => l.Player.Shots.Count(s => s.Game.Id == Game.Id && s.Hole.Id == _currentHole.Value && !s.ShotMade) == 0);
+
+                            if (playersWhoCanWin.Count() == 0)
+                            {
+                                _currentHole++;
+                                return _currentHole.Value;
+                            }
+                            else
+                            {
+                                return _currentHole.Value;
+                            }
                         }
                     }
                 }
-            }
 
-            return currentHole;
+                return _currentHole.Value;
+            }
         }
 
         public int PointsAvailable
@@ -266,25 +302,55 @@ namespace BolfTracker.Web
 
         public int GetPointsAvailable(int currentHole)
         {
-            if (currentHole == 1)
+            if (_pointsAvailable.HasValue)
             {
-                return _allHoles.Single(h => h.Id == 1).Par;
+                return _pointsAvailable.Value;
             }
             else
             {
-                int totalPoints = _allHoles.Where(h => h.Id <= currentHole).Sum(h => h.Par);
-                int totalPointsTaken = Game.Shots.Where(s => s.Hole.Id < currentHole).Sum(s => s.Points);
-                int pointsAvailable = totalPoints - totalPointsTaken;
+                if (currentHole == 1)
+                {
+                    _pointsAvailable = _allHoles.Single(h => h.Id == 1).Par;
 
-                return pointsAvailable;
+                    return _pointsAvailable.Value;
+                }
+                else
+                {
+                    int totalPoints = _allHoles.Where(h => h.Id <= currentHole).Sum(h => h.Par);
+                    int totalPointsTaken = Game.Shots.Where(s => s.Hole.Id < currentHole).Sum(s => s.Points);
+
+                    _pointsAvailable = totalPoints - totalPointsTaken;
+
+                    return _pointsAvailable.Value;
+                }
             }
         }
+
+        private IEnumerable<LeaderboardViewModel> _leaderboard = null;
 
         public IEnumerable<LeaderboardViewModel> Leaderboard
         {
             get
             {
-                return ActivePlayers.Select(p => new LeaderboardViewModel(p, Game.Id)).OrderByDescending(l => l.Points);
+                if (_leaderboard == null)
+                {
+                    var leaderboard = new List<LeaderboardViewModel>();
+
+                    foreach (var player in ActivePlayers)
+                    {
+                        var playerShots = Game.Shots.Where(s => s.Player.Id == player.Id).ToList();
+
+                        leaderboard.Add(new LeaderboardViewModel(player, playerShots, Game));
+                    }
+
+                    _leaderboard = leaderboard.OrderByDescending(l => l.Points);
+
+                    return _leaderboard;
+                }
+                else
+                {
+                    return _leaderboard;
+                }
             }
         }
 
@@ -321,30 +387,19 @@ namespace BolfTracker.Web
                 return _allHoles.Select(hole => new SelectListItem() { Text = hole.Id.ToString(), Value = hole.Id.ToString(), Selected = (hole.Id == currentHole) }).ToList();
             }
         }
-
-        private IEnumerable<ShotType> _scoreTypes;
-        public string ScoreType;
-
-        public IEnumerable<SelectListItem> ScoreTypes
-        {
-            get
-            {
-                return _scoreTypes.Select(scoreType => new SelectListItem() { Text = scoreType.Name, Value = scoreType.Id.ToString() }).ToList();
-            }
-        }
     }
 
     public class LeaderboardViewModel
     {
-        public LeaderboardViewModel(Player player, int gameId)
+        public LeaderboardViewModel(Player player, IEnumerable<Shot> playerShots, Game game)
         {
             Player = player;
-            Points = player.Shots.Where(s => s.Game.Id == gameId).Sum(s => s.Points);
-            ShotsMade = player.Shots.Count(s => s.Game.Id == gameId && s.ShotMade);
-            Attempts = player.Shots.Where(s => s.Game.Id == gameId).Sum(s => s.Attempts);
+            Points = playerShots.Sum(s => s.Points);
+            ShotsMade = playerShots.Count(s => s.ShotMade);
+            Attempts = playerShots.Sum(s => s.Attempts);
             ShootingPercentage = Decimal.Round(Convert.ToDecimal(ShotsMade) / Convert.ToDecimal(Attempts), 2, MidpointRounding.AwayFromZero);
-            Steals = player.Shots.Count(s => s.Game.Id == gameId && (s.ShotType.Id == 4 || s.ShotType.Id == 5));
-            Pushes = player.Shots.Count(s => s.Game.Id == gameId && s.ShotType.Id == 3);
+            Steals = game.Shots.Count(s => s.Player.Id == player.Id && (s.ShotType.Id == 4 || s.ShotType.Id == 5));
+            Pushes = game.Shots.Count(s => s.Player.Id == player.Id && s.ShotType.Id == 3);
         }
 
         public Player Player
