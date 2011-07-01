@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 
 using BolfTracker.Services;
@@ -21,9 +22,17 @@ namespace BolfTracker.Web.Controllers
 
         public ActionResult Index()
         {
-            var rankings = _rankingService.GetRankings(DateTime.Today.Month, DateTime.Today.Year);
+            return RedirectToAction("Monthly", new { year = DateTime.Today.Year, month = DateTime.Today.Month });
+        }
 
-            return View("Rankings", new RankingsViewModel(rankings));
+        public ActionResult Monthly(int? year, int? month)
+        {
+            int rankingsYear = year.HasValue ? year.Value : DateTime.Today.Year;
+            int rankingsMonth = month.HasValue ? month.Value : DateTime.Today.Month;
+
+            var rankings = _rankingService.GetRankings(rankingsMonth, rankingsYear).ToList();
+
+            return View("Rankings", new RankingsViewModel(rankingsMonth, rankingsYear, rankings));
         }
 
         [HttpPost]
@@ -40,7 +49,7 @@ namespace BolfTracker.Web.Controllers
 
             _holeService.CalculateHoleStatistics(month, year);
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Monthly", new { year = year, month = month });
         }
     }
 }

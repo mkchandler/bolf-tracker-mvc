@@ -1,52 +1,97 @@
 ﻿@model BolfTracker.Web.RankingsViewModel
 @{
-    ViewBag.Title = "Bolf Tracker - Player Rankings";
+    ViewBag.Title = String.Format("{0} {1} Player Rankings - Bolf Tracker", Model.MonthName, Model.Year);
 }
-<h2>Player Rankings</h2>
+<h2>@String.Format("{0} {1} Player Rankings", Model.MonthName, Model.Year)</h2>
+<h3>
+    Player Rankings</h3>
 <table id="rankings" class="stats">
     <tr>
-        <th style="width: 120px; text-align:left" title="Player">Player</th>
-        <th style="width: 35px; text-align: right" title="Wins">W</th>
-        <th style="width: 35px; text-align: right" title="Losses">L</th>
-        <th style="width: 55px; text-align: right" title="Winning Percentage">PCT</th>
-        <th style="width: 40px; text-align: right" title="Games Back">GB</th>
-        <th style="width: 40px; text-align: right" title="Total Points">P</th>
-        <th style="width: 40px; text-align: right" title="Points Per Game">PPG</th>
-        <th style="width: 40px; text-align: right" title="Last 10 Record">L10</th>
+        <th style="width: 120px; text-align: left" title="Player">
+            Player
+        </th>
+        <th style="width: 35px; text-align: right" title="Wins">
+            W
+        </th>
+        <th style="width: 35px; text-align: right" title="Losses">
+            L
+        </th>
+        <th style="width: 55px; text-align: right" title="Winning Percentage">
+            PCT
+        </th>
+        <th style="width: 40px; text-align: right" title="Games Back">
+            GB
+        </th>
+        <th style="width: 40px; text-align: right" title="Total Points">
+            P
+        </th>
+        <th style="width: 40px; text-align: right" title="Points Per Game">
+            PPG
+        </th>
+        <th style="width: 40px; text-align: right" title="Last 10 Record">
+            L10
+        </th>
     </tr>
     @foreach (var ranking in Model.Rankings)
     { 
         <tr>
-            <td>@Html.ActionLink(ranking.Player.Name, "Details", "Player", new { id = ranking.Player.Id }, null)</td>
-            <td style="text-align: right">@ranking.Wins</td>
-            <td style="text-align: right">@ranking.Losses</td>
-            <td style="text-align: right">@ranking.WinningPercentage</td>
-            <td style="text-align: right">@ranking.GamesBack</td>
-            <td style="text-align: right">@ranking.TotalPoints</td>
-            <td style="text-align: right">@ranking.PointsPerGame</td>
-            <td style="text-align: right">@ranking.LastTenWins-@ranking.LastTenLosses</td>
+            <td>@Html.ActionLink(ranking.Player.Name, "Details", "Player", new { id = ranking.Player.Id }, null)
+            </td>
+            <td style="text-align: right">@ranking.Wins
+            </td>
+            <td style="text-align: right">@ranking.Losses
+            </td>
+            <td style="text-align: right">@ranking.WinningPercentage
+            </td>
+            <td style="text-align: right">@ranking.GamesBack
+            </td>
+            <td style="text-align: right">@ranking.TotalPoints
+            </td>
+            <td style="text-align: right">@ranking.PointsPerGame
+            </td>
+            <td style="text-align: right">@ranking.LastTenWins-@ranking.LastTenLosses
+            </td>
         </tr>
     }
 </table>
-<h2>Ineligible Player Rankings</h2>
+<h3>
+    Ineligible Player Rankings</h3>
 <table id="ineligible-rankings" class="stats">
     <tr>
-        <th style="width: 120px; text-align:left" title="Player">Player</th>
-        <th style="width: 35px; text-align: right" title="Wins">W</th>
-        <th style="width: 35px; text-align: right" title="Losses">L</th>
-        <th style="width: 55px; text-align: right" title="Winning Percentage">PCT</th>
-        <th style="width: 40px; text-align: right" title="Total Points">P</th>
-        <th style="width: 40px; text-align: right" title="Points Per Game">PPG</th>
+        <th style="width: 120px; text-align: left" title="Player">
+            Player
+        </th>
+        <th style="width: 35px; text-align: right" title="Wins">
+            W
+        </th>
+        <th style="width: 35px; text-align: right" title="Losses">
+            L
+        </th>
+        <th style="width: 55px; text-align: right" title="Winning Percentage">
+            PCT
+        </th>
+        <th style="width: 40px; text-align: right" title="Total Points">
+            P
+        </th>
+        <th style="width: 40px; text-align: right" title="Points Per Game">
+            PPG
+        </th>
     </tr>
     @foreach (var ranking in Model.IneligibleRankings)
     { 
         <tr>
-            <td>@Html.ActionLink(ranking.Player.Name, "Details", "Player", new { id = ranking.Player.Id }, null)</td>
-            <td style="text-align: right">@ranking.Wins</td>
-            <td style="text-align: right">@ranking.Losses</td>
-            <td style="text-align: right">@ranking.WinningPercentage</td>
-            <td style="text-align: right">@ranking.TotalPoints</td>
-            <td style="text-align: right">@ranking.PointsPerGame</td>
+            <td>@Html.ActionLink(ranking.Player.Name, "Details", "Player", new { id = ranking.Player.Id }, null)
+            </td>
+            <td style="text-align: right">@ranking.Wins
+            </td>
+            <td style="text-align: right">@ranking.Losses
+            </td>
+            <td style="text-align: right">@ranking.WinningPercentage
+            </td>
+            <td style="text-align: right">@ranking.TotalPoints
+            </td>
+            <td style="text-align: right">@ranking.PointsPerGame
+            </td>
         </tr>
     }
 </table>
