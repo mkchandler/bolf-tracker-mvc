@@ -10,9 +10,25 @@
 </fieldset>
 <fieldset>
     <legend>Current Month Statistics</legend>
-    @Html.Partial("_PlayerStatistics", Model.CurrentMonthPlayerStatistics)
+    @if (Model.CurrentMonthPlayerStatistics != null)
+    {
+        @Html.Partial("_PlayerStatistics", Model.CurrentMonthPlayerStatistics)
+    }
+    else
+    { 
+        <p>
+            Monthly player stats not yet available.</p>
+    }
 </fieldset>
 <fieldset>
     <legend>Current Month Hole Statistics</legend>
-    @Html.Partial("_PlayerHoleStatistics", Model.CurrentMonthPlayerHoleStatistics)
+    @if (Model.CurrentMonthPlayerHoleStatistics != null && Model.CurrentMonthPlayerHoleStatistics.Any())
+    {
+        @Html.Partial("_PlayerHoleStatistics", Model.CurrentMonthPlayerHoleStatistics)
+    }
+    else
+    { 
+        <p>
+            Monthly player hole stats not yet available.</p>
+    }
 </fieldset>
