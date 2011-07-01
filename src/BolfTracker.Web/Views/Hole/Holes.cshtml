@@ -1,6 +1,6 @@
 ﻿@model BolfTracker.Web.HolesViewModel
 @{
-    ViewBag.Title = "Holes";
+    ViewBag.Title = "Holes - Bolf Tracker";
 }
 <h2>
     Holes</h2>
@@ -35,5 +35,6 @@
         </tr>
     }
 </table>
-<h2>Monthly Hole Statistics</h2>
+<h2>
+    Monthly Hole Statistics</h2>
 @Html.Partial("_HoleStatistics", Model.CurrentMonthHoleStatistics)

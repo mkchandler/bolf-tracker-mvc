@@ -1,0 +1,91 @@
+﻿@model BolfTracker.Models.PlayerCareerStatistics
+<table>
+    <tr>
+        <th>
+            MADE
+        </th>
+        <th>
+            SHOTS
+        </th>
+        <th>
+            SHOOTING %
+        </th>
+        <th>
+            PF
+        </th>
+        <th>
+            PPG
+        </th>
+        <th>
+            W
+        </th>
+        <th>
+            L
+        </th>
+        <th>
+            WIN %
+        </th>
+        <th>
+            PUSHES
+        </th>
+        <th>
+            PUSHES/PG
+        </th>
+        <th>
+            S
+        </th>
+        <th>
+            SPG
+        </th>
+        <th>
+            SFS
+        </th>
+        <th>
+            SFS/PG
+        </th>
+    </tr>
+    <tr>
+        <td>
+            @Model.ShotsMade
+        </td>
+        <td>
+            @Model.Attempts
+        </td>
+        <td>
+            @String.Format("{0:#.###}", Model.ShootingPercentage)
+        </td>
+        <td>
+            @Model.Points
+        </td>
+        <td>
+            @String.Format("{0:#.#}", Model.PointsPerGame)
+        </td>
+        <td>
+            @Model.Wins
+        </td>
+        <td>
+            @Model.Losses
+        </td>
+        <td>
+            @String.Format("{0:#.###}", Model.WinningPercentage)
+        </td>
+        <td>
+            @Model.Pushes
+        </td>
+        <td>
+            @String.Format("{0:#.#}", Model.PushesPerGame)
+        </td>
+        <td>
+            @Model.Steals
+        </td>
+        <td>
+            @String.Format("{0:#.#}", Model.StealsPerGame)
+        </td>
+        <td>
+            @Model.SugarFreeSteals
+        </td>
+        <td>
+            @String.Format("{0:#.#}", Model.SugarFreeStealsPerGame)
+        </td>
+    </tr>
+</table>

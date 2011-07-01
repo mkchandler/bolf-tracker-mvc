@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "Login";
+    ViewBag.Title = "Login - Bolf Tracker";
 }
 <h2>
     Login</h2>
@@ -7,8 +7,16 @@
 { 
     <div>
         <label>
-            Enter Private Beta Code:</label><input type="password" name="password" />
+            Enter Private Beta Code:</label><input type="password" id="private-beta-code" name="password" />
     </div>
     
     <input type="submit" value="Play Bolf!" />
-} 
+}
+@section javascript
+{
+    <script type="text/javascript">
+        $(function () {
+            $("#private-beta-code").focus();
+        });
+    </script>
+}

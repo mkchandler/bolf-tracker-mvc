@@ -1,6 +1,6 @@
 ﻿@model BolfTracker.Web.PlayerViewModel
 @{
-    ViewBag.Title = "Player Details";
+    ViewBag.Title = "Player Details - Bolf Tracker";
 }
 <h2>
     Player Details</h2>
@@ -9,10 +9,10 @@
     <div class="display-field">@Model.Player.Name</div>
 </fieldset>
 <fieldset>
-    <legend>Statistics</legend>
+    <legend>Current Month Statistics</legend>
     @Html.Partial("_PlayerStatistics", Model.CurrentMonthPlayerStatistics)
 </fieldset>
 <fieldset>
-    <legend>Hole Statistics</legend>
+    <legend>Current Month Hole Statistics</legend>
     @Html.Partial("_PlayerHoleStatistics", Model.CurrentMonthPlayerHoleStatistics)
 </fieldset>

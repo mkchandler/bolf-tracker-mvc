@@ -1,15 +1,32 @@
 ﻿@{
     Layout = null;
 }
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Error</title>
+    <meta charset="utf-8" />
+    <title>Error - Bolf Tracker</title>
+    <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
 </head>
 <body>
-    <h2>
-        Sorry, an error occurred while processing your request.
-    </h2>
+    <header>
+        <h1>
+            Bolf Tracker</h1>
+        @Html.ActionLink("Sign Out", "SignOut", "Player")
+        <nav>
+            <ul>
+                <li>@Html.ActionLink("Rankings", "Index", "Ranking")</li>
+                <li>@Html.ActionLink("Games", "Index", "Game")</li>
+                <li>@Html.ActionLink("Players", "Index", "Player")</li>
+                <li>@Html.ActionLink("Holes", "Index", "Hole")</li>
+            </ul>
+        </nav>
+    </header>
+    <section id="content">
+        <p>
+            An unexpected error occurred.</p>
+    </section>
+    <footer>
+    </footer>
 </body>
 </html>

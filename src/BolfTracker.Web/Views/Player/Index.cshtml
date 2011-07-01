@@ -1,6 +1,6 @@
 ﻿@model BolfTracker.Web.PlayersViewModel
 @{
-    ViewBag.Title = "Players";
+    ViewBag.Title = "Players - Bolf Tracker";
 }
 <h2>
     Players</h2>
@@ -20,8 +20,7 @@
         <tr>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = player.Id }) |
-                @Html.ActionLink("Details", "Details", new { id = player.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = player.Id })
+                @Html.ActionLink("Details", "Details", new { id = player.Id })
             </td>
             <td>
                 @player.Name
