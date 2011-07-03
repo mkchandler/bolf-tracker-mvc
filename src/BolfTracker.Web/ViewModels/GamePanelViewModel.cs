@@ -110,7 +110,7 @@ namespace BolfTracker.Web
                                 // that cannot win need to take a shot to push them
                                 foreach (var player in playersDescending)
                                 {
-                                    if (!player.Shots.Any(s => s.Game.Id == Game.Id && s.Hole.Id == currentHole))
+                                    if (!Game.Shots.Any(s => s.Player.Id == player.Id && s.Hole.Id == currentHole))
                                     {
                                         if (!playersWhoCanWin.Any(l => l.Player.Id == player.Id))
                                         {
@@ -202,7 +202,7 @@ namespace BolfTracker.Web
                 var leader = leaderboard.First();
 
                 // This is the leader's points not counting any temporary points scored on the current hole
-                var leaderPoints = Game.Shots.Where(s => s.Game.Id == Game.Id && s.Player.Id == leader.Player.Id && s.Hole.Id < currentHole).Sum(s => s.Points);
+                var leaderPoints = Game.Shots.Where(s => s.Player.Id == leader.Player.Id && s.Hole.Id < currentHole).Sum(s => s.Points);
 
                 var playersWhoCanWin = new List<LeaderboardViewModel>();
 
@@ -210,9 +210,9 @@ namespace BolfTracker.Web
                 {
                     // If the player has already gone on this hole and made the shot then we need to 
                     // subtract those points for the next calculation
-                    var playerCurrentHoleShot = player.Player.Shots.Where(s => s.Game.Id == Game.Id && s.Player.Id == player.Player.Id && s.Hole.Id == currentHole && s.Points > 0);
+                    var newPlayerCurrentHoleShot = Game.Shots.Where(s => s.Player.Id == player.Player.Id && s.Hole.Id == currentHole && s.Points > 0);
 
-                    int playerCurrentHolePoints = playerCurrentHoleShot.Any() ? playerCurrentHoleShot.First().Points : 0;
+                    int playerCurrentHolePoints = newPlayerCurrentHoleShot.Any() ? newPlayerCurrentHoleShot.First().Points : 0;
 
                     // If the player can at least tie the leader, then he gets to take all shots
                     if (((player.Points - playerCurrentHolePoints) + currentPointsAvailable) >= leaderPoints)
@@ -276,7 +276,8 @@ namespace BolfTracker.Web
                         // TODO: This needs to change to a MAX function for hole number when the new hole/overtime logic is added
                         if (_currentHole.Value >= 10)
                         {
-                            var playersWhoCanWin = GetPlayersWhoCanWin(_currentHole.Value).Where(l => l.Player.Shots.Count(s => s.Game.Id == Game.Id && s.Hole.Id == _currentHole.Value && !s.ShotMade) == 0);
+                            // NOTE: Anything going off of x.Player.Shots is runs a shitload of queries... avoid
+                            var playersWhoCanWin = GetPlayersWhoCanWin(_currentHole.Value).Where(g => Game.Shots.Count(s => s.Hole.Id == _currentHole.Value && !s.ShotMade) == 0);
 
                             if (playersWhoCanWin.Count() == 0)
                             {
