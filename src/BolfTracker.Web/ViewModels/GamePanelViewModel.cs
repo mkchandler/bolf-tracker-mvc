@@ -122,7 +122,7 @@ namespace BolfTracker.Web
                                 // TODO: Here we need to figure out the order that these players who can push
                                 // the hole need to go in.  My thought is that the players with the least amount of
                                 // pushes for the current period (in our case month) get to go first.
-                                return playersWhoCannotWin.Last();
+                                return playersWhoCannotWin.First();
                             }
                             else
                             {
@@ -204,6 +204,13 @@ namespace BolfTracker.Web
                 // This is the leader's points not counting any temporary points scored on the current hole
                 var leaderPoints = Game.Shots.Where(s => s.Player.Id == leader.Player.Id && s.Hole.Id < currentHole).Sum(s => s.Points);
 
+                if (leaderboard.Count(l => l.Points > leaderPoints) > 1)
+                {
+                    var leaderAtBeginningOfHole = leaderboard.Where(l => l.Player.Id != leader.Player.Id).OrderByDescending(l => l.Points);
+
+                    leaderPoints = leaderAtBeginningOfHole.First().Points;
+                }
+
                 var playersWhoCanWin = new List<LeaderboardViewModel>();
 
                 foreach (var player in leaderboard)
@@ -229,12 +236,12 @@ namespace BolfTracker.Web
 
         public int GetCurrentHole()
         {
-            if (_currentHole.HasValue)
-            {
-                return _currentHole.Value;
-            }
-            else
-            {
+            //if (_currentHole.HasValue)
+            //{
+            //    return _currentHole.Value;
+            //}
+            //else
+            //{
                 _currentHole = 1;
 
                 if (Game.Shots.Any())
@@ -276,24 +283,33 @@ namespace BolfTracker.Web
                         // TODO: This needs to change to a MAX function for hole number when the new hole/overtime logic is added
                         if (_currentHole.Value >= 10)
                         {
-                            // NOTE: Anything going off of x.Player.Shots is runs a shitload of queries... avoid
-                            var playersWhoCanWin = GetPlayersWhoCanWin(_currentHole.Value).Where(g => Game.Shots.Count(s => s.Hole.Id == _currentHole.Value && !s.ShotMade) == 0);
-
-                            if (playersWhoCanWin.Count() == 0)
+                            if (holeShots.Count(s => s.ShotMade) > 1)
                             {
+                                // Two people have made the shot, move on to the next
                                 _currentHole++;
                                 return _currentHole.Value;
                             }
                             else
                             {
-                                return _currentHole.Value;
+                                // NOTE: Anything going off of x.Player.Shots is runs a shitload of queries... avoid
+                                var playersWhoCanWin = GetPlayersWhoCanWin(_currentHole.Value).Where(g => Game.Shots.Count(s => s.Hole.Id == _currentHole.Value && !s.ShotMade && s.Player.Id == g.Player.Id) == 0);
+
+                                if (playersWhoCanWin.Count() == 0)
+                                {
+                                    _currentHole++;
+                                    return _currentHole.Value;
+                                }
+                                else
+                                {
+                                    return _currentHole.Value;
+                                }
                             }
                         }
                     }
                 }
 
                 return _currentHole.Value;
-            }
+            //}
         }
 
         public int PointsAvailable
@@ -303,12 +319,12 @@ namespace BolfTracker.Web
 
         public int GetPointsAvailable(int currentHole)
         {
-            if (_pointsAvailable.HasValue)
-            {
-                return _pointsAvailable.Value;
-            }
-            else
-            {
+            //if (_pointsAvailable.HasValue)
+            //{
+            //    return _pointsAvailable.Value;
+            //}
+            //else
+            //{
                 if (currentHole == 1)
                 {
                     _pointsAvailable = _allHoles.Single(h => h.Id == 1).Par;
@@ -324,7 +340,7 @@ namespace BolfTracker.Web
 
                     return _pointsAvailable.Value;
                 }
-            }
+            //}
         }
 
         private IEnumerable<LeaderboardViewModel> _leaderboard = null;
