@@ -37,11 +37,11 @@ namespace BolfTracker.Web.Controllers
         } 
 
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(int holeNumber, int par)
         {
             try
             {
-                // TODO: Add insert logic here
+                _holeService.CreateHole(holeNumber, par);
 
                 return RedirectToAction("Index");
             }

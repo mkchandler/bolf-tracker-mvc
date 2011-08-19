@@ -10,6 +10,8 @@ namespace BolfTracker.Services
 
         IEnumerable<HoleStatistics> GetHoleStatistics(int month, int year);
 
+        Hole CreateHole(int holeNumber, int par);
+
         void CalculateHoleStatistics(int month, int year);
     }
 }

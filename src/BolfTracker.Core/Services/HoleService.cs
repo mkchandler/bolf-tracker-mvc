@@ -34,6 +34,19 @@ namespace BolfTracker.Services
             return _holeStatisticsRepository.GetByMonthAndYear(month, year);
         }
 
+        public Hole CreateHole(int holeNumber, int par)
+        {
+            Check.Argument.IsNotZeroOrNegative(holeNumber, "holeNumber");
+            Check.Argument.IsNotZeroOrNegative(par, "par");
+
+            var hole = new Hole() { Id = holeNumber, Par = par };
+
+            _holeRepository.Add(hole);
+            _unitOfWork.Commit();
+
+            return hole;
+        }
+
         public void CalculateHoleStatistics(int month, int year)
         {
             Check.Argument.IsNotZeroOrNegative(month, "month");

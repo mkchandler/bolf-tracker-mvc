@@ -1,0 +1,27 @@
+﻿@model BolfTracker.Models.Hole
+@{
+    ViewBag.Title = "Create Hole - Bolf Tracker";
+}
+<h2>
+    Create</h2>
+@using (Html.BeginForm())
+{
+    <fieldset>
+        <legend>Hole</legend>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Id, "Hole Number")
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Id, null, "holeNumber")
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Par)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Par)
+        </div>
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+    </fieldset>
+}
