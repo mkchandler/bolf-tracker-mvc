@@ -16,7 +16,6 @@ namespace BolfTracker.Web.Controllers
             _playerService = playerService;
         }
 
-        [Authorize]
         public ActionResult Index()
         {
             int month = DateTime.Today.Month;
@@ -28,7 +27,6 @@ namespace BolfTracker.Web.Controllers
             return View(new PlayersViewModel(players, playerStatistics));
         }
 
-        [Authorize]
         public ActionResult Details(int id)
         {
             var player = _playerService.GetPlayer(id);
@@ -42,8 +40,8 @@ namespace BolfTracker.Web.Controllers
             return View();
         }
 
-        [Authorize]
         [HttpPost]
+        [Authorize]
         public ActionResult Create(string name)
         {
             try
@@ -66,14 +64,14 @@ namespace BolfTracker.Web.Controllers
             return View(player);
         }
 
-        [Authorize]
         [HttpPost]
+        [Authorize]
         public ActionResult Edit(int id, string name)
         {
             try
             {
                 _playerService.Update(id, name);
- 
+
                 return RedirectToAction("Index");
             }
             catch
@@ -90,14 +88,14 @@ namespace BolfTracker.Web.Controllers
             return View(player);
         }
 
-        [Authorize]
         [HttpPost]
+        [Authorize]
         public ActionResult Delete(int id, FormCollection formCollection)
         {
             try
             {
                 _playerService.Delete(id);
- 
+
                 return RedirectToAction("Index");
             }
             catch

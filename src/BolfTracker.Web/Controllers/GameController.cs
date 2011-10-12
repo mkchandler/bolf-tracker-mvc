@@ -6,7 +6,6 @@ using BolfTracker.Services;
 
 namespace BolfTracker.Web.Controllers
 {
-    [Authorize]
     public class GameController : Controller
     {
         private readonly IGameService _gameService;
@@ -29,6 +28,7 @@ namespace BolfTracker.Web.Controllers
             return View(games);
         }
 
+        [Authorize]
         public ActionResult RecalculateGameStatistics()
         {
             _gameService.CalculateGameStatistics();
@@ -47,12 +47,14 @@ namespace BolfTracker.Web.Controllers
             return View(gamePanel);
         }
 
+        [Authorize]
         public ActionResult Create()
         {
             return View(new Game());
         }
 
         [HttpPost]
+        [Authorize]
         public ActionResult Create(DateTime date)
         {
             try
@@ -67,12 +69,14 @@ namespace BolfTracker.Web.Controllers
             }
         }
 
+        [Authorize]
         public ActionResult Edit(int id)
         {
             return View();
         }
 
         [HttpPost]
+        [Authorize]
         public ActionResult Edit(int id, FormCollection collection)
         {
             try
@@ -87,12 +91,14 @@ namespace BolfTracker.Web.Controllers
             }
         }
 
+        [Authorize]
         public ActionResult Delete(int id)
         {
             return View();
         }
 
         [HttpPost]
+        [Authorize]
         public ActionResult Delete(int id, FormCollection collection)
         {
             try
@@ -108,6 +114,7 @@ namespace BolfTracker.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public ActionResult Finalize(int gameId)
         {
             _gameService.CalculateGameStatistics(gameId);

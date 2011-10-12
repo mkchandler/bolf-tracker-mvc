@@ -2,32 +2,35 @@
 @{
     ViewBag.Title = "Players - Bolf Tracker";
 }
-<h2>
-    Players</h2>
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table>
-    <tr>
-        <th>
-        </th>
-        <th>
-            Name
-        </th>
-    </tr>
-    @foreach (var player in Model.Players)
-    {
+@if (HttpContext.Current.User.Identity.IsAuthenticated)
+{ 
+    <h2>
+        Players</h2>
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <table>
         <tr>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = player.Id }) |
-                @Html.ActionLink("Details", "Details", new { id = player.Id })
-            </td>
-            <td>
-                @player.Name
-            </td>
+            <th>
+            </th>
+            <th>
+                Name
+            </th>
         </tr>
-    }
-</table>
+        @foreach (var player in Model.Players)
+        {
+            <tr>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = player.Id }) |
+                    @Html.ActionLink("Details", "Details", new { id = player.Id })
+                </td>
+                <td>
+                    @player.Name
+                </td>
+            </tr>
+        }
+    </table>
+}
 <h2>
     Monthly Player Statistics</h2>
 <table>
@@ -81,7 +84,7 @@
     @foreach (var player in Model.PlayerStatistics)
     {
         <tr>
-            <td>@player.Player.Name
+            <td>@Html.ActionLink(player.Player.Name, "Details", new { id = player.Player.Id })
             </td>
             <td>@player.Wins
             </td>

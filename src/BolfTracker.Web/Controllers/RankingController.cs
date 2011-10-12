@@ -6,7 +6,6 @@ using BolfTracker.Services;
 
 namespace BolfTracker.Web.Controllers
 {
-    [Authorize]
     public class RankingController : Controller
     {
         private readonly IRankingService _rankingService;
@@ -36,6 +35,7 @@ namespace BolfTracker.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public ActionResult Calculate()
         {
             int month = DateTime.Today.Month;

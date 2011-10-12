@@ -95,9 +95,12 @@
         </tr>
     }
 </table>
-<p>
-    @using (Html.BeginForm("Calculate", "Ranking", FormMethod.Post))
-    { 
-        <input type="submit" value="Calculate Rankings" />
-    }
-</p>
+@if (HttpContext.Current.User.Identity.IsAuthenticated)
+{ 
+    <p>
+        @using (Html.BeginForm("Calculate", "Ranking", FormMethod.Post))
+        { 
+            <input type="submit" value="Calculate Rankings" />
+        }
+    </p>
+} 

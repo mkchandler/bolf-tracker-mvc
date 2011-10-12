@@ -4,14 +4,17 @@
     <meta charset="utf-8" />
     <title>@ViewBag.Title</title>
     <link href="@Url.Content("~/content/styles.css")" rel="stylesheet" type="text/css" />
-    <script src=" https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js" type="text/javascript"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js" type="text/javascript"></script>
     @RenderSection("javascriptrefs", required: false)
 </head>
 <body>
     <header>
         <h1>
             Bolf Tracker</h1>
-        @Html.ActionLink("Sign Out", "SignOut", "Player")
+            @if (HttpContext.Current.User.Identity.IsAuthenticated)
+            { 
+                @Html.ActionLink("Sign Out", "SignOut", "Player")
+            }
         <nav>
             <ul>
                 <li>@Html.ActionLink("Rankings", "Index", "Ranking")</li>
@@ -24,8 +27,6 @@
     <section id="content">
         @RenderBody()
     </section>
-    <footer>
-    </footer>
     @RenderSection("javascript", required: false)
 </body>
 </html>
