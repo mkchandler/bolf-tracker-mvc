@@ -122,7 +122,14 @@ namespace BolfTracker.Web
                                 // TODO: Here we need to figure out the order that these players who can push
                                 // the hole need to go in.  My thought is that the players with the least amount of
                                 // pushes for the current period (in our case month) get to go first.
-                                return playersWhoCannotWin.First();
+                                if (playersWhoCannotWin.Any())
+                                {
+                                    return playersWhoCannotWin.Last();
+                                }
+                                else
+                                {
+                                    return playersDescending.Last();
+                                }
                             }
                             else
                             {
