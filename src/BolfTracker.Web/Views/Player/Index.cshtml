@@ -2,38 +2,9 @@
 @{
     ViewBag.Title = "Players - Bolf Tracker";
 }
-@if (HttpContext.Current.User.Identity.IsAuthenticated)
-{ 
-    <h2>
-        Players</h2>
-    <p>
-        @Html.ActionLink("Create New", "Create")
-    </p>
-    <table>
-        <tr>
-            <th>
-            </th>
-            <th>
-                Name
-            </th>
-        </tr>
-        @foreach (var player in Model.Players)
-        {
-            <tr>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = player.Id }) |
-                    @Html.ActionLink("Details", "Details", new { id = player.Id })
-                </td>
-                <td>
-                    @player.Name
-                </td>
-            </tr>
-        }
-    </table>
-}
 <h2>
     Monthly Player Statistics</h2>
-<table>
+<table class="zebra-striped">
     <tr>
         <th title="Player">
             Player
@@ -48,7 +19,7 @@
             Winning %
         </th>
         <th title="Shots Made ">
-            Shots Made
+            Made
         </th>
         <th title="Attempts">
             Attempts
@@ -75,10 +46,10 @@
             SPG
         </th>
         <th title="Sugar-Free Steals">
-            SF Steals
+            SFs
         </th>
         <th title="Sugar-Free Steals Per Game">
-            SF-SPG
+            SF/SPG
         </th>
     </tr>
     @foreach (var player in Model.PlayerStatistics)
@@ -117,3 +88,32 @@
         </tr>
     }
 </table>
+@if (HttpContext.Current.User.Identity.IsAuthenticated)
+{ 
+    <h2>
+        Players</h2>
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <table class="zebra-striped" s>
+        <tr>
+            <th>
+            </th>
+            <th>
+                Name
+            </th>
+        </tr>
+        @foreach (var player in Model.Players)
+        {
+            <tr>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = player.Id }) |
+                    @Html.ActionLink("Details", "Details", new { id = player.Id })
+                </td>
+                <td>
+                    @player.Name
+                </td>
+            </tr>
+        }
+    </table>
+} 

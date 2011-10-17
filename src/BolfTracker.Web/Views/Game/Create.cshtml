@@ -4,18 +4,11 @@
 }
 <h2>
     Create Game</h2>
-@using (Html.BeginForm())
+@using (Html.BeginForm("Create", "Game", FormMethod.Post, new { @class = "form-stacked" }))
 {
-    <fieldset>
-        <legend>Game</legend>
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Date)
-        </div>
-        <div class="editor-field">
-            @Html.TextBoxFor(model => model.Date, new { @class = "date" })
-        </div>
-        <p>
-            <input type="submit" value="Create" />
-        </p>
-    </fieldset>
+    @Html.LabelFor(model => model.Date)
+    @Html.TextBoxFor(model => model.Date, new { @class = "date" })
+    <div class="actions">
+        <input type="submit" class="btn primary" value="Create" />
+    </div>
 }

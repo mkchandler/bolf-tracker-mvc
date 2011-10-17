@@ -77,8 +77,10 @@
     <Compile Include="ViewModels\RankingsViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="content\bootstrap.min.css" />
     <Content Include="content\styles.css" />
     <Content Include="Global.asax" />
+    <Content Include="scripts\jquery.tablesorter.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -148,9 +150,7 @@
   <ItemGroup>
     <Content Include="Views\Player\Login.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="scripts\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="Views\Player\_PlayerCareerStatistics.cshtml" />
   </ItemGroup>

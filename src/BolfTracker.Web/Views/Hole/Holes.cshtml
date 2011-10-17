@@ -2,6 +2,9 @@
 @{
     ViewBag.Title = "Holes - Bolf Tracker";
 }
+<h2>
+    Monthly Hole Statistics</h2>
+@Html.Partial("_HoleStatistics", Model.CurrentMonthHoleStatistics)
 @if (HttpContext.Current.User.Identity.IsAuthenticated)
 { 
     <h2>
@@ -9,7 +12,7 @@
     <p>
         @Html.ActionLink("Create New", "Create")
     </p>
-    <table>
+    <table class="zebra-striped">
         <tr>
             <th>
             </th>
@@ -25,8 +28,7 @@
             <tr>
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    @Html.ActionLink("Details", "Details", new { id = item.Id })
                 </td>
                 <td>
                     @item.Id
@@ -37,7 +39,4 @@
             </tr>
         }
     </table>
-}
-<h2>
-    Monthly Hole Statistics</h2>
-@Html.Partial("_HoleStatistics", Model.CurrentMonthHoleStatistics)
+} 

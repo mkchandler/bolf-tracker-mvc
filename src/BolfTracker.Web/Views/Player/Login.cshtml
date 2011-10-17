@@ -3,14 +3,14 @@
 }
 <h2>
     Login</h2>
-@using (Html.BeginForm("Authenticate", "Player", FormMethod.Post))
+@using (Html.BeginForm("Authenticate", "Player", FormMethod.Post, new { @class = "form-stacked" }))
 { 
-    <div>
-        <label>
-            Enter Private Beta Code:</label><input type="password" id="private-beta-code" name="password" />
+    <label for="private-beta-code">
+        Enter Private Beta Code:</label>
+    <input type="password" id="private-beta-code" name="password" />
+    <div class="actions">
+        <input type="submit" class="btn primary" value="Play Bolf!" />
     </div>
-    
-    <input type="submit" value="Play Bolf!" />
 }
 @section javascript
 {

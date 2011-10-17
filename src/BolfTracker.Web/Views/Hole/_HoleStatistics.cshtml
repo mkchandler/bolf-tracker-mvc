@@ -1,29 +1,29 @@
 ﻿@model IEnumerable<BolfTracker.Models.HoleStatistics>
-<table>
+<table class="zebra-striped">
     <tr>
-        <th>
+        <th title="Hole">
             Hole
         </th>
-        <th>
-            ShotsMade
+        <th title="Shots Made">
+            Made
         </th>
-        <th>
+        <th title="Attempts">
             Attempts
         </th>
-        <th>
-            ShootingPercentage
+        <th title="Shooting Percentage">
+            Shooting %
         </th>
-        <th>
-            PointsScored
+        <th title="Points">
+            Points
         </th>
-        <th>
+        <th title="Pushes">
             Pushes
         </th>
-        <th>
+        <th title="Steals">
             Steals
         </th>
-        <th>
-            SugarFreeSteals
+        <th title="Sugar Free Steals">
+            SFS
         </th>
     </tr>
     @foreach (var item in Model)

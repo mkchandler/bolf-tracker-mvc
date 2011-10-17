@@ -5,7 +5,7 @@
 <h2>@String.Format("{0} {1} Player Rankings", Model.MonthName, Model.Year)</h2>
 <h3>
     Player Rankings</h3>
-<table id="rankings" class="stats">
+<table class="zebra-striped">
     <tr>
         <th style="width: 120px; text-align: left" title="Player">
             Player
@@ -56,7 +56,7 @@
 </table>
 <h3>
     Ineligible Player Rankings</h3>
-<table id="ineligible-rankings" class="stats">
+<table class="zebra-striped">
     <tr>
         <th style="width: 120px; text-align: left" title="Player">
             Player
@@ -100,7 +100,7 @@
     <p>
         @using (Html.BeginForm("Calculate", "Ranking", FormMethod.Post))
         { 
-            <input type="submit" value="Calculate Rankings" />
+            <input type="submit" class="btn" value="Calculate Rankings" />
         }
     </p>
 } 
