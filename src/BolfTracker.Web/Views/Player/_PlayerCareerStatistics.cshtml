@@ -1,91 +1,91 @@
 ﻿@model BolfTracker.Models.PlayerCareerStatistics
 <table class="zebra-striped">
-    <tr>
-        <th title="Shots Made">
-            Made
-        </th>
-        <th title="Attempts">
-            Attempts
-        </th>
-        <th title="Shooting Percentage">
-            Shooting %
-        </th>
-        <th title="Total Points">
-            P
-        </th>
-        <th title="Points Per Game">
-            PPG
-        </th>
-        <th title="Wins">
-            W
-        </th>
-        <th title="Losses">
-            L
-        </th>
-        <th title="Winning Percentage">
-            Win %
-        </th>
-        <th title="Pushes">
-            Pushes
-        </th>
-        <th title="Pushes Per Game">
-            Pushes PG
-        </th>
-        <th title="Steals">
-            Steals
-        </th>
-        <th title="Steals Per Game">
-            SPG
-        </th>
-        <th title="Sugar Free Steals">
-            SFS
-        </th>
-        <th title="Sugar Free Steals Per Game">
-            SFS/PG
-        </th>
-    </tr>
-    <tr>
-        <td>
-            @Model.ShotsMade
-        </td>
-        <td>
-            @Model.Attempts
-        </td>
-        <td>
-            @String.Format("{0:#.###}", Model.ShootingPercentage)
-        </td>
-        <td>
-            @Model.Points
-        </td>
-        <td>
-            @String.Format("{0:#.#}", Model.PointsPerGame)
-        </td>
-        <td>
-            @Model.Wins
-        </td>
-        <td>
-            @Model.Losses
-        </td>
-        <td>
-            @String.Format("{0:#.###}", Model.WinningPercentage)
-        </td>
-        <td>
-            @Model.Pushes
-        </td>
-        <td>
-            @String.Format("{0:#.#}", Model.PushesPerGame)
-        </td>
-        <td>
-            @Model.Steals
-        </td>
-        <td>
-            @String.Format("{0:#.#}", Model.StealsPerGame)
-        </td>
-        <td>
-            @Model.SugarFreeSteals
-        </td>
-        <td>
-            @String.Format("{0:#.#}", Model.SugarFreeStealsPerGame)
-        </td>
-    </tr>
+  <tr>
+    <th title="Shots Made">
+      Made
+    </th>
+    <th title="Attempts">
+      Attempts
+    </th>
+    <th title="Shooting Percentage">
+      Shooting %
+    </th>
+    <th title="Total Points">
+      P
+    </th>
+    <th title="Points Per Game">
+      PPG
+    </th>
+    <th title="Wins">
+      W
+    </th>
+    <th title="Losses">
+      L
+    </th>
+    <th title="Winning Percentage">
+      Win %
+    </th>
+    <th title="Pushes">
+      Pushes
+    </th>
+    <th title="Pushes Per Game">
+      Pushes PG
+    </th>
+    <th title="Steals">
+      Steals
+    </th>
+    <th title="Steals Per Game">
+      SPG
+    </th>
+    <th title="Sugar Free Steals">
+      SFS
+    </th>
+    <th title="Sugar Free Steals Per Game">
+      SFS/PG
+    </th>
+  </tr>
+  <tr>
+    <td>
+      @Model.ShotsMade
+    </td>
+    <td>
+      @Model.Attempts
+    </td>
+    <td>
+      @String.Format("{0:#.###}", Model.ShootingPercentage)
+    </td>
+    <td>
+      @Model.Points
+    </td>
+    <td>
+      @String.Format("{0:#.#}", Model.PointsPerGame)
+    </td>
+    <td>
+      @Model.Wins
+    </td>
+    <td>
+      @Model.Losses
+    </td>
+    <td>
+      @String.Format("{0:#.###}", Model.WinningPercentage)
+    </td>
+    <td>
+      @Model.Pushes
+    </td>
+    <td>
+      @String.Format("{0:#.#}", Model.PushesPerGame)
+    </td>
+    <td>
+      @Model.Steals
+    </td>
+    <td>
+      @String.Format("{0:#.#}", Model.StealsPerGame)
+    </td>
+    <td>
+      @Model.SugarFreeSteals
+    </td>
+    <td>
+      @String.Format("{0:#.#}", Model.SugarFreeStealsPerGame)
+    </td>
+  </tr>
 </table>

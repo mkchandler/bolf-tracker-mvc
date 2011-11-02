@@ -1,24 +1,24 @@
 ﻿@model IEnumerable<BolfTracker.Models.Game>
 @{
-    ViewBag.Title = "Games - Bolf Tracker";
+  ViewBag.Title = "Games - Bolf Tracker";
 }
 <h2>
-    Games</h2>
+  Games</h2>
 <p>
-    @Html.ActionLink("Create New", "Create")
+  @Html.ActionLink("Create New", "Create")
 </p>
 <table class="zebra-striped">
+  <tr>
+    <th>
+      Game Date
+    </th>
+  </tr>
+  @foreach (var item in Model)
+  {
     <tr>
-        <th>
-            Game Date
-        </th>
+      <td>
+        @Html.ActionLink(String.Format("{0:d}", item.Date), "Details", new { id = item.Id })
+      </td>
     </tr>
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.ActionLink(String.Format("{0:d}", item.Date), "Details", new { id = item.Id })
-            </td>
-        </tr>
-    }
+  }
 </table>

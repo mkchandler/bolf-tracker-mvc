@@ -1,22 +1,22 @@
 ﻿@{
-    ViewBag.Title = "Login - Bolf Tracker";
+  ViewBag.Title = "Login - Bolf Tracker";
 }
 <h2>
-    Login</h2>
+  Login</h2>
 @using (Html.BeginForm("Authenticate", "Player", FormMethod.Post, new { @class = "form-stacked" }))
 { 
-    <label for="private-beta-code">
-        Enter Private Beta Code:</label>
-    <input type="password" id="private-beta-code" name="password" />
-    <div class="actions">
-        <input type="submit" class="btn primary" value="Play Bolf!" />
-    </div>
+  <label for="private-beta-code">
+    Enter Private Beta Code:</label>
+  <input type="password" id="private-beta-code" name="password" />
+  <div class="actions">
+    <input type="submit" class="btn primary" value="Play Bolf!" />
+  </div>
 }
 @section javascript
 {
-    <script type="text/javascript">
-        $(function () {
-            $("#private-beta-code").focus();
-        });
-    </script>
+  <script type="text/javascript">
+    $(function () {
+      $("#private-beta-code").focus();
+    });
+  </script>
 }

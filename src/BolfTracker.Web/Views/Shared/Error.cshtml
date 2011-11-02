@@ -1,32 +1,34 @@
-﻿@{
-    Layout = null;
-}
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <title>Error - Bolf Tracker</title>
-    <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
+  <meta charset="utf-8" />
+  <title>Error - Bolf Tracker</title>
+  <link href="@Url.Content("~/content/bootstrap.min.css")" rel="stylesheet" type="text/css" />
+  <style type="text/css">
+    body
+    {
+      margin-top: 50px;
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <h1>
-            Bolf Tracker</h1>
-        @Html.ActionLink("Sign Out", "SignOut", "Player")
-        <nav>
-            <ul>
-                <li>@Html.ActionLink("Rankings", "Index", "Ranking")</li>
-                <li>@Html.ActionLink("Games", "Index", "Game")</li>
-                <li>@Html.ActionLink("Players", "Index", "Player")</li>
-                <li>@Html.ActionLink("Holes", "Index", "Hole")</li>
-            </ul>
-        </nav>
-    </header>
-    <section id="content">
-        <p>
-            An unexpected error occurred.</p>
-    </section>
-    <footer>
-    </footer>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="container">
+        @Html.ActionLink("Bolf Tracker", "Index", "Ranking", null, new { @class = "brand" })
+        <ul class="nav">
+          <li>@Html.ActionLink("Rankings", "Index", "Ranking")</li>
+          <li>@Html.ActionLink("Games", "Index", "Game")</li>
+          <li>@Html.ActionLink("Players", "Index", "Player")</li>
+          <li>@Html.ActionLink("Holes", "Index", "Hole")</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="content">
+      <p>An error occurred while processing your request.</p>
+    </div>
+  </div>
 </body>
 </html>

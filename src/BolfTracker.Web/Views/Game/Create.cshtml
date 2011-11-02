@@ -1,14 +1,14 @@
 ﻿@model BolfTracker.Models.Game
 @{    
-    ViewBag.Title = "Create Game - Bolf Tracker";
+  ViewBag.Title = "Create Game - Bolf Tracker";
 }
 <h2>
-    Create Game</h2>
+  Create Game</h2>
 @using (Html.BeginForm("Create", "Game", FormMethod.Post, new { @class = "form-stacked" }))
 {
-    @Html.LabelFor(model => model.Date)
-    @Html.TextBoxFor(model => model.Date, new { @class = "date" })
-    <div class="actions">
-        <input type="submit" class="btn primary" value="Create" />
-    </div>
+  @Html.LabelFor(model => model.Date)
+  @Html.TextBoxFor(model => model.Date, new { @class = "date" })
+  <div class="actions">
+    <input type="submit" class="btn primary" value="Create" />
+  </div>
 }

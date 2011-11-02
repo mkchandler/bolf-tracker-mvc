@@ -1,181 +1,185 @@
 ﻿@model BolfTracker.Web.GamePanelViewModel
 @{
-    ViewBag.Title = "Game Panel - Bolf Tracker";
+  ViewBag.Title = "Game Panel - Bolf Tracker";
 }
 <h2>
-    Game Panel - @String.Format("{0:d}", Model.Game.Date)</h2>
+  Game Panel - @String.Format("{0:d}", Model.Game.Date)</h2>
 @if (HttpContext.Current.User.Identity.IsAuthenticated)
 {
-    if (!Model.GameFinalized)
+  if (!Model.GameFinalized)
+  {
+    using (Html.BeginForm("Finalize", "Game", FormMethod.Post))
     {
-        using (Html.BeginForm("Finalize", "Game", FormMethod.Post))
-        {
-    @Html.Hidden("gameId", Model.Game.Id)
-    <input type="submit" class="btn" value="Finalize Game" />
-        }
+  @Html.Hidden("gameId", Model.Game.Id)
+  <input type="submit" class="btn" value="Finalize Game" />
     }
+  }
 }
 <div class="row">
-    <div class="span8">
-        @if (HttpContext.Current.User.Identity.IsAuthenticated)
+  <div class="span8">
+    @if (HttpContext.Current.User.Identity.IsAuthenticated)
+    {
+      if (!Model.GameFinalized)
+      {
+      <h3>
+        Enter Shot</h3>
+        using (Html.BeginForm("Create", "Score", FormMethod.Post, new { @class = "form-stacked" }))
         {
-            if (!Model.GameFinalized)
-            {
-            <h3>
-                Enter Shot</h3>
-                using (Html.BeginForm("Create", "Score", FormMethod.Post, new { @class = "form-stacked" }))
-                {
-            @Html.HiddenFor(m => m.Game.Id)
-            <label for="player">
-                Player:
-            </label>@Html.DropDownListFor(m => m.Player, Model.AllPlayers)
-            <label for="hole">
-                Hole:
-            </label>@Html.DropDownListFor(m => m.Hole, Model.AllHoles, new { @id = "currentHole" })
-            <label for="attempts">
-                Attempts:
-            </label>
-            <input type="text" name="attempts" id="attempts" />
-            <label for="shotMade">
-                Shot Made:
-            </label>
-            <input type="checkbox" name="shotMade" id="shotMade" />
-            <div class="actions">
-                <input type="submit" class="btn primary" value="Save Shot" />
-            </div>
-                }
-            }
+      @Html.HiddenFor(m => m.Game.Id)
+      <label for="player">
+        Player:
+      </label>@Html.DropDownListFor(m => m.Player, Model.AllPlayers)
+      <label for="hole">
+        Hole:
+      </label>@Html.DropDownListFor(m => m.Hole, Model.AllHoles, new { @id = "currentHole" })
+      <label for="attempts">
+        Attempts:
+      </label>
+      <input type="text" name="attempts" id="attempts" />
+      <label for="shotMade">
+        Shot Made:
+      </label>
+      <input type="checkbox" name="shotMade" id="shotMade" />
+      <div class="actions">
+        <input type="submit" class="btn primary" value="Save Shot" />
+      </div>
         }
-    </div>
-    <div class="span8">
-        <h3>
-            Leaderboard</h3>
-        @if (Model.Game.Shots.Any())
+      }
+    }
+  </div>
+  <div class="span8">
+    <h3>
+      Leaderboard</h3>
+    @if (Model.Game.Shots.Any())
+    {
+      <table id="leaderboard" class="zebra-striped">
+        <tr>
+          <th title="Player" style="width: 150px; text-align: left;">
+            Player
+          </th>
+          <th title="Points" style="width: 70px; text-align: left;">
+            Points
+          </th>
+          <th title="Shooting Percentage" style="width: 95px; text-align: left;">
+            Shooting
+          </th>
+          <th title="Steals" style="width: 70px; text-align: left;">
+            Steals
+          </th>
+          <th title="Pushes" style="width: 70px; text-align: left;">
+            Pushes
+          </th>
+        </tr>
+        @foreach (var player in Model.Leaderboard)
         {
-            <table id="leaderboard" class="zebra-striped">
-                <tr>
-                    <th title="Player" style="width: 150px; text-align: left;">
-                        Player
-                    </th>
-                    <th title="Points" style="width: 70px; text-align: left;">
-                        Points
-                    </th>
-                    <th title="Shooting Percentage" style="width: 95px; text-align: left;">
-                        Shooting
-                    </th>
-                    <th title="Steals" style="width: 70px; text-align: left;">
-                        Steals
-                    </th>
-                    <th title="Pushes" style="width: 70px; text-align: left;">
-                        Pushes
-                    </th>
-                </tr>
-                @foreach (var player in Model.Leaderboard)
-                {
-                    <tr>
-                        <td>@player.Player.Name
-                        </td>
-                        <td>@player.Points
-                        </td>
-                        <td>@player.ShotsMade/@player.Attempts (@player.ShootingPercentage.ToString("P0"))
-                        </td>
-                        <td>@player.Steals
-                        </td>
-                        <td>@player.Pushes
-                        </td>
-                    </tr>
-                }
-            </table>
+          <tr>
+            <td>@player.Player.Name
+            </td>
+            <td>@player.Points
+            </td>
+            <td>@player.ShotsMade/@player.Attempts (@player.ShootingPercentage.ToString("P0"))
+            </td>
+            <td>@player.Steals
+            </td>
+            <td>@player.Pushes
+            </td>
+          </tr>
         }
-        else
-        {
-            <p>
-                Game has not started.</p> 
-        }
-        @if (!Model.GameFinalized)
-        { 
-            <p>
-                <span>Points Available: @Model.PointsAvailable</span>
-            </p>
-        }
-    </div>
+      </table>
+    }
+    else
+    {
+      <p>
+        Game has not started.</p> 
+    }
+    @if (!Model.GameFinalized)
+    { 
+      <p>
+        <span>Points Available: @Model.PointsAvailable</span>
+      </p>
+    }
+  </div>
 </div>
 <h3>
-    Hole History</h3>
+  Hole History</h3>
 @if (Model.Game.Shots.Any())
 {
-    int lastShot = Model.Game.Shots.Max(s => s.Id);
+  int lastShot = Model.Game.Shots.Max(s => s.Id);
         
-    <table class="zebra-striped">
-        <tr>
-            <th title="Hole" style="width: 50px; text-align: left;">
-                Hole
-            </th>
-            <th title="Player" style="width: 150px; text-align: left;">
-                Player
-            </th>
-            <th title="Attempts" style="width: 85px; text-align: left;">
-                Attempts
-            </th>
-            <th title="Result" style="width: 200px; text-align: left;">
-                Result
-            </th>
-            @if (!Model.GameFinalized)
-            {
-                <th>
-                </th>
-            }
-        </tr>
-        @foreach (var score in Model.Game.Shots.OrderBy(s => s.Id))
+  <table class="zebra-striped">
+    <tr>
+      <th title="Hole" style="width: 50px; text-align: left;">
+        Hole
+      </th>
+      <th title="Player" style="width: 150px; text-align: left;">
+        Player
+      </th>
+      <th title="Attempts" style="width: 85px; text-align: left;">
+        Attempts
+      </th>
+      <th title="Result" style="width: 200px; text-align: left;">
+        Result
+      </th>
+      @if (!Model.GameFinalized)
+      {
+        <th>
+        </th>
+      }
+    </tr>
+    @foreach (var score in Model.Game.Shots.OrderBy(s => s.Id))
+    {
+      <tr>
+        <td>@score.Hole.Id
+        </td>
+        <td>@score.Player.Name
+        </td>
+        <td>@score.Attempts
+        </td>
+        <td>@score.ShotType.Name
+        </td>
+        @if (!Model.GameFinalized)
         {
-            <tr>
-                <td>@score.Hole.Id
-                </td>
-                <td>@score.Player.Name
-                </td>
-                <td>@score.Attempts
-                </td>
-                <td>@score.ShotType.Name
-                </td>
-                @if (!Model.GameFinalized)
-                {
-                    <td>
-                        @if (HttpContext.Current.User.Identity.IsAuthenticated)
-                        {
-                            if (score.Id == lastShot && !Model.GameFinalized)
-                            {
-                                using (Html.BeginForm("Delete", "Score", FormMethod.Post, new { @style = "margin: 0;" }))
-                                { 
-                            @Html.Hidden("scoreId", score.Id)
-                            @Html.Hidden("gameId", score.Game.Id)
-                            <input type="submit" class="btn danger" value="Delete" />
-                                }
-                            }
-                        }
-                    </td>
+          <td>
+            @if (HttpContext.Current.User.Identity.IsAuthenticated)
+            {
+              if (score.Id == lastShot && !Model.GameFinalized)
+              {
+                using (Html.BeginForm("Delete", "Score", FormMethod.Post, new { @style = "margin: 0;" }))
+                { 
+              @Html.Hidden("scoreId", score.Id)
+              @Html.Hidden("gameId", score.Game.Id)
+              <input type="submit" class="btn danger" value="Delete" />
                 }
-            </tr>
+              }
+            }
+          </td>
         }
-    </table>
+      </tr>
+    }
+  </table>
 }
 else
 { 
-    <p>
-        Game has not started.</p> 
+  <p>
+    Game has not started.</p> 
+}
+@section javascriptrefs
+{
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js" type="text/javascript"></script>
 }
 @section javascript
 {
-    <script type="text/javascript">
+  <script type="text/javascript">
         var par = 0;
         var lastAttempt = 0;
         @{
-            var currentHole = Model.GetCurrentHole();
+          var currentHole = Model.GetCurrentHole();
         @:par = @Model.Holes.FirstOrDefault(h => h.Id == currentHole).Par;
         if (Model.Game.Shots.Any())
         {
-            var lastShotAttempt = Model.Game.Shots.LastOrDefault(s => s.Hole.Id == currentHole);
-            if (lastShotAttempt != null)
-            {
+          var lastShotAttempt = Model.Game.Shots.LastOrDefault(s => s.Hole.Id == currentHole);
+          if (lastShotAttempt != null)
+          {
         @:lastAttempt = @lastShotAttempt.Attempts;
         }
         }
@@ -238,5 +242,5 @@ else
                 }
             }
         }
-    </script>
+  </script>
 }

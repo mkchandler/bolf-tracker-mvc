@@ -1,119 +1,119 @@
 ﻿@model BolfTracker.Web.PlayersViewModel
 @{
-    ViewBag.Title = "Players - Bolf Tracker";
+  ViewBag.Title = "Players - Bolf Tracker";
 }
 <h2>
-    Monthly Player Statistics</h2>
+  Monthly Player Statistics</h2>
 <table class="zebra-striped">
+  <tr>
+    <th title="Player">
+      Player
+    </th>
+    <th title="Wins">
+      W
+    </th>
+    <th title="Losses">
+      L
+    </th>
+    <th title="Winning Percentage">
+      Winning %
+    </th>
+    <th title="Shots Made ">
+      Made
+    </th>
+    <th title="Attempts">
+      Attempts
+    </th>
+    <th title="Shooting Percentage">
+      Shooting %
+    </th>
+    <th title="Points">
+      Points
+    </th>
+    <th title="Points Per Game">
+      PPG
+    </th>
+    <th title="Pushes">
+      Pushes
+    </th>
+    <th title="Pushes Per Game">
+      Pushes PG
+    </th>
+    <th title="Steals">
+      Steals
+    </th>
+    <th title="Steals Per Game">
+      SPG
+    </th>
+    <th title="Sugar-Free Steals">
+      SFs
+    </th>
+    <th title="Sugar-Free Steals Per Game">
+      SF/SPG
+    </th>
+  </tr>
+  @foreach (var player in Model.PlayerStatistics)
+  {
     <tr>
-        <th title="Player">
-            Player
-        </th>
-        <th title="Wins">
-            W
-        </th>
-        <th title="Losses">
-            L
-        </th>
-        <th title="Winning Percentage">
-            Winning %
-        </th>
-        <th title="Shots Made ">
-            Made
-        </th>
-        <th title="Attempts">
-            Attempts
-        </th>
-        <th title="Shooting Percentage">
-            Shooting %
-        </th>
-        <th title="Points">
-            Points
-        </th>
-        <th title="Points Per Game">
-            PPG
-        </th>
-        <th title="Pushes">
-            Pushes
-        </th>
-        <th title="Pushes Per Game">
-            Pushes PG
-        </th>
-        <th title="Steals">
-            Steals
-        </th>
-        <th title="Steals Per Game">
-            SPG
-        </th>
-        <th title="Sugar-Free Steals">
-            SFs
-        </th>
-        <th title="Sugar-Free Steals Per Game">
-            SF/SPG
-        </th>
+      <td>@Html.ActionLink(player.Player.Name, "Details", new { id = player.Player.Id })
+      </td>
+      <td>@player.Wins
+      </td>
+      <td>@player.Losses
+      </td>
+      <td>@player.WinningPercentage
+      </td>
+      <td>@player.ShotsMade
+      </td>
+      <td>@player.Attempts
+      </td>
+      <td>@player.ShootingPercentage
+      </td>
+      <td>@player.Points
+      </td>
+      <td>@player.PointsPerGame
+      </td>
+      <td>@player.Pushes
+      </td>
+      <td>@player.PushesPerGame
+      </td>
+      <td>@player.Steals
+      </td>
+      <td>@player.StealsPerGame
+      </td>
+      <td>@player.SugarFreeSteals
+      </td>
+      <td>@player.SugarFreeStealsPerGame
+      </td>
     </tr>
-    @foreach (var player in Model.PlayerStatistics)
-    {
-        <tr>
-            <td>@Html.ActionLink(player.Player.Name, "Details", new { id = player.Player.Id })
-            </td>
-            <td>@player.Wins
-            </td>
-            <td>@player.Losses
-            </td>
-            <td>@player.WinningPercentage
-            </td>
-            <td>@player.ShotsMade
-            </td>
-            <td>@player.Attempts
-            </td>
-            <td>@player.ShootingPercentage
-            </td>
-            <td>@player.Points
-            </td>
-            <td>@player.PointsPerGame
-            </td>
-            <td>@player.Pushes
-            </td>
-            <td>@player.PushesPerGame
-            </td>
-            <td>@player.Steals
-            </td>
-            <td>@player.StealsPerGame
-            </td>
-            <td>@player.SugarFreeSteals
-            </td>
-            <td>@player.SugarFreeStealsPerGame
-            </td>
-        </tr>
-    }
+  }
 </table>
 @if (HttpContext.Current.User.Identity.IsAuthenticated)
 { 
-    <h2>
-        Players</h2>
-    <p>
-        @Html.ActionLink("Create New", "Create")
-    </p>
-    <table class="zebra-striped" s>
-        <tr>
-            <th>
-            </th>
-            <th>
-                Name
-            </th>
-        </tr>
-        @foreach (var player in Model.Players)
-        {
-            <tr>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = player.Id }) |
-                    @Html.ActionLink("Details", "Details", new { id = player.Id })
-                </td>
-                <td>
-                    @player.Name
-                </td>
-            </tr>
-        }
-    </table>
+  <h2>
+    Players</h2>
+  <p>
+    @Html.ActionLink("Create New", "Create")
+  </p>
+  <table class="zebra-striped" s>
+    <tr>
+      <th>
+      </th>
+      <th>
+        Name
+      </th>
+    </tr>
+    @foreach (var player in Model.Players)
+    {
+      <tr>
+        <td>
+          @Html.ActionLink("Edit", "Edit", new { id = player.Id }) |
+          @Html.ActionLink("Details", "Details", new { id = player.Id })
+        </td>
+        <td>
+          @player.Name
+        </td>
+      </tr>
+    }
+  </table>
 } 
