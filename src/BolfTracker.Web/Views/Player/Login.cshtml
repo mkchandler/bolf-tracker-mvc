@@ -6,11 +6,15 @@
 @using (Html.BeginForm("Authenticate", "Player", FormMethod.Post, new { @class = "form-stacked" }))
 { 
   <label for="private-beta-code">
-    Enter Private Beta Code:</label>
+    Private Beta Code</label>
   <input type="password" id="private-beta-code" name="password" />
   <div class="actions">
     <input type="submit" class="btn primary" value="Play Bolf!" />
   </div>
+}
+@section javascriptrefs
+{
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js" type="text/javascript"></script>
 }
 @section javascript
 {
