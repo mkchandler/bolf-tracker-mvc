@@ -3,15 +3,39 @@
 <head>
   <meta charset="utf-8" />
   <title>@ViewBag.Title</title>
-  <link href="@Url.Content("~/content/bootstrap.min.css")" rel="stylesheet" type="text/css" />
+  <link href="@Url.Content("~/content/bootstrap-1.3.0.min.css")" rel="stylesheet" type="text/css" />
   <style type="text/css">
+    html, body
+    {
+      background: url('@Url.Content("~/content/images/background.png")');
+    }
     body
     {
-      margin-top: 50px;
+      margin-top: 40px;
     }
     input[type="text"], input[type="number"], select
     {
       margin-bottom: 10px;
+    }
+    .content
+    {
+      background-color: #fff;
+      padding: 20px;
+      margin: 0 -20px;
+      min-height: 500px;
+      -webkit-border-radius: 0 0 5px 5px;
+      -moz-border-radius: 0 0 5px 5px;
+      border-radius: 0 0 5px 5px;
+      -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+      -moz-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+      box-shadow: 0 1px 2px rgba(0,0,0,.15);
+    }
+    .container > footer
+    {
+        color: #777;
+        margin: 0;
+        border-top: 0px;
+        padding-bottom: 10px;
     }
   </style>
   @RenderSection("javascriptrefs", required: false)
@@ -37,6 +61,12 @@
     <div class="content">
       @RenderBody()
     </div>
+    <footer>
+      <p>
+        Designed and built by <a href="http://twitter.com/mkchandler">@@mkchandler</a> and friends.<br />
+        Code licensed under the <a href="https://raw.github.com/mkchandler/bolf-tracker-mvc/dev/license.txt">MIT License</a> and is available on <a href="https://github.com/mkchandler/bolf-tracker-mvc">GitHub</a>.
+        </p>
+    </footer>
   </div>
   @RenderSection("javascript", required: false)
 </body>

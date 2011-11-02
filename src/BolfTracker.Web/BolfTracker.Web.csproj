@@ -77,8 +77,8 @@
     <Compile Include="ViewModels\RankingsViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="content\bootstrap.min.css" />
-    <Content Include="content\styles.css" />
+    <Content Include="content\bootstrap-1.3.0.min.css" />
+    <Content Include="content\images\background.png" />
     <Content Include="Global.asax" />
     <Content Include="scripts\jquery.tablesorter.js" />
     <Content Include="Web.config">

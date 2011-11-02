@@ -54,47 +54,50 @@
     </tr>
   }
 </table>
-<h3>
-  Ineligible Player Rankings</h3>
-<table class="zebra-striped">
-  <tr>
-    <th style="width: 120px; text-align: left" title="Player">
-      Player
-    </th>
-    <th style="width: 35px; text-align: right" title="Wins">
-      W
-    </th>
-    <th style="width: 35px; text-align: right" title="Losses">
-      L
-    </th>
-    <th style="width: 55px; text-align: right" title="Winning Percentage">
-      PCT
-    </th>
-    <th style="width: 40px; text-align: right" title="Total Points">
-      P
-    </th>
-    <th style="width: 40px; text-align: right" title="Points Per Game">
-      PPG
-    </th>
-  </tr>
-  @foreach (var ranking in Model.IneligibleRankings)
-  { 
+@if (Model.IneligibleRankings.Any())
+{
+  <h3>
+    Ineligible Player Rankings</h3>
+  <table class="zebra-striped">
     <tr>
-      <td>@Html.ActionLink(ranking.Player.Name, "Details", "Player", new { id = ranking.Player.Id }, null)
-      </td>
-      <td style="text-align: right">@ranking.Wins
-      </td>
-      <td style="text-align: right">@ranking.Losses
-      </td>
-      <td style="text-align: right">@ranking.WinningPercentage
-      </td>
-      <td style="text-align: right">@ranking.TotalPoints
-      </td>
-      <td style="text-align: right">@ranking.PointsPerGame
-      </td>
+      <th style="width: 120px; text-align: left" title="Player">
+        Player
+      </th>
+      <th style="width: 35px; text-align: right" title="Wins">
+        W
+      </th>
+      <th style="width: 35px; text-align: right" title="Losses">
+        L
+      </th>
+      <th style="width: 55px; text-align: right" title="Winning Percentage">
+        PCT
+      </th>
+      <th style="width: 40px; text-align: right" title="Total Points">
+        P
+      </th>
+      <th style="width: 40px; text-align: right" title="Points Per Game">
+        PPG
+      </th>
     </tr>
-  }
-</table>
+    @foreach (var ranking in Model.IneligibleRankings)
+    { 
+      <tr>
+        <td>@Html.ActionLink(ranking.Player.Name, "Details", "Player", new { id = ranking.Player.Id }, null)
+        </td>
+        <td style="text-align: right">@ranking.Wins
+        </td>
+        <td style="text-align: right">@ranking.Losses
+        </td>
+        <td style="text-align: right">@ranking.WinningPercentage
+        </td>
+        <td style="text-align: right">@ranking.TotalPoints
+        </td>
+        <td style="text-align: right">@ranking.PointsPerGame
+        </td>
+      </tr>
+    }
+  </table>
+}
 @if (HttpContext.Current.User.Identity.IsAuthenticated)
 { 
   <p>
