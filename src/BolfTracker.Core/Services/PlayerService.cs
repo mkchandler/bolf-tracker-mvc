@@ -90,7 +90,7 @@ namespace BolfTracker.Services
             DeletePlayerStatistics(month, year);
             DeletePlayerCareerStatistics();
 
-            var players = _playerRepository.All();
+            var players = _playerRepository.All().ToList();
 
             foreach (var player in players)
             {
@@ -134,17 +134,17 @@ namespace BolfTracker.Services
 
             DeletePlayerHoleStatistics(month, year);
 
-            var players = _playerRepository.All();
+            var players = _playerRepository.All().ToList();
 
             foreach (var player in players)
             {
                 if (player.Shots.Any(s => s.Game.Date.Month == month && s.Game.Date.Year == year))
                 {
-                    var holes = _holeRepository.All();
+                    var holes = _holeRepository.All().ToList();
 
                     foreach (var hole in holes)
                     {
-                        var playerHoleShots = player.Shots.Where(s => s.Hole.Id == hole.Id && s.Game.Date.Month == month && s.Game.Date.Year == year);
+                        var playerHoleShots = player.Shots.Where(s => s.Hole.Id == hole.Id && s.Game.Date.Month == month && s.Game.Date.Year == year).ToList();
                         var playerHoleStatistics = new PlayerHoleStatistics() { Player = player, Hole = hole, Month = month, Year = year };
 
                         if (playerHoleShots.Any())
@@ -211,7 +211,7 @@ namespace BolfTracker.Services
         {
             var playerStatistics = new PlayerStatistics() { Player = player, Month = month, Year = year };
 
-            var playerGameStatistics = _playerGameStatisticsRepository.GetByPlayerMonthAndYear(player.Id, month, year);
+            var playerGameStatistics = _playerGameStatisticsRepository.GetByPlayerMonthAndYear(player.Id, month, year).ToList();
 
             playerStatistics.Wins = playerGameStatistics.Count(gs => gs.Winner);
             playerStatistics.Losses = playerGameStatistics.Count(gs => !gs.Winner);
@@ -235,7 +235,7 @@ namespace BolfTracker.Services
         {
             var playerCareerStatistics = new PlayerCareerStatistics() { Player = player };
 
-            var playerGameStatistics = _playerGameStatisticsRepository.GetByPlayer(player.Id);
+            var playerGameStatistics = _playerGameStatisticsRepository.GetByPlayer(player.Id).ToList();
 
             playerCareerStatistics.Wins = playerGameStatistics.Count(pgs => pgs.Winner);
             playerCareerStatistics.Losses = playerGameStatistics.Count(pgs => !pgs.Winner);

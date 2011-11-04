@@ -38,7 +38,7 @@ namespace BolfTracker.Web.Controllers
         [Authorize]
         public ActionResult Calculate()
         {
-            int month = DateTime.Today.Month;
+            int month = 9;// DateTime.Today.Month;
             int year = DateTime.Today.Year;
 
             _rankingService.CalculateRankings(month, year);
