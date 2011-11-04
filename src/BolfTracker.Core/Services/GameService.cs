@@ -11,6 +11,8 @@ namespace BolfTracker.Services
     public class GameService : IGameService
     {
         private readonly IGameRepository _gameRepository;
+        private readonly IShotRepository _shotRepository;
+        private readonly IPlayerRepository _playerRepository;
         private readonly IGameStatisticsRepository _gameStatisticsRepository;
         private readonly IPlayerGameStatisticsRepository _playerGameStatisticsRepository;
         private readonly IUnitOfWork _unitOfWork;
@@ -20,9 +22,11 @@ namespace BolfTracker.Services
         private const int ShotTypeSteal = 4;
         private const int ShotTypeSugarFreeSteal = 5;
 
-        public GameService(IGameRepository gameRepository, IGameStatisticsRepository gameStatisticsRepository, IPlayerGameStatisticsRepository playerGameStatisticsRepository, IUnitOfWork unitOfWork)
+        public GameService(IGameRepository gameRepository, IShotRepository shotRepository, IPlayerRepository playerRepository, IGameStatisticsRepository gameStatisticsRepository, IPlayerGameStatisticsRepository playerGameStatisticsRepository, IUnitOfWork unitOfWork)
         {
             _gameRepository = gameRepository;
+            _shotRepository = shotRepository;
+            _playerRepository = playerRepository;
             _gameStatisticsRepository = gameStatisticsRepository;
             _playerGameStatisticsRepository = playerGameStatisticsRepository;
             _unitOfWork = unitOfWork;
@@ -146,7 +150,8 @@ namespace BolfTracker.Services
             Check.Argument.IsNotZeroOrNegative(gameId, "gameId");
 
             var game = _gameRepository.GetById(gameId);
-            var players = game.Shots.Select(s => s.Player).Distinct();
+            var gameShots = _shotRepository.GetByGame(gameId);
+            var players = _playerRepository.GetByGame(gameId);
 
             int maxPoints = 0;
 
@@ -154,7 +159,7 @@ namespace BolfTracker.Services
             // we can easily determine who the winner is later when actually adding the stats to the repository.
             foreach (var player in players)
             {
-                int playerPoints = player.Shots.Where(s => s.Game.Id == gameId).Sum(s => s.Points);
+                int playerPoints = gameShots.Where(s => s.Player.Id == player.Id).Sum(s => s.Points);
 
                 if (playerPoints > maxPoints)
                 {
@@ -167,19 +172,21 @@ namespace BolfTracker.Services
             {
                 var playerGameStatistics = new PlayerGameStatistics();
 
+                var playerShots = gameShots.Where(s => s.Player.Id == player.Id);
+
                 playerGameStatistics.Game = game;
                 playerGameStatistics.Player = player;
-                playerGameStatistics.Points = player.Shots.Where(s => s.Game.Id == gameId).Sum(s => s.Points);
-                playerGameStatistics.ShotsMade = player.Shots.Count(s => s.Game.Id == gameId && s.ShotMade);
-                playerGameStatistics.Attempts = player.Shots.Where(s => s.Game.Id == gameId).Sum(s => s.Attempts);
+                playerGameStatistics.Points = playerShots.Sum(s => s.Points);
+                playerGameStatistics.ShotsMade = playerShots.Count(s => s.ShotMade);
+                playerGameStatistics.Attempts = playerShots.Sum(s => s.Attempts);
                 playerGameStatistics.ShootingPercentage = Decimal.Round((decimal)playerGameStatistics.ShotsMade / (decimal)playerGameStatistics.Attempts, 3, MidpointRounding.AwayFromZero);
-                playerGameStatistics.Pushes = player.Shots.Count(s => s.Game.Id == gameId && s.ShotType.Id == ShotTypePush);
-                playerGameStatistics.Steals = player.Shots.Count(s => s.Game.Id == gameId && s.ShotType.Id == ShotTypeSteal);
-                playerGameStatistics.SugarFreeSteals = player.Shots.Count(s => s.Game.Id == gameId && s.ShotType.Id == ShotTypeSugarFreeSteal);
+                playerGameStatistics.Pushes = playerShots.Count(s => s.ShotType.Id == ShotTypePush);
+                playerGameStatistics.Steals = playerShots.Count(s => s.ShotType.Id == ShotTypeSteal);
+                playerGameStatistics.SugarFreeSteals = playerShots.Count(s => s.ShotType.Id == ShotTypeSugarFreeSteal);
                 playerGameStatistics.Winner = (playerGameStatistics.Points == maxPoints);
-                playerGameStatistics.OvertimeWin = player.Shots.Max(s => (s.Game.Id == game.Id && s.Hole.Id > 10) && playerGameStatistics.Winner);
+                playerGameStatistics.OvertimeWin = playerShots.Max(s => s.Hole.Id > 10 && playerGameStatistics.Winner);
 
-                int totalGamePoints = game.Shots.Sum(s => s.Points);
+                int totalGamePoints = gameShots.Sum(s => s.Points);
 
                 playerGameStatistics.Shutout = playerGameStatistics.Points == totalGamePoints;
                 playerGameStatistics.PerfectGame = playerGameStatistics.Shutout && (playerGameStatistics.ShotsMade == playerGameStatistics.Attempts);
@@ -187,7 +194,7 @@ namespace BolfTracker.Services
                 _playerGameStatisticsRepository.Add(playerGameStatistics);
             }
 
-            var gameShots = game.Shots.ToList();
+            //var gameShots = game.Shots.ToList();
 
             // Calculate the total stats for the game
             var gameStatistics = new GameStatistics();
