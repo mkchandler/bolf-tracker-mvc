@@ -12,31 +12,35 @@
   <p>
     @Html.ActionLink("Create New", "Create")
   </p>
-  <table class="zebra-striped">
-    <tr>
-      <th>
-      </th>
-      <th>
-        Number
-      </th>
-      <th>
-        Par
-      </th>
-    </tr>
-    @foreach (var item in Model.Holes)
-    {
+  <table class="bordered-table zebra-striped">
+    <thead>
       <tr>
-        <td>
-          @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-          @Html.ActionLink("Details", "Details", new { id = item.Id })
-        </td>
-        <td>
-          @item.Id
-        </td>
-        <td>
-          @item.Par
-        </td>
+        <th>
+        </th>
+        <th>
+          Number
+        </th>
+        <th>
+          Par
+        </th>
       </tr>
-    }
+    </thead>
+    <tbody>
+      @foreach (var item in Model.Holes)
+      {
+        <tr>
+          <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id = item.Id })
+          </td>
+          <td>
+            @item.Id
+          </td>
+          <td>
+            @item.Par
+          </td>
+        </tr>
+      }
+    </tbody>
   </table>
 } 
