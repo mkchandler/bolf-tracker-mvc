@@ -1,34 +1,7 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <title>Error - Bolf Tracker</title>
-  <link href="@Url.Content("~/content/bootstrap-1.4.0.min.css")" rel="stylesheet" type="text/css" />
-  <style type="text/css">
-    body
-    {
-      margin-top: 50px;
-    }
-  </style>
-</head>
-<body>
-  <div class="topbar">
-    <div class="topbar-inner">
-      <div class="container">
-        @Html.ActionLink("Bolf Tracker", "Index", "Ranking", null, new { @class = "brand" })
-        <ul class="nav">
-          <li>@Html.ActionLink("Rankings", "Index", "Ranking")</li>
-          <li>@Html.ActionLink("Games", "Index", "Game")</li>
-          <li>@Html.ActionLink("Players", "Index", "Player")</li>
-          <li>@Html.ActionLink("Holes", "Index", "Hole")</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-  <div class="container">
-    <div class="content">
-      <p>An error occurred while processing your request.</p>
-    </div>
-  </div>
-</body>
-</html>
+﻿@{
+  ViewBag.Title = "Error - Bolf Tracker";
+}
+<h2>
+  Uh oh, something bad happened.</h2>
+<h3>
+  I would blame Chris.</h3>
