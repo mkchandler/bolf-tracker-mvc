@@ -4,6 +4,17 @@
 }
 <h2>
   Game Panel - @String.Format("{0:d}", Model.Game.Date)</h2>
+@if (HttpContext.Current.User.Identity.IsAuthenticated)
+{
+  if (!Model.GameFinalized)
+  {
+    using (Html.BeginForm("Finalize", "Game", FormMethod.Post))
+    {
+  @Html.Hidden("gameId", Model.Game.Id)
+  <input type="submit" class="btn" value="Finalize Game" />
+    }
+  }
+}
 <div class="row">
   <div class="span8">
     @if (HttpContext.Current.User.Identity.IsAuthenticated)
@@ -24,24 +35,13 @@
       <label for="attempts">
         Attempts:
       </label>
-      <input type="number" name="attempts" id="attempts" />
+      <input type="number" name="attempts" id="attempts" autocomplete="off" />
       <label for="shotMade">
         Shot Made:
       </label>
       <input type="checkbox" name="shotMade" id="shotMade" />
       <div class="actions">
         <input type="submit" class="btn primary" value="Save Shot" />
-        @if (HttpContext.Current.User.Identity.IsAuthenticated)
-        {
-          if (!Model.GameFinalized)
-          {
-            using (Html.BeginForm("Finalize", "Game", FormMethod.Post))
-            {
-          @Html.Hidden("gameId", Model.Game.Id)
-          <input type="submit" class="btn pull-right" value="Finalize Game" />
-            }
-          }
-        }
       </div>
         }
       }
@@ -55,19 +55,19 @@
       <table id="leaderboard" class="bordered-table zebra-striped">
         <thead>
           <tr>
-            <th title="Player" style="width: 150px; text-align: left;">
+            <th title="Player">
               Player
             </th>
-            <th title="Points" style="width: 70px; text-align: left;">
+            <th title="Points">
               Points
             </th>
-            <th title="Shooting Percentage" style="width: 95px; text-align: left;">
-              Shooting
+            <th title="Shooting Percentage">
+              Shooting %
             </th>
-            <th title="Steals" style="width: 70px; text-align: left;">
+            <th title="Steals">
               Steals
             </th>
-            <th title="Pushes" style="width: 70px; text-align: left;">
+            <th title="Pushes">
               Pushes
             </th>
           </tr>
