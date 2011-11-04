@@ -7,18 +7,22 @@
 <p>
   @Html.ActionLink("Create New", "Create")
 </p>
-<table class="zebra-striped">
-  <tr>
-    <th>
-      Game Date
-    </th>
-  </tr>
-  @foreach (var item in Model)
-  {
+<table class="bordered-table zebra-striped">
+  <thead>
     <tr>
-      <td>
-        @Html.ActionLink(String.Format("{0:d}", item.Date), "Details", new { id = item.Id })
-      </td>
+      <th>
+        Game Date
+      </th>
     </tr>
-  }
+  </thead>
+  <tbody>
+    @foreach (var item in Model)
+    {
+      <tr>
+        <td>
+          @Html.ActionLink(String.Format("{0:d}", item.Date), "Details", new { id = item.Id })
+        </td>
+      </tr>
+    }
+  </tbody>
 </table>
