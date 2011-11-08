@@ -54,24 +54,19 @@ namespace BolfTracker.Services
 
             DeleteHoleStatistics(month, year);
 
-            var holes = _holeRepository.All();
+            var holes = _holeRepository.GetActiveByMonthAndYear(month, year);
 
             foreach (var hole in holes)
             {
-                var holeShots = hole.Shots.Where(s => s.Game.Date.Month == month && s.Game.Date.Year == year && s.Hole.Id == hole.Id);
-
                 var holeStatistics = new HoleStatistics() { Hole = hole, Month = month, Year = year };
 
-                if (holeShots.Any())
-                {
-                    holeStatistics.ShotsMade = holeShots.Count(s => s.ShotMade);
-                    holeStatistics.Attempts = holeShots.Sum(s => s.Attempts);
-                    holeStatistics.ShootingPercentage = Decimal.Round((decimal)holeStatistics.ShotsMade / (decimal)holeStatistics.Attempts, 3, MidpointRounding.AwayFromZero);
-                    holeStatistics.PointsScored = holeShots.Sum(s => s.Points);
-                    holeStatistics.Pushes = holeShots.Count(s => s.ShotType.Id == 3);
-                    holeStatistics.Steals = holeShots.Count(s => s.ShotType.Id == 4);
-                    holeStatistics.SugarFreeSteals = holeShots.Count(s => s.ShotType.Id == 5);
-                }
+                holeStatistics.ShotsMade = hole.Shots.Count(s => s.ShotMade);
+                holeStatistics.Attempts = hole.Shots.Sum(s => s.Attempts);
+                holeStatistics.ShootingPercentage = Decimal.Round((decimal)holeStatistics.ShotsMade / (decimal)holeStatistics.Attempts, 3, MidpointRounding.AwayFromZero);
+                holeStatistics.PointsScored = hole.Shots.Sum(s => s.Points);
+                holeStatistics.Pushes = hole.Shots.Count(s => s.ShotType.Id == 3);
+                holeStatistics.Steals = hole.Shots.Count(s => s.ShotType.Id == 4);
+                holeStatistics.SugarFreeSteals = hole.Shots.Count(s => s.ShotType.Id == 5);
 
                 _holeStatisticsRepository.Add(holeStatistics);
             }

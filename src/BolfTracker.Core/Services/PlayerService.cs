@@ -90,22 +90,17 @@ namespace BolfTracker.Services
             DeletePlayerStatistics(month, year);
             DeletePlayerCareerStatistics();
 
-            var players = _playerRepository.All();
+            var players = _playerRepository.GetActiveByMonthAndYear(month, year);
 
             foreach (var player in players)
             {
-                if (player.Shots.Any(s => s.Game.Date.Month == month && s.Game.Date.Year == year))
-                {
-                    // Calculate the player's monthly stats
-                    var playerStatistics = CalculatePlayerStatistics(player, month, year);
+                // Calculate the player's monthly stats
+                var playerStatistics = CalculatePlayerStatistics(player, month, year);
+                _playerStatisticsRepository.Add(playerStatistics);
 
-                    _playerStatisticsRepository.Add(playerStatistics);
-
-                    // Calculate the player's career stats
-                    var playerCareerStatistics = CalculatePlayerCareerStatistics(player);
-
-                    _playerCareerStatisticsRepository.Add(playerCareerStatistics);
-                }
+                // Calculate the player's career stats
+                var playerCareerStatistics = CalculatePlayerCareerStatistics(player);
+                _playerCareerStatisticsRepository.Add(playerCareerStatistics);
             }
 
             _unitOfWork.Commit();
@@ -134,17 +129,17 @@ namespace BolfTracker.Services
 
             DeletePlayerHoleStatistics(month, year);
 
-            var players = _playerRepository.All();
+            var players = _playerRepository.All().ToList();
 
             foreach (var player in players)
             {
                 if (player.Shots.Any(s => s.Game.Date.Month == month && s.Game.Date.Year == year))
                 {
-                    var holes = _holeRepository.All();
+                    var holes = _holeRepository.All().ToList();
 
                     foreach (var hole in holes)
                     {
-                        var playerHoleShots = player.Shots.Where(s => s.Hole.Id == hole.Id && s.Game.Date.Month == month && s.Game.Date.Year == year);
+                        var playerHoleShots = player.Shots.Where(s => s.Hole.Id == hole.Id && s.Game.Date.Month == month && s.Game.Date.Year == year).ToList();
                         var playerHoleStatistics = new PlayerHoleStatistics() { Player = player, Hole = hole, Month = month, Year = year };
 
                         if (playerHoleShots.Any())
