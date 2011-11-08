@@ -35,14 +35,8 @@
       <th title="Steals">
         Steals
       </th>
-      <th title="Steals Per Game">
-        SPG
-      </th>
       <th title="Sugar Free Steals">
         SFS
-      </th>
-      <th title="Sugar Free Steals Per Game">
-        SFS/PG
       </th>
     </tr>
   </thead>
@@ -82,13 +76,7 @@
         @Model.Steals
       </td>
       <td>
-        @String.Format("{0:#.#}", Model.StealsPerGame)
-      </td>
-      <td>
         @Model.SugarFreeSteals
-      </td>
-      <td>
-        @String.Format("{0:#.#}", Model.SugarFreeStealsPerGame)
       </td>
     </tr>
   </tbody>

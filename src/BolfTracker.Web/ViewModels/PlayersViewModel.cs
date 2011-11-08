@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 using BolfTracker.Models;
 
@@ -9,7 +10,7 @@ namespace BolfTracker.Web
         public PlayersViewModel(IEnumerable<Player> players, IEnumerable<PlayerStatistics> playerStatistics)
         {
             Players = players;
-            PlayerStatistics = playerStatistics;
+            _playerStatistics = playerStatistics;
         }
 
         public IEnumerable<Player> Players
@@ -18,10 +19,11 @@ namespace BolfTracker.Web
             private set;
         }
 
+        private IEnumerable<PlayerStatistics> _playerStatistics;
+
         public IEnumerable<PlayerStatistics> PlayerStatistics
         {
-            get;
-            private set;
+            get { return _playerStatistics.OrderByDescending(ps => ps.ShootingPercentage); }
         }
     }
 }
