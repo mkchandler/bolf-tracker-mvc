@@ -42,11 +42,19 @@ namespace BolfTracker.Web.Controllers
             int year = DateTime.Today.Year;
 
             _rankingService.CalculateRankings(month, year);
-
             _playerService.CalculatePlayerStatistics(month, year);
 
-            _playerService.CalculatePlayerHoleStatistics(month, year);
+            return RedirectToAction("Monthly", new { year = year, month = month });
+        }
 
+        [HttpPost]
+        [Authorize]
+        public ActionResult CalculateHoleStatistics()
+        {
+            int month = DateTime.Today.Month;
+            int year = DateTime.Today.Year;
+
+            _playerService.CalculatePlayerHoleStatistics(month, year);
             _holeService.CalculateHoleStatistics(month, year);
 
             return RedirectToAction("Monthly", new { year = year, month = month });

@@ -35,7 +35,7 @@ namespace BolfTracker.Services
             DeleteRankings(month, year);
 
             var games = _gameRepository.GetByMonthAndYear(month, year);
-            var playerGameStatistics = games.SelectMany(g => g.PlayerGameStatistics);
+            var playerGameStatistics = games.SelectMany(g => g.PlayerGameStatistics).ToList();
             var shots = games.SelectMany(g => g.Shots);
             var players = shots.Select(s => s.Player).Distinct().ToList();
 

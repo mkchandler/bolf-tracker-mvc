@@ -25,5 +25,12 @@ namespace BolfTracker.Infrastructure.EntityFramework
 
             return players;
         }
+
+        public IEnumerable<Player> GetActiveByMonthAndYear(int month, int year)
+        {
+            var players = Database.Shots.Where(shot => shot.Game.Date.Month == month && shot.Game.Date.Year == year).Select(shot => shot.Player).Distinct().ToList();
+
+            return players;
+        }
     }
 }

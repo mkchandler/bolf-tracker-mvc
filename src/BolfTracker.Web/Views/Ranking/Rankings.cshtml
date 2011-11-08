@@ -114,4 +114,10 @@
       <input type="submit" class="btn" value="Calculate Rankings" />
     }
   </p>
+  <p>
+    @using (Html.BeginForm("CalculateHoleStatistics", "Ranking", FormMethod.Post))
+    { 
+      <input type="submit" class="btn" value="Calculate Hole Statistics" />
+    }
+  </p>
 } 
