@@ -70,6 +70,7 @@
     </Compile>
     <Compile Include="DependencyResolvers\UnityDependencyResolver.cs" />
     <Compile Include="ViewModels\GamePanelViewModel.cs" />
+    <Compile Include="ViewModels\GamesViewModel.cs" />
     <Compile Include="ViewModels\HolesViewModel.cs" />
     <Compile Include="ViewModels\PlayersViewModel.cs" />
     <Compile Include="ViewModels\HoleViewModel.cs" />

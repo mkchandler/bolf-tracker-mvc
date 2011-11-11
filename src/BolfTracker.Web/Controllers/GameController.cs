@@ -25,7 +25,7 @@ namespace BolfTracker.Web.Controllers
         {
             var games = _gameService.GetGames(DateTime.Today.Month, DateTime.Today.Year);
 
-            return View(games);
+            return View(new GamesViewModel(games));
         }
 
         [Authorize]

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<BolfTracker.Models.Game>
+﻿@model BolfTracker.Web.GamesViewModel
 @{
   ViewBag.Title = "Games - Bolf Tracker";
 }
@@ -7,22 +7,37 @@
 <p>
   @Html.ActionLink("Create New", "Create")
 </p>
-<table class="bordered-table zebra-striped">
-  <thead>
-    <tr>
-      <th>
-        Game Date
-      </th>
-    </tr>
-  </thead>
-  <tbody>
-    @foreach (var item in Model)
-    {
+@foreach (var item in Model.Games)
+{
+  var pgs = Model.GetPlayerGameStatistics(item.Id);
+  <table class="bordered-table zebra-striped">
+    <thead>
       <tr>
-        <td>
+        <th>
           @Html.ActionLink(String.Format("{0:d}", item.Date), "Details", new { id = item.Id })
-        </td>
+        </th>
+        <th>Points</th>
+        <th>Shooting %</th>
+        <th>Pushes</th>
+        <th>Steals</th>
       </tr>
-    }
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      @foreach (var player in pgs)
+      {
+        <tr>
+          <td>@player.Player.Name
+          </td>
+          <td>@player.Points
+          </td>
+          <td>@player.ShootingPercentage
+          </td>
+          <td>@player.Pushes
+          </td>
+          <td>@player.Steals
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+}
