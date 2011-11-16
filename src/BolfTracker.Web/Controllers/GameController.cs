@@ -21,11 +21,14 @@ namespace BolfTracker.Web.Controllers
             _scoreTypeService = scoreTypeService;
         }
 
-        public ActionResult Index()
+        public ActionResult Index(int? year, int? month)
         {
-            var games = _gameService.GetGames(DateTime.Today.Month, DateTime.Today.Year);
+            int gamesYear = year.HasValue ? year.Value : DateTime.Today.Year;
+            int gamesMonth = month.HasValue ? month.Value : DateTime.Today.Month;
 
-            return View(new GamesViewModel(games));
+            var games = _gameService.GetGames(gamesMonth, gamesYear);
+
+            return View(new GamesViewModel(gamesMonth, gamesYear, games));
         }
 
         [Authorize]

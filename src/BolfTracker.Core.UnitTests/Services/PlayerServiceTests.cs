@@ -19,7 +19,7 @@ namespace BolfTracker.UnitTests.Services
         private Mock<IGameStatisticsRepository> _gameStatisticsRepository;
         private Mock<IUnitOfWork> _unitOfWork;
 
-        private PlayerService _playerService;
+        //private PlayerService _playerService;
 
         [TestInitialize]
         public void TestInitialize()

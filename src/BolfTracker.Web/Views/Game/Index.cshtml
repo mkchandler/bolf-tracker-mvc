@@ -1,43 +1,60 @@
 ﻿@model BolfTracker.Web.GamesViewModel
 @{
-  ViewBag.Title = "Games - Bolf Tracker";
+  ViewBag.Title = String.Format("{0} {1} Games - Bolf Tracker", Model.MonthName, Model.Year);
 }
-<h2>
-  Games</h2>
-<p>
-  @Html.ActionLink("Create New", "Create")
-</p>
-@foreach (var item in Model.Games)
-{
-  var pgs = Model.GetPlayerGameStatistics(item.Id);
-  <table class="bordered-table zebra-striped">
-    <thead>
-      <tr>
-        <th>
-          @Html.ActionLink(String.Format("{0:d}", item.Date), "Details", new { id = item.Id })
-        </th>
-        <th>Points</th>
-        <th>Shooting %</th>
-        <th>Pushes</th>
-        <th>Steals</th>
-      </tr>
-    </thead>
-    <tbody>
-      @foreach (var player in pgs)
-      {
-        <tr>
-          <td>@player.Player.Name
-          </td>
-          <td>@player.Points
-          </td>
-          <td>@player.ShootingPercentage
-          </td>
-          <td>@player.Pushes
-          </td>
-          <td>@player.Steals
-          </td>
-        </tr>
-      }
-    </tbody>
-  </table>
-}
+<div class="page-header">
+  <div class="row">
+    <div class="span8">
+      <h2>@String.Format("{0} {1} Games", Model.MonthName, Model.Year)</h2>
+    </div>
+    <div class="span8">
+      @Html.ActionLink("New Game", "Create", null, new { @class = "btn primary pull-right" })
+    </div>
+  </div>
+</div>
+<div class="row">
+  @foreach (var item in Model.Games)
+  {
+    var pgs = Model.GetPlayerGameStatistics(item.Id);
+    <div class="span8">
+      <table class="condensed-table bordered-table zebra-striped">
+        <thead>
+          <tr>
+            <th>
+              @Html.ActionLink(String.Format("{0:d}", item.Date), "Details", new { id = item.Id })
+            </th>
+            <th title="Points">
+              Points
+            </th>
+            <th title="Shooting Percentage">
+              Shooting %
+            </th>
+            <th title="Pushes">
+              Pushes
+            </th>
+            <th title="Steals">
+              Steals
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          @foreach (var player in pgs)
+          {
+            <tr>
+              <td>@Html.ActionLink(player.Player.Name, "Details", "Player", new { id = player.Player.Id }, null)
+              </td>
+              <td>@player.Points
+              </td>
+              <td>@player.ShootingPercentage
+              </td>
+              <td>@player.Pushes
+              </td>
+              <td>@player.Steals
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>
