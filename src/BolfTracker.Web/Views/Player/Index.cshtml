@@ -2,9 +2,14 @@
 @{
   ViewBag.Title = "Players - Bolf Tracker";
 }
-<h2>
-  Monthly Player Statistics</h2>
-<table class="bordered-table zebra-striped">
+<div class="page-header">
+  <div class="row">
+    <div class="span16">
+      <h2>@String.Format("{0} {1} Player Statistics", Model.MonthName, Model.Year)</h2>
+    </div>
+  </div>
+</div>
+<table class="condensed-table bordered-table zebra-striped" id="current-month-stats">
   <thead>
     <tr>
       <th title="Player">
@@ -17,7 +22,7 @@
         L
       </th>
       <th title="Winning Percentage">
-        Winning %
+        Win %
       </th>
       <th title="Shots Made ">
         Made
@@ -38,7 +43,7 @@
         Pushes
       </th>
       <th title="Pushes Per Game">
-        Pushes PG
+        Pushes/PG
       </th>
       <th title="Steals">
         Steals
@@ -114,4 +119,14 @@
       }
     </tbody>
   </table>
-} 
+}
+@section javascript
+{
+  <script src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.7.min.js" type="text/javascript"></script>
+  <script src="@Url.Content("~/scripts/jquery.tablesorter.js")" type="text/javascript"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("table#current-month-stats").tablesorter();
+    });
+  </script>
+}

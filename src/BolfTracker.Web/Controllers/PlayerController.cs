@@ -24,7 +24,7 @@ namespace BolfTracker.Web.Controllers
             var players = _playerService.GetPlayers();
             var playerStatistics = _playerService.GetPlayerStatistics(month, year);
 
-            return View(new PlayersViewModel(players, playerStatistics));
+            return View(new PlayersViewModel(month, year, players, playerStatistics));
         }
 
         public ActionResult Details(int id)

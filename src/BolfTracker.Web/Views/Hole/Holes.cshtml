@@ -2,11 +2,85 @@
 @{
   ViewBag.Title = "Holes - Bolf Tracker";
 }
-<h2>
-  Monthly Hole Statistics</h2>
-@Html.Partial("_HoleStatistics", Model.CurrentMonthHoleStatistics)
+<div class="page-header">
+  <div class="row">
+    <div class="span8">
+      <h2>@String.Format("{0} {1} Hole Statistics", Model.MonthName, Model.Year)</h2>
+    </div>
+    <div class="span8">
+      @if (HttpContext.Current.User.Identity.IsAuthenticated)
+      {
+        using (Html.BeginForm("CalculateHoleStatistics", "Ranking", FormMethod.Post))
+        {
+        <input type="submit" class="btn pull-right" value="Calculate Hole Statistics" />
+        }
+      }
+    </div>
+  </div>
+</div>
+<table class="condensed-table bordered-table zebra-striped" id="current-month-stats">
+  <thead>
+    <tr>
+      <th title="Hole">
+        Hole
+      </th>
+      <th title="Shots Made">
+        Made
+      </th>
+      <th title="Attempts">
+        Attempts
+      </th>
+      <th title="Shooting Percentage">
+        Shooting %
+      </th>
+      <th title="Points">
+        Points
+      </th>
+      <th title="Pushes">
+        Pushes
+      </th>
+      <th title="Steals">
+        Steals
+      </th>
+      <th title="Sugar Free Steals">
+        SFS
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    @foreach (var item in Model.CurrentMonthHoleStatistics)
+    {
+      <tr>
+        <td>
+          @item.Hole.Id
+        </td>
+        <td>
+          @item.ShotsMade
+        </td>
+        <td>
+          @item.Attempts
+        </td>
+        <td>
+          @String.Format("{0:#.###}", item.ShootingPercentage)
+        </td>
+        <td>
+          @item.PointsScored
+        </td>
+        <td>
+          @item.Pushes
+        </td>
+        <td>
+          @item.Steals
+        </td>
+        <td>
+          @item.SugarFreeSteals
+        </td>
+      </tr>
+    }
+  </tbody>
+</table>
 @if (HttpContext.Current.User.Identity.IsAuthenticated)
-{ 
+{
   <h2>
     Holes</h2>
   <p>
@@ -43,4 +117,14 @@
       }
     </tbody>
   </table>
-} 
+}
+@section javascript
+{
+  <script src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.7.min.js" type="text/javascript"></script>
+  <script src="@Url.Content("~/scripts/jquery.tablesorter.js")" type="text/javascript"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("table#current-month-stats").tablesorter();
+    });
+  </script>
+}

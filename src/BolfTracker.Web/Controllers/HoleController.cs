@@ -22,7 +22,7 @@ namespace BolfTracker.Web.Controllers
             var holes = _holeService.GetHoles();
             var holesStatistics = _holeService.GetHoleStatistics(month, year);
 
-            return View("Holes", new HolesViewModel(holes, holesStatistics));
+            return View("Holes", new HolesViewModel(month, year, holes, holesStatistics));
         }
 
         [Authorize]

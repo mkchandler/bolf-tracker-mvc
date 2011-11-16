@@ -8,7 +8,10 @@
       <h2>@String.Format("{0} {1} Games", Model.MonthName, Model.Year)</h2>
     </div>
     <div class="span8">
-      @Html.ActionLink("New Game", "Create", null, new { @class = "btn primary pull-right" })
+      @if (HttpContext.Current.User.Identity.IsAuthenticated)
+      {
+        @Html.ActionLink("New Game", "Create", null, new { @class = "btn primary pull-right" })
+      }
     </div>
   </div>
 </div>
