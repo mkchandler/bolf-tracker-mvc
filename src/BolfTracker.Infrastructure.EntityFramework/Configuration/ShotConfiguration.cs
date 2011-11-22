@@ -11,12 +11,12 @@ namespace BolfTracker.Infrastructure.EntityFramework.Configuration
         {
             HasKey(s => s.Id);
 
-            Property(s => s.Id).HasDatabaseGenerationOption(DatabaseGenerationOption.Identity);
+            Property(s => s.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
 
-            HasRequired(s => s.Game).WithMany(g => g.Shots);
-            HasRequired(s => s.Player).WithMany(p => p.Shots);
-            HasRequired(s => s.Hole).WithMany(h => h.Shots);
-            HasRequired(s => s.ShotType).WithMany(st => st.Shots);
+            HasRequired(s => s.Game).WithMany(g => g.Shots).Map(s => s.MapKey("GameId"));
+            HasRequired(s => s.Player).WithMany(p => p.Shots).Map(s => s.MapKey("PlayerId"));
+            HasRequired(s => s.Hole).WithMany(h => h.Shots).Map(s => s.MapKey("HoleId"));
+            HasRequired(s => s.ShotType).WithMany(st => st.Shots).Map(s => s.MapKey("ShotTypeId"));
 
             ToTable("Shot");
         }

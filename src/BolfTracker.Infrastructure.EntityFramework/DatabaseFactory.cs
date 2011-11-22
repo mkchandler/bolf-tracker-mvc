@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Common;
-using System.Data.Edm.Db.Mapping;
+using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.ModelConfiguration;
 using System.Linq;
@@ -15,7 +15,7 @@ namespace BolfTracker.Infrastructure.EntityFramework
         private readonly DbProviderFactory _providerFactory;
         private readonly string _connectionString;
 
-        private static DbModel _model;
+        private static DbCompiledModel _model;
 
         private Database _database;
 
@@ -66,9 +66,9 @@ namespace BolfTracker.Infrastructure.EntityFramework
             }
         }
 
-        private static DbModel CreateDbModel(DbConnection connection)
+        private static DbCompiledModel CreateDbModel(DbConnection connection)
         {
-            var modelBuilder = new ModelBuilder();
+            var modelBuilder = new DbModelBuilder();
 
             IEnumerable<Type> configurationTypes = typeof(DatabaseFactory).Assembly
                 .GetTypes()
@@ -84,9 +84,7 @@ namespace BolfTracker.Infrastructure.EntityFramework
                 modelBuilder.Configurations.Add((dynamic)configuration);
             }
 
-            DbDatabaseMapping mapping = modelBuilder.Build(connection);
-
-            return new DbModel(mapping);
+            return modelBuilder.Build(connection).Compile();
         }
     }
 }

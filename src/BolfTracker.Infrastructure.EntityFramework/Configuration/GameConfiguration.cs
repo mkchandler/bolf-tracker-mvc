@@ -11,7 +11,7 @@ namespace BolfTracker.Infrastructure.EntityFramework.Configuration
         {
             HasKey(g => g.Id);
 
-            Property(g => g.Id).HasDatabaseGenerationOption(DatabaseGenerationOption.Identity);
+            Property(g => g.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
 
             ToTable("Game");
         }

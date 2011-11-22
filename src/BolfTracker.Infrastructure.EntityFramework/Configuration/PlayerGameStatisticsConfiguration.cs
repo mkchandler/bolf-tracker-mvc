@@ -11,10 +11,10 @@ namespace BolfTracker.Infrastructure.EntityFramework.Configuration
         {
             HasKey(pgs => pgs.Id);
 
-            Property(pgs => pgs.Id).HasDatabaseGenerationOption(DatabaseGenerationOption.Identity);
+            Property(pgs => pgs.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
 
-            HasRequired(pgs => pgs.Game).WithMany(g => g.PlayerGameStatistics);
-            HasRequired(pgs => pgs.Player).WithMany(p => p.PlayerGameStatistics);
+            HasRequired(pgs => pgs.Game).WithMany(g => g.PlayerGameStatistics).Map(pgs => pgs.MapKey("GameId"));
+            HasRequired(pgs => pgs.Player).WithMany(p => p.PlayerGameStatistics).Map(pgs => pgs.MapKey("PlayerId"));
 
             ToTable("PlayerGameStatistics");
         }

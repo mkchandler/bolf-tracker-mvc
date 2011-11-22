@@ -16,7 +16,6 @@ namespace BolfTracker.Infrastructure.EntityFramework
 
         public IEnumerable<Game> GetByMonthAndYear(int month, int year)
         {
-            //IQuery<IEnumerable<Game>> query = QueryFactory.CreateGamesByMonthAndYearQuery(month, year);
             var games = Database.Games.Where(game => game.Date.Month == month && game.Date.Year == year).ToList();
 
             return games;

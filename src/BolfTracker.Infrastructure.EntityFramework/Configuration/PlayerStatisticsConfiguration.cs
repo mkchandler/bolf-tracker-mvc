@@ -11,15 +11,20 @@ namespace BolfTracker.Infrastructure.EntityFramework.Configuration
         {
             HasKey(ps => ps.Id);
 
-            Property(ps => ps.Id).HasDatabaseGenerationOption(DatabaseGenerationOption.Identity);
+            Property(ps => ps.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
 
-            HasRequired(ps => ps.Player).WithMany(p => p.PlayerStatistics);
+            HasRequired(ps => ps.Player).WithMany(p => p.PlayerStatistics).Map(ps => ps.MapKey("PlayerId"));
 
             Ignore(ps => ps.TotalGames);
             Ignore(ps => ps.NormalSteals);
             Ignore(ps => ps.NormalStealsPerGame);
 
             ToTable("PlayerStatistics");
+        }
+
+        private object Property(System.Func<PlayerStatistics, System.TimeSpan?> func)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

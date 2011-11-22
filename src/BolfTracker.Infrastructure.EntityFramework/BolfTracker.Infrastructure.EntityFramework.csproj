@@ -31,10 +31,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\..\dependencies\EntityFramework.dll</HintPath>
+    <Reference Include="EntityFramework, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.4.2.0.0\lib\net40\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Entity" />
     <Reference Include="Microsoft.CSharp" />
@@ -69,7 +71,6 @@
     <Compile Include="PlayerRepository.cs" />
     <Compile Include="PlayerStatisticsRepository.cs" />
     <Compile Include="Query\GamesByMonthAndYearQuery.cs" />
-    <Compile Include="Query\GameStatisticsByPlayerMonthAndYearQuery.cs" />
     <Compile Include="Query\HoleStatisticsByMonthAndYearQuery.cs" />
     <Compile Include="Query\IQuery.cs" />
     <Compile Include="Query\IQueryFactory.cs" />
@@ -94,6 +95,9 @@
       <Project>{A8BD7DEF-773E-4391-81EF-8330084AC454}</Project>
       <Name>BolfTracker.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

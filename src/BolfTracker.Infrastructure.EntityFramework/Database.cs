@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Data.EntityClient;
 using System.Data.Objects;
-using System.Data.EntityClient;
 
 using BolfTracker.Models;
 
@@ -25,6 +21,7 @@ namespace BolfTracker.Infrastructure.EntityFramework
 
         public Database(EntityConnection connection) : base(connection)
         {
+            
             ContextOptions.LazyLoadingEnabled = true;
             ContextOptions.ProxyCreationEnabled = true;
         }

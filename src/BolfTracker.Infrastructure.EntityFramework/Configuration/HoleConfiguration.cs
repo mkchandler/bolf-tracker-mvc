@@ -11,7 +11,7 @@ namespace BolfTracker.Infrastructure.EntityFramework.Configuration
         {
             HasKey(h => h.Id);
 
-            Property(h => h.Id).HasDatabaseGenerationOption(DatabaseGenerationOption.None);
+            Property(h => h.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
 
             ToTable("Hole");
         }
