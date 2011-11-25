@@ -29,7 +29,7 @@ namespace BolfTracker.Web.Controllers
             int rankingsYear = year.HasValue ? year.Value : DateTime.Today.Year;
             int rankingsMonth = month.HasValue ? month.Value : DateTime.Today.Month;
 
-            var rankings = _rankingService.GetRankings(rankingsMonth, rankingsYear).ToList();
+            var rankings = _rankingService.GetRankings(rankingsMonth, rankingsYear);
 
             return View("Rankings", new RankingsViewModel(rankingsMonth, rankingsYear, rankings));
         }
