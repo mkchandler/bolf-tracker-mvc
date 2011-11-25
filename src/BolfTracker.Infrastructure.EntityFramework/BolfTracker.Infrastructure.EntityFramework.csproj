@@ -81,7 +81,6 @@
     <Compile Include="PlayerRepository.cs" />
     <Compile Include="PlayerStatisticsRepository.cs" />
     <Compile Include="Query\GamesByMonthAndYearQuery.cs" />
-    <Compile Include="Query\HoleStatisticsByMonthAndYearQuery.cs" />
     <Compile Include="Query\IQuery.cs" />
     <Compile Include="Query\IQueryFactory.cs" />
     <Compile Include="Query\PlayerByNameQuery.cs" />

@@ -23,7 +23,7 @@ namespace BolfTracker.Services
 
         public IEnumerable<Hole> GetHoles()
         {
-            return _holeRepository.All();
+            return _holeRepository.All().ToList();
         }
 
         public IEnumerable<HoleStatistics> GetHoleStatistics(int month, int year)

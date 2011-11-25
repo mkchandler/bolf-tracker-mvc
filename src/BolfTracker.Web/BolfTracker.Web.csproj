@@ -161,9 +161,6 @@
     <Content Include="Views\Hole\Holes.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Hole\_HoleStatistics.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Views\Player\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>

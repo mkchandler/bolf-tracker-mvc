@@ -86,11 +86,11 @@
   <p>
     @Html.ActionLink("Create New", "Create")
   </p>
-  <table class="bordered-table zebra-striped">
+  <table class="condensed-table bordered-table zebra-striped">
     <thead>
       <tr>
-        <th>
-        </th>
+@*        <th>
+        </th>*@
         <th>
           Number
         </th>
@@ -103,10 +103,10 @@
       @foreach (var item in Model.Holes)
       {
         <tr>
-          <td>
+@*          <td>
             @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
             @Html.ActionLink("Details", "Details", new { id = item.Id })
-          </td>
+          </td>*@
           <td>
             @item.Id
           </td>

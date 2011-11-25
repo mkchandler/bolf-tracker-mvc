@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 using BolfTracker.Models;
 using BolfTracker.Repositories;
@@ -14,9 +14,9 @@ namespace BolfTracker.Infrastructure.EntityFramework
 
         public IEnumerable<HoleStatistics> GetByMonthAndYear(int month, int year)
         {
-            IQuery<IEnumerable<HoleStatistics>> query = QueryFactory.CreateHoleStatisticsByMonthAndYearQuery(month, year);
+            var holeStatistics = Database.HoleStatistics.Where(hs => hs.Month == month && hs.Year == year).ToList();
 
-            return query.Execute(Database);
+            return holeStatistics;
         }
     }
 }
