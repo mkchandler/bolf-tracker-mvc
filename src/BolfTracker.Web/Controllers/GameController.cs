@@ -26,7 +26,7 @@ namespace BolfTracker.Web.Controllers
             int gamesYear = year.HasValue ? year.Value : DateTime.Today.Year;
             int gamesMonth = month.HasValue ? month.Value : DateTime.Today.Month;
 
-            var games = _gameService.GetGames(gamesMonth, gamesYear);
+            var games = _gameService.GetGamesWithStatistics(gamesMonth, gamesYear);
 
             return View(new GamesViewModel(gamesMonth, gamesYear, games));
         }

@@ -23,7 +23,8 @@ namespace BolfTracker.Infrastructure.EntityFramework
 
         public IEnumerable<Game> GetByMonthAndYearWithStatistics(int month, int year)
         {
-            var games = Database.Games.Include(game => game.GameStatistics).Include(game => game.PlayerGameStatistics).Where(game => game.Date.Month == month && game.Date.Year == year).ToList();
+            // TODO: This query is not very effecient and could probably be written better
+            var games = Database.Games.Include(game => game.GameStatistics).Include(game => game.PlayerGameStatistics.Select(pgs => pgs.Player)).Where(game => game.Date.Month == month && game.Date.Year == year).ToList();
 
             return games;
         }
