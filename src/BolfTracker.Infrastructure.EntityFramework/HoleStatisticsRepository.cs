@@ -8,7 +8,7 @@ namespace BolfTracker.Infrastructure.EntityFramework
 {
     public class HoleStatisticsRepository : RepositoryBase<HoleStatistics>, IHoleStatisticsRepository
     {
-        public HoleStatisticsRepository(IDatabaseFactory databaseFactory, IQueryFactory queryFactory) : base(databaseFactory, queryFactory)
+        public HoleStatisticsRepository(IDatabaseFactory databaseFactory) : base(databaseFactory)
         {
         }
 

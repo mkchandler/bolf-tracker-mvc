@@ -9,13 +9,13 @@ namespace BolfTracker.Infrastructure.EntityFramework
     {
         private Database _database;
 
-        protected RepositoryBase(IDatabaseFactory databaseFactory, IQueryFactory queryFactory)
+        protected RepositoryBase(IDatabaseFactory databaseFactory)
         {
             Check.Argument.IsNotNull(databaseFactory, "databaseFactory");
-            Check.Argument.IsNotNull(queryFactory, "queryFactory");
+            //Check.Argument.IsNotNull(queryFactory, "queryFactory");
 
             DatabaseFactory = databaseFactory;
-            QueryFactory = queryFactory;
+            //QueryFactory = queryFactory;
         }
 
         protected IDatabaseFactory DatabaseFactory
@@ -24,11 +24,11 @@ namespace BolfTracker.Infrastructure.EntityFramework
             private set;
         }
 
-        protected IQueryFactory QueryFactory
-        {
-            get;
-            private set;
-        }
+        //protected IQueryFactory QueryFactory
+        //{
+        //    get;
+        //    private set;
+        //}
 
         protected Database Database
         {

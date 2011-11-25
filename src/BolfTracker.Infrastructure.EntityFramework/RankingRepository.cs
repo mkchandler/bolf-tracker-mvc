@@ -9,7 +9,7 @@ namespace BolfTracker.Infrastructure.EntityFramework
 {
     public class RankingRepository : RepositoryBase<Ranking>, IRankingRepository
     {
-        public RankingRepository(IDatabaseFactory databaseFactory, IQueryFactory queryFactory) : base(databaseFactory, queryFactory)
+        public RankingRepository(IDatabaseFactory databaseFactory) : base(databaseFactory)
         {
         }
 

@@ -91,24 +91,12 @@ namespace BolfTracker.Web
                      .RegisterType<IPlayerCareerStatisticsRepository, PlayerCareerStatisticsRepository>(new HttpContextLifetimeManager<IPlayerCareerStatisticsRepository>())
                      .RegisterType<IShotTypeRepository, ShotTypeRepository>(new HttpContextLifetimeManager<IShotTypeRepository>());
 
+            // Set up and register the database provider
             ConnectionStringSettings connectionStringSettings = ConfigurationManager.ConnectionStrings["BolfTracker"];
+            DbProviderFactory databaseProviderFactory = DbProviderFactories.GetFactory(connectionStringSettings.ProviderName);
 
-            string providerName = connectionStringSettings.ProviderName;
-
-            DbProviderFactory databaseProviderFactory = DbProviderFactories.GetFactory(providerName);
             container.RegisterInstance(databaseProviderFactory);
-
-            string connectionString = connectionStringSettings.ConnectionString;
-            bool? useCompliledQuery = null;
-            bool temp;
-
-            if (Boolean.TryParse(ConfigurationManager.AppSettings["UseCompliedQuery"], out temp))
-            {
-                useCompliledQuery = temp;
-            }
-
-            container.RegisterType<IDatabaseFactory, DatabaseFactory>(new HttpContextLifetimeManager<IDatabaseFactory>(), new InjectionConstructor(typeof(DbProviderFactory), connectionString))
-                     .RegisterType<IQueryFactory, QueryFactory>(new HttpContextLifetimeManager<IQueryFactory>(), new InjectionConstructor(false, useCompliledQuery ?? true));
+            container.RegisterType<IDatabaseFactory, DatabaseFactory>(new HttpContextLifetimeManager<IDatabaseFactory>(), new InjectionConstructor(typeof(DbProviderFactory), connectionStringSettings.ConnectionString));
 
             return container;
         }

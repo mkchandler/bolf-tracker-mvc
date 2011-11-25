@@ -9,7 +9,7 @@ namespace BolfTracker.Infrastructure.EntityFramework
 {
     public class ShotRepository : RepositoryBase<Shot>, IShotRepository
     {
-        public ShotRepository(IDatabaseFactory databaseFactory, IQueryFactory queryFactory) : base(databaseFactory, queryFactory)
+        public ShotRepository(IDatabaseFactory databaseFactory) : base(databaseFactory)
         {
         }
 

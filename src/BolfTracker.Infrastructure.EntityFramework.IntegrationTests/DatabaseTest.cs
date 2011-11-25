@@ -2,14 +2,11 @@
 using System.Configuration;
 using System.Data.Common;
 
-using BolfTracker.Infrastructure.EntityFramework.Query;
-
 namespace BolfTracker.Infrastructure.EntityFramework.IntegrationTests
 {
     public abstract class DatabaseTest : IDisposable
     {
         protected readonly DatabaseFactory DatabaseFactory;
-        protected readonly QueryFactory QueryFactory;
         protected readonly UnitOfWork UnitOfWork;
 
         protected DatabaseTest()
@@ -22,7 +19,6 @@ namespace BolfTracker.Infrastructure.EntityFramework.IntegrationTests
             var providerFactory = DbProviderFactories.GetFactory(providerName);
 
             DatabaseFactory = new DatabaseFactory(providerFactory, connectionString);
-            QueryFactory = new QueryFactory(true, true);
 
             UnitOfWork = new UnitOfWork(DatabaseFactory);
         }

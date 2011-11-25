@@ -9,7 +9,7 @@ namespace BolfTracker.Infrastructure.EntityFramework
 {
     public class PlayerGameStatisticsRepository : RepositoryBase<PlayerGameStatistics>, IPlayerGameStatisticsRepository
     {
-        public PlayerGameStatisticsRepository(IDatabaseFactory databaseFactory, IQueryFactory queryFactory) : base(databaseFactory, queryFactory)
+        public PlayerGameStatisticsRepository(IDatabaseFactory databaseFactory) : base(databaseFactory)
         {
         }
 

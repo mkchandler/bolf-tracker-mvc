@@ -13,7 +13,7 @@ namespace BolfTracker.Infrastructure.EntityFramework.IntegrationTests
         [TestInitialize]
         public void Initialize()
         {
-            _repository = new GameStatisticsRepository(DatabaseFactory, QueryFactory);
+            _repository = new GameStatisticsRepository(DatabaseFactory);
             _transaction = new TransactionScope(TransactionScopeOption.RequiresNew);
         }
 

@@ -8,15 +8,15 @@ namespace BolfTracker.Infrastructure.EntityFramework
 {
     public class PlayerRepository : RepositoryBase<Player>, IPlayerRepository
     {
-        public PlayerRepository(IDatabaseFactory databaseFactory, IQueryFactory queryFactory) : base(databaseFactory, queryFactory)
+        public PlayerRepository(IDatabaseFactory databaseFactory) : base(databaseFactory)
         {
         }
 
         public Player GetByName(string name)
         {
-            IQuery<Player> query = QueryFactory.CreatePlayerByNameQuery(name);
+            var player = Database.Players.First(p => p.Name == name);
 
-            return query.Execute(Database);
+            return player;
         }
 
         public IEnumerable<Player> GetByGame(int gameId)
