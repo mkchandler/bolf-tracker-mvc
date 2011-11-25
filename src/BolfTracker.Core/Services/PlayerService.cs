@@ -47,7 +47,7 @@ namespace BolfTracker.Services
 
         public IEnumerable<Player> GetPlayers()
         {
-            return _playerRepository.All();
+            return _playerRepository.All().ToList();
         }
 
         public Player Create(string name)

@@ -94,7 +94,7 @@
   <p>
     @Html.ActionLink("Create New", "Create")
   </p>
-  <table class="bordered-table zebra-striped">
+  <table class="condensed-table bordered-table zebra-striped">
     <thead>
       <tr>
         <th>
@@ -109,11 +109,10 @@
       {
         <tr>
           <td>
-            @Html.ActionLink("Edit", "Edit", new { id = player.Id }) |
-            @Html.ActionLink("Details", "Details", new { id = player.Id })
+            @Html.ActionLink("Edit", "Edit", new { id = player.Id })
           </td>
           <td>
-            @player.Name
+            @Html.ActionLink(player.Name, "Details", new { id = player.Id })
           </td>
         </tr>
       }
