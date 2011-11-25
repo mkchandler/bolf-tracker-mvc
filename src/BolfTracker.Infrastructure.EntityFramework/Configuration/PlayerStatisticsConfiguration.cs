@@ -21,10 +21,5 @@ namespace BolfTracker.Infrastructure.EntityFramework.Configuration
 
             ToTable("PlayerStatistics");
         }
-
-        private object Property(System.Func<PlayerStatistics, System.TimeSpan?> func)
-        {
-            throw new System.NotImplementedException();
-        }
     }
 }
