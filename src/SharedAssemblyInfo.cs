@@ -6,4 +6,4 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Bolf Tracker")]
 [assembly: AssemblyCopyright("Copyright © Matt Chandler and contributors")]
-[assembly: AssemblyVersion("0.1.0.0")]
+[assembly: AssemblyVersion("0.2.0")]
