@@ -8,9 +8,33 @@ namespace BolfTracker.Web
 {
     public class PlayerViewModel
     {
-        public PlayerViewModel(Player player)
+        public PlayerViewModel(int month, int year, Player player, PlayerStatistics playerStatistics, IEnumerable<PlayerHoleStatistics> playerHoleStatistics)
         {
+            Month = month;
+            Year = year;
             Player = player;
+            PlayerStatistics = playerStatistics;
+            PlayerHoleStatistics = playerHoleStatistics;
+        }
+
+        public int Month
+        {
+            get;
+            private set;
+        }
+
+        public string MonthName
+        {
+            get
+            {
+                return new DateTime(1, Month, 1).ToString("MMMM");
+            }
+        }
+
+        public int Year
+        {
+            get;
+            private set;
         }
 
         public Player Player
@@ -19,20 +43,16 @@ namespace BolfTracker.Web
             private set;
         }
 
-        public PlayerStatistics CurrentMonthPlayerStatistics
+        public PlayerStatistics PlayerStatistics
         {
-            get
-            {
-                return Player.PlayerStatistics.SingleOrDefault(ps => ps.Player.Id == Player.Id && ps.Month == DateTime.Today.Month && ps.Year == DateTime.Today.Year);
-            }
+            get;
+            private set;
         }
 
-        public IEnumerable<PlayerHoleStatistics> CurrentMonthPlayerHoleStatistics
+        public IEnumerable<PlayerHoleStatistics> PlayerHoleStatistics
         {
-            get
-            {
-                return Player.PlayerHoleStatistics.Where(phs => phs.Player.Id == Player.Id && phs.Month == DateTime.Today.Month && phs.Year == DateTime.Today.Year);
-            }
+            get;
+            private set;
         }
     }
 }

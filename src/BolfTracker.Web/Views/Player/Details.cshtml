@@ -2,13 +2,18 @@
 @{
   ViewBag.Title = "Player Details - Bolf Tracker";
 }
-<h2>
-  @Model.Player.Name</h2>
+<div class="page-header">
+  <div class="row">
+    <div class="span16">
+      <h2>@Model.Player.Name</h2>
+    </div>
+  </div>
+</div>
 <h3>
-  Current Month Statistics</h3>
-@if (Model.CurrentMonthPlayerStatistics != null)
+  @String.Format("{0} {1} Statistics", Model.MonthName, Model.Year)</h3>
+@if (Model.PlayerStatistics != null)
 {
-  @Html.Partial("_PlayerStatistics", Model.CurrentMonthPlayerStatistics)
+  @Html.Partial("_PlayerStatistics", Model.PlayerStatistics)
 }
 else
 { 
@@ -16,10 +21,10 @@ else
     Monthly player stats not yet available.</p>
 }
 <h3>
-  Current Month Hole Statistics</h3>
-@if (Model.CurrentMonthPlayerHoleStatistics != null && Model.CurrentMonthPlayerHoleStatistics.Any())
+  @String.Format("{0} {1} Hole Statistics", Model.MonthName, Model.Year)</h3>
+@if (Model.PlayerHoleStatistics != null && Model.PlayerHoleStatistics.Any())
 {
-  @Html.Partial("_PlayerHoleStatistics", Model.CurrentMonthPlayerHoleStatistics)
+  @Html.Partial("_PlayerHoleStatistics", Model.PlayerHoleStatistics)
 }
 else
 { 
