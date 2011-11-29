@@ -8,6 +8,8 @@ namespace BolfTracker.Repositories
     {
         IEnumerable<Shot> GetByGame(int gameId);
 
+        IEnumerable<Shot> GetByMonthAndYear(int month, int year);
+
         IEnumerable<Shot> GetByGameAndPlayer(int gameId, int playerId);
     }
 }

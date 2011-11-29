@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.SqlClient;
 using System.Linq;
 
 using BolfTracker.Models;
@@ -18,6 +19,11 @@ namespace BolfTracker.Infrastructure.EntityFramework
             var rankings = Database.Rankings.Include(ranking => ranking.Player).Where(ranking => ranking.Month == month && ranking.Year == year).ToList();
 
             return rankings;
+        }
+
+        public void DeleteByMonthAndYear(int month, int year)
+        {
+            Database.ExecuteStoreCommand("DELETE FROM Ranking WHERE Month = @Month AND Year = @Year", new SqlParameter { ParameterName = "Month", Value = month }, new SqlParameter { ParameterName = "Year", Value = year });
         }
     }
 }

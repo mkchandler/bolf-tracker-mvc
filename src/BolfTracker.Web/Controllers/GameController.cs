@@ -11,13 +11,15 @@ namespace BolfTracker.Web.Controllers
         private readonly IGameService _gameService;
         private readonly IHoleService _holeService;
         private readonly IPlayerService _playerService;
+        private readonly IRankingService _rankingService;
         private readonly IShotTypeService _scoreTypeService;
 
-        public GameController(IGameService gameService, IHoleService holeService, IPlayerService playerService, IShotTypeService scoreTypeService)
+        public GameController(IGameService gameService, IHoleService holeService, IPlayerService playerService, IRankingService rankingService, IShotTypeService scoreTypeService)
         {
             _gameService = gameService;
             _holeService = holeService;
             _playerService = playerService;
+            _rankingService = rankingService;
             _scoreTypeService = scoreTypeService;
         }
 
@@ -120,7 +122,11 @@ namespace BolfTracker.Web.Controllers
         [Authorize]
         public ActionResult Finalize(int gameId)
         {
+            var game = _gameService.GetGame(gameId);
+
             _gameService.CalculateGameStatistics(gameId);
+            _rankingService.CalculateRankings(game.Date.Month, game.Date.Year);
+            _playerService.CalculatePlayerStatistics(game.Date.Month, game.Date.Year);
 
             return RedirectToAction("Details", new { id = gameId });
         }

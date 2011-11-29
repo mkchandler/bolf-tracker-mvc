@@ -76,14 +76,7 @@ namespace BolfTracker.Services
 
         private void DeleteHoleStatistics(int month, int year)
         {
-            var holeStatistics = _holeStatisticsRepository.GetByMonthAndYear(month, year);
-
-            foreach (var holeStatistic in holeStatistics)
-            {
-                _holeStatisticsRepository.Delete(holeStatistic);
-            }
-
-            _unitOfWork.Commit();
+            _holeStatisticsRepository.DeleteByMonthAndYear(month, year);
         }
     }
 }

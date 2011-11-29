@@ -11,13 +11,19 @@ namespace BolfTracker.Services
     public class RankingService : IRankingService
     {
         private readonly IGameRepository _gameRepository;
+        private readonly IShotRepository _shotRepository;
+        private readonly IPlayerRepository _playerRepository;
         private readonly IRankingRepository _rankingRepository;
+        private readonly IPlayerGameStatisticsRepository _playerGameStatisticsRepository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public RankingService(IGameRepository gameRepository, IRankingRepository rankingRepository, IUnitOfWork unitOfWork)
+        public RankingService(IGameRepository gameRepository, IShotRepository shotRepository, IPlayerRepository playerRepository, IRankingRepository rankingRepository, IPlayerGameStatisticsRepository playerGameStatisticsRepository, IUnitOfWork unitOfWork)
         {
             _gameRepository = gameRepository;
+            _shotRepository = shotRepository;
+            _playerRepository = playerRepository;
             _rankingRepository = rankingRepository;
+            _playerGameStatisticsRepository = playerGameStatisticsRepository;
             _unitOfWork = unitOfWork;
         }
 
@@ -35,12 +41,12 @@ namespace BolfTracker.Services
             DeleteRankings(month, year);
 
             var games = _gameRepository.GetByMonthAndYear(month, year);
-            var playerGameStatistics = games.SelectMany(g => g.PlayerGameStatistics).ToList();
-            var shots = games.SelectMany(g => g.Shots);
-            var players = shots.Select(s => s.Player).Distinct().ToList();
+            var playerGameStatistics = _playerGameStatisticsRepository.GetByMonthAndYear(month, year);
+            var shots = _shotRepository.GetByMonthAndYear(month, year);
+            var players = _playerRepository.GetActiveByMonthAndYear(month, year);
 
             // The eligibility line will only sample the top half of players sorted by number of games played
-            int eligibilityLine = DetermineEligibilityLine(month, year);
+            int eligibilityLine = DetermineEligibilityLine(games, players, playerGameStatistics);
             
             // The second thing we want to do is find the top ranked player because we will need their stats
             // to be able to calculate the "games back" for all other players
@@ -120,16 +126,14 @@ namespace BolfTracker.Services
             _unitOfWork.Commit();
         }
 
-        private int DetermineEligibilityLine(int month, int year)
+        private int DetermineEligibilityLine(IEnumerable<Game> games, IEnumerable<Player> players, IEnumerable<PlayerGameStatistics> playerGameStatistics)
         {
             var gameCounts = new List<int>();
 
-            var games = _gameRepository.GetByMonthAndYear(month, year);
-            var players = games.SelectMany(g => g.Shots).Select(s => s.Player).Distinct();
-
             foreach (var player in players)
             {
-                int playerGameCount = games.Count(g => g.Shots.Count(s => s.Player.Id == player.Id) > 0);
+                //int playerGameCount = games.Count(g => g.Shots.Count(s => s.Player.Id == player.Id) > 0);
+                int playerGameCount = playerGameStatistics.Count(pgs => pgs.Player.Id == player.Id);
 
                 gameCounts.Add(playerGameCount);
             }
@@ -149,14 +153,7 @@ namespace BolfTracker.Services
 
         private void DeleteRankings(int month, int year)
         {
-            var rankings = _rankingRepository.GetByMonthAndYear(month, year);
-
-            foreach (var ranking in rankings)
-            {
-                _rankingRepository.Delete(ranking);
-            }
-
-            _unitOfWork.Commit();
+            _rankingRepository.DeleteByMonthAndYear(month, year);
         }
     }
 }

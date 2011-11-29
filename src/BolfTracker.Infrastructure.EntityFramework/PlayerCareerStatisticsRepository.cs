@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Data.SqlClient;
 
 using BolfTracker.Models;
 using BolfTracker.Repositories;
@@ -16,6 +17,11 @@ namespace BolfTracker.Infrastructure.EntityFramework
             var query = Database.PlayerCareerStatistics.First(pcs => pcs.Player.Id == playerId);
 
             return query;
+        }
+
+        public void DeleteAll()
+        {
+            Database.ExecuteStoreCommand("DELETE FROM PlayerCareerStatistics");
         }
     }
 }

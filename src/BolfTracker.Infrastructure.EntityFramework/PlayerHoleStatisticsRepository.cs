@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.SqlClient;
 using System.Linq;
 
 using BolfTracker.Models;
@@ -32,6 +33,11 @@ namespace BolfTracker.Infrastructure.EntityFramework
             var playerHoleStatistics = Database.PlayerHoleStatistics.Include(phs => phs.Player).Include(phs => phs.Hole).Where(phs => phs.Month == month && phs.Year == year).ToList();
 
             return playerHoleStatistics;
+        }
+
+        public void DeleteByMonthAndYear(int month, int year)
+        {
+            Database.ExecuteStoreCommand("DELETE FROM PlayerHoleStatistics WHERE Month = @Month AND Year = @Year", new SqlParameter { ParameterName = "Month", Value = month }, new SqlParameter { ParameterName = "Year", Value = year });
         }
     }
 }

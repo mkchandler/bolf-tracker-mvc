@@ -20,6 +20,13 @@ namespace BolfTracker.Infrastructure.EntityFramework
             return playerGameStatistics;
         }
 
+        public IEnumerable<PlayerGameStatistics> GetByMonthAndYear(int month, int year)
+        {
+            var playerGameStatistics = Database.PlayerGameStatistics.Where(pgs => pgs.Game.Date.Month == month && pgs.Game.Date.Year == year).ToList();
+
+            return playerGameStatistics;
+        }
+
         public IEnumerable<PlayerGameStatistics> GetByPlayerMonthAndYear(int playerId, int month, int year)
         {
             var playerGameStatistics = Database.PlayerGameStatistics.Where(pgs => pgs.Player.Id == playerId && pgs.Game.Date.Month == month && pgs.Game.Date.Year == year).ToList();

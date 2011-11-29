@@ -11,5 +11,7 @@ namespace BolfTracker.Repositories
         IEnumerable<PlayerHoleStatistics> GetByPlayerMonthAndYear(int playerId, int month, int year);
 
         IEnumerable<PlayerHoleStatistics> GetByMonthAndYear(int month, int year);
+
+        void DeleteByMonthAndYear(int month, int year);
     }
 }

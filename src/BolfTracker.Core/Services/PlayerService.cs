@@ -91,15 +91,18 @@ namespace BolfTracker.Services
             DeletePlayerCareerStatistics();
 
             var players = _playerRepository.GetActiveByMonthAndYear(month, year);
+            var allPlayersGameStatistics = _playerGameStatisticsRepository.GetByMonthAndYear(month, year);
 
             foreach (var player in players)
             {
+                var playerGameStatistics = allPlayersGameStatistics.Where(pgs => pgs.Player.Id == player.Id);
+
                 // Calculate the player's monthly stats
-                var playerStatistics = CalculatePlayerStatistics(player, month, year);
+                var playerStatistics = CalculatePlayerStatistics(player, playerGameStatistics, month, year);
                 _playerStatisticsRepository.Add(playerStatistics);
 
                 // Calculate the player's career stats
-                var playerCareerStatistics = CalculatePlayerCareerStatistics(player);
+                var playerCareerStatistics = CalculatePlayerCareerStatistics(player, playerGameStatistics);
                 _playerCareerStatisticsRepository.Add(playerCareerStatistics);
             }
 
@@ -193,11 +196,9 @@ namespace BolfTracker.Services
             return _playerHoleStatisticsRepository.GetByMonthAndYear(month, year);
         }
 
-        private PlayerStatistics CalculatePlayerStatistics(Player player, int month, int year)
+        private PlayerStatistics CalculatePlayerStatistics(Player player, IEnumerable<PlayerGameStatistics> playerGameStatistics, int month, int year)
         {
             var playerStatistics = new PlayerStatistics() { Player = player, Month = month, Year = year };
-
-            var playerGameStatistics = _playerGameStatisticsRepository.GetByPlayerMonthAndYear(player.Id, month, year);
 
             playerStatistics.Wins = playerGameStatistics.Count(gs => gs.Winner);
             playerStatistics.Losses = playerGameStatistics.Count(gs => !gs.Winner);
@@ -217,11 +218,9 @@ namespace BolfTracker.Services
             return playerStatistics;
         }
 
-        private PlayerCareerStatistics CalculatePlayerCareerStatistics(Player player)
+        private PlayerCareerStatistics CalculatePlayerCareerStatistics(Player player, IEnumerable<PlayerGameStatistics> playerGameStatistics)
         {
             var playerCareerStatistics = new PlayerCareerStatistics() { Player = player };
-
-            var playerGameStatistics = _playerGameStatisticsRepository.GetByPlayer(player.Id);
 
             playerCareerStatistics.Wins = playerGameStatistics.Count(pgs => pgs.Winner);
             playerCareerStatistics.Losses = playerGameStatistics.Count(pgs => !pgs.Winner);
@@ -251,38 +250,17 @@ namespace BolfTracker.Services
 
         private void DeletePlayerStatistics(int month, int year)
         {
-            var playerStatistics = _playerStatisticsRepository.GetByMonthAndYear(month, year);
-
-            foreach (var playerStatistic in playerStatistics)
-            {
-                _playerStatisticsRepository.Delete(playerStatistic);
-            }
-
-            _unitOfWork.Commit();
+            _playerStatisticsRepository.DeleteByMonthAndYear(month, year);
         }
 
         private void DeletePlayerCareerStatistics()
         {
-            var playerCareerStatistics = _playerCareerStatisticsRepository.All();
-
-            foreach (var playerCareerStatistic in playerCareerStatistics)
-            {
-                _playerCareerStatisticsRepository.Delete(playerCareerStatistic);
-            }
-
-            _unitOfWork.Commit();
+            _playerCareerStatisticsRepository.DeleteAll();
         }
 
         private void DeletePlayerHoleStatistics(int month, int year)
         {
-            var playerHoleStatistics = _playerHoleStatisticsRepository.GetByMonthAndYear(month, year);
-
-            foreach (var playerHoleStatistic in playerHoleStatistics)
-            {
-                _playerHoleStatisticsRepository.Delete(playerHoleStatistic);
-            }
-
-            _unitOfWork.Commit();
+            _playerHoleStatisticsRepository.DeleteByMonthAndYear(month, year);
         }
     }
 }

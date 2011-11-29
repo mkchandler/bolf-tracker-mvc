@@ -7,15 +7,6 @@
     <div class="span8">
       <h2>@String.Format("{0} {1} Rankings", Model.MonthName, Model.Year)</h2>
     </div>
-    <div class="span8">
-      @if (HttpContext.Current.User.Identity.IsAuthenticated)
-      {
-        using (Html.BeginForm("Calculate", "Ranking", FormMethod.Post))
-        { 
-        <input type="submit" class="btn pull-right" value="Calculate Rankings" />
-        }
-      }
-    </div>
   </div>
 </div>
 <h3>

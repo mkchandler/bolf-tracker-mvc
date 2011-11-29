@@ -7,5 +7,7 @@ namespace BolfTracker.Repositories
     public interface IRankingRepository : IRepository<Ranking>
     {
         IEnumerable<Ranking> GetByMonthAndYear(int month, int year);
+
+        void DeleteByMonthAndYear(int month, int year);
     }
 }

@@ -36,19 +36,6 @@ namespace BolfTracker.Web.Controllers
 
         [HttpPost]
         [Authorize]
-        public ActionResult Calculate()
-        {
-            int month = DateTime.Today.Month;
-            int year = DateTime.Today.Year;
-
-            _rankingService.CalculateRankings(month, year);
-            _playerService.CalculatePlayerStatistics(month, year);
-
-            return RedirectToAction("Monthly", new { year = year, month = month });
-        }
-
-        [HttpPost]
-        [Authorize]
         public ActionResult CalculateHoleStatistics()
         {
             int month = DateTime.Today.Month;
