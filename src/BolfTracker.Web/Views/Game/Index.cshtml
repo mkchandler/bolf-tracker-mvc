@@ -15,49 +15,59 @@
     </div>
   </div>
 </div>
-<div class="row">
-  @foreach (var item in Model.Games)
+@{
+  int i = 1;
+}
+@foreach (var item in Model.Games)
+{
+  if (i % 2 != 0)
   {
-    var pgs = Model.GetPlayerGameStatistics(item.Id);
-    <div class="span8">
-      <table class="condensed-table bordered-table zebra-striped">
-        <thead>
-          <tr>
-            <th>
-              @Html.ActionLink(String.Format("{0:d}", item.Date), "Details", new { id = item.Id })
-            </th>
-            <th title="Points">
-              Points
-            </th>
-            <th title="Shooting Percentage">
-              Shooting %
-            </th>
-            <th title="Pushes">
-              Pushes
-            </th>
-            <th title="Steals">
-              Steals
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          @foreach (var player in pgs)
-          {
-            <tr>
-              <td>@Html.ActionLink(player.Player.Name, "Details", "Player", new { id = player.Player.Id }, null)
-              </td>
-              <td>@player.Points
-              </td>
-              <td>@player.ShootingPercentage
-              </td>
-              <td>@player.Pushes
-              </td>
-              <td>@player.Steals
-              </td>
-            </tr>
-          }
-        </tbody>
-      </table>
-    </div>
+    @:<div class="row"> 
   }
-</div>
+  var pgs = Model.GetPlayerGameStatistics(item.Id);
+  <div class="span8">
+    <table class="condensed-table bordered-table zebra-striped">
+      <thead>
+        <tr>
+          <th>
+            @Html.ActionLink(String.Format("{0:d}", item.Date), "Details", new { id = item.Id })
+          </th>
+          <th title="Points">
+            Points
+          </th>
+          <th title="Shooting Percentage">
+            Shooting %
+          </th>
+          <th title="Pushes">
+            Pushes
+          </th>
+          <th title="Steals">
+            Steals
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        @foreach (var player in pgs)
+        {
+          <tr>
+            <td>@Html.ActionLink(player.Player.Name, "Details", "Player", new { id = player.Player.Id }, null)
+            </td>
+            <td>@player.Points
+            </td>
+            <td>@player.ShootingPercentage
+            </td>
+            <td>@player.Pushes
+            </td>
+            <td>@player.Steals
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+  if (i % 2 == 0)
+  {
+    @:</div>
+  }
+  i++;
+}
