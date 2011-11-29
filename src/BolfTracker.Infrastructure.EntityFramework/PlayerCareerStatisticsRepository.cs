@@ -13,7 +13,7 @@ namespace BolfTracker.Infrastructure.EntityFramework
 
         public PlayerCareerStatistics GetByPlayer(int playerId)
         {
-            var query = Database.PlayerCareerStatistics.Where(pcs => pcs.Player.Id == playerId).Single();
+            var query = Database.PlayerCareerStatistics.First(pcs => pcs.Player.Id == playerId);
 
             return query;
         }

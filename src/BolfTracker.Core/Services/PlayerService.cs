@@ -106,22 +106,6 @@ namespace BolfTracker.Services
             _unitOfWork.Commit();
         }
 
-        //public void CalculatePlayerStatistics(int playerId, int month, int year)
-        //{
-        //    Check.Argument.IsNotZeroOrNegative(playerId, "playerId");
-        //    Check.Argument.IsNotZeroOrNegative(month, "month");
-        //    Check.Argument.IsNotZeroOrNegative(year, "year");
-
-        //    DeletePlayerStatistics(month, year);
-
-        //    var player = _playerRepository.GetById(playerId);
-
-        //    var playerStatistics = CalculatePlayerStatistics(player, month, year);
-
-        //    _playerStatisticsRepository.Add(playerStatistics);
-        //    _unitOfWork.Commit();
-        //}
-
         public void CalculatePlayerHoleStatistics(int month, int year)
         {
             Check.Argument.IsNotZeroOrNegative(month, "month");
@@ -183,6 +167,13 @@ namespace BolfTracker.Services
             Check.Argument.IsNotZeroOrNegative(year, "year");
 
             return _playerStatisticsRepository.GetByMonthAndYear(month, year);
+        }
+
+        public PlayerCareerStatistics GetPlayerCareerStatistics(int playerId)
+        {
+            Check.Argument.IsNotZeroOrNegative(playerId, "playerId");
+
+            return _playerCareerStatisticsRepository.GetByPlayer(playerId);
         }
 
         public IEnumerable<PlayerHoleStatistics> GetPlayerHoleStatistics(int playerId, int month, int year)

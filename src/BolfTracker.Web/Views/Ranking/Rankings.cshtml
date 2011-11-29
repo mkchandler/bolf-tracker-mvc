@@ -65,7 +65,7 @@
         </td>
         <td style="text-align: right">@ranking.TotalPoints
         </td>
-        <td style="text-align: right">@ranking.PointsPerGame
+        <td style="text-align: right">@String.Format("{0:#.#}", ranking.PointsPerGame)
         </td>
         <td style="text-align: right">@ranking.LastTenWins-@ranking.LastTenLosses
         </td>
@@ -92,7 +92,7 @@
         <th style="width: 55px; text-align: right" title="Winning Percentage">
           PCT
         </th>
-        <th style="width: 40px; text-align: right" title="Total Points">
+        <th style="width: 40px; text-align: right" title="Points">
           P
         </th>
         <th style="width: 40px; text-align: right" title="Points Per Game">
@@ -114,7 +114,7 @@
           </td>
           <td style="text-align: right">@ranking.TotalPoints
           </td>
-          <td style="text-align: right">@ranking.PointsPerGame
+          <td style="text-align: right">@String.Format("{0:#.#}", ranking.PointsPerGame)
           </td>
         </tr>
       }

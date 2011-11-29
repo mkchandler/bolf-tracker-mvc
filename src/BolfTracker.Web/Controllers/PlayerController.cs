@@ -34,9 +34,10 @@ namespace BolfTracker.Web.Controllers
 
             var player = _playerService.GetPlayer(id);
             var playerStatistics = _playerService.GetPlayerStatistics(id, month, year);
+            var playerCareerStatistics = _playerService.GetPlayerCareerStatistics(id);
             var playerHoleStatistics = _playerService.GetPlayerHoleStatistics(id, month, year);
 
-            return View(new PlayerViewModel(month, year, player, playerStatistics, playerHoleStatistics));
+            return View(new PlayerViewModel(month, year, player, playerStatistics, playerCareerStatistics, playerHoleStatistics));
         }
 
         [Authorize]

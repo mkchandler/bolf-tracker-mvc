@@ -1,6 +1,6 @@
 ﻿@model BolfTracker.Web.PlayerViewModel
 @{
-  ViewBag.Title = "Player Details - Bolf Tracker";
+  ViewBag.Title = Model.Player.Name + " - Bolf Tracker";
 }
 <div class="page-header">
   <div class="row">
@@ -19,6 +19,17 @@ else
 { 
   <p>
     Monthly player stats not yet available.</p>
+}
+<h3>
+  @String.Format("Career Statistics", Model.MonthName, Model.Year)</h3>
+@if (Model.PlayerStatistics != null)
+{
+  @Html.Partial("_PlayerCareerStatistics", Model.PlayerCareerStatistics)
+}
+else
+{ 
+  <p>
+    Career player stats not yet available.</p>
 }
 <h3>
   @String.Format("{0} {1} Hole Statistics", Model.MonthName, Model.Year)</h3>
