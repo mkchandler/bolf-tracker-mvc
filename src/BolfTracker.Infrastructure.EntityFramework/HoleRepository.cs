@@ -15,7 +15,7 @@ namespace BolfTracker.Infrastructure.EntityFramework
 
         public IEnumerable<Hole> GetActiveByMonthAndYear(int month, int year)
         {
-            var holes = Database.Shots.Where(shot => shot.Game.Date.Month == month && shot.Game.Date.Year == year).Select(shot => shot.Hole).Include(hole => hole.Shots).Distinct().ToList();
+            var holes = Database.Shots.Where(shot => shot.Game.Date.Month == month && shot.Game.Date.Year == year).Select(shot => shot.Hole).Include(hole => hole.Shots.Where(shot => shot.Game.Date.Month == month && shot.Game.Date.Year == year)).Distinct().ToList();
            
             return holes;
         }

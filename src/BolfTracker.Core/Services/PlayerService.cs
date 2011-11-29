@@ -12,6 +12,7 @@ namespace BolfTracker.Services
     {
         private readonly IPlayerRepository _playerRepository;
         private readonly IHoleRepository _holeRepository;
+        private readonly IShotRepository _shotRepository;
         private readonly IPlayerStatisticsRepository _playerStatisticsRepository;
         private readonly IPlayerHoleStatisticsRepository _playerHoleStatisticsRepository;
         private readonly IGameStatisticsRepository _gameStatisticsRepository;
@@ -26,10 +27,11 @@ namespace BolfTracker.Services
         private const int ShotTypeSteal = 4;
         private const int ShotTypeSugarFreeSteal = 5;
 
-        public PlayerService(IPlayerRepository playerRepository, IHoleRepository holeRepository, IPlayerStatisticsRepository playerStatisticsRepository, IPlayerHoleStatisticsRepository playerHoleStatisticsRepository, IGameStatisticsRepository gameStatisticsRepository, IPlayerGameStatisticsRepository playerGameStatisticsRepository, IPlayerCareerStatisticsRepository playerCareerStatisticsRepository, IUnitOfWork unitOfWork)
+        public PlayerService(IPlayerRepository playerRepository, IHoleRepository holeRepository, IShotRepository shotRepository, IPlayerStatisticsRepository playerStatisticsRepository, IPlayerHoleStatisticsRepository playerHoleStatisticsRepository, IGameStatisticsRepository gameStatisticsRepository, IPlayerGameStatisticsRepository playerGameStatisticsRepository, IPlayerCareerStatisticsRepository playerCareerStatisticsRepository, IUnitOfWork unitOfWork)
         {
             _playerRepository = playerRepository;
             _holeRepository = holeRepository;
+            _shotRepository = shotRepository;
             _playerStatisticsRepository = playerStatisticsRepository;
             _playerHoleStatisticsRepository = playerHoleStatisticsRepository;
             _gameStatisticsRepository = gameStatisticsRepository;
@@ -117,20 +119,23 @@ namespace BolfTracker.Services
             DeletePlayerHoleStatistics(month, year);
 
             var players = _playerRepository.All().ToList();
+            var shots = _shotRepository.GetByMonthAndYear(month, year);
+            var holes = _holeRepository.All().ToList();
 
             foreach (var player in players)
             {
-                if (player.Shots.Any(s => s.Game.Date.Month == month && s.Game.Date.Year == year))
-                {
-                    var holes = _holeRepository.All().ToList();
+                var playerShots = shots.Where(s => s.Player.Id == player.Id);
 
+                if (playerShots.Any())
+                {
                     foreach (var hole in holes)
                     {
-                        var playerHoleShots = player.Shots.Where(s => s.Hole.Id == hole.Id && s.Game.Date.Month == month && s.Game.Date.Year == year).ToList();
-                        var playerHoleStatistics = new PlayerHoleStatistics() { Player = player, Hole = hole, Month = month, Year = year };
+                        var playerHoleShots = playerShots.Where(s => s.Hole.Id == hole.Id);
 
                         if (playerHoleShots.Any())
                         {
+                            var playerHoleStatistics = new PlayerHoleStatistics() { Player = player, Hole = hole, Month = month, Year = year };
+
                             playerHoleStatistics.ShotsMade = playerHoleShots.Count(s => s.ShotMade);
                             playerHoleStatistics.Attempts = playerHoleShots.Sum(s => s.Attempts);
                             playerHoleStatistics.ShootingPercentage = Decimal.Round((decimal)playerHoleStatistics.ShotsMade / (decimal)playerHoleStatistics.Attempts, 3, MidpointRounding.AwayFromZero);
@@ -138,9 +143,9 @@ namespace BolfTracker.Services
                             playerHoleStatistics.Pushes = playerHoleShots.Count(s => s.ShotType.Id == ShotTypePush);
                             playerHoleStatistics.Steals = playerHoleShots.Count(s => s.ShotType.Id == ShotTypeSteal);
                             playerHoleStatistics.SugarFreeSteals = playerHoleShots.Count(s => s.ShotType.Id == ShotTypeSugarFreeSteal);
+                            
+                            _playerHoleStatisticsRepository.Add(playerHoleStatistics);
                         }
-
-                        _playerHoleStatisticsRepository.Add(playerHoleStatistics);
                     }
                 }
             }

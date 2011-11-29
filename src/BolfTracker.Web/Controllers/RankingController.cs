@@ -4,6 +4,8 @@ using System.Web.Mvc;
 
 using BolfTracker.Services;
 
+using MvcMiniProfiler;
+
 namespace BolfTracker.Web.Controllers
 {
     public class RankingController : Controller
@@ -32,19 +34,6 @@ namespace BolfTracker.Web.Controllers
             var rankings = _rankingService.GetRankings(rankingsMonth, rankingsYear);
 
             return View("Rankings", new RankingsViewModel(rankingsMonth, rankingsYear, rankings));
-        }
-
-        [HttpPost]
-        [Authorize]
-        public ActionResult CalculateHoleStatistics()
-        {
-            int month = DateTime.Today.Month;
-            int year = DateTime.Today.Year;
-
-            _playerService.CalculatePlayerHoleStatistics(month, year);
-            _holeService.CalculateHoleStatistics(month, year);
-
-            return RedirectToAction("Monthly", new { year = year, month = month });
         }
     }
 }

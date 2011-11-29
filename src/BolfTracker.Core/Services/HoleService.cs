@@ -12,12 +12,14 @@ namespace BolfTracker.Services
     {
         private readonly IHoleRepository _holeRepository;
         private readonly IHoleStatisticsRepository _holeStatisticsRepository;
+        private readonly IShotRepository _shotRepository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public HoleService(IHoleRepository holeRepository, IHoleStatisticsRepository holeStatisticsRepository, IUnitOfWork unitOfWork)
+        public HoleService(IHoleRepository holeRepository, IHoleStatisticsRepository holeStatisticsRepository, IShotRepository shotRepository, IUnitOfWork unitOfWork)
         {
             _holeRepository = holeRepository;
             _holeStatisticsRepository = holeStatisticsRepository;
+            _shotRepository = shotRepository;
             _unitOfWork = unitOfWork;
         }
 
@@ -54,21 +56,27 @@ namespace BolfTracker.Services
 
             DeleteHoleStatistics(month, year);
 
-            var holes = _holeRepository.GetActiveByMonthAndYear(month, year);
+            var holes = _holeRepository.All().ToList();
+            var shots = _shotRepository.GetByMonthAndYear(month, year);
 
             foreach (var hole in holes)
             {
-                var holeStatistics = new HoleStatistics() { Hole = hole, Month = month, Year = year };
+                var holeShots = shots.Where(s => s.Hole.Id == hole.Id);
 
-                holeStatistics.ShotsMade = hole.Shots.Count(s => s.ShotMade);
-                holeStatistics.Attempts = hole.Shots.Sum(s => s.Attempts);
-                holeStatistics.ShootingPercentage = Decimal.Round((decimal)holeStatistics.ShotsMade / (decimal)holeStatistics.Attempts, 3, MidpointRounding.AwayFromZero);
-                holeStatistics.PointsScored = hole.Shots.Sum(s => s.Points);
-                holeStatistics.Pushes = hole.Shots.Count(s => s.ShotType.Id == 3);
-                holeStatistics.Steals = hole.Shots.Count(s => s.ShotType.Id == 4);
-                holeStatistics.SugarFreeSteals = hole.Shots.Count(s => s.ShotType.Id == 5);
+                if (holeShots.Any())
+                {
+                    var holeStatistics = new HoleStatistics() { Hole = hole, Month = month, Year = year };
 
-                _holeStatisticsRepository.Add(holeStatistics);
+                    holeStatistics.ShotsMade = holeShots.Count(s => s.ShotMade);
+                    holeStatistics.Attempts = holeShots.Sum(s => s.Attempts);
+                    holeStatistics.ShootingPercentage = Decimal.Round((decimal)holeStatistics.ShotsMade / (decimal)holeStatistics.Attempts, 3, MidpointRounding.AwayFromZero);
+                    holeStatistics.PointsScored = holeShots.Sum(s => s.Points);
+                    holeStatistics.Pushes = holeShots.Count(s => s.ShotType.Id == 3);
+                    holeStatistics.Steals = holeShots.Count(s => s.ShotType.Id == 4);
+                    holeStatistics.SugarFreeSteals = holeShots.Count(s => s.ShotType.Id == 5);
+
+                    _holeStatisticsRepository.Add(holeStatistics);
+                }
             }
 
             _unitOfWork.Commit();
