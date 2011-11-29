@@ -17,11 +17,13 @@
 </div>
 @{
   int i = 1;
+  bool needsClosingDiv = false;
 }
 @foreach (var item in Model.Games)
 {
   if (i % 2 != 0)
   {
+    needsClosingDiv = true;
     @:<div class="row"> 
   }
   var pgs = Model.GetPlayerGameStatistics(item.Id);
@@ -68,6 +70,11 @@
   if (i % 2 == 0)
   {
     @:</div>
+    needsClosingDiv = false;
   }
   i++;
+}
+@if (needsClosingDiv)
+{
+  @:</div>
 }
