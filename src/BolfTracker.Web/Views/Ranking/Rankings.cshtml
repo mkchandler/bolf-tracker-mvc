@@ -53,7 +53,7 @@
     @foreach (var ranking in Model.Rankings)
     { 
       <tr>
-        <td>@Html.ActionLink(ranking.Player.Name, "Details", "Player", new { id = ranking.Player.Id }, null)
+        <td>@Html.ActionLink(ranking.Player.Name, "Details", "Player", new { id = ranking.Player.Id, name = ranking.Player.UrlFriendlyName }, null)
         </td>
         <td style="text-align: right">@ranking.Wins
         </td>

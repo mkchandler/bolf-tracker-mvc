@@ -50,7 +50,7 @@
         @foreach (var player in pgs)
         {
           <tr>
-            <td>@Html.ActionLink(player.Player.Name, "Details", "Player", new { id = player.Player.Id }, null)
+            <td>@Html.ActionLink(player.Player.Name, "Details", "Player", new { id = player.Player.Id, name = player.Player.UrlFriendlyName }, null)
             </td>
             <td>@player.Points
             </td>

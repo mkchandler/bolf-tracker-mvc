@@ -76,7 +76,7 @@
           @foreach (var player in Model.Leaderboard)
           {
             <tr>
-              <td>@player.Player.Name
+              <td>@Html.ActionLink(player.Player.Name, "Details", "Player", new { id = player.Player.Id, name = player.Player.UrlFriendlyName }, null)
               </td>
               <td>@player.Points
               </td>
@@ -110,7 +110,7 @@
 {
   int lastShot = Model.Game.Shots.Max(s => s.Id);
         
-  <table class="bordered-table zebra-striped">
+  <table class="condensed-table bordered-table zebra-striped">
     <thead>
       <tr>
         <th title="Hole" style="width: 50px; text-align: left;">

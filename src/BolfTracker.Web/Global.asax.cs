@@ -38,7 +38,7 @@ namespace BolfTracker.Web
             routes.MapRoute("HoleDetails", "holes/{id}", new { controller = "Hole", action = "Details" });
 
             routes.MapRoute("Players", "players", new { controller = "Player", action = "Index" });
-            routes.MapRoute("PlayerDetails", "players/{id}", new { controller = "Player", action = "Details" });
+            routes.MapRoute("PlayerDetails", "players/{id}/{name}", new { controller = "Player", action = "Details", name = UrlParameter.Optional });
 
             routes.MapRoute("Statistics", "stats", new { controller = "Statistics", action = "Index" });
 

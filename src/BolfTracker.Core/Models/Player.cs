@@ -32,6 +32,14 @@ namespace BolfTracker.Models
             get;
             set;
         }
+
+        public string UrlFriendlyName
+        {
+            get
+            {
+                return Name.Trim().ToLower().Replace(' ', '-');
+            }
+        }
         
         public virtual string Initials
         {

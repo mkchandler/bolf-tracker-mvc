@@ -27,7 +27,7 @@ namespace BolfTracker.Web.Controllers
             return View(new PlayersViewModel(month, year, players, playerStatistics));
         }
 
-        public ActionResult Details(int id)
+        public ActionResult Details(int id, string name)
         {
             int month = DateTime.Today.Month;
             int year = DateTime.Today.Year;
