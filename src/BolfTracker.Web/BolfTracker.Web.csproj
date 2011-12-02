@@ -98,6 +98,7 @@
     <Content Include="content\images\background.png" />
     <Content Include="Global.asax" />
     <Content Include="scripts\jquery.tablesorter.js" />
+    <Content Include="scripts\jquery.tablesorter.min.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
