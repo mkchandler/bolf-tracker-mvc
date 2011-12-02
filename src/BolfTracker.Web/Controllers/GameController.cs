@@ -63,60 +63,9 @@ namespace BolfTracker.Web.Controllers
         [Authorize]
         public ActionResult Create(DateTime date)
         {
-            try
-            {
-                var game = _gameService.CreateGame(date);
+            var game = _gameService.CreateGame(date);
 
-                return RedirectToAction("Details", new { id = game.Id });
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        [Authorize]
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        [HttpPost]
-        [Authorize]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        [Authorize]
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        [HttpPost]
-        [Authorize]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+            return RedirectToAction("Details", new { id = game.Id });
         }
 
         [HttpPost]

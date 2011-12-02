@@ -1,26 +1,23 @@
 ﻿using System;
-using System.Linq;
 using System.Web.Mvc;
 
 using BolfTracker.Services;
 
-using MvcMiniProfiler;
-
 namespace BolfTracker.Web.Controllers
 {
-    public class RankingController : Controller
+    public class HomeController : Controller
     {
         private readonly IRankingService _rankingService;
 
-        public RankingController(IRankingService rankingService)
+        public HomeController(IRankingService rankingService)
         {
             _rankingService = rankingService;
         }
 
-        public ActionResult Index(int? year, int? month)
+        public ActionResult Index()
         {
-            int rankingsYear = year.HasValue ? year.Value : DateTime.Today.Year;
-            int rankingsMonth = month.HasValue ? month.Value : DateTime.Today.Month;
+            int rankingsYear = DateTime.Today.Year;
+            int rankingsMonth = DateTime.Today.Month;
 
             var rankings = _rankingService.GetRankings(rankingsMonth, rankingsYear);
 

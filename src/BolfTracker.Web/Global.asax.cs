@@ -28,9 +28,11 @@ namespace BolfTracker.Web
             routes.MapRoute("Login", "login", new { controller = "Player", action = "Login" });
             routes.MapRoute("SignOut", "signout", new { controller = "Player", action = "SignOut" });
 
-            routes.MapRoute("Rankings", "rankings/{year}/{month}", new { controller = "Ranking", action = "Monthly", year = UrlParameter.Optional, month = UrlParameter.Optional });
+            routes.MapRoute("Rankings", "rankings", new { controller = "Ranking", action = "Index" });
+            routes.MapRoute("RankingsByMonth", "rankings/{year}/{month}", new { controller = "Ranking", action = "Index", year = UrlParameter.Optional, month = UrlParameter.Optional });
 
             routes.MapRoute("Games", "games", new { controller = "Game", action = "Index" });
+            routes.MapRoute("GamesByMonth", "games/{year}/{month}", new { controller = "Game", action = "Index", year = UrlParameter.Optional, month = UrlParameter.Optional });
             routes.MapRoute("CreateGame", "games/create", new { controller = "Game", action = "Create" });
             routes.MapRoute("GameDetails", "games/{id}", new { controller = "Game", action = "Details" });
 
@@ -42,7 +44,9 @@ namespace BolfTracker.Web
 
             routes.MapRoute("Statistics", "stats", new { controller = "Statistics", action = "Index" });
 
-            routes.MapRoute("Default", "{controller}/{action}/{id}", new { controller = "Ranking", action = "Index", id = UrlParameter.Optional });
+            routes.MapRoute("Landing", "", new { controller = "Ranking", action = "Index" });
+
+            routes.MapRoute("Default", "{controller}/{action}", new { controller = "Home", action = "Index" });
         }
 
         protected void Application_Start()

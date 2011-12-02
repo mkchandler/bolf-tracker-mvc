@@ -76,6 +76,7 @@
     <Compile Include="App_Start\MiniProfiler.cs" />
     <Compile Include="Controllers\GameController.cs" />
     <Compile Include="Controllers\HoleController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PlayerController.cs" />
     <Compile Include="Controllers\RankingController.cs" />
     <Compile Include="Controllers\ScoreController.cs" />
