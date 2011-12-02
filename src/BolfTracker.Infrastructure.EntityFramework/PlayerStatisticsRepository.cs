@@ -16,7 +16,7 @@ namespace BolfTracker.Infrastructure.EntityFramework
 
         public PlayerStatistics GetByPlayerMonthAndYear(int playerId, int month, int year)
         {
-            var playerStatistics = Database.PlayerStatistics.Include(ps => ps.Player).First(ps => ps.Player.Id == playerId && ps.Month == month && ps.Year == year);
+            var playerStatistics = Database.PlayerStatistics.Include(ps => ps.Player).SingleOrDefault(ps => ps.Player.Id == playerId && ps.Month == month && ps.Year == year);
 
             return playerStatistics;
         }
