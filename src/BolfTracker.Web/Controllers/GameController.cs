@@ -3,6 +3,7 @@ using System.Web.Mvc;
 
 using BolfTracker.Models;
 using BolfTracker.Services;
+
 using MvcMiniProfiler;
 
 namespace BolfTracker.Web.Controllers
@@ -29,9 +30,10 @@ namespace BolfTracker.Web.Controllers
             int gamesYear = year.HasValue ? year.Value : DateTime.Today.Year;
             int gamesMonth = month.HasValue ? month.Value : DateTime.Today.Month;
 
-            var games = _gameService.GetGamesWithStatistics(gamesMonth, gamesYear);
+            var games = _gameService.GetGames(gamesMonth, gamesYear);
+            var playerGameStatistics = _playerService.GetPlayerGameStatistics(gamesMonth, gamesYear);
 
-            return View(new GamesViewModel(gamesMonth, gamesYear, games));
+            return View(new GamesViewModel(gamesMonth, gamesYear, games, playerGameStatistics));
         }
 
         [Authorize]

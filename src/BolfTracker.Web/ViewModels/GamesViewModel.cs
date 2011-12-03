@@ -8,11 +8,12 @@ namespace BolfTracker.Web
 {
     public class GamesViewModel
     {
-        public GamesViewModel(int month, int year, IEnumerable<Game> games)
+        public GamesViewModel(int month, int year, IEnumerable<Game> games, IEnumerable<PlayerGameStatistics> playerGameStatistics)
         {
             Month = month;
             Year = year;
             _games = games;
+            _playerGameStatistics = playerGameStatistics;
         }
 
         public int Month
@@ -42,16 +43,11 @@ namespace BolfTracker.Web
             get { return _games.OrderByDescending(game => game.Date); }
         }
 
-        public IEnumerable<GameStatistics> GameStatistics
-        {
-            get { return _games.SelectMany(game => game.GameStatistics); }
-        }
+        private IEnumerable<PlayerGameStatistics> _playerGameStatistics;
 
         public IEnumerable<PlayerGameStatistics> GetPlayerGameStatistics(int gameId)
         {
-            var playerGameStatistics = _games.Where(g => g.Id == gameId).SelectMany(g => g.PlayerGameStatistics).OrderByDescending(pgs => pgs.Points);
-
-            return playerGameStatistics;
+            return _playerGameStatistics.Where(pgs => pgs.Game.Id == gameId);
         }
     }
 }

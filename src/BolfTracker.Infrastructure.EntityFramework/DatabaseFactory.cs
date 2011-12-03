@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.Common;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.ModelConfiguration;
+using System.Data.SqlClient;
 using System.Linq;
+
+using MvcMiniProfiler;
 
 namespace BolfTracker.Infrastructure.EntityFramework
 {
@@ -56,6 +60,14 @@ namespace BolfTracker.Infrastructure.EntityFramework
             }
 
             return _database;
+        }
+
+        public DbConnection GetProfiledConnection()
+        {
+            var connection = new SqlConnection(ConfigurationManager.ConnectionStrings["BolfTracker"].ConnectionString);
+            
+            // Wrap the connection with a profiling connection that tracks timings
+            return new MvcMiniProfiler.Data.ProfiledDbConnection(connection, MiniProfiler.Current);
         }
 
         public void Dispose()

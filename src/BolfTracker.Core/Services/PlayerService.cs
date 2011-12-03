@@ -177,11 +177,43 @@ namespace BolfTracker.Services
             return _playerStatisticsRepository.GetByMonthAndYear(month, year);
         }
 
+        public IEnumerable<PlayerGameStatistics> GetPlayerGameStatistics(int playerId)
+        {
+            Check.Argument.IsNotZeroOrNegative(playerId, "playerId");
+
+            return _playerGameStatisticsRepository.GetByPlayer(playerId);
+        }
+
+        public IEnumerable<PlayerGameStatistics> GetPlayerGameStatistics(int month, int year)
+        {
+            Check.Argument.IsNotZeroOrNegative(month, "month");
+            Check.Argument.IsNotZeroOrNegative(year, "year");
+
+            return _playerGameStatisticsRepository.GetByMonthAndYear(month, year);
+        }
+
+        public IEnumerable<PlayerGameStatistics> GetPlayerGameStatistics(int playerId, int month, int year)
+        {
+            Check.Argument.IsNotZeroOrNegative(playerId, "playerId");
+            Check.Argument.IsNotZeroOrNegative(month, "month");
+            Check.Argument.IsNotZeroOrNegative(year, "year");
+
+            return _playerGameStatisticsRepository.GetByPlayerMonthAndYear(playerId, month, year);
+        }
+
         public PlayerCareerStatistics GetPlayerCareerStatistics(int playerId)
         {
             Check.Argument.IsNotZeroOrNegative(playerId, "playerId");
 
             return _playerCareerStatisticsRepository.GetByPlayer(playerId);
+        }
+
+        public IEnumerable<PlayerHoleStatistics> GetPlayerHoleStatistics(int month, int year)
+        {
+            Check.Argument.IsNotZeroOrNegative(month, "month");
+            Check.Argument.IsNotZeroOrNegative(year, "year");
+
+            return _playerHoleStatisticsRepository.GetByMonthAndYear(month, year);
         }
 
         public IEnumerable<PlayerHoleStatistics> GetPlayerHoleStatistics(int playerId, int month, int year)
@@ -191,14 +223,6 @@ namespace BolfTracker.Services
             Check.Argument.IsNotZeroOrNegative(year, "year");
 
             return _playerHoleStatisticsRepository.GetByPlayerMonthAndYear(playerId, month, year);
-        }
-
-        public IEnumerable<PlayerHoleStatistics> GetPlayerHoleStatistics(int month, int year)
-        {
-            Check.Argument.IsNotZeroOrNegative(month, "month");
-            Check.Argument.IsNotZeroOrNegative(year, "year");
-
-            return _playerHoleStatisticsRepository.GetByMonthAndYear(month, year);
         }
 
         private PlayerStatistics CalculatePlayerStatistics(Player player, IEnumerable<PlayerGameStatistics> playerGameStatistics, int month, int year)

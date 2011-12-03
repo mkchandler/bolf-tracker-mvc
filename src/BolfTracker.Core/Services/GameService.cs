@@ -47,14 +47,6 @@ namespace BolfTracker.Services
             return _gameRepository.GetByMonthAndYear(month, year);
         }
 
-        public IEnumerable<Game> GetGamesWithStatistics(int month, int year)
-        {
-            Check.Argument.IsNotZeroOrNegative(month, "month");
-            Check.Argument.IsNotZeroOrNegative(year, "year");
-
-            return _gameRepository.GetByMonthAndYearWithStatistics(month, year);
-        }
-
         public Game CreateGame(DateTime date)
         {
             var game = new Game() { Date = date };

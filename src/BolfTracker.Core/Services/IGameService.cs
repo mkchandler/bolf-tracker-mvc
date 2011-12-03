@@ -11,8 +11,6 @@ namespace BolfTracker.Services
 
         IEnumerable<Game> GetGames(int month, int year);
 
-        IEnumerable<Game> GetGamesWithStatistics(int month, int year);
-
         Game CreateGame(DateTime date);
 
         Game UpdateGame(int id, DateTime date);
