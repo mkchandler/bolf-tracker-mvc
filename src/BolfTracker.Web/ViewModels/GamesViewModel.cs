@@ -47,7 +47,7 @@ namespace BolfTracker.Web
 
         public IEnumerable<PlayerGameStatistics> GetPlayerGameStatistics(int gameId)
         {
-            return _playerGameStatistics.Where(pgs => pgs.Game.Id == gameId);
+            return _playerGameStatistics.Where(pgs => pgs.Game.Id == gameId).OrderByDescending(pgs => pgs.Points).ThenByDescending(pgs => pgs.ShootingPercentage);
         }
     }
 }
