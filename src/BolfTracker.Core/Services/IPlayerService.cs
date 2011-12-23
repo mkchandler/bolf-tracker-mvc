@@ -16,6 +16,10 @@ namespace BolfTracker.Services
 
         void Delete(int id);
 
+        void CalculatePlayerStatistics();
+
+        void CalculatePlayerHoleStatistics();
+
         void CalculatePlayerStatistics(int month, int year);
 
         void CalculatePlayerHoleStatistics(int month, int year);

@@ -12,6 +12,9 @@ namespace BolfTracker.Infrastructure.EntityFramework.Configuration
             HasKey(r => r.Id);
 
             Property(r => r.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            Property(r => r.WinningPercentage).HasPrecision(18, 3);
+            Property(r => r.LastTenWinningPercentage).HasPrecision(18, 3);
+            Property(r => r.GamesBack).HasPrecision(18, 1);
 
             HasRequired(r => r.Player).WithMany(p => p.Rankings).Map(r => r.MapKey("PlayerId"));
 

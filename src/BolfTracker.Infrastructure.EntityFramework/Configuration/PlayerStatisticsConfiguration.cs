@@ -12,6 +12,13 @@ namespace BolfTracker.Infrastructure.EntityFramework.Configuration
             HasKey(ps => ps.Id);
 
             Property(ps => ps.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            Property(ps => ps.ShootingPercentage).HasPrecision(18, 3);
+            Property(ps => ps.WinningPercentage).HasPrecision(18, 3);
+            Property(ps => ps.StainlessStealsPerGame).HasPrecision(18, 3);
+            Property(ps => ps.PointsPerGame).HasPrecision(18, 1);
+            Property(ps => ps.PushesPerGame).HasPrecision(18, 1);
+            Property(ps => ps.StealsPerGame).HasPrecision(18, 1);
+            Property(ps => ps.SugarFreeStealsPerGame).HasPrecision(18, 1);
 
             HasRequired(ps => ps.Player).WithMany(p => p.PlayerStatistics).Map(ps => ps.MapKey("PlayerId"));
 

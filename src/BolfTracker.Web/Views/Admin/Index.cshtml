@@ -1,5 +1,23 @@
 ﻿@{
   ViewBag.Title = "Admin - Bolf Tracker";
 }
+<h1>
+  Admin Functions</h1>
 <h2>
-  Admin</h2>
+  Calculate Player Statistics <small>Calculates player statistics for month and year
+    or zero for all.</small></h2>
+@using (Html.BeginForm("CalculatePlayerStatistics", "Admin", FormMethod.Post, new { @class = "form-stacked" }))
+{ 
+  <fieldset>
+    <legend></legend>
+    <label for="month">
+      Month:
+    </label>
+    <input type="number" name="month" id="month" value="@DateTime.Today.Month" />
+    <label for="year">
+      Year:
+    </label>
+    <input type="number" name="year" id="year" value="@DateTime.Today.Year" />
+  </fieldset>
+  <input type="submit" value="Calculate" class="btn" />
+}

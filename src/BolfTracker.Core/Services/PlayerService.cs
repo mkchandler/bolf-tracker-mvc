@@ -84,6 +84,16 @@ namespace BolfTracker.Services
             _unitOfWork.Commit();
         }
 
+        public void CalculatePlayerStatistics()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void CalculatePlayerHoleStatistics()
+        {
+            throw new NotImplementedException();
+        }
+
         public void CalculatePlayerStatistics(int month, int year)
         {
             Check.Argument.IsNotZeroOrNegative(month, "month");
