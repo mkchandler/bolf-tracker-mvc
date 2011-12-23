@@ -45,5 +45,29 @@ namespace BolfTracker.Infrastructure.EntityFramework
 
             return playerGameStatistics;
         }
+
+        public void DeleteAll()
+        {
+            using (var connection = DatabaseFactory.GetProfiledConnection())
+            {
+                connection.Open();
+
+                string command = "DELETE FROM PlayerGameStatistics";
+
+                connection.Execute(command);
+            }
+        }
+
+        public void DeleteByMonthAndYear(int month, int year)
+        {
+            using (var connection = DatabaseFactory.GetProfiledConnection())
+            {
+                connection.Open();
+
+                string command = "DELETE PlayerGameStatistics FROM PlayerGameStatistics pgs INNER JOIN Game g ON g.Id = pgs.GameId WHERE (DATEPART (month, g.[Date])) = @Month AND (DATEPART (year, g.[Date])) = @Year";
+
+                connection.Execute(command, new { Month = month, Year = year });
+            }
+        }
     }
 }

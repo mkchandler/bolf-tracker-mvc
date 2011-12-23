@@ -31,6 +31,38 @@ namespace BolfTracker.Web.Controllers
 
         [HttpPost]
         [Authorize]
+        public ActionResult CalculateRankings(int month, int year)
+        {
+            if (month == 0 && year == 0)
+            {
+                //_rankingService.CalculateRankings();
+            }
+            else
+            {
+                _rankingService.CalculateRankings(month, year);
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        [Authorize]
+        public ActionResult CalculateGameStatistics(int month, int year)
+        {
+            if (month == 0 && year == 0)
+            {
+                _gameService.CalculateGameStatistics();
+            }
+            else
+            {
+                _gameService.CalculateGameStatistics(month, year);
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        [Authorize]
         public ActionResult CalculatePlayerStatistics(int month, int year)
         {
             var profiler = MiniProfiler.Current;
@@ -59,7 +91,7 @@ namespace BolfTracker.Web.Controllers
                 }
             }
 
-            return View("Index");
+            return RedirectToAction("Index");
         }
     }
 }
