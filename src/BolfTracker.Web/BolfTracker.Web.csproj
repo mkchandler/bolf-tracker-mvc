@@ -74,6 +74,7 @@
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="App_Start\MiniProfiler.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\GameController.cs" />
     <Compile Include="Controllers\HoleController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -174,7 +175,9 @@
   <ItemGroup>
     <Content Include="Views\Hole\Create.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Views\Admin\Index.cshtml" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
