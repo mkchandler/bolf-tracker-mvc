@@ -113,8 +113,10 @@ namespace BolfTracker.Services
                 var playerStatistics = CalculatePlayerStatistics(player, playerGameStatistics, month, year);
                 _playerStatisticsRepository.Add(playerStatistics);
 
+                var playerCareerGameStatistics = _playerGameStatisticsRepository.GetByPlayer(player.Id);
+
                 // Calculate the player's career stats
-                var playerCareerStatistics = CalculatePlayerCareerStatistics(player, playerGameStatistics);
+                var playerCareerStatistics = CalculatePlayerCareerStatistics(player, playerCareerGameStatistics);
                 _playerCareerStatisticsRepository.Add(playerCareerStatistics);
             }
 

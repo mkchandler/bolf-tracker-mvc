@@ -47,17 +47,17 @@ namespace BolfTracker.Web.Controllers
                 }
             }
 
-            //using (profiler.Step("Calculate player hole statistics"))
-            //{
-            //    if (month == 0 && year == 0)
-            //    {
-            //        _playerService.CalculatePlayerHoleStatistics();
-            //    }
-            //    else
-            //    {
-            //        _playerService.CalculatePlayerHoleStatistics(month, year);
-            //    }
-            //}
+            using (profiler.Step("Calculate player hole statistics"))
+            {
+                if (month == 0 && year == 0)
+                {
+                    _playerService.CalculatePlayerHoleStatistics();
+                }
+                else
+                {
+                    _playerService.CalculatePlayerHoleStatistics(month, year);
+                }
+            }
 
             return View("Index");
         }
