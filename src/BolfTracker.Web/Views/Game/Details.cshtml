@@ -2,54 +2,61 @@
 @{
   ViewBag.Title = "Game Panel - Bolf Tracker";
 }
-<h2>
-  Game Panel - @String.Format("{0:d}", Model.Game.Date)</h2>
-@if (HttpContext.Current.User.Identity.IsAuthenticated)
-{
-  if (!Model.GameFinalized)
-  {
-    using (Html.BeginForm("Finalize", "Game", FormMethod.Post))
-    {
-  @Html.Hidden("gameId", Model.Game.Id)
-  <input type="submit" class="btn" value="Finalize Game" />
-    }
-  }
-}
+<div class="page-header">
+  <div class="row">
+    <div class="span8">
+      <h1>
+        Game Panel - @String.Format("{0:d}", Model.Game.Date)</h1>
+    </div>
+    <div class="span8">
+      @if (HttpContext.Current.User.Identity.IsAuthenticated)
+      {
+        if (!Model.GameFinalized)
+        {
+          using (Html.BeginForm("Finalize", "Game", FormMethod.Post))
+          {
+        @Html.Hidden("gameId", Model.Game.Id)
+        <input type="submit" class="btn pull-right" value="Finalize Game" />
+          }
+        }
+      }
+    </div>
+  </div>
+</div>
 <div class="row">
   <div class="span8">
     @if (HttpContext.Current.User.Identity.IsAuthenticated)
     {
       if (!Model.GameFinalized)
       {
-      <h3>
-        Shot</h3>
         using (Html.BeginForm("Create", "Score", FormMethod.Post, new { @class = "form-stacked" }))
         {
       @Html.HiddenFor(m => m.Game.Id)
-      <label for="player">
-        Player:
-      </label>@Html.DropDownListFor(m => m.Player, Model.AllPlayers)
-      <label for="hole">
-        Hole:
-      </label>@Html.DropDownListFor(m => m.Hole, Model.AllHoles, new { @id = "currentHole" })
-      <label for="attempts">
-        Attempts:
-      </label>
-      <input type="number" name="attempts" id="attempts" autocomplete="off" />
-      <label for="shotMade">
-        Shot Made:
-      </label>
-      <input type="checkbox" name="shotMade" id="shotMade" />
-      <div class="actions">
-        <input type="submit" class="btn primary" value="Save Shot" />
-      </div>
+      <fieldset>
+        <legend>Enter Shot</legend>
+        <label for="player">
+          Player
+        </label>@Html.DropDownListFor(m => m.Player, Model.AllPlayers)
+        <label for="hole">
+          Hole
+        </label>@Html.DropDownListFor(m => m.Hole, Model.AllHoles, new { @id = "currentHole" })
+        <label for="attempts">
+          Attempts
+        </label>
+        <input type="number" name="attempts" id="attempts" autocomplete="off" />
+        <label for="shotMade">
+          Shot Made
+        </label>
+        <input type="checkbox" name="shotMade" id="shotMade" />
+      </fieldset>
+      <input type="submit" class="btn primary" value="Save Shot" />
         }
       }
     }
   </div>
   <div class="span8">
-    <h3>
-      Leaderboard</h3>
+    <h2>
+      Leaderboard</h2>
     @if (Model.Game.Shots.Any())
     {
       <table id="leaderboard" class="bordered-table zebra-striped">
@@ -104,8 +111,8 @@
     }
   </div>
 </div>
-<h3>
-  Hole History</h3>
+<h2>
+  Hole History</h2>
 @if (Model.Game.Shots.Any())
 {
   int lastShot = Model.Game.Shots.Max(s => s.Id);

@@ -2,26 +2,16 @@
 @{
   ViewBag.Title = "Create Hole - Bolf Tracker";
 }
-<h2>
-  Create</h2>
-@using (Html.BeginForm())
+<h1>
+  Create Hole</h1>
+@using (Html.BeginForm("Create", "Hole", FormMethod.Post, new { @class = "form-stacked" }))
 {
   <fieldset>
-    <legend>Hole</legend>
-    <div class="editor-label">
-      @Html.LabelFor(model => model.Id, "Hole Number")
-    </div>
-    <div class="editor-field">
-      @Html.EditorFor(model => model.Id, null, "holeNumber")
-    </div>
-    <div class="editor-label">
-      @Html.LabelFor(model => model.Par)
-    </div>
-    <div class="editor-field">
-      @Html.EditorFor(model => model.Par)
-    </div>
-    <p>
-      <input type="submit" value="Create" />
-    </p>
+    <legend></legend>
+    @Html.LabelFor(model => model.Id, "Hole Number")
+    @Html.EditorFor(model => model.Id, null, "holeNumber")
+    @Html.LabelFor(model => model.Par)
+    @Html.EditorFor(model => model.Par)
   </fieldset>
+  <input type="submit" value="Create" class="btn primary" />
 }

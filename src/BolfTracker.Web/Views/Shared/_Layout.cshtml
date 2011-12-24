@@ -54,7 +54,7 @@
           <li>@Html.ActionLink("Holes", "Index", "Hole")</li>
         </ul>
         <ul class="nav secondary-nav">
-          <li>@Html.ActionLink("Admin", "Index", "Admin")</li>
+          @if (HttpContext.Current.User.Identity.IsAuthenticated) { <li>@Html.ActionLink("Admin", "Index", "Admin")</li> }
           <li><strong>@(HttpContext.Current.User.Identity.IsAuthenticated ? Html.ActionLink("Logout", "SignOut", "Player") : Html.ActionLink("Login", "Login", "Player"))</strong></li>
         </ul>
       </div>

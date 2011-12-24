@@ -5,7 +5,7 @@
 <div class="page-header">
   <div class="row">
     <div class="span8">
-      <h2>@String.Format("{0} {1} Hole Statistics", Model.MonthName, Model.Year)</h2>
+      <h1>@Model.MonthName @Model.Year Hole Statistics</h1>
     </div>
   </div>
 </div>
@@ -52,7 +52,7 @@
           @item.Attempts
         </td>
         <td>
-          @String.Format("{0:#.###}", item.ShootingPercentage)
+          @item.ShootingPercentage
         </td>
         <td>
           @item.PointsScored

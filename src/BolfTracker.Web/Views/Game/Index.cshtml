@@ -1,11 +1,11 @@
 ﻿@model BolfTracker.Web.GamesViewModel
 @{
-  ViewBag.Title = String.Format("{0} {1} Games - Bolf Tracker", Model.MonthName, Model.Year);
+  ViewBag.Title = Model.MonthName + " " + Model.Year + " Games";
 }
 <div class="page-header">
   <div class="row">
     <div class="span8">
-      <h2>@String.Format("{0} {1} Games", Model.MonthName, Model.Year)</h2>
+      <h1>@Model.MonthName @Model.Year Games</h1>
     </div>
     <div class="span8">
       @if (HttpContext.Current.User.Identity.IsAuthenticated)

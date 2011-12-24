@@ -86,30 +86,6 @@ namespace BolfTracker.Web.Controllers
             }
         }
 
-        [Authorize]
-        public ActionResult Delete(int id)
-        {
-            var player = _playerService.GetPlayer(id);
-
-            return View(player);
-        }
-
-        [HttpPost]
-        [Authorize]
-        public ActionResult Delete(int id, FormCollection formCollection)
-        {
-            try
-            {
-                _playerService.Delete(id);
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
         public ActionResult Login()
         {
             return View();

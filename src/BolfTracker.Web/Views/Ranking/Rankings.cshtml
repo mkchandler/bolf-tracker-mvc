@@ -1,16 +1,16 @@
 ﻿@model BolfTracker.Web.RankingsViewModel
 @{
-  ViewBag.Title = String.Format("{0} {1} Rankings - Bolf Tracker", Model.MonthName, Model.Year);
+  ViewBag.Title = Model.MonthName + " " + Model.Year + " Rankings";
 }
 <div class="page-header">
   <div class="row">
     <div class="span8">
-      <h2>@String.Format("{0} {1} Rankings", Model.MonthName, Model.Year)</h2>
+      <h1>@Model.MonthName @Model.Year Rankings</h1>
     </div>
   </div>
 </div>
-<h3>
-  Player Rankings</h3>
+<h2>
+  Player Rankings</h2>
 <table class="bordered-table zebra-striped" id="rankings">
   <thead>
     <tr>
@@ -56,7 +56,7 @@
         </td>
         <td style="text-align: right">@ranking.TotalPoints
         </td>
-        <td style="text-align: right">@String.Format("{0:#.#}", ranking.PointsPerGame)
+        <td style="text-align: right">@ranking.PointsPerGame
         </td>
         <td style="text-align: right">@ranking.LastTenWins-@ranking.LastTenLosses
         </td>
@@ -66,8 +66,8 @@
 </table>
 @if (Model.IneligibleRankings.Any())
 {
-  <h3>
-    Ineligible Player Rankings</h3>
+  <h2>
+    Ineligible Player Rankings</h2>
   <table class="bordered-table zebra-striped">
     <thead>
       <tr>
@@ -105,7 +105,7 @@
           </td>
           <td style="text-align: right">@ranking.TotalPoints
           </td>
-          <td style="text-align: right">@String.Format("{0:#.#}", ranking.PointsPerGame)
+          <td style="text-align: right">@ranking.PointsPerGame
           </td>
         </tr>
       }

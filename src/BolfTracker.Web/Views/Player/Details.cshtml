@@ -5,12 +5,12 @@
 <div class="page-header">
   <div class="row">
     <div class="span16">
-      <h2>@Model.Player.Name</h2>
+      <h1>@Model.Player.Name</h1>
     </div>
   </div>
 </div>
-<h3>
-  @String.Format("{0} {1} Statistics", Model.MonthName, Model.Year)</h3>
+<h2>
+  @Model.MonthName @Model.Year Statistics</h2>
 @if (Model.PlayerStatistics != null)
 {
   @Html.Partial("_PlayerStatistics", Model.PlayerStatistics)
@@ -20,8 +20,8 @@ else
   <p>
     Monthly player stats not yet available.</p>
 }
-<h3>
-  @String.Format("Career Statistics", Model.MonthName, Model.Year)</h3>
+<h2>
+  Career Statistics</h2>
 @if (Model.PlayerStatistics != null)
 {
   @Html.Partial("_PlayerCareerStatistics", Model.PlayerCareerStatistics)
@@ -31,8 +31,8 @@ else
   <p>
     Career player stats not yet available.</p>
 }
-<h3>
-  @String.Format("{0} {1} Hole Statistics", Model.MonthName, Model.Year)</h3>
+<h2>
+  @Model.MonthName @Model.Year Hole Statistics</h2>
 @if (Model.PlayerHoleStatistics != null && Model.PlayerHoleStatistics.Any())
 {
   @Html.Partial("_PlayerHoleStatistics", Model.PlayerHoleStatistics)
