@@ -62,3 +62,21 @@
   </fieldset>
   <input type="submit" value="Calculate" class="btn" />
 }
+<h2>
+  Calculate Hole Statistics <small>Calculates hole statistics for month and year
+    or zero for all.</small></h2>
+@using (Html.BeginForm("CalculateHoleStatistics", "Admin", FormMethod.Post, new { @class = "form-stacked" }))
+{ 
+  <fieldset>
+    <legend></legend>
+    <label for="hole-stats-month">
+      Month
+    </label>
+    <input type="number" name="month" id="hole-stats-month" value="@DateTime.Today.Month" />
+    <label for="hole-stats-year">
+      Year
+    </label>
+    <input type="number" name="year" id="hole-stats-year" value="@DateTime.Today.Year" />
+  </fieldset>
+  <input type="submit" value="Calculate" class="btn" />
+}

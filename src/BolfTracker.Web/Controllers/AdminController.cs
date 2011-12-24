@@ -93,5 +93,21 @@ namespace BolfTracker.Web.Controllers
 
             return RedirectToAction("Index");
         }
+
+        [HttpPost]
+        [Authorize]
+        public ActionResult CalculateHoleStatistics(int month, int year)
+        {
+            if (month == 0 && year == 0)
+            {
+                //_holeService.CalculateHoleStatistics();
+            }
+            else
+            {
+                _holeService.CalculateHoleStatistics(month, year);
+            }
+
+            return RedirectToAction("Index");
+        }
     }
 }
