@@ -70,43 +70,6 @@
     }
   </tbody>
 </table>
-@if (HttpContext.Current.User.Identity.IsAuthenticated)
-{
-  <h2>
-    Holes</h2>
-  <p>
-    @Html.ActionLink("Create New", "Create")
-  </p>
-  <div class="row">
-    <div class="span8">
-      <table class="condensed-table bordered-table zebra-striped">
-        <thead>
-          <tr>
-            <th>
-              Number
-            </th>
-            <th>
-              Par
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          @foreach (var item in Model.Holes)
-          {
-            <tr>
-              <td>
-                @item.Id
-              </td>
-              <td>
-                @item.Par
-              </td>
-            </tr>
-          }
-        </tbody>
-      </table>
-    </div>
-  </div>
-}
 @section javascript
 {
   <script src="@Url.Content("~/scripts/jquery.tablesorter.min.js")" type="text/javascript"></script>

@@ -29,6 +29,22 @@ namespace BolfTracker.Web.Controllers
             return View();
         }
 
+        [Authorize]
+        public ActionResult Players()
+        {
+            var allLeaguePlayers = _playerService.GetPlayers();
+
+            return View(allLeaguePlayers);
+        }
+
+        [Authorize]
+        public ActionResult Holes()
+        {
+            var allLeagueHoles = _holeService.GetHoles();
+
+            return View(allLeagueHoles);
+        }
+
         [HttpPost]
         [Authorize]
         public ActionResult CalculateRankings(int month, int year)

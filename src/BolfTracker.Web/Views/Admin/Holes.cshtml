@@ -1,0 +1,49 @@
+﻿@model IEnumerable<BolfTracker.Models.Hole>
+@{
+  ViewBag.Title = "Holes - League Manager - Bolf Tracker";
+}
+<div class="page-header">
+  <div class="row">
+    <div class="span8">
+      <h1>
+        League Manager</h1>
+    </div>
+  </div>
+</div>
+<ul class="tabs">
+  <li>@Html.ActionLink("Statistics", "Index", "Admin")</li>
+  <li>@Html.ActionLink("Players", "Players", "Admin")</li>
+  <li class="active">@Html.ActionLink("Holes", "Holes", "Admin")</li>
+</ul>
+<div class="row">
+  <div class="span8">
+    <table class="condensed-table bordered-table zebra-striped">
+      <thead>
+        <tr>
+          <th>
+            Number
+          </th>
+          <th>
+            Par
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        @foreach (var item in Model)
+        {
+          <tr>
+            <td>
+              @item.Id
+            </td>
+            <td>
+              @item.Par
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
+<p>
+  @Html.ActionLink("Create Hole", "Create", "Hole", null, new { @class = "btn" })
+</p>

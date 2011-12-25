@@ -28,7 +28,9 @@ namespace BolfTracker.Web
             routes.MapRoute("Login", "login", new { controller = "Player", action = "Login" });
             routes.MapRoute("SignOut", "signout", new { controller = "Player", action = "SignOut" });
 
-            routes.MapRoute("Admin", "admin", new { controller = "Admin", action = "Index" });
+            routes.MapRoute("LeagueManagerStatistics", "leaguemanager", new { controller = "Admin", action = "Index" });
+            routes.MapRoute("LeagueManagerPlayers", "leaguemanager/players", new { controller = "Admin", action = "Players" });
+            routes.MapRoute("LeagueManagerHoles", "leaguemanager/holes", new { controller = "Admin", action = "Holes" });
 
             routes.MapRoute("Rankings", "rankings", new { controller = "Ranking", action = "Index" });
             routes.MapRoute("RankingsByMonth", "rankings/{year}/{month}", new { controller = "Ranking", action = "Index", year = UrlParameter.Optional, month = UrlParameter.Optional });

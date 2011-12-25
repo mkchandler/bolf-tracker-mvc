@@ -1,14 +1,19 @@
 ﻿@{
-  ViewBag.Title = "Admin - Bolf Tracker";
+  ViewBag.Title = "Statistics - League Manager - Bolf Tracker";
 }
 <div class="page-header">
   <div class="row">
     <div class="span8">
       <h1>
-        Admin Functions</h1>
+        League Manager</h1>
     </div>
   </div>
 </div>
+<ul class="tabs">
+  <li class="active">@Html.ActionLink("Statistics", "Index", "Admin")</li>
+  <li>@Html.ActionLink("Players", "Players", "Admin")</li>
+  <li>@Html.ActionLink("Holes", "Holes", "Admin")</li>
+</ul>
 <h2>
   Calculate Game Statistics <small>Calculates game statistics for month and year or
     zero for all.</small></h2>

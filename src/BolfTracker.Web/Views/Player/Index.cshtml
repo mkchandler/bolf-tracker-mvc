@@ -87,42 +87,6 @@
     }
   </tbody>
 </table>
-@if (HttpContext.Current.User.Identity.IsAuthenticated)
-{ 
-  <h2>
-    Players</h2>
-  <p>
-    @Html.ActionLink("Create New", "Create")
-  </p>
-  <div class="row">
-    <div class="span8">
-      <table class="condensed-table bordered-table zebra-striped">
-        <thead>
-          <tr>
-            <th>
-              Name
-            </th>
-            <th>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          @foreach (var player in Model.Players)
-          {
-            <tr>
-              <td>
-                @Html.ActionLink(player.Name, "Details", new { id = player.Id, name = player.UrlFriendlyName })
-              </td>
-              <td>
-                @Html.ActionLink("Edit", "Edit", new { id = player.Id })
-              </td>
-            </tr>
-          }
-        </tbody>
-      </table>
-    </div>
-  </div>
-}
 @section javascript
 {
   <script src="@Url.Content("~/scripts/jquery.tablesorter.min.js")" type="text/javascript"></script>
