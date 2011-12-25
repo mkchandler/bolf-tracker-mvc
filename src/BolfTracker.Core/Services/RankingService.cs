@@ -40,7 +40,7 @@ namespace BolfTracker.Services
             // The easiest thing to do now is to just delete all of the rankings and insert the updated stats
             DeleteRankings(month, year);
 
-            var games = _gameRepository.GetByMonthAndYear(month, year);
+            var games = _gameRepository.GetFinalizedByMonthAndYear(month, year);
             var playerGameStatistics = _playerGameStatisticsRepository.GetByMonthAndYear(month, year);
             var shots = _shotRepository.GetByMonthAndYear(month, year);
             var players = _playerRepository.GetActiveByMonthAndYear(month, year);

@@ -73,7 +73,7 @@ namespace BolfTracker.Services
 
         public void CalculateGameStatistics()
         {
-            var games = _gameRepository.All().ToList();
+            var games = _gameRepository.GetAllFinalized();
 
             if (games.Any())
             {
@@ -91,7 +91,7 @@ namespace BolfTracker.Services
             Check.Argument.IsNotZeroOrNegative(month, "month");
             Check.Argument.IsNotZeroOrNegative(year, "year");
 
-            var games = _gameRepository.GetByMonthAndYear(month, year);
+            var games = _gameRepository.GetFinalizedByMonthAndYear(month, year);
 
             if (games.Any())
             {
