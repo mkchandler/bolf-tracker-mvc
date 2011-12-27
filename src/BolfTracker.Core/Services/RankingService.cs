@@ -106,7 +106,7 @@ namespace BolfTracker.Services
                 ranking.Losses = playerGameStatistics.Count(gs => gs.Player.Id == player.Id && !gs.Winner);
                 ranking.WinningPercentage = Decimal.Round((decimal)ranking.Wins / (decimal)ranking.TotalGames, 3, MidpointRounding.AwayFromZero);
                 ranking.TotalPoints = playerGameStatistics.Where(gs => gs.Player.Id == player.Id).Sum(gs => gs.Points);
-                ranking.PointsPerGame = ranking.TotalPoints / ranking.TotalGames;
+                ranking.PointsPerGame = Convert.ToInt32(Decimal.Round((decimal)ranking.TotalPoints / (decimal)ranking.TotalGames, 1, MidpointRounding.AwayFromZero)); //ranking.TotalPoints / ranking.TotalGames;
                 ranking.Eligible = ranking.TotalGames >= eligibilityLine;
 
                 var lastTenGames = playerGameStatistics.Where(gs => gs.Player.Id == player.Id).OrderByDescending(gs => gs.Game.Date).Take(10);
