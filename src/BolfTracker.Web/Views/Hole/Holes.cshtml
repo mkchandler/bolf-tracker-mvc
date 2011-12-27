@@ -5,10 +5,12 @@
 <div class="page-header">
   <div class="row">
     <div class="span8">
-      <h1>@Model.MonthName @Model.Year Hole Statistics</h1>
+      <h1>
+        Hole Statistics</h1>
     </div>
   </div>
 </div>
+<h2>@Model.MonthName @Model.Year Hole Statistics</h2>
 <table class="condensed-table bordered-table zebra-striped" id="current-month-stats">
   <thead>
     <tr>
@@ -39,7 +41,7 @@
     </tr>
   </thead>
   <tbody>
-    @foreach (var item in Model.CurrentMonthHoleStatistics)
+    @foreach (var item in Model.MonthHoleStatistics)
     {
       <tr>
         <td>
@@ -70,10 +72,73 @@
     }
   </tbody>
 </table>
+@*<h2>
+  Lifetime Hole Statistics</h2>
+<table class="condensed-table bordered-table zebra-striped" id="lifetime-stats">
+  <thead>
+    <tr>
+      <th title="Hole">
+        Hole
+      </th>
+      <th title="Shots Made">
+        Made
+      </th>
+      <th title="Attempts">
+        Attempts
+      </th>
+      <th title="Shooting Percentage">
+        Shooting %
+      </th>
+      <th title="Points">
+        Points
+      </th>
+      <th title="Pushes">
+        Pushes
+      </th>
+      <th title="Steals">
+        Steals
+      </th>
+      <th title="Sugar Free Steals">
+        SFS
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    @foreach (var item in Model.LifetimeHoleStatistics)
+    {
+      <tr>
+        <td>
+          
+        </td>
+        <td>
+          @item.ShotsMade
+        </td>
+        <td>
+          @item.Attempts
+        </td>
+        <td>
+          @String.Format("{0:#.###}", item.ShootingPercentage)
+        </td>
+        <td>
+          @item.PointsScored
+        </td>
+        <td>
+          @item.Pushes
+        </td>
+        <td>
+          @item.Steals
+        </td>
+        <td>
+          @item.SugarFreeSteals
+        </td>
+      </tr>
+    }
+  </tbody>
+</table>*@
 @section javascript
 {
   <script src="@Url.Content("~/scripts/jquery.tablesorter.min.js")" type="text/javascript"></script>
   <script type="text/javascript">
-    $("table#current-month-stats").tablesorter();
+    $("#current-month-stats, #lifetime-stats").tablesorter();
   </script>
 }

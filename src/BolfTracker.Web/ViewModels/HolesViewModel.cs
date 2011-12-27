@@ -7,12 +7,12 @@ namespace BolfTracker.Web
 {
     public class HolesViewModel
     {
-        public HolesViewModel(int month, int year, IEnumerable<Hole> holes, IEnumerable<HoleStatistics> holeStatistics)
+        public HolesViewModel(int month, int year, IEnumerable<HoleStatistics> monthHoleStatistics, IEnumerable<HoleStatistics> lifetimeHoleStatistics)
         {
             Month = month;
             Year = year;
-            Holes = holes;
-            CurrentMonthHoleStatistics = holeStatistics;
+            MonthHoleStatistics = monthHoleStatistics;
+            LifetimeHoleStatistics = lifetimeHoleStatistics;
         }
 
         public int Month
@@ -35,13 +35,13 @@ namespace BolfTracker.Web
             private set;
         }
 
-        public IEnumerable<Hole> Holes
+        public IEnumerable<HoleStatistics> MonthHoleStatistics
         {
             get;
             private set;
         }
 
-        public IEnumerable<HoleStatistics> CurrentMonthHoleStatistics
+        public IEnumerable<HoleStatistics> LifetimeHoleStatistics
         {
             get;
             private set;

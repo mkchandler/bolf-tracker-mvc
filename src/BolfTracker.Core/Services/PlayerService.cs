@@ -155,7 +155,7 @@ namespace BolfTracker.Services
                             playerHoleStatistics.Pushes = playerHoleShots.Count(s => s.ShotType.Id == ShotTypePush);
                             playerHoleStatistics.Steals = playerHoleShots.Count(s => s.ShotType.Id == ShotTypeSteal);
                             playerHoleStatistics.SugarFreeSteals = playerHoleShots.Count(s => s.ShotType.Id == ShotTypeSugarFreeSteal);
-                            
+
                             _playerHoleStatisticsRepository.Add(playerHoleStatistics);
                         }
                     }
@@ -218,6 +218,11 @@ namespace BolfTracker.Services
             Check.Argument.IsNotZeroOrNegative(playerId, "playerId");
 
             return _playerCareerStatisticsRepository.GetByPlayer(playerId);
+        }
+
+        public IEnumerable<PlayerCareerStatistics> GetPlayerCareerStatistics()
+        {
+            return _playerCareerStatisticsRepository.All().ToList();
         }
 
         public IEnumerable<PlayerHoleStatistics> GetPlayerHoleStatistics(int month, int year)

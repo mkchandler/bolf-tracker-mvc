@@ -28,6 +28,11 @@ namespace BolfTracker.Services
             return _holeRepository.All().ToList();
         }
 
+        public IEnumerable<HoleStatistics> GetHoleStatistics()
+        {
+            return _holeStatisticsRepository.All();
+        }
+
         public IEnumerable<HoleStatistics> GetHoleStatistics(int month, int year)
         {
             Check.Argument.IsNotZeroOrNegative(month, "month");

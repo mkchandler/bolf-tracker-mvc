@@ -21,10 +21,10 @@ namespace BolfTracker.Web.Controllers
             int month = DateTime.Today.Month;
             int year = DateTime.Today.Year;
 
-            var players = _playerService.GetPlayers();
             var playerStatistics = _playerService.GetPlayerStatistics(month, year);
+            var playerCareerStatistics = _playerService.GetPlayerCareerStatistics();
 
-            return View(new PlayersViewModel(month, year, players, playerStatistics));
+            return View(new PlayersViewModel(month, year, playerStatistics, playerCareerStatistics));
         }
 
         public ActionResult Details(int id, string name)

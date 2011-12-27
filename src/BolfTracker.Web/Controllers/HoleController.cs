@@ -19,10 +19,10 @@ namespace BolfTracker.Web.Controllers
             int month = DateTime.Today.Month;
             int year = DateTime.Today.Year;
 
-            var holes = _holeService.GetHoles();
             var holesStatistics = _holeService.GetHoleStatistics(month, year);
+            var lifetimeHoleStatistics = _holeService.GetHoleStatistics();
 
-            return View("Holes", new HolesViewModel(month, year, holes, holesStatistics));
+            return View("Holes", new HolesViewModel(month, year, holesStatistics, lifetimeHoleStatistics));
         }
 
         [Authorize]
@@ -45,50 +45,6 @@ namespace BolfTracker.Web.Controllers
             {
                 _holeService.CreateHole(holeNumber, par);
 
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        [Authorize]
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        [HttpPost]
-        [Authorize]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
- 
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        [Authorize]
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        [HttpPost]
-        [Authorize]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
- 
                 return RedirectToAction("Index");
             }
             catch
