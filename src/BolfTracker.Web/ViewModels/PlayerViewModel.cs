@@ -8,12 +8,12 @@ namespace BolfTracker.Web
 {
     public class PlayerViewModel
     {
-        public PlayerViewModel(int month, int year, Player player, PlayerStatistics playerStatistics, PlayerCareerStatistics playerCareerStatistics, IEnumerable<PlayerHoleStatistics> playerHoleStatistics)
+        public PlayerViewModel(int month, int year, Player player, IEnumerable<PlayerStatistics> playerStatistics, PlayerCareerStatistics playerCareerStatistics, IEnumerable<PlayerHoleStatistics> playerHoleStatistics)
         {
             Month = month;
             Year = year;
             Player = player;
-            PlayerStatistics = playerStatistics;
+            _playerStatistics = playerStatistics;
             PlayerCareerStatistics = playerCareerStatistics;
             PlayerHoleStatistics = playerHoleStatistics;
         }
@@ -44,10 +44,11 @@ namespace BolfTracker.Web
             private set;
         }
 
-        public PlayerStatistics PlayerStatistics
+        private IEnumerable<PlayerStatistics> _playerStatistics;
+
+        public IEnumerable<PlayerStatistics> PlayerStatistics
         {
-            get;
-            private set;
+            get { return _playerStatistics.OrderByDescending(ps => ps.Year).ThenByDescending(ps => ps.Month); }
         }
 
         public PlayerCareerStatistics PlayerCareerStatistics

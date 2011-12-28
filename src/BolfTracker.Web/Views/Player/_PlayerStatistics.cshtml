@@ -1,7 +1,13 @@
-﻿@model BolfTracker.Models.PlayerStatistics
-<table class="condensed-table bordered-table zebra-striped">
+﻿@model IEnumerable<BolfTracker.Models.PlayerStatistics>
+<table class="condensed-table bordered-table zebra-striped" id="monthly-stats">
   <thead>
     <tr>
+      <th title="Month">
+        Month
+      </th>
+      <th title="Year">
+        Year
+      </th>
       <th title="Shots Made">
         Made
       </th>
@@ -41,43 +47,50 @@
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <td>
-        @Model.ShotsMade
-      </td>
-      <td>
-        @Model.Attempts
-      </td>
-      <td>
-        @Model.ShootingPercentage
-      </td>
-      <td>
-        @Model.Points
-      </td>
-      <td>
-        @Model.PointsPerGame
-      </td>
-      <td>
-        @Model.Wins
-      </td>
-      <td>
-        @Model.Losses
-      </td>
-      <td>
-        @Model.WinningPercentage
-      </td>
-      <td>
-        @Model.Pushes
-      </td>
-      <td>
-        @Model.PushesPerGame
-      </td>
-      <td>
-        @Model.Steals
-      </td>
-      <td>
-        @Model.SugarFreeSteals
-      </td>
-    </tr>
+    @foreach (var monthlyStatistics in Model)
+    {
+      <tr>
+        <td>@monthlyStatistics.Month
+        </td>
+        <td>@monthlyStatistics.Year
+        </td>
+        <td>
+          @monthlyStatistics.ShotsMade
+        </td>
+        <td>
+          @monthlyStatistics.Attempts
+        </td>
+        <td>
+          @monthlyStatistics.ShootingPercentage
+        </td>
+        <td>
+          @monthlyStatistics.Points
+        </td>
+        <td>
+          @monthlyStatistics.PointsPerGame
+        </td>
+        <td>
+          @monthlyStatistics.Wins
+        </td>
+        <td>
+          @monthlyStatistics.Losses
+        </td>
+        <td>
+          @monthlyStatistics.WinningPercentage
+        </td>
+        <td>
+          @monthlyStatistics.Pushes
+        </td>
+        <td>
+          @monthlyStatistics.PushesPerGame
+        </td>
+        <td>
+          @monthlyStatistics.Steals
+        </td>
+        <td>
+          @monthlyStatistics.SugarFreeSteals
+        </td>
+      </tr>
+    }
   </tbody>
 </table>

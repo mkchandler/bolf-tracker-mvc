@@ -33,7 +33,7 @@ namespace BolfTracker.Web.Controllers
             int year = DateTime.Today.Year;
 
             var player = _playerService.GetPlayer(id);
-            var playerStatistics = _playerService.GetPlayerStatistics(id, month, year);
+            var playerStatistics = _playerService.GetPlayerStatistics(id);
             var playerCareerStatistics = _playerService.GetPlayerCareerStatistics(id);
             var playerHoleStatistics = _playerService.GetPlayerHoleStatistics(id, month, year);
 
