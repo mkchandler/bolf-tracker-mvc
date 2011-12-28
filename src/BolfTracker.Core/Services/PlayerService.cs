@@ -13,6 +13,7 @@ namespace BolfTracker.Services
         private readonly IPlayerRepository _playerRepository;
         private readonly IHoleRepository _holeRepository;
         private readonly IShotRepository _shotRepository;
+        private readonly IGameRepository _gameRepository;
         private readonly IPlayerStatisticsRepository _playerStatisticsRepository;
         private readonly IPlayerHoleStatisticsRepository _playerHoleStatisticsRepository;
         private readonly IGameStatisticsRepository _gameStatisticsRepository;
@@ -27,11 +28,12 @@ namespace BolfTracker.Services
         private const int ShotTypeSteal = 4;
         private const int ShotTypeSugarFreeSteal = 5;
 
-        public PlayerService(IPlayerRepository playerRepository, IHoleRepository holeRepository, IShotRepository shotRepository, IPlayerStatisticsRepository playerStatisticsRepository, IPlayerHoleStatisticsRepository playerHoleStatisticsRepository, IGameStatisticsRepository gameStatisticsRepository, IPlayerGameStatisticsRepository playerGameStatisticsRepository, IPlayerCareerStatisticsRepository playerCareerStatisticsRepository, IUnitOfWork unitOfWork)
+        public PlayerService(IPlayerRepository playerRepository, IHoleRepository holeRepository, IShotRepository shotRepository, IGameRepository gameRepository, IPlayerStatisticsRepository playerStatisticsRepository, IPlayerHoleStatisticsRepository playerHoleStatisticsRepository, IGameStatisticsRepository gameStatisticsRepository, IPlayerGameStatisticsRepository playerGameStatisticsRepository, IPlayerCareerStatisticsRepository playerCareerStatisticsRepository, IUnitOfWork unitOfWork)
         {
             _playerRepository = playerRepository;
             _holeRepository = holeRepository;
             _shotRepository = shotRepository;
+            _gameRepository = gameRepository;
             _playerStatisticsRepository = playerStatisticsRepository;
             _playerHoleStatisticsRepository = playerHoleStatisticsRepository;
             _gameStatisticsRepository = gameStatisticsRepository;
@@ -86,21 +88,30 @@ namespace BolfTracker.Services
 
         public void CalculatePlayerStatistics()
         {
-            throw new NotImplementedException();
+            var months = _gameRepository.GetActiveMonthsAndYears();
+
+            foreach (var month in months)
+            {
+                CalculatePlayerStatistics(month.Item1, month.Item2, false);
+                CalculatePlayerHoleStatistics(month.Item1, month.Item2);
+            }
+
+            DeletePlayerCareerStatistics();
+            var players = _playerRepository.All().ToList();
+
+            foreach (var player in players)
+            {
+                CalculatePlayerCareerStatistics(player);
+            }
         }
 
-        public void CalculatePlayerHoleStatistics()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void CalculatePlayerStatistics(int month, int year)
+        public void CalculatePlayerStatistics(int month, int year, bool calculateCareerStatistics)
         {
             Check.Argument.IsNotZeroOrNegative(month, "month");
             Check.Argument.IsNotZeroOrNegative(year, "year");
 
             DeletePlayerStatistics(month, year);
-            DeletePlayerCareerStatistics();
+            if (calculateCareerStatistics) DeletePlayerCareerStatistics();
 
             var players = _playerRepository.GetActiveByMonthAndYear(month, year);
             var allPlayersGameStatistics = _playerGameStatisticsRepository.GetByMonthAndYear(month, year);
@@ -109,16 +120,24 @@ namespace BolfTracker.Services
             {
                 var playerGameStatistics = allPlayersGameStatistics.Where(pgs => pgs.Player.Id == player.Id);
 
-                // Calculate the player's monthly stats
                 var playerStatistics = CalculatePlayerStatistics(player, playerGameStatistics, month, year);
                 _playerStatisticsRepository.Add(playerStatistics);
 
-                var playerCareerGameStatistics = _playerGameStatisticsRepository.GetByPlayer(player.Id);
-
-                // Calculate the player's career stats
-                var playerCareerStatistics = CalculatePlayerCareerStatistics(player, playerCareerGameStatistics);
-                _playerCareerStatisticsRepository.Add(playerCareerStatistics);
+                if (calculateCareerStatistics)
+                {
+                    CalculatePlayerCareerStatistics(player);
+                }
             }
+
+            _unitOfWork.Commit();
+        }
+
+        private void CalculatePlayerCareerStatistics(Player player)
+        {
+            var playerCareerGameStatistics = _playerGameStatisticsRepository.GetByPlayer(player.Id);
+
+            var playerCareerStatistics = CalculatePlayerCareerStatistics(player, playerCareerGameStatistics);
+            _playerCareerStatisticsRepository.Add(playerCareerStatistics);
 
             _unitOfWork.Commit();
         }

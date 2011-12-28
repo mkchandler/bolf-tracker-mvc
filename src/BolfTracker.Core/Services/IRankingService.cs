@@ -8,6 +8,8 @@ namespace BolfTracker.Services
     {
         IEnumerable<Ranking> GetRankings(int month, int year);
 
+        void CalculateRankings();
+
         void CalculateRankings(int month, int year);
     }
 }

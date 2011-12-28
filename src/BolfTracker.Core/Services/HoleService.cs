@@ -12,13 +12,15 @@ namespace BolfTracker.Services
     {
         private readonly IHoleRepository _holeRepository;
         private readonly IHoleStatisticsRepository _holeStatisticsRepository;
+        private readonly IGameRepository _gameRepository;
         private readonly IShotRepository _shotRepository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public HoleService(IHoleRepository holeRepository, IHoleStatisticsRepository holeStatisticsRepository, IShotRepository shotRepository, IUnitOfWork unitOfWork)
+        public HoleService(IHoleRepository holeRepository, IHoleStatisticsRepository holeStatisticsRepository, IGameRepository gameRepository, IShotRepository shotRepository, IUnitOfWork unitOfWork)
         {
             _holeRepository = holeRepository;
             _holeStatisticsRepository = holeStatisticsRepository;
+            _gameRepository = gameRepository;
             _shotRepository = shotRepository;
             _unitOfWork = unitOfWork;
         }
@@ -52,6 +54,16 @@ namespace BolfTracker.Services
             _unitOfWork.Commit();
 
             return hole;
+        }
+
+        public void CalculateHoleStatistics()
+        {
+            var months = _gameRepository.GetActiveMonthsAndYears();
+
+            foreach (var month in months)
+            {
+                CalculateHoleStatistics(month.Item1, month.Item2);
+            }
         }
 
         public void CalculateHoleStatistics(int month, int year)

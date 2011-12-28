@@ -73,7 +73,7 @@ namespace BolfTracker.Services
 
         public void CalculateGameStatistics()
         {
-            var games = _gameRepository.GetAllFinalized();
+            var games = _gameRepository.All().ToList();
 
             if (games.Any())
             {

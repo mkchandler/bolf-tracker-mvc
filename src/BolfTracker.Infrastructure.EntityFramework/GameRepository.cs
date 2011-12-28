@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using BolfTracker.Models;
@@ -12,6 +13,26 @@ namespace BolfTracker.Infrastructure.EntityFramework
     {
         public GameRepository(IDatabaseFactory databaseFactory) : base(databaseFactory)
         {
+        }
+
+        public IEnumerable<Tuple<int, int>> GetActiveMonthsAndYears()
+        {
+            using (var connection = DatabaseFactory.GetProfiledConnection())
+            {
+                connection.Open();
+
+                string query = "SELECT (DATEPART(MONTH, [Date])) AS Month, (DATEPART(YEAR, [Date])) AS Year FROM Game GROUP BY (DATEPART(MONTH, [Date])), (DATEPART (year, [Date]))";
+
+                var rows = connection.Query(query);
+                var monthsAndYears = new List<Tuple<int, int>>();
+
+                foreach (var row in rows)
+                {
+                    monthsAndYears.Add(new Tuple<int, int>(row.Month, row.Year));
+                }
+
+                return monthsAndYears;
+            }
         }
 
         public IEnumerable<Game> GetAllFinalized()

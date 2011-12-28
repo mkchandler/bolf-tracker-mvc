@@ -18,11 +18,7 @@ namespace BolfTracker.Services
 
         void CalculatePlayerStatistics();
 
-        void CalculatePlayerHoleStatistics();
-
-        void CalculatePlayerStatistics(int month, int year);
-
-        void CalculatePlayerHoleStatistics(int month, int year);
+        void CalculatePlayerStatistics(int month, int year, bool calculateCareerStatistics);
 
         PlayerStatistics GetPlayerStatistics(int playerId, int month, int year);
 

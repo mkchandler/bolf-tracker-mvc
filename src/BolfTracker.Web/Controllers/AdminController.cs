@@ -51,7 +51,7 @@ namespace BolfTracker.Web.Controllers
         {
             if (month == 0 && year == 0)
             {
-                //_rankingService.CalculateRankings();
+                _rankingService.CalculateRankings();
             }
             else
             {
@@ -91,19 +91,7 @@ namespace BolfTracker.Web.Controllers
                 }
                 else
                 {
-                    _playerService.CalculatePlayerStatistics(month, year);
-                }
-            }
-
-            using (profiler.Step("Calculate player hole statistics"))
-            {
-                if (month == 0 && year == 0)
-                {
-                    _playerService.CalculatePlayerHoleStatistics();
-                }
-                else
-                {
-                    _playerService.CalculatePlayerHoleStatistics(month, year);
+                    _playerService.CalculatePlayerStatistics(month, year, true);
                 }
             }
 
@@ -116,7 +104,7 @@ namespace BolfTracker.Web.Controllers
         {
             if (month == 0 && year == 0)
             {
-                //_holeService.CalculateHoleStatistics();
+                _holeService.CalculateHoleStatistics();
             }
             else
             {

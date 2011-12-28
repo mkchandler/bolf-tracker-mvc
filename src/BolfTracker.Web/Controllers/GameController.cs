@@ -90,12 +90,7 @@ namespace BolfTracker.Web.Controllers
 
             using (profiler.Step("Calculate player statistics"))
             {
-                _playerService.CalculatePlayerStatistics(game.Date.Month, game.Date.Year);
-            }
-
-            using (profiler.Step("Calculate player hole statistics"))
-            {
-                _playerService.CalculatePlayerHoleStatistics(game.Date.Month, game.Date.Year);
+                _playerService.CalculatePlayerStatistics(game.Date.Month, game.Date.Year, true);
             }
 
             using (profiler.Step("Calculate hole statistics"))

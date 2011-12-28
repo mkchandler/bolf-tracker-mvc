@@ -14,6 +14,8 @@ namespace BolfTracker.Services
 
         Hole CreateHole(int holeNumber, int par);
 
+        void CalculateHoleStatistics();
+
         void CalculateHoleStatistics(int month, int year);
     }
 }

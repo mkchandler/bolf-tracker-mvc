@@ -35,6 +35,16 @@ namespace BolfTracker.Services
             return _rankingRepository.GetByMonthAndYear(month, year);
         }
 
+        public void CalculateRankings()
+        {
+            var months = _gameRepository.GetActiveMonthsAndYears();
+
+            foreach (var month in months)
+            {
+                CalculateRankings(month.Item1, month.Item2);
+            }
+        }
+
         public void CalculateRankings(int month, int year)
         {
             // The easiest thing to do now is to just delete all of the rankings and insert the updated stats
