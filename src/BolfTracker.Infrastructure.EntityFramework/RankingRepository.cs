@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data;
 using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Linq;
@@ -6,12 +7,24 @@ using System.Linq;
 using BolfTracker.Models;
 using BolfTracker.Repositories;
 
+using Dapper;
+
 namespace BolfTracker.Infrastructure.EntityFramework
 {
     public class RankingRepository : RepositoryBase<Ranking>, IRankingRepository
     {
         public RankingRepository(IDatabaseFactory databaseFactory) : base(databaseFactory)
         {
+        }
+
+        public int GetEligibilityLine(int month, int year)
+        {
+            using (var connection = DatabaseFactory.GetProfiledConnection())
+            {
+                connection.Open();
+
+                return connection.Query<int>("GetEligibilityLine", new { Month = month, Year = year }, commandType: CommandType.StoredProcedure).FirstOrDefault();
+            }
         }
 
         public IEnumerable<Ranking> GetByMonthAndYear(int month, int year)

@@ -35,6 +35,14 @@ namespace BolfTracker.Services
             return _rankingRepository.GetByMonthAndYear(month, year);
         }
 
+        public int GetEligibilityLine(int month, int year)
+        {
+            Check.Argument.IsNotZeroOrNegative(month, "month");
+            Check.Argument.IsNotZeroOrNegative(year, "year");
+
+            return _rankingRepository.GetEligibilityLine(month, year);
+        }
+
         public void CalculateRankings()
         {
             var months = _gameRepository.GetActiveMonthsAndYears();

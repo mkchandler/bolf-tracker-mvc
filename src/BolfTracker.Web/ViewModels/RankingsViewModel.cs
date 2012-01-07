@@ -8,10 +8,11 @@ namespace BolfTracker.Web
 {
     public class RankingsViewModel
     {
-        public RankingsViewModel(int month, int year, IEnumerable<Ranking> rankings)
+        public RankingsViewModel(int month, int year, int eligibilityLine, IEnumerable<Ranking> rankings)
         {
             Month = month;
             Year = year;
+            EligibilityLine = eligibilityLine;
             _rankings = rankings;
         }
 
@@ -30,6 +31,12 @@ namespace BolfTracker.Web
         }
 
         public int Year
+        {
+            get;
+            private set;
+        }
+
+        public int EligibilityLine
         {
             get;
             private set;

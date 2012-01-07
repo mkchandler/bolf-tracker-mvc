@@ -22,9 +22,10 @@ namespace BolfTracker.Web.Controllers
             int rankingsYear = year.HasValue ? year.Value : DateTime.Today.Year;
             int rankingsMonth = month.HasValue ? month.Value : DateTime.Today.Month;
 
+            int eligibilityLine = _rankingService.GetEligibilityLine(rankingsMonth, rankingsYear);
             var rankings = _rankingService.GetRankings(rankingsMonth, rankingsYear);
 
-            return View("Rankings", new RankingsViewModel(rankingsMonth, rankingsYear, rankings));
+            return View("Rankings", new RankingsViewModel(rankingsMonth, rankingsYear, eligibilityLine, rankings));
         }
     }
 }
