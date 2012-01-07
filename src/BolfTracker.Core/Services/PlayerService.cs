@@ -129,6 +129,8 @@ namespace BolfTracker.Services
                 }
             }
 
+            CalculatePlayerHoleStatistics(month, year);
+
             _unitOfWork.Commit();
         }
 
