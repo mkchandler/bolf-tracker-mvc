@@ -35,14 +35,12 @@ For more information on SemVer, please visit http://semver.org/.
 Authors
 -------
 
-**mkchandler**
+**Matt Chandler**
 
 + http://twitter.com/mkchandler
 + http://github.com/mkchandler
 
-A list of additional contributors can be viewed at:
-
-https://github.com/mkchandler/bolf-tracker-mvc/contributors
+A list of additional contributors can be viewed here: https://github.com/mkchandler/bolf-tracker-mvc/contributors
 
 Copyright and license
 ---------------------
