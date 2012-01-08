@@ -1,6 +1,6 @@
 ﻿@model BolfTracker.Web.RankingsViewModel
 @{
-  ViewBag.Title = Model.MonthName + " " + Model.Year + " Rankings";
+  ViewBag.Title = Model.MonthName + " " + Model.Year + " Rankings - Bolf Tracker";
 }
 <div class="page-header">
   <div class="row">
@@ -11,7 +11,7 @@
 </div>
 <h2>
   Player Rankings</h2>
-<table class="bordered-table zebra-striped" id="rankings">
+<table class="bordered-table striped-table" id="rankings">
   <thead>
     <tr>
       <th style="width: 120px; text-align: left" title="Player">
@@ -68,7 +68,7 @@
 {
   <h2>
     Ineligible Player Rankings</h2>
-  <table class="bordered-table zebra-striped">
+  <table class="bordered-table striped-table">
     <thead>
       <tr>
         <th style="width: 120px; text-align: left" title="Player">

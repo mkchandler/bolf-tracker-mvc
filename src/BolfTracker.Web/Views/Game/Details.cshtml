@@ -4,11 +4,11 @@
 }
 <div class="page-header">
   <div class="row">
-    <div class="span8">
+    <div class="span6">
       <h1>
         Game Panel - @String.Format("{0:d}", Model.Game.Date)</h1>
     </div>
-    <div class="span8">
+    <div class="span6">
       @if (HttpContext.Current.User.Identity.IsAuthenticated)
       {
         if (!Model.GameFinalized)
@@ -24,16 +24,16 @@
   </div>
 </div>
 <div class="row">
-  <div class="span8">
+  <div class="span6">
     @if (HttpContext.Current.User.Identity.IsAuthenticated)
     {
       if (!Model.GameFinalized)
       {
-        using (Html.BeginForm("Create", "Score", FormMethod.Post, new { @class = "form-stacked" }))
+        using (Html.BeginForm("Create", "Score", FormMethod.Post))
         {
       @Html.HiddenFor(m => m.Game.Id)
+      <legend>Enter Shot</legend>
       <fieldset>
-        <legend>Enter Shot</legend>
         <label for="player">
           Player
         </label>@Html.DropDownListFor(m => m.Player, Model.AllPlayers)
@@ -44,22 +44,22 @@
           Attempts
         </label>
         <input type="number" name="attempts" id="attempts" autocomplete="off" />
-        <label for="shotMade">
+        <label for="shotMade" class="checkbox inline">
+          <input type="checkbox" name="shotMade" id="shotMade" />
           Shot Made
         </label>
-        <input type="checkbox" name="shotMade" id="shotMade" />
       </fieldset>
       <input type="submit" class="btn primary" value="Save Shot" />
         }
       }
     }
   </div>
-  <div class="span8">
+  <div class="span6">
     <h2>
       Leaderboard</h2>
     @if (Model.Game.Shots.Any())
     {
-      <table id="leaderboard" class="bordered-table zebra-striped">
+      <table id="leaderboard" class="bordered-table striped-table">
         <thead>
           <tr>
             <th title="Player">
@@ -115,9 +115,8 @@
   Hole History</h2>
 @if (Model.Game.Shots.Any())
 {
-  int lastShot = Model.Game.Shots.Max(s => s.Id);
-        
-  <table class="condensed-table bordered-table zebra-striped">
+  int lastShot = Model.Game.Shots.Max(s => s.Id);        
+  <table class="condensed-table bordered-table striped-table">
     <thead>
       <tr>
         <th title="Hole" style="width: 50px; text-align: left;">

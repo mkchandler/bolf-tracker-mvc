@@ -19,34 +19,28 @@
     zero for all.</small></h2>
 @using (Html.BeginForm("CalculateGameStatistics", "Admin", FormMethod.Post, new { @class = "form-stacked" }))
 { 
-  <fieldset>
-    <legend></legend>
-    <label for="game-stats-month">
-      Month
-    </label>
-    <input type="number" name="month" id="game-stats-month" value="@DateTime.Today.Month" />
-    <label for="game-stats-year">
-      Year
-    </label>
-    <input type="number" name="year" id="game-stats-year" value="@DateTime.Today.Year" />
-  </fieldset>
+  <label for="game-stats-month">
+    Month
+  </label>
+  <input type="number" name="month" id="game-stats-month" value="@DateTime.Today.Month" />
+  <label for="game-stats-year">
+    Year
+  </label>
+  <input type="number" name="year" id="game-stats-year" value="@DateTime.Today.Year" />
   <input type="submit" value="Calculate" class="btn" />
 }
 <h2>
   Calculate Rankings <small>Calculates rankings for month and year or zero for all.</small></h2>
 @using (Html.BeginForm("CalculateRankings", "Admin", FormMethod.Post, new { @class = "form-stacked" }))
 { 
-  <fieldset>
-    <legend></legend>
-    <label for="rankings-month">
-      Month
-    </label>
-    <input type="number" name="month" id="rankings-month" value="@DateTime.Today.Month" />
-    <label for="rankings-year">
-      Year
-    </label>
-    <input type="number" name="year" id="rankings-year" value="@DateTime.Today.Year" />
-  </fieldset>
+  <label for="rankings-month">
+    Month
+  </label>
+  <input type="number" name="month" id="rankings-month" value="@DateTime.Today.Month" />
+  <label for="rankings-year">
+    Year
+  </label>
+  <input type="number" name="year" id="rankings-year" value="@DateTime.Today.Year" />
   <input type="submit" value="Calculate" class="btn" />
 }
 <h2>
@@ -54,34 +48,28 @@
     or zero for all.</small></h2>
 @using (Html.BeginForm("CalculatePlayerStatistics", "Admin", FormMethod.Post, new { @class = "form-stacked" }))
 { 
-  <fieldset>
-    <legend></legend>
-    <label for="player-stats-month">
-      Month
-    </label>
-    <input type="number" name="month" id="player-stats-month" value="@DateTime.Today.Month" />
-    <label for="player-stats-year">
-      Year
-    </label>
-    <input type="number" name="year" id="player-stats-year" value="@DateTime.Today.Year" />
-  </fieldset>
+  <label for="player-stats-month">
+    Month
+  </label>
+  <input type="number" name="month" id="player-stats-month" value="@DateTime.Today.Month" />
+  <label for="player-stats-year">
+    Year
+  </label>
+  <input type="number" name="year" id="player-stats-year" value="@DateTime.Today.Year" />
   <input type="submit" value="Calculate" class="btn" />
 }
 <h2>
-  Calculate Hole Statistics <small>Calculates hole statistics for month and year
-    or zero for all.</small></h2>
+  Calculate Hole Statistics <small>Calculates hole statistics for month and year or
+    zero for all.</small></h2>
 @using (Html.BeginForm("CalculateHoleStatistics", "Admin", FormMethod.Post, new { @class = "form-stacked" }))
 { 
-  <fieldset>
-    <legend></legend>
-    <label for="hole-stats-month">
-      Month
-    </label>
-    <input type="number" name="month" id="hole-stats-month" value="@DateTime.Today.Month" />
-    <label for="hole-stats-year">
-      Year
-    </label>
-    <input type="number" name="year" id="hole-stats-year" value="@DateTime.Today.Year" />
-  </fieldset>
+  <label for="hole-stats-month">
+    Month
+  </label>
+  <input type="number" name="month" id="hole-stats-month" value="@DateTime.Today.Month" />
+  <label for="hole-stats-year">
+    Year
+  </label>
+  <input type="number" name="year" id="hole-stats-year" value="@DateTime.Today.Year" />
   <input type="submit" value="Calculate" class="btn" />
 }
