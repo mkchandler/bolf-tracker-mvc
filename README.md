@@ -40,14 +40,14 @@ Authors
 + http://twitter.com/mkchandler
 + http://github.com/mkchandler
 
-**vegashat**
+A list of additional contributors can be viewed at:
 
-+ http://github.com/vegashat
+https://github.com/mkchandler/bolf-tracker-mvc/contributors
 
 Copyright and license
 ---------------------
 
-Copyright © 2011 Matt Chandler and contributors
+Copyright (c) 2011 Matt Chandler and contributors
 
 Licensed under the MIT License (the "License"); you may not use this work except in compliance with the License. You may obtain a copy of the License in the LICENSE file, or at:
 
