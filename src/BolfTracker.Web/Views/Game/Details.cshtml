@@ -32,24 +32,23 @@
         using (Html.BeginForm("Create", "Score", FormMethod.Post))
         {
       @Html.HiddenFor(m => m.Game.Id)
-      <fieldset>
-        <legend>Enter Shot</legend>
-        <label for="player">
-          Player
-        </label>@Html.DropDownListFor(m => m.Player, Model.AllPlayers)
-        <label for="hole">
-          Hole
-        </label>@Html.DropDownListFor(m => m.Hole, Model.AllHoles, new { @id = "currentHole" })
-        <label for="attempts">
-          Attempts
-        </label>
-        <input type="number" name="attempts" id="attempts" autocomplete="off" />
-        <label for="shotMade" class="checkbox inline">
-          <input type="checkbox" name="shotMade" id="shotMade" />
-          Shot Made
-        </label>
-      </fieldset>
-      <input type="submit" class="btn btn-primary" value="Save Shot" />
+      <label for="player">
+        Player
+      </label>@Html.DropDownListFor(m => m.Player, Model.AllPlayers)
+      <label for="hole">
+        Hole
+      </label>@Html.DropDownListFor(m => m.Hole, Model.AllHoles, new { @id = "currentHole" })
+      <label for="attempts">
+        Attempts
+      </label>
+      <input type="number" name="attempts" id="attempts" autocomplete="off" />
+      <label for="shotMade" class="checkbox">
+        <input type="checkbox" name="shotMade" id="shotMade" />
+        Shot Made
+      </label>
+      <div class="form-actions">
+        <input type="submit" class="btn btn-primary" value="Save Shot" />
+      </div>
         }
       }
     }
