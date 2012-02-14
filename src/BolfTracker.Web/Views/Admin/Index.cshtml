@@ -9,7 +9,7 @@
     </div>
   </div>
 </div>
-<ul class="tabs">
+<ul class="nav nav-tabs">
   <li class="active">@Html.ActionLink("Statistics", "Index", "Admin")</li>
   <li>@Html.ActionLink("Players", "Players", "Admin")</li>
   <li>@Html.ActionLink("Holes", "Holes", "Admin")</li>
@@ -17,7 +17,7 @@
 <h2>
   Calculate Game Statistics <small>Calculates game statistics for month and year or
     zero for all.</small></h2>
-@using (Html.BeginForm("CalculateGameStatistics", "Admin", FormMethod.Post, new { @class = "form-stacked" }))
+@using (Html.BeginForm("CalculateGameStatistics", "Admin", FormMethod.Post))
 { 
   <label for="game-stats-month">
     Month
@@ -31,7 +31,7 @@
 }
 <h2>
   Calculate Rankings <small>Calculates rankings for month and year or zero for all.</small></h2>
-@using (Html.BeginForm("CalculateRankings", "Admin", FormMethod.Post, new { @class = "form-stacked" }))
+@using (Html.BeginForm("CalculateRankings", "Admin", FormMethod.Post))
 { 
   <label for="rankings-month">
     Month
@@ -46,7 +46,7 @@
 <h2>
   Calculate Player Statistics <small>Calculates player statistics for month and year
     or zero for all.</small></h2>
-@using (Html.BeginForm("CalculatePlayerStatistics", "Admin", FormMethod.Post, new { @class = "form-stacked" }))
+@using (Html.BeginForm("CalculatePlayerStatistics", "Admin", FormMethod.Post))
 { 
   <label for="player-stats-month">
     Month
@@ -61,7 +61,7 @@
 <h2>
   Calculate Hole Statistics <small>Calculates hole statistics for month and year or
     zero for all.</small></h2>
-@using (Html.BeginForm("CalculateHoleStatistics", "Admin", FormMethod.Post, new { @class = "form-stacked" }))
+@using (Html.BeginForm("CalculateHoleStatistics", "Admin", FormMethod.Post))
 { 
   <label for="hole-stats-month">
     Month

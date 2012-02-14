@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <title>@ViewBag.Title</title>
-  <link href="@Url.Content("~/content/bootstrap-2.0-wip.min.css")" rel="stylesheet" type="text/css" />
-  <link href="@Url.Content("~/content/bolftracker.css")" rel="stylesheet" type="text/css" />
+  <link href="@Url.Content("~/css/bootstrap-2.0.min.css")" rel="stylesheet" type="text/css" />
+  <link href="@Url.Content("~/css/bolftracker.css")" rel="stylesheet" type="text/css" />
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
   @MvcMiniProfiler.MiniProfiler.RenderIncludes()
   @if (!HttpContext.Current.Request.IsLocal) {
@@ -21,7 +21,7 @@
   }
 </head>
 <body>
-  <div class="navbar navbar-fixed">
+  <div class="navbar navbar-fixed-top">
     <div class="navbar-inner">
       <div class="container">
         @Html.ActionLink("Bolf Tracker", "Index", "Home", null, new { @class = "brand" })
@@ -31,7 +31,7 @@
           <li>@Html.ActionLink("Players", "Index", "Player")</li>
           <li>@Html.ActionLink("Holes", "Index", "Hole")</li>
         </ul>
-        <ul class="nav secondary-nav">
+        <ul class="nav pull-right">
           @if (HttpContext.Current.User.Identity.IsAuthenticated)
           { <li>@Html.ActionLink("League Manager", "Index", "Admin")</li> }
           <li>@(HttpContext.Current.User.Identity.IsAuthenticated ? Html.ActionLink("Logout", "SignOut", "Player") : Html.ActionLink("Login", "Login", "Player"))</li>

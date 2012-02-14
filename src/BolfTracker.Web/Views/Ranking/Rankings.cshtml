@@ -3,15 +3,11 @@
   ViewBag.Title = Model.MonthName + " " + Model.Year + " Rankings - Bolf Tracker";
 }
 <div class="page-header">
-  <div class="row">
-    <div class="span8">
-      <h1>@Model.MonthName @Model.Year Rankings</h1>
-    </div>
-  </div>
+  <h1>@Model.MonthName @Model.Year Rankings</h1>
 </div>
 <h2>
   Player Rankings</h2>
-<table class="bordered-table striped-table" id="rankings">
+<table class="table table-bordered table-striped" id="rankings">
   <thead>
     <tr>
       <th style="width: 120px; text-align: left" title="Player">
@@ -68,7 +64,7 @@
 {
   <h2>
     Ineligible Player Rankings</h2>
-  <table class="bordered-table striped-table">
+  <table class="table table-bordered table-striped">
     <thead>
       <tr>
         <th style="width: 120px; text-align: left" title="Player">
@@ -116,7 +112,7 @@
 }
 @section javascript
 {
-  <script src="@Url.Content("~/scripts/jquery.tablesorter.min.js")" type="text/javascript"></script>
+  <script src="@Url.Content("~/js/jquery.tablesorter.min.js")" type="text/javascript"></script>
   <script type="text/javascript">
     $("#rankings").tablesorter();
   </script>

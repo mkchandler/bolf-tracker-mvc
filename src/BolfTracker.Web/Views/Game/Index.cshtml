@@ -10,7 +10,7 @@
     <div class="span6">
       @if (HttpContext.Current.User.Identity.IsAuthenticated)
       {
-        @Html.ActionLink("New Game", "Create", "Game", null, new { @class = "btn primary pull-right" })
+        @Html.ActionLink("New Game", "Create", "Game", null, new { @class = "btn btn-primary pull-right" })
       }
     </div>
   </div>
@@ -28,7 +28,7 @@
   }
   var pgs = Model.GetPlayerGameStatistics(item.Id);
   <div class="span6">
-    <table class="condensed-table bordered-table striped-table">
+    <table class="table table-condensed table-bordered table-striped">
       <thead>
         <tr>
           <th>

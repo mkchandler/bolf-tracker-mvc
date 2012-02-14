@@ -32,8 +32,8 @@
         using (Html.BeginForm("Create", "Score", FormMethod.Post))
         {
       @Html.HiddenFor(m => m.Game.Id)
-      <legend>Enter Shot</legend>
       <fieldset>
+        <legend>Enter Shot</legend>
         <label for="player">
           Player
         </label>@Html.DropDownListFor(m => m.Player, Model.AllPlayers)
@@ -49,7 +49,7 @@
           Shot Made
         </label>
       </fieldset>
-      <input type="submit" class="btn primary" value="Save Shot" />
+      <input type="submit" class="btn btn-primary" value="Save Shot" />
         }
       }
     }
@@ -59,7 +59,7 @@
       Leaderboard</h2>
     @if (Model.Game.Shots.Any())
     {
-      <table id="leaderboard" class="bordered-table striped-table">
+      <table id="leaderboard" class=" table table-bordered table-striped">
         <thead>
           <tr>
             <th title="Player">
@@ -116,7 +116,7 @@
 @if (Model.Game.Shots.Any())
 {
   int lastShot = Model.Game.Shots.Max(s => s.Id);        
-  <table class="condensed-table bordered-table striped-table">
+  <table class="table table-condensed table-bordered table-striped">
     <thead>
       <tr>
         <th title="Hole" style="width: 50px; text-align: left;">
