@@ -243,80 +243,75 @@ namespace BolfTracker.Web
 
         public int GetCurrentHole()
         {
-            //if (_currentHole.HasValue)
-            //{
-            //    return _currentHole.Value;
-            //}
-            //else
-            //{
-                _currentHole = 1;
+            _currentHole = 1;
 
-                if (Game.Shots.Any())
+            if (Game.Shots.Any())
+            {
+                _currentHole = Game.Shots.Max(s => s.Hole.Id);
+                var holeShots = Game.Shots.Where(s => s.Hole.Id == _currentHole.Value).ToList();
+
+                if (_currentHole.Value == 1)
                 {
-                    _currentHole = Game.Shots.Max(s => s.Hole.Id);
-                    var holeShots = Game.Shots.Where(s => s.Hole.Id == _currentHole.Value).ToList();
-
-                    if (_currentHole.Value == 1)
+                    // If we are on the first hole, there's no way of knowing when to go to the next hole
+                    // because we don't know how many players are going (unless it's been pushed on 1)
+                    if (holeShots.Count(s => s.Attempts == 1 && s.ShotMade) > 1)
                     {
-                        // If we are on the first hole, there's no way of knowing when to go to the next hole
-                        // because we don't know how many players are going (unless it's been pushed on 1)
-                        if (holeShots.Count(s => s.Attempts == 1 && s.ShotMade == true) > 1)
+                        _currentHole += 1;
+                        return _currentHole.Value;
+                    }
+                    else
+                    {
+                        return _currentHole.Value;
+                    }
+                }
+                else
+                {
+                    // If the hole was pushed on 1, go to the next hole
+                    if (holeShots.Count(s => s.Attempts == 1 && s.ShotMade) > 1)
+                    {
+                        _currentHole++;
+                        return _currentHole.Value;
+                    }
+
+                    var totalPlayers = GetCurrentActivePlayers(ActivePlayers, includeOvertime: false).Count();
+
+                    // If everyone has gone, go to the next hole
+                    if (holeShots.Count() == totalPlayers)
+                    {
+                        _currentHole++;
+                    }
+
+                    // TODO: This needs to change to a MAX function for hole number when the new hole/overtime logic is added
+                    if (_currentHole.Value >= 10)
+                    {
+                        var newHoleShots = Game.Shots.Where(s => s.Hole.Id == _currentHole.Value).ToList();
+
+                        if (newHoleShots.Count(s => s.Attempts == 1 && s.ShotMade) > 1)
                         {
-                            _currentHole += 1;
+                            // Two people have made the shot in 1, move on to the next
+                            _currentHole++;
                             return _currentHole.Value;
                         }
                         else
                         {
-                            return _currentHole.Value;
-                        }
-                    }
-                    else
-                    {
-                        // If the hole was pushed on 1, go to the next hole
-                        if (holeShots.Count(s => s.Attempts == 1 && s.ShotMade == true) > 1)
-                        {
-                            _currentHole += 1;
-                            return _currentHole.Value;
-                        }
+                            // NOTE: Anything going off of x.Player.Shots is runs a shitload of queries... avoid
+                            var playersWhoCanWin = GetPlayersWhoCanWin(_currentHole.Value).Where(g => Game.Shots.Count(s => s.Hole.Id == _currentHole.Value && !s.ShotMade && s.Player.Id == g.Player.Id) == 0);
 
-                        var totalPlayers = GetCurrentActivePlayers(ActivePlayers, includeOvertime: false).Count();
-
-                        // If everyone has gone, go to the next hole
-                        if (holeShots.Count() == totalPlayers)
-                        {
-                            _currentHole++;
-                        }
-
-                        // TODO: This needs to change to a MAX function for hole number when the new hole/overtime logic is added
-                        if (_currentHole.Value >= 10)
-                        {
-                            if (holeShots.Count(s => s.ShotMade) > 1)
+                            if (playersWhoCanWin.Count() == 0)
                             {
-                                // Two people have made the shot, move on to the next
                                 _currentHole++;
                                 return _currentHole.Value;
                             }
                             else
                             {
-                                // NOTE: Anything going off of x.Player.Shots is runs a shitload of queries... avoid
-                                var playersWhoCanWin = GetPlayersWhoCanWin(_currentHole.Value).Where(g => Game.Shots.Count(s => s.Hole.Id == _currentHole.Value && !s.ShotMade && s.Player.Id == g.Player.Id) == 0);
-
-                                if (playersWhoCanWin.Count() == 0)
-                                {
-                                    _currentHole++;
-                                    return _currentHole.Value;
-                                }
-                                else
-                                {
-                                    return _currentHole.Value;
-                                }
+                                return _currentHole.Value;
                             }
                         }
                     }
                 }
+            }
 
-                return _currentHole.Value;
-            //}
+            return _currentHole.Value;
         }
 
         public int PointsAvailable
@@ -326,28 +321,21 @@ namespace BolfTracker.Web
 
         public int GetPointsAvailable(int currentHole)
         {
-            //if (_pointsAvailable.HasValue)
-            //{
-            //    return _pointsAvailable.Value;
-            //}
-            //else
-            //{
-                if (currentHole == 1)
-                {
-                    _pointsAvailable = _allHoles.Single(h => h.Id == 1).Par;
+            if (currentHole == 1)
+            {
+                _pointsAvailable = _allHoles.Single(h => h.Id == 1).Par;
 
-                    return _pointsAvailable.Value;
-                }
-                else
-                {
-                    int totalPoints = _allHoles.Where(h => h.Id <= currentHole).Sum(h => h.Par);
-                    int totalPointsTaken = Game.Shots.Where(s => s.Hole.Id < currentHole).Sum(s => s.Points);
+                return _pointsAvailable.Value;
+            }
+            else
+            {
+                int totalPoints = _allHoles.Where(h => h.Id <= currentHole).Sum(h => h.Par);
+                int totalPointsTaken = Game.Shots.Where(s => s.Hole.Id < currentHole).Sum(s => s.Points);
 
-                    _pointsAvailable = totalPoints - totalPointsTaken;
+                _pointsAvailable = totalPoints - totalPointsTaken;
 
-                    return _pointsAvailable.Value;
-                }
-            //}
+                return _pointsAvailable.Value;
+            }
         }
 
         private IEnumerable<LeaderboardViewModel> _leaderboard = null;
