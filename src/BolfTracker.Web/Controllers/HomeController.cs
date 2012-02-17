@@ -22,7 +22,7 @@ namespace BolfTracker.Web.Controllers
             int eligibilityLine = _rankingService.GetEligibilityLine(rankingsMonth, rankingsYear);
             var rankings = _rankingService.GetRankings(rankingsMonth, rankingsYear);
 
-            return View("Rankings", new RankingsViewModel(rankingsMonth, rankingsYear, eligibilityLine, rankings));
+            return View("Home", new HomeViewModel());
         }
     }
 }
