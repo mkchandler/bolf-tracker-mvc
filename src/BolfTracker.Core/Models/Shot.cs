@@ -4,50 +4,50 @@ namespace BolfTracker.Models
 {
     public class Shot : IEntity
     {
-        public virtual int Id
+        public int Id
         {
             get;
             set;
         }
 
-        public virtual Game Game
+        public Game Game
         {
             get;
             set;
         }
 
-        public virtual Player Player
+        public Player Player
         {
             get;
             set;
         }
 
-        public virtual Hole Hole
+        public Hole Hole
         {
             get;
             set;
         }
 
-        public virtual ShotType ShotType
+        public ShotType ShotType
         {
             get;
             set;
         }
 
         [Required]
-        public virtual int Attempts
+        public int Attempts
         {
             get;
             set;
         }
 
-        public virtual bool ShotMade
+        public bool ShotMade
         {
             get;
             set;
         }
 
-        public virtual int Points
+        public int Points
         {
             get;
             set;

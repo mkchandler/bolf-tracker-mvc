@@ -7,7 +7,7 @@ namespace BolfTracker.Infrastructure.EntityFramework
 {
     public class RankingConfiguration : EntityTypeConfiguration<Ranking>
     {
-        public RankingConfiguration()
+        public RankingConfiguration() : base()
         {
             HasKey(r => r.Id);
 

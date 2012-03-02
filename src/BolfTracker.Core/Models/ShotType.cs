@@ -11,25 +11,25 @@ namespace BolfTracker.Models
             _shots = new List<Shot>();
         }
 
-        public virtual int Id
+        public int Id
         {
             get;
             set;
         }
 
-        public virtual string Name
+        public string Name
         {
             get;
             set;
         }
 
-        public virtual string Description
+        public string Description
         {
             get;
             set;
         }
 
-        public virtual ICollection<Shot> Shots
+        public ICollection<Shot> Shots
         {
             get { return _shots; }
         }

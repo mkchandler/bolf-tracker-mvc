@@ -141,7 +141,7 @@ namespace BolfTracker.Services
                 _rankingRepository.Add(ranking);
             }
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         private int DetermineEligibilityLine(IEnumerable<Game> games, IEnumerable<Player> players, IEnumerable<PlayerGameStatistics> playerGameStatistics)

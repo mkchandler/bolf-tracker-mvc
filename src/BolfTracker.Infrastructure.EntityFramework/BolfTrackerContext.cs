@@ -1,4 +1,6 @@
-﻿using System.Data.Entity;
+﻿using System.Configuration;
+using System.Data.Entity;
+using System.Data.Entity.ModelConfiguration.Conventions;
 
 using BolfTracker.Models;
 
@@ -6,38 +8,38 @@ namespace BolfTracker.Infrastructure.EntityFramework
 {
     public class BolfTrackerContext : DbContext
     {
-        DbSet<Game> Games { get; set; }
-        DbSet<GameStatistics> GameStatistics { get; set; }
-        DbSet<Hole> Holes { get; set; }
-        DbSet<HoleStatistics> HoleStatistics { get; set; }
-        DbSet<PlayerCareerStatistics> PlayerCareerStatistics { get; set; }
-        DbSet<Player> Players { get; set; }
-        DbSet<PlayerGameStatistics> PlayerGameStatistics { get; set; }
-        DbSet<PlayerHoleStatistics> PlayerHoleStatistics { get; set; }
-        DbSet<PlayerStatistics> PlayerStatistics { get; set; }
-        DbSet<Ranking> Rankings { get; set; }
-        DbSet<Shot> Shots { get; set; }
-        DbSet<ShotType> ShotTypes { get; set; }
+        public DbSet<Game> Games { get; set; }
+        public DbSet<GameStatistics> GameStatistics { get; set; }
+        public DbSet<Hole> Holes { get; set; }
+        public DbSet<HoleStatistics> HoleStatistics { get; set; }
+        public DbSet<PlayerCareerStatistics> PlayerCareerStatistics { get; set; }
+        public DbSet<Player> Players { get; set; }
+        public DbSet<PlayerGameStatistics> PlayerGameStatistics { get; set; }
+        public DbSet<PlayerHoleStatistics> PlayerHoleStatistics { get; set; }
+        public DbSet<PlayerStatistics> PlayerStatistics { get; set; }
+        public DbSet<Ranking> Rankings { get; set; }
+        public DbSet<Shot> Shots { get; set; }
+        public DbSet<ShotType> ShotTypes { get; set; }
 
         public BolfTrackerContext()
-            : base("")
+            : base(ConfigurationManager.ConnectionStrings["BolfTracker"].ConnectionString)
         {
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Configurations.Add(new GameConfiguration());
-            modelBuilder.Configurations.Add(new GameStatisticsConfiguration());
-            modelBuilder.Configurations.Add(new HoleConfiguration());
-            modelBuilder.Configurations.Add(new HoleStatisticsConfiguration());
-            modelBuilder.Configurations.Add(new PlayerCareerStatisticsConfiguration());
-            modelBuilder.Configurations.Add(new PlayerConfiguration());
-            modelBuilder.Configurations.Add(new PlayerGameStatisticsConfiguration());
-            modelBuilder.Configurations.Add(new PlayerHoleStatisticsConfiguration());
-            modelBuilder.Configurations.Add(new PlayerStatisticsConfiguration());
-            modelBuilder.Configurations.Add(new RankingConfiguration());
-            modelBuilder.Configurations.Add(new ShotConfiguration());
-            modelBuilder.Configurations.Add(new ShotTypeConfiguration());
+            modelBuilder.Configurations.Add<Game>(new GameConfiguration());
+            modelBuilder.Configurations.Add<GameStatistics>(new GameStatisticsConfiguration());
+            modelBuilder.Configurations.Add<Hole>(new HoleConfiguration());
+            modelBuilder.Configurations.Add<HoleStatistics>(new HoleStatisticsConfiguration());
+            modelBuilder.Configurations.Add<PlayerCareerStatistics>(new PlayerCareerStatisticsConfiguration());
+            modelBuilder.Configurations.Add<Player>(new PlayerConfiguration());
+            modelBuilder.Configurations.Add<PlayerGameStatistics>(new PlayerGameStatisticsConfiguration());
+            modelBuilder.Configurations.Add<PlayerHoleStatistics>(new PlayerHoleStatisticsConfiguration());
+            modelBuilder.Configurations.Add<PlayerStatistics>(new PlayerStatisticsConfiguration());
+            modelBuilder.Configurations.Add<Ranking>(new RankingConfiguration());
+            modelBuilder.Configurations.Add<Shot>(new ShotConfiguration());
+            modelBuilder.Configurations.Add<ShotType>(new ShotTypeConfiguration());
         }
     }
 }

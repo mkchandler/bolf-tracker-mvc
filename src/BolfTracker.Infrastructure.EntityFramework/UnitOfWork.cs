@@ -1,4 +1,5 @@
-﻿namespace BolfTracker.Infrastructure.EntityFramework
+﻿using System.Data.Entity;
+namespace BolfTracker.Infrastructure.EntityFramework
 {
     public class UnitOfWork : IUnitOfWork
     {
@@ -23,6 +24,29 @@
         public void Commit()
         {
             Database.Commit();
+        }
+    }
+
+    public class UnitOfWorkDbContext : IUnitOfWork
+    {
+        private DbContext _context;
+
+        public UnitOfWorkDbContext(DbContext context)
+        {
+            _context = context;
+        }
+
+        protected DbContext Context
+        {
+            get
+            {
+                return _context;
+            }
+        }
+
+        public void Commit()
+        {
+            _context.SaveChanges();
         }
     }
 }

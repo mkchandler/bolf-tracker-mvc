@@ -11,15 +11,41 @@ using Dapper;
 
 namespace BolfTracker.Infrastructure.EntityFramework
 {
-    public class RankingRepository : RepositoryBase<Ranking>, IRankingRepository
+    public class RankingRepository : IRankingRepository
     {
-        public RankingRepository(IDatabaseFactory databaseFactory) : base(databaseFactory)
+        public Ranking GetById(int id)
         {
+            using (var context = new BolfTrackerContext())
+            {
+                var ranking = context.Rankings.SingleOrDefault(r => r.Id == id);
+
+                return ranking;
+            }
+        }
+
+        public IEnumerable<Ranking> GetByMonthAndYear(int month, int year)
+        {
+            using (var context = new BolfTrackerContext())
+            {
+                var rankings = context.Rankings.Include(ranking => ranking.Player).Where(ranking => ranking.Month == month && ranking.Year == year).ToList();
+
+                return rankings;
+            }
+        }
+
+        public IEnumerable<Ranking> All()
+        {
+            using (var context = new BolfTrackerContext())
+            {
+                var rankings = context.Rankings.ToList();
+
+                return rankings;
+            }
         }
 
         public int GetEligibilityLine(int month, int year)
         {
-            using (var connection = DatabaseFactory.GetProfiledConnection())
+            using (var connection = BolfTrackerDbConnection.GetProfiledConnection())
             {
                 connection.Open();
 
@@ -27,16 +53,30 @@ namespace BolfTracker.Infrastructure.EntityFramework
             }
         }
 
-        public IEnumerable<Ranking> GetByMonthAndYear(int month, int year)
+        public void Add(Ranking model)
         {
-            var rankings = Database.Rankings.Include(ranking => ranking.Player).Where(ranking => ranking.Month == month && ranking.Year == year).ToList();
+            using (var context = new BolfTrackerContext())
+            {
+                context.Rankings.Add(model);
+                context.SaveChanges();
+            }
+        }
 
-            return rankings;
+        public void Delete(Ranking model)
+        {
+            using (var context = new BolfTrackerContext())
+            {
+                context.Rankings.Remove(model);
+                context.SaveChanges();
+            }
         }
 
         public void DeleteByMonthAndYear(int month, int year)
         {
-            Database.ExecuteStoreCommand("DELETE FROM Ranking WHERE Month = @Month AND Year = @Year", new SqlParameter { ParameterName = "Month", Value = month }, new SqlParameter { ParameterName = "Year", Value = year });
+            using (var context = new BolfTrackerContext())
+            {
+                context.Database.ExecuteSqlCommand("DELETE FROM Ranking WHERE Month = @Month AND Year = @Year", new SqlParameter { ParameterName = "Month", Value = month }, new SqlParameter { ParameterName = "Year", Value = year });
+            }
         }
     }
 }

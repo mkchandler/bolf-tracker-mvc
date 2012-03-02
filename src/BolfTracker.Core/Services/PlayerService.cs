@@ -61,7 +61,6 @@ namespace BolfTracker.Services
             var player = new Player() { Name = name };
 
             _playerRepository.Add(player);
-            _unitOfWork.Commit();
 
             return player;
         }
@@ -69,10 +68,9 @@ namespace BolfTracker.Services
         public Player Update(int id, string name)
         {
             var player = _playerRepository.GetById(id);
-
             player.Name = name;
 
-            _unitOfWork.Commit();
+            _playerRepository.Update(player);
 
             return player;
         }
