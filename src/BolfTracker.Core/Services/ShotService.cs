@@ -34,19 +34,19 @@ namespace BolfTracker.Services
             _unitOfWork = unitOfWork;
         }
 
-        public IEnumerable<Shot> GetShots(int gameId)
-        {
-            throw new NotImplementedException();
-        }
-
         public Shot GetShot(int id)
         {
-            throw new NotImplementedException();
+            return _shotRepository.GetById(id);
+        }
+
+        public IEnumerable<Shot> GetShots(int gameId)
+        {
+            return _shotRepository.GetByGame(gameId);
         }
 
         public void RecalculateShots(int gameId)
         {
-
+            throw new NotImplementedException();
         }
 
         public void Create(int gameId, int playerId, int holeId, int attempts, bool shotMade)

@@ -1,27 +1,65 @@
-﻿using System.Linq;
-using System.Data.SqlClient;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 using BolfTracker.Models;
 using BolfTracker.Repositories;
 
 namespace BolfTracker.Infrastructure.EntityFramework
 {
-    public class PlayerCareerStatisticsRepository : RepositoryBase<PlayerCareerStatistics>, IPlayerCareerStatisticsRepository
+    public class PlayerCareerStatisticsRepository : IPlayerCareerStatisticsRepository
     {
-        public PlayerCareerStatisticsRepository(IDatabaseFactory databaseFactory) : base(databaseFactory)
+        public PlayerCareerStatistics GetById(int id)
         {
+            using (var context = new BolfTrackerContext())
+            {
+                var query = context.PlayerCareerStatistics.SingleOrDefault(pcs => pcs.Id == id);
+
+                return query;
+            }
         }
 
         public PlayerCareerStatistics GetByPlayer(int playerId)
         {
-            var query = Database.PlayerCareerStatistics.First(pcs => pcs.Player.Id == playerId);
+            using (var context = new BolfTrackerContext())
+            {
+                var query = context.PlayerCareerStatistics.FirstOrDefault(pcs => pcs.Player.Id == playerId);
 
-            return query;
+                return query;
+            }
+        }
+
+        public IEnumerable<PlayerCareerStatistics> All()
+        {
+            using (var context = new BolfTrackerContext())
+            {
+                return context.PlayerCareerStatistics.ToList();
+            }
+        }
+
+        public void Add(PlayerCareerStatistics model)
+        {
+            using (var context = new BolfTrackerContext())
+            {
+                context.PlayerCareerStatistics.Add(model);
+                context.SaveChanges();
+            }
+        }
+
+        public void Delete(PlayerCareerStatistics model)
+        {
+            using (var context = new BolfTrackerContext())
+            {
+                context.PlayerCareerStatistics.Remove(model);
+                context.SaveChanges();
+            }
         }
 
         public void DeleteAll()
         {
-            Database.ExecuteStoreCommand("DELETE FROM PlayerCareerStatistics");
+            using (var context = new BolfTrackerContext())
+            {
+                context.Database.ExecuteSqlCommand("DELETE FROM PlayerCareerStatistics");
+            }
         }
     }
 }

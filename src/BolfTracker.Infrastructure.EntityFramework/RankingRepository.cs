@@ -18,7 +18,7 @@ namespace BolfTracker.Infrastructure.EntityFramework
             using (var context = new BolfTrackerContext())
             {
                 var ranking = context.Rankings.SingleOrDefault(r => r.Id == id);
-
+                
                 return ranking;
             }
         }

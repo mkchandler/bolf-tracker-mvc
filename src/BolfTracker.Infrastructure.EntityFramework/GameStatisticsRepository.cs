@@ -1,19 +1,54 @@
-﻿using BolfTracker.Models;
+﻿using System.Collections.Generic;
+using System.Linq;
+
+using BolfTracker.Models;
 using BolfTracker.Repositories;
 
 using Dapper;
 
 namespace BolfTracker.Infrastructure.EntityFramework
 {
-    public class GameStatisticsRepository : RepositoryBase<GameStatistics>, IGameStatisticsRepository
+    public class GameStatisticsRepository : IGameStatisticsRepository
     {
-        public GameStatisticsRepository(IDatabaseFactory databaseFactory) : base(databaseFactory)
+        public GameStatistics GetById(int id)
         {
+            using (var context = new BolfTrackerContext())
+            {
+                var gameStatistic = context.GameStatistics.SingleOrDefault(gs => gs.Id == id);
+
+                return gameStatistic;
+            }
+        }
+
+        public IEnumerable<GameStatistics> All()
+        {
+            using (var context = new BolfTrackerContext())
+            {
+                return context.GameStatistics.ToList();
+            }
+        }
+
+        public void Add(GameStatistics model)
+        {
+            using (var context = new BolfTrackerContext())
+            {
+                context.GameStatistics.Add(model);
+                context.SaveChanges();
+            }
+        }
+
+        public void Delete(GameStatistics model)
+        {
+            using (var context = new BolfTrackerContext())
+            {
+                context.GameStatistics.Remove(model);
+                context.SaveChanges();
+            }
         }
 
         public void DeleteAll()
         {
-            using (var connection = DatabaseFactory.GetProfiledConnection())
+            using (var connection = BolfTrackerDbConnection.GetProfiledConnection())
             {
                 connection.Open();
 
@@ -25,7 +60,7 @@ namespace BolfTracker.Infrastructure.EntityFramework
 
         public void DeleteByMonthAndYear(int month, int year)
         {
-            using (var connection = DatabaseFactory.GetProfiledConnection())
+            using (var connection = BolfTrackerDbConnection.GetProfiledConnection())
             {
                 connection.Open();
 
