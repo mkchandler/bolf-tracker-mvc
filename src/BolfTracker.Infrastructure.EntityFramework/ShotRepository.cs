@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Data;
 using System.Data.Entity;
 using System.Linq;
-
 using BolfTracker.Models;
 using BolfTracker.Repositories;
 
@@ -23,7 +23,7 @@ namespace BolfTracker.Infrastructure.EntityFramework
         {
             using (var context = new BolfTrackerContext())
             {
-                var shots = context.Shots.Include(shot => shot.ShotType).Include(shot => shot.Hole).Include(shot => shot.Player).Include(shot => shot.Player).Where(shot => shot.Game.Id == gameId).ToList();
+                var shots = context.Shots.Include(shot => shot.ShotType).Include(shot => shot.Hole).Include(shot => shot.Player).Include(shot => shot.Game).Where(shot => shot.Game.Id == gameId).ToList();
 
                 return shots;
             }
@@ -33,7 +33,7 @@ namespace BolfTracker.Infrastructure.EntityFramework
         {
             using (var context = new BolfTrackerContext())
             {
-                var shots = context.Shots.Include(shot => shot.ShotType).Include(shot => shot.Hole).Include(shot => shot.Player).Where(shot => shot.Game.Date.Month == month && shot.Game.Date.Year == year).ToList();
+                var shots = context.Shots.Include(shot => shot.ShotType).Include(shot => shot.Hole).Include(shot => shot.Player).Include(shot => shot.Game).Where(shot => shot.Game.Date.Month == month && shot.Game.Date.Year == year).ToList();
 
                 return shots;
             }
@@ -43,7 +43,7 @@ namespace BolfTracker.Infrastructure.EntityFramework
         {
             using (var context = new BolfTrackerContext())
             {
-                var shots = context.Shots.Include(shot => shot.ShotType).Include(shot => shot.Hole).Include(shot => shot.Player).Where(shot => shot.Game.Id == gameId && shot.Player.Id == playerId).ToList();
+                var shots = context.Shots.Include(shot => shot.ShotType).Include(shot => shot.Hole).Include(shot => shot.Player).Include(shot => shot.Game).Where(shot => shot.Game.Id == gameId && shot.Player.Id == playerId).ToList();
 
                 return shots;
             }
@@ -61,7 +61,15 @@ namespace BolfTracker.Infrastructure.EntityFramework
         {
             using (var context = new BolfTrackerContext())
             {
+                // Add the actual shot data to the database
                 context.Shots.Add(model);
+
+                // But lets not add all of the supporting data, it already exists in the database
+                context.Entry(model.Game).State = EntityState.Unchanged;
+                context.Entry(model.Hole).State = EntityState.Unchanged;
+                context.Entry(model.Player).State = EntityState.Unchanged;
+                context.Entry(model.ShotType).State = EntityState.Unchanged;
+
                 context.SaveChanges();
             }
         }

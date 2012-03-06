@@ -154,7 +154,7 @@ namespace BolfTracker.Web
                     // If we can't determine the order, just get the next player who has not gone already
                     foreach (var player in _allPlayers)
                     {
-                        if (!activePlayers.Contains(player))
+                        if (!activePlayers.Any(p => p.Id == player.Id))
                         {
                             return player;
                         }
@@ -251,7 +251,7 @@ namespace BolfTracker.Web
         {
             _currentHole = 1;
 
-            if (Game.Shots.Any())
+            if (Shots.Any())
             {
                 _currentHole = Shots.Max(s => s.Hole.Id);
                 var holeShots = Shots.Where(s => s.Hole.Id == _currentHole.Value).ToList();
