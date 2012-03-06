@@ -241,7 +241,7 @@ namespace BolfTracker.Services
 
         public IEnumerable<PlayerCareerStatistics> GetPlayerCareerStatistics()
         {
-            return _playerCareerStatisticsRepository.All().ToList();
+            return _playerCareerStatisticsRepository.All();
         }
 
         public IEnumerable<PlayerHoleStatistics> GetPlayerHoleStatistics(int month, int year)

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 
 using BolfTracker.Models;
@@ -22,7 +23,7 @@ namespace BolfTracker.Infrastructure.EntityFramework
         {
             using (var context = new BolfTrackerContext())
             {
-                var query = context.PlayerCareerStatistics.FirstOrDefault(pcs => pcs.Player.Id == playerId);
+                var query = context.PlayerCareerStatistics.Include(pcs => pcs.Player).FirstOrDefault(pcs => pcs.Player.Id == playerId);
 
                 return query;
             }
@@ -32,7 +33,7 @@ namespace BolfTracker.Infrastructure.EntityFramework
         {
             using (var context = new BolfTrackerContext())
             {
-                return context.PlayerCareerStatistics.ToList();
+                return context.PlayerCareerStatistics.Include(pcs => pcs.Player).ToList();
             }
         }
 
