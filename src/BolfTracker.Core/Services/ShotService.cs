@@ -15,7 +15,6 @@ namespace BolfTracker.Services
         private readonly IGameRepository _gameRepository;
         private readonly IPlayerRepository _playerRepository;
         private readonly IHoleRepository _holeRepository;
-        private readonly IUnitOfWork _unitOfWork;
 
         // TODO: Really need to figure out a better way to do this
         private const int ShotTypeMake = 1;
@@ -24,14 +23,13 @@ namespace BolfTracker.Services
         private const int ShotTypeSteal = 4;
         private const int ShotTypeSugarFreeSteal = 5;
 
-        public ShotService(IShotRepository shotRepository, IShotTypeRepository shotTypeRepository, IGameRepository gameRepository, IPlayerRepository playerRepository, IHoleRepository holeRepository, IUnitOfWork unitOfWork)
+        public ShotService(IShotRepository shotRepository, IShotTypeRepository shotTypeRepository, IGameRepository gameRepository, IPlayerRepository playerRepository, IHoleRepository holeRepository)
         {
             _shotRepository = shotRepository;
             _shotTypeRepository = shotTypeRepository;
             _gameRepository = gameRepository;
             _playerRepository = playerRepository;
             _holeRepository = holeRepository;
-            _unitOfWork = unitOfWork;
         }
 
         public Shot GetShot(int id)
@@ -157,7 +155,6 @@ namespace BolfTracker.Services
             }
 
             _shotRepository.Add(currentShot);
-            _unitOfWork.Commit();
         }
 
         public void Update(int id, int points, ShotType shotType)
@@ -166,8 +163,6 @@ namespace BolfTracker.Services
 
             shot.Points = points;
             shot.ShotType = shotType;
-
-            _unitOfWork.Commit();
         }
 
         public void Delete(int id)
@@ -175,8 +170,6 @@ namespace BolfTracker.Services
             var shot = _shotRepository.GetById(id);
 
             _shotRepository.Delete(shot);
-
-            _unitOfWork.Commit();
         }
     }
 }

@@ -14,15 +14,13 @@ namespace BolfTracker.Services
         private readonly IHoleStatisticsRepository _holeStatisticsRepository;
         private readonly IGameRepository _gameRepository;
         private readonly IShotRepository _shotRepository;
-        private readonly IUnitOfWork _unitOfWork;
 
-        public HoleService(IHoleRepository holeRepository, IHoleStatisticsRepository holeStatisticsRepository, IGameRepository gameRepository, IShotRepository shotRepository, IUnitOfWork unitOfWork)
+        public HoleService(IHoleRepository holeRepository, IHoleStatisticsRepository holeStatisticsRepository, IGameRepository gameRepository, IShotRepository shotRepository)
         {
             _holeRepository = holeRepository;
             _holeStatisticsRepository = holeStatisticsRepository;
             _gameRepository = gameRepository;
             _shotRepository = shotRepository;
-            _unitOfWork = unitOfWork;
         }
 
         public IEnumerable<Hole> GetHoles()
@@ -51,7 +49,6 @@ namespace BolfTracker.Services
             var hole = new Hole() { Id = holeNumber, Par = par };
 
             _holeRepository.Add(hole);
-            _unitOfWork.Commit();
 
             return hole;
         }
@@ -95,8 +92,6 @@ namespace BolfTracker.Services
                     _holeStatisticsRepository.Add(holeStatistics);
                 }
             }
-
-            _unitOfWork.Commit();
         }
 
         private void DeleteHoleStatistics(int month, int year)
