@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 
 using BolfTracker.Models;
@@ -15,7 +16,7 @@ namespace BolfTracker.Infrastructure.EntityFramework
         {
             using (var context = new BolfTrackerContext())
             {
-                var game = context.Games.SingleOrDefault(g => g.Id == id);
+                var game = context.Games.Include(g => g.GameStatistics).SingleOrDefault(g => g.Id == id);
 
                 return game;
             }

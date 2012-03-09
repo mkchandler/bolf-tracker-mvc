@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 
 using BolfTracker.Models;
@@ -32,7 +33,12 @@ namespace BolfTracker.Infrastructure.EntityFramework
         {
             using (var context = new BolfTrackerContext())
             {
+                // Add the game stats to the database
                 context.GameStatistics.Add(model);
+
+                // Don't add any of the supporting data, it already exists in the database
+                context.Entry(model.Game).State = EntityState.Unchanged;
+
                 context.SaveChanges();
             }
         }

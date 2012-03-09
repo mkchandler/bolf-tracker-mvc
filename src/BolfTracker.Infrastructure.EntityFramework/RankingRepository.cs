@@ -58,6 +58,10 @@ namespace BolfTracker.Infrastructure.EntityFramework
             using (var context = new BolfTrackerContext())
             {
                 context.Rankings.Add(model);
+
+                // Don't add any of the supporting data, it already exists in the database
+                context.Entry(model.Player).State = EntityState.Unchanged;
+
                 context.SaveChanges();
             }
         }

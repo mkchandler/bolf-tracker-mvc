@@ -45,7 +45,7 @@ namespace BolfTracker.Web
                 }
                 else
                 {
-                    _gameFinalized = Game.GameStatistics.Any();
+                    _gameFinalized = Game.GameStatistics != null;
 
                     return _gameFinalized.Value;
                 }
