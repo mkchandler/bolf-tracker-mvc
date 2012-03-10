@@ -21,9 +21,10 @@ namespace BolfTracker.Infrastructure.EntityFramework
         public DbSet<Shot> Shots { get; set; }
         public DbSet<ShotType> ShotTypes { get; set; }
 
-        public BolfTrackerContext()
-            : base(ConfigurationManager.ConnectionStrings["BolfTracker"].ConnectionString)
+        public BolfTrackerContext() : base(ConfigurationManager.ConnectionStrings["BolfTracker"].ConnectionString)
         {
+            Configuration.LazyLoadingEnabled = false;
+            Configuration.ValidateOnSaveEnabled = false;
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
