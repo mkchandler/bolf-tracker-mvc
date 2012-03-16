@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data;
 using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Linq;
@@ -10,15 +11,21 @@ using Dapper;
 
 namespace BolfTracker.Infrastructure.EntityFramework
 {
-    public class HoleStatisticsRepository : RepositoryBase<HoleStatistics>, IHoleStatisticsRepository
+    public class HoleStatisticsRepository : IHoleStatisticsRepository
     {
-        public HoleStatisticsRepository(IDatabaseFactory databaseFactory) : base(databaseFactory)
+        public HoleStatistics GetById(int id)
         {
+            using (var context = new BolfTrackerContext())
+            {
+                var holeStatistic = context.HoleStatistics.SingleOrDefault(hs => hs.Id == id);
+
+                return holeStatistic;
+            }
         }
 
-        public override IEnumerable<HoleStatistics> All()
+        public IEnumerable<HoleStatistics> All()
         {
-            using (var connection = DatabaseFactory.GetProfiledConnection())
+            using (var connection = BolfTrackerDbConnection.GetProfiledConnection())
             {
                 connection.Open();
 
@@ -30,7 +37,7 @@ namespace BolfTracker.Infrastructure.EntityFramework
                     "SUM(hs.SugarFreeSteals) AS SugarFreeSteals " +
                     "FROM HoleStatistics hs INNER JOIN Hole h ON h.Id = hs.HoleId GROUP BY h.Id HAVING SUM(Attempts) > 0 ";
 
-                var holeStatistics = connection.Query<HoleStatistics/*, Hole, HoleStatistics*/>(query/*, (hs, h) => { hs.Hole = h; return hs; }*/).ToList();
+                var holeStatistics = connection.Query<HoleStatistics>(query).ToList();
 
                 return holeStatistics;
             }
@@ -38,14 +45,39 @@ namespace BolfTracker.Infrastructure.EntityFramework
 
         public IEnumerable<HoleStatistics> GetByMonthAndYear(int month, int year)
         {
-            var holeStatistics = Database.HoleStatistics.Include(hs => hs.Hole).Where(hs => hs.Month == month && hs.Year == year).ToList();
+            using (var context = new BolfTrackerContext())
+            {
+                var holeStatistics = context.HoleStatistics.Include(hs => hs.Hole).Where(hs => hs.Month == month && hs.Year == year).ToList();
 
-            return holeStatistics;
+                return holeStatistics;
+            }
         }
 
         public void DeleteByMonthAndYear(int month, int year)
         {
-            Database.ExecuteStoreCommand("DELETE FROM HoleStatistics WHERE Month = @Month AND Year = @Year", new SqlParameter { ParameterName = "Month", Value = month }, new SqlParameter { ParameterName = "Year", Value = year });
+            using (var context = new BolfTrackerContext())
+            {
+                context.Database.ExecuteSqlCommand("DELETE FROM HoleStatistics WHERE Month = @Month AND Year = @Year", new SqlParameter { ParameterName = "Month", Value = month }, new SqlParameter { ParameterName = "Year", Value = year });
+            }
+        }
+
+        public void Add(HoleStatistics model)
+        {
+            using (var context = new BolfTrackerContext())
+            {
+                context.HoleStatistics.Attach(model);
+                context.Entry(model).State = EntityState.Added;
+                context.SaveChanges();
+            }
+        }
+
+        public void Delete(HoleStatistics model)
+        {
+            using (var context = new BolfTrackerContext())
+            {
+                context.HoleStatistics.Remove(model);
+                context.SaveChanges();
+            }
         }
     }
 }

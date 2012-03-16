@@ -2,73 +2,73 @@
 {
     public class PlayerStatistics : IEntity
     {
-        public virtual int Id
+        public int Id
         {
             get;
             set;
         }
 
-        public virtual Player Player
+        public Player Player
         {
             get;
             set;
         }
 
-        public virtual int Month
+        public int Month
         {
             get;
             set;
         }
 
-        public virtual int Year
+        public int Year
         {
             get;
             set;
         }
 
-        public virtual int ShotsMade
+        public int ShotsMade
         {
             get;
             set;
         }
 
-        public virtual int Attempts
+        public int Attempts
         {
             get;
             set;
         }
 
-        public virtual decimal ShootingPercentage
+        public decimal ShootingPercentage
         {
             get;
             set;
         }
 
-        public virtual int Points
+        public int Points
         {
             get;
             set;
         }
 
-        public virtual decimal PointsPerGame
+        public decimal PointsPerGame
         {
             get;
             set;
         }
 
-        public virtual int Wins
+        public int Wins
         {
             get;
             set;
         }
 
-        public virtual int Losses
+        public int Losses
         {
             get;
             set;
         }
 
-        public virtual int TotalGames
+        public int TotalGames
         {
             get
             {
@@ -76,45 +76,45 @@
             }
         }
 
-        public virtual decimal WinningPercentage
+        public decimal WinningPercentage
         {
             get;
             set;
         }
 
-        public virtual int Pushes
+        public int Pushes
         {
             get;
             set;
         }
 
-        public virtual decimal PushesPerGame
+        public decimal PushesPerGame
         {
             get;
             set;
         }
 
-        public virtual int Steals
+        public int Steals
         {
             get;
             set;
         }
 
-        public virtual decimal StealsPerGame
+        public decimal StealsPerGame
         {
             get;
             set;
         }
 
-        public virtual int NormalSteals
+        public int NormalSteals
         {
             get
             {
-                return Steals - SugarFreeSteals; 
+                return Steals - SugarFreeSteals;
             }
         }
 
-        public virtual decimal NormalStealsPerGame
+        public decimal NormalStealsPerGame
         {
             get
             {
@@ -127,31 +127,31 @@
             }
         }
 
-        public virtual int SugarFreeSteals
+        public int SugarFreeSteals
         {
             get;
             set;
         }
 
-        public virtual decimal SugarFreeStealsPerGame
+        public decimal SugarFreeStealsPerGame
         {
             get;
             set;
         }
 
-        public virtual int StainlessSteals
+        public int StainlessSteals
         {
             get;
             set;
         }
 
-        public virtual decimal StainlessStealsPerGame
+        public decimal StainlessStealsPerGame
         {
             get;
             set;
         }
 
-        public virtual int GameWinningSteals
+        public int GameWinningSteals
         {
             get;
             set;

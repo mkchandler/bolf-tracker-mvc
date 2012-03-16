@@ -2,91 +2,91 @@
 {
     public class Ranking : IEntity
     {
-        public virtual int Id
+        public int Id
         {
             get;
             set;
         }
 
-        public virtual int Year
+        public int Year
         {
             get;
             set;
         }
 
-        public virtual int Month
+        public int Month
         {
             get;
             set;
         }
 
-        public virtual Player Player
+        public Player Player
         {
             get;
             set;
         }
 
-        public virtual int Wins
+        public int Wins
         {
             get;
             set;
         }
 
-        public virtual int Losses
+        public int Losses
         {
             get;
             set;
         }
 
-        public virtual decimal WinningPercentage
+        public decimal WinningPercentage
         {
             get;
             set;
         }
 
-        public virtual int TotalPoints
+        public int TotalPoints
         {
             get;
             set;
         }
 
-        public virtual int PointsPerGame
+        public int PointsPerGame
         {
             get;
             set;
         }
 
-        public virtual decimal GamesBack
+        public decimal GamesBack
         {
             get;
             set;
         }
 
-        public virtual bool Eligible
+        public bool Eligible
         {
             get;
             set;
         }
 
-        public virtual int LastTenWins
+        public int LastTenWins
         {
             get;
             set;
         }
 
-        public virtual int LastTenLosses
+        public int LastTenLosses
         {
             get;
             set;
         }
 
-        public virtual decimal LastTenWinningPercentage
+        public decimal LastTenWinningPercentage
         {
             get;
             set;
         }
 
-        public virtual int TotalGames
+        public int TotalGames
         {
             get
             {
@@ -94,7 +94,7 @@
             }
         }
 
-        public virtual int LastTenTotalGames
+        public int LastTenTotalGames
         {
             get
             {

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using BolfTracker.Infrastructure;
 using BolfTracker.Models;
 using BolfTracker.Repositories;
 
@@ -15,7 +14,6 @@ namespace BolfTracker.Services
         private readonly IGameRepository _gameRepository;
         private readonly IPlayerRepository _playerRepository;
         private readonly IHoleRepository _holeRepository;
-        private readonly IUnitOfWork _unitOfWork;
 
         // TODO: Really need to figure out a better way to do this
         private const int ShotTypeMake = 1;
@@ -24,29 +22,28 @@ namespace BolfTracker.Services
         private const int ShotTypeSteal = 4;
         private const int ShotTypeSugarFreeSteal = 5;
 
-        public ShotService(IShotRepository shotRepository, IShotTypeRepository shotTypeRepository, IGameRepository gameRepository, IPlayerRepository playerRepository, IHoleRepository holeRepository, IUnitOfWork unitOfWork)
+        public ShotService(IShotRepository shotRepository, IShotTypeRepository shotTypeRepository, IGameRepository gameRepository, IPlayerRepository playerRepository, IHoleRepository holeRepository)
         {
             _shotRepository = shotRepository;
             _shotTypeRepository = shotTypeRepository;
             _gameRepository = gameRepository;
             _playerRepository = playerRepository;
             _holeRepository = holeRepository;
-            _unitOfWork = unitOfWork;
-        }
-
-        public IEnumerable<Shot> GetShots(int gameId)
-        {
-            throw new NotImplementedException();
         }
 
         public Shot GetShot(int id)
         {
-            throw new NotImplementedException();
+            return _shotRepository.GetById(id);
+        }
+
+        public IEnumerable<Shot> GetShots(int gameId)
+        {
+            return _shotRepository.GetByGame(gameId);
         }
 
         public void RecalculateShots(int gameId)
         {
-
+            throw new NotImplementedException();
         }
 
         public void Create(int gameId, int playerId, int holeId, int attempts, bool shotMade)
@@ -157,7 +154,6 @@ namespace BolfTracker.Services
             }
 
             _shotRepository.Add(currentShot);
-            _unitOfWork.Commit();
         }
 
         public void Update(int id, int points, ShotType shotType)
@@ -166,17 +162,11 @@ namespace BolfTracker.Services
 
             shot.Points = points;
             shot.ShotType = shotType;
-
-            _unitOfWork.Commit();
         }
 
         public void Delete(int id)
         {
-            var shot = _shotRepository.GetById(id);
-
-            _shotRepository.Delete(shot);
-
-            _unitOfWork.Commit();
+            _shotRepository.Delete(id);
         }
     }
 }

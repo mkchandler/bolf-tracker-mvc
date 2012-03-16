@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data;
 using System.Data.Entity;
 using System.Linq;
 
@@ -9,22 +10,31 @@ using Dapper;
 
 namespace BolfTracker.Infrastructure.EntityFramework
 {
-    public class PlayerGameStatisticsRepository : RepositoryBase<PlayerGameStatistics>, IPlayerGameStatisticsRepository
+    public class PlayerGameStatisticsRepository : IPlayerGameStatisticsRepository
     {
-        public PlayerGameStatisticsRepository(IDatabaseFactory databaseFactory) : base(databaseFactory)
+        public PlayerGameStatistics GetById(int id)
         {
+            using (var context = new BolfTrackerContext())
+            {
+                var playerGameStatistics = context.PlayerGameStatistics.SingleOrDefault(pgs => pgs.Id == id);
+
+                return playerGameStatistics;
+            }
         }
 
         public IEnumerable<PlayerGameStatistics> GetByPlayer(int playerId)
         {
-            var playerGameStatistics = Database.PlayerGameStatistics.Include(pgs => pgs.Player).Include(pgs => pgs.Game).Where(pgs => pgs.Player.Id == playerId).ToList();
+            using (var context = new BolfTrackerContext())
+            {
+                var playerGameStatistics = context.PlayerGameStatistics.Include(pgs => pgs.Player).Include(pgs => pgs.Game).Where(pgs => pgs.Player.Id == playerId).ToList();
 
-            return playerGameStatistics;
+                return playerGameStatistics;
+            }
         }
 
         public IEnumerable<PlayerGameStatistics> GetByMonthAndYear(int month, int year)
         {
-            using (var connection = DatabaseFactory.GetProfiledConnection())
+            using (var connection = BolfTrackerDbConnection.GetProfiledConnection())
             {
                 connection.Open();
 
@@ -41,14 +51,46 @@ namespace BolfTracker.Infrastructure.EntityFramework
 
         public IEnumerable<PlayerGameStatistics> GetByPlayerMonthAndYear(int playerId, int month, int year)
         {
-            var playerGameStatistics = Database.PlayerGameStatistics.Include(pgs => pgs.Player).Include(pgs => pgs.Game).Where(pgs => pgs.Player.Id == playerId && pgs.Game.Date.Month == month && pgs.Game.Date.Year == year).ToList();
+            using (var context = new BolfTrackerContext())
+            {
+                var playerGameStatistics = context.PlayerGameStatistics.Include(pgs => pgs.Player).Include(pgs => pgs.Game).Where(pgs => pgs.Player.Id == playerId && pgs.Game.Date.Month == month && pgs.Game.Date.Year == year).ToList();
 
-            return playerGameStatistics;
+                return playerGameStatistics;
+            }
+        }
+
+        public IEnumerable<PlayerGameStatistics> All()
+        {
+            using (var context = new BolfTrackerContext())
+            {
+                var playerGameStatistics = context.PlayerGameStatistics.ToList();
+
+                return playerGameStatistics;
+            }
+        }
+
+        public void Add(PlayerGameStatistics model)
+        {
+            using (var context = new BolfTrackerContext())
+            {
+                context.PlayerGameStatistics.Attach(model);
+                context.Entry(model).State = EntityState.Added;
+                context.SaveChanges();
+            }
+        }
+
+        public void Delete(PlayerGameStatistics model)
+        {
+            using (var context = new BolfTrackerContext())
+            {
+                context.PlayerGameStatistics.Remove(model);
+                context.SaveChanges();
+            }
         }
 
         public void DeleteAll()
         {
-            using (var connection = DatabaseFactory.GetProfiledConnection())
+            using (var connection = BolfTrackerDbConnection.GetProfiledConnection())
             {
                 connection.Open();
 
@@ -60,7 +102,7 @@ namespace BolfTracker.Infrastructure.EntityFramework
 
         public void DeleteByMonthAndYear(int month, int year)
         {
-            using (var connection = DatabaseFactory.GetProfiledConnection())
+            using (var connection = BolfTrackerDbConnection.GetProfiledConnection())
             {
                 connection.Open();
 

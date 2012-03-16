@@ -2,85 +2,85 @@
 {
     public class GameStatistics : IEntity
     {
-        public virtual int Id
+        public int Id
         {
             get;
             set;
         }
 
-        public virtual Game Game
+        public Game Game
         {
             get;
             set;
         }
 
-        public virtual int HoleCount
+        public int HoleCount
         {
             get;
             set;
         }
 
-        public virtual int OvertimeCount
+        public int OvertimeCount
         {
             get;
             set;
         }
 
-        public virtual int PlayerCount
+        public int PlayerCount
         {
             get;
             set;
         }
 
-        public virtual int Points
+        public int Points
         {
             get;
             set;
         }
 
-        public virtual int ShotsMade
+        public int ShotsMade
         {
             get;
             set;
         }
 
-        public virtual int ShotsMissed
+        public int ShotsMissed
         {
             get;
             set;
         }
 
-        public virtual int Attempts
+        public int Attempts
         {
             get;
             set;
         }
 
-        public virtual decimal ShootingPercentage
+        public decimal ShootingPercentage
         {
             get;
             set;
         }
 
-        public virtual int Pushes
+        public int Pushes
         {
             get;
             set;
         }
 
-        public virtual int Steals
+        public int Steals
         {
             get;
             set;
         }
 
-        public virtual int SugarFreeSteals
+        public int SugarFreeSteals
         {
             get;
             set;
         }
 
-        public virtual int StainlessSteals
+        public int StainlessSteals
         {
             get;
             set;

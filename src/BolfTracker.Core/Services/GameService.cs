@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using BolfTracker.Infrastructure;
 using BolfTracker.Models;
 using BolfTracker.Repositories;
 
@@ -15,21 +14,19 @@ namespace BolfTracker.Services
         private readonly IPlayerRepository _playerRepository;
         private readonly IGameStatisticsRepository _gameStatisticsRepository;
         private readonly IPlayerGameStatisticsRepository _playerGameStatisticsRepository;
-        private readonly IUnitOfWork _unitOfWork;
 
         // TODO: Really need to figure out a better way to do this
         private const int ShotTypePush = 3;
         private const int ShotTypeSteal = 4;
         private const int ShotTypeSugarFreeSteal = 5;
 
-        public GameService(IGameRepository gameRepository, IShotRepository shotRepository, IPlayerRepository playerRepository, IGameStatisticsRepository gameStatisticsRepository, IPlayerGameStatisticsRepository playerGameStatisticsRepository, IUnitOfWork unitOfWork)
+        public GameService(IGameRepository gameRepository, IShotRepository shotRepository, IPlayerRepository playerRepository, IGameStatisticsRepository gameStatisticsRepository, IPlayerGameStatisticsRepository playerGameStatisticsRepository)
         {
             _gameRepository = gameRepository;
             _shotRepository = shotRepository;
             _playerRepository = playerRepository;
             _gameStatisticsRepository = gameStatisticsRepository;
             _playerGameStatisticsRepository = playerGameStatisticsRepository;
-            _unitOfWork = unitOfWork;
         }
 
         public Game GetGame(int id)
@@ -52,7 +49,6 @@ namespace BolfTracker.Services
             var game = new Game() { Date = date };
 
             _gameRepository.Add(game);
-            _unitOfWork.Commit();
 
             return game;
         }
@@ -175,8 +171,6 @@ namespace BolfTracker.Services
             gameStatistics.StainlessSteals = gameShots.Count(s => (s.ShotType.Id == ShotTypeSteal || s.ShotType.Id == ShotTypeSugarFreeSteal) && s.ShotMade && s.Attempts == 1);
 
             _gameStatisticsRepository.Add(gameStatistics);
-
-            _unitOfWork.Commit();
         }
 
         private void DeleteGameStatistics()

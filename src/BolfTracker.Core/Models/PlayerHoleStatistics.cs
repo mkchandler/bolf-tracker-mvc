@@ -2,73 +2,73 @@
 {
     public class PlayerHoleStatistics : IEntity
     {
-        public virtual int Id
+        public int Id
         {
             get;
             set;
         }
 
-        public virtual Player Player
+        public Player Player
         {
             get;
             set;
         }
 
-        public virtual Hole Hole
+        public Hole Hole
         {
             get;
             set;
         }
 
-        public virtual int Month
+        public int Month
         {
             get;
             set;
         }
 
-        public virtual int Year
+        public int Year
         {
             get;
             set;
         }
 
-        public virtual int ShotsMade
+        public int ShotsMade
         {
             get;
             set;
         }
 
-        public virtual int Attempts
+        public int Attempts
         {
             get;
             set;
         }
 
-        public virtual decimal ShootingPercentage
+        public decimal ShootingPercentage
         {
             get;
             set;
         }
 
-        public virtual int PointsScored
+        public int PointsScored
         {
             get;
             set;
         }
 
-        public virtual int Pushes
+        public int Pushes
         {
             get;
             set;
         }
 
-        public virtual int Steals
+        public int Steals
         {
             get;
             set;
         }
 
-        public virtual int SugarFreeSteals
+        public int SugarFreeSteals
         {
             get;
             set;

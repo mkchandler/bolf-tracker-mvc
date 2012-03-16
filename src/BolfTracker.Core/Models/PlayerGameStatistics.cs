@@ -2,102 +2,102 @@
 {
     public class PlayerGameStatistics : IEntity
     {
-        public virtual int Id
+        public int Id
         {
             get;
             set;
         }
 
-        public virtual Game Game
+        public Game Game
         {
             get;
             set;
         }
 
-        public virtual Player Player
+        public Player Player
         {
             get;
             set;
         }
 
-        public virtual int Points
+        public int Points
         {
             get;
             set;
         }
 
-        public virtual bool Winner
+        public bool Winner
         {
             get;
             set;
         }
 
-        public virtual bool OvertimeWin
+        public bool OvertimeWin
         {
             get;
             set;
         }
 
-        public virtual int ShotsMade
+        public int ShotsMade
         {
             get;
             set;
         }
 
-        public virtual int Attempts
+        public int Attempts
         {
             get;
             set;
         }
 
-        public virtual decimal ShootingPercentage
+        public decimal ShootingPercentage
         {
             get;
             set;
         }
 
-        public virtual int Pushes
+        public int Pushes
         {
             get;
             set;
         }
 
-        public virtual int Steals
+        public int Steals
         {
             get;
             set;
         }
 
-        public virtual int NormalSteals
+        public int NormalSteals
         {
             get { return Steals - (SugarFreeSteals + StainlessSteals); }
         }
 
-        public virtual int SugarFreeSteals
+        public int SugarFreeSteals
         {
             get;
             set;
         }
 
-        public virtual int StainlessSteals
+        public int StainlessSteals
         {
             get;
             set;
         }
 
-        public virtual bool GameWinningSteal
+        public bool GameWinningSteal
         {
             get;
             set;
         }
 
-        public virtual bool Shutout
+        public bool Shutout
         {
             get;
             set;
         }
 
-        public virtual bool PerfectGame
+        public bool PerfectGame
         {
             get;
             set;

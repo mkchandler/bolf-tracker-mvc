@@ -19,30 +19,30 @@ namespace BolfTracker.Models
             Date = DateTime.Now;
         }
 
-        public virtual int Id
+        public int Id
         {
             get;
             set;
         }
 
         [Required]
-        public virtual DateTime Date
+        public DateTime Date
         {
             get;
             set;
         }
 
-        public virtual ICollection<Shot> Shots
+        public ICollection<Shot> Shots
         {
             get { return _shots; }
         }
 
-        public virtual ICollection<GameStatistics> GameStatistics
+        public ICollection<GameStatistics> GameStatistics
         {
             get { return _gameStatistics; }
         }
 
-        public virtual ICollection<PlayerGameStatistics> PlayerGameStatistics
+        public ICollection<PlayerGameStatistics> PlayerGameStatistics
         {
             get { return _playerGameStatistics; }
         }

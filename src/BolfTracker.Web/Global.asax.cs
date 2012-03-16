@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Configuration;
-using System.Data.Common;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 
-using BolfTracker.Infrastructure;
 using BolfTracker.Infrastructure.EntityFramework;
 using BolfTracker.Repositories;
 using BolfTracker.Services;
@@ -69,8 +66,8 @@ namespace BolfTracker.Web
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }
 
-        private static readonly Func<LifetimeManager> transient = () => new TransientLifetimeManager();
-        private static readonly Func<LifetimeManager> singleton = () => new ContainerControlledLifetimeManager();
+        //private static readonly Func<LifetimeManager> transient = () => new TransientLifetimeManager();
+        //private static readonly Func<LifetimeManager> singleton = () => new ContainerControlledLifetimeManager();
 
         private IUnityContainer GetUnityContainer()
         {
@@ -82,8 +79,7 @@ namespace BolfTracker.Web
                      .RegisterType<IHoleService, HoleService>(new HttpContextLifetimeManager<IHoleService>())
                      .RegisterType<IShotService, ShotService>(new HttpContextLifetimeManager<IShotService>())
                      .RegisterType<IShotTypeService, ShotTypeService>(new HttpContextLifetimeManager<IShotTypeService>())
-                     .RegisterType<IRankingService, RankingService>(new HttpContextLifetimeManager<IRankingService>())
-                     .RegisterType<IUnitOfWork, UnitOfWork>(new HttpContextLifetimeManager<IUnitOfWork>());
+                     .RegisterType<IRankingService, RankingService>(new HttpContextLifetimeManager<IRankingService>());
 
             // Register all of the needed repositories
             container.RegisterType<IGameRepository, GameRepository>(new HttpContextLifetimeManager<IGameRepository>())
@@ -100,11 +96,11 @@ namespace BolfTracker.Web
                      .RegisterType<IShotTypeRepository, ShotTypeRepository>(new HttpContextLifetimeManager<IShotTypeRepository>());
 
             // Set up and register the database provider
-            ConnectionStringSettings connectionStringSettings = ConfigurationManager.ConnectionStrings["BolfTracker"];
-            DbProviderFactory databaseProviderFactory = DbProviderFactories.GetFactory(connectionStringSettings.ProviderName);
+            //ConnectionStringSettings connectionStringSettings = ConfigurationManager.ConnectionStrings["BolfTracker"];
+            //DbProviderFactory databaseProviderFactory = DbProviderFactories.GetFactory(connectionStringSettings.ProviderName);
 
-            container.RegisterInstance(databaseProviderFactory);
-            container.RegisterType<IDatabaseFactory, DatabaseFactory>(new HttpContextLifetimeManager<IDatabaseFactory>(), new InjectionConstructor(typeof(DbProviderFactory), connectionStringSettings.ConnectionString));
+            //container.RegisterInstance(databaseProviderFactory);
+            //container.RegisterType<IDatabaseFactory, DatabaseFactory>(new HttpContextLifetimeManager<IDatabaseFactory>(), new InjectionConstructor(typeof(DbProviderFactory), connectionStringSettings.ConnectionString));
 
             return container;
         }
