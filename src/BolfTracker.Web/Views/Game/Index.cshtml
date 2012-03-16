@@ -31,37 +31,22 @@
     <table class="table table-condensed table-bordered table-striped">
       <thead>
         <tr>
-          <th>
-            @Html.ActionLink(String.Format("{0:d}", item.Date), "Details", new { id = item.Id })
-          </th>
-          <th title="Points">
-            Points
-          </th>
-          <th title="Shooting Percentage">
-            Shooting %
-          </th>
-          <th title="Pushes">
-            Pushes
-          </th>
-          <th title="Steals">
-            Steals
-          </th>
+          <th>@Html.ActionLink(String.Format("{0:d}", item.Date), "Details", new { id = item.Id })</th>
+          <th title="Points">Points</th>
+          <th title="Shooting Percentage">Shooting %</th>
+          <th title="Pushes">Pushes</th>
+          <th title="Steals">Steals</th>
         </tr>
       </thead>
       <tbody>
         @foreach (var player in pgs)
         {
           <tr>
-            <td>@Html.ActionLink(player.Player.Name, "Details", "Player", new { id = player.Player.Id, name = player.Player.UrlFriendlyName }, null)
-            </td>
-            <td>@player.Points
-            </td>
-            <td>@player.ShootingPercentage
-            </td>
-            <td>@player.Pushes
-            </td>
-            <td>@player.Steals
-            </td>
+            <td>@Html.ActionLink(player.Player.Name, "Details", "Player", new { id = player.Player.Id, name = player.Player.UrlFriendlyName }, null)</td>
+            <td>@player.Points</td>
+            <td>@player.ShootingPercentage</td>
+            <td>@player.Pushes</td>
+            <td>@player.Steals</td>
           </tr>
         }
       </tbody>

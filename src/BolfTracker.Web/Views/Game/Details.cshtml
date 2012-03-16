@@ -5,8 +5,7 @@
 <div class="page-header">
   <div class="row">
     <div class="span6">
-      <h1>
-        Game Panel - @String.Format("{0:d}", Model.Game.Date)</h1>
+      <h1>Game Panel - @String.Format("{0:d}", Model.Game.Date)</h1>
     </div>
     <div class="span6">
       @if (HttpContext.Current.User.Identity.IsAuthenticated)
@@ -32,15 +31,9 @@
         using (Html.BeginForm("Create", "Score", FormMethod.Post))
         {
       @Html.HiddenFor(m => m.Game.Id)
-      <label for="player">
-        Player
-      </label>@Html.DropDownListFor(m => m.Player, Model.AllPlayers)
-      <label for="hole">
-        Hole
-      </label>@Html.DropDownListFor(m => m.Hole, Model.AllHoles, new { @id = "currentHole" })
-      <label for="attempts">
-        Attempts
-      </label>
+      <label for="player">Player</label>@Html.DropDownListFor(m => m.Player, Model.AllPlayers)
+      <label for="hole">Hole</label>@Html.DropDownListFor(m => m.Hole, Model.AllHoles, new { @id = "currentHole" })
+      <label for="attempts">Attempts</label>
       <input type="number" name="attempts" id="attempts" autocomplete="off" />
       <label for="shotMade" class="checkbox">
         <input type="checkbox" name="shotMade" id="shotMade" />
@@ -54,44 +47,28 @@
     }
   </div>
   <div class="span6">
-    <h2>
-      Leaderboard</h2>
+    <h2>Leaderboard</h2>
     @if (Model.Shots.Any())
     {
       <table id="leaderboard" class=" table table-bordered table-striped">
         <thead>
           <tr>
-            <th title="Player">
-              Player
-            </th>
-            <th title="Points">
-              Points
-            </th>
-            <th title="Shooting Percentage">
-              Shooting %
-            </th>
-            <th title="Steals">
-              Steals
-            </th>
-            <th title="Pushes">
-              Pushes
-            </th>
+            <th title="Player">Player</th>
+            <th title="Points">Points</th>
+            <th title="Shooting Percentage">Shooting %</th>
+            <th title="Steals">Steals</th>
+            <th title="Pushes">Pushes</th>
           </tr>
         </thead>
         <tbody>
           @foreach (var player in Model.Leaderboard)
           {
             <tr>
-              <td>@Html.ActionLink(player.Player.Name, "Details", "Player", new { id = player.Player.Id, name = player.Player.UrlFriendlyName }, null)
-              </td>
-              <td>@player.Points
-              </td>
-              <td>@player.ShotsMade/@player.Attempts (@player.ShootingPercentage.ToString("P0"))
-              </td>
-              <td>@player.Steals
-              </td>
-              <td>@player.Pushes
-              </td>
+              <td>@Html.ActionLink(player.Player.Name, "Details", "Player", new { id = player.Player.Id, name = player.Player.UrlFriendlyName }, null)</td>
+              <td>@player.Points</td>
+              <td>@player.ShotsMade/@player.Attempts (@player.ShootingPercentage.ToString("P0"))</td>
+              <td>@player.Steals</td>
+              <td>@player.Pushes</td>
             </tr>
           }
         </tbody>
@@ -99,8 +76,7 @@
     }
     else
     {
-      <p>
-        Game has not started.</p> 
+      <p>Game has not started.</p> 
     }
     @if (!Model.GameFinalized)
     { 
@@ -110,30 +86,20 @@
     }
   </div>
 </div>
-<h2>
-  Hole History</h2>
+<h2>Hole History</h2>
 @if (Model.Shots.Any())
 {
   int lastShot = Model.Shots.Max(s => s.Id);        
   <table class="table table-condensed table-bordered table-striped">
     <thead>
       <tr>
-        <th title="Hole" style="width: 50px; text-align: left;">
-          Hole
-        </th>
-        <th title="Player" style="width: 150px; text-align: left;">
-          Player
-        </th>
-        <th title="Attempts" style="width: 85px; text-align: left;">
-          Attempts
-        </th>
-        <th title="Result" style="width: 200px; text-align: left;">
-          Result
-        </th>
+        <th title="Hole" style="width: 50px; text-align: left;">Hole</th>
+        <th title="Player" style="width: 150px; text-align: left;">Player</th>
+        <th title="Attempts" style="width: 85px; text-align: left;">Attempts</th>
+        <th title="Result" style="width: 200px; text-align: left;">Result</th>
         @if (!Model.GameFinalized)
         {
-          <th>
-          </th>
+          <th></th>
         }
       </tr>
     </thead>
@@ -141,14 +107,10 @@
       @foreach (var score in Model.Shots.OrderBy(s => s.Id))
       {
         <tr>
-          <td>@score.Hole.Id
-          </td>
-          <td>@score.Player.Name
-          </td>
-          <td>@score.Attempts
-          </td>
-          <td>@score.ShotType.Name
-          </td>
+          <td>@score.Hole.Id</td>
+          <td>@score.Player.Name</td>
+          <td>@score.Attempts</td>
+          <td>@score.ShotType.Name</td>
           @if (!Model.GameFinalized)
           {
             <td>
@@ -160,7 +122,7 @@
                   { 
                 @Html.Hidden("scoreId", score.Id)
                 @Html.Hidden("gameId", score.Game.Id)
-                <input type="submit" class="btn danger" value="Delete" />
+                <input type="submit" class="btn btn-danger btn-mini" value="Delete" />
                   }
                 }
               }
@@ -174,82 +136,83 @@
 else
 { 
   <p>
-    Game has not started.</p> 
+    Game has not started.
+  </p> 
 }
 @section javascript
 {
   <script type="text/javascript">
-        var par = 0;
-        var lastAttempt = 0;
+  var par = 0;
+  var lastAttempt = 0;
         @{
           var currentHole = Model.GetCurrentHole();
-        @:par = @Model.Holes.FirstOrDefault(h => h.Id == currentHole).Par;
-        if (Model.Game.Shots.Any())
-        {
-          var lastShotAttempt = Model.Game.Shots.LastOrDefault(s => s.Hole.Id == currentHole);
-          if (lastShotAttempt != null)
+          @:par = @Model.Holes.FirstOrDefault(h => h.Id == currentHole).Par;
+          if (Model.Game.Shots.Any())
           {
-        @:lastAttempt = @lastShotAttempt.Attempts;
-        }
-        }
-        }
-
-        $(function () {
-            if(lastAttempt === 1 || par === 1) {
-                $("#attempts").val(1);
+            var lastShotAttempt = Model.Game.Shots.LastOrDefault(s => s.Hole.Id == currentHole);
+            if (lastShotAttempt != null)
+            {
+              @:lastAttempt = @lastShotAttempt.Attempts;
             }
-
-            $("#attempts").focus();
-
-            $("#attempts").keydown(function (e) {
-                var key = e.charCode || e.keyCode || 0;
-
-                if (key == 8 || key == 9 || key == 46 || (key >= 37 && key <= 40) || (key >= 48 && key <= 57) || (key >= 96 && key <= 105)) {
-                    // Ignore
-                } else {
-                    if (key != 13) {
-                        if (key < 95) {
-                            if (key < 48 || key > 57) {
-                                event.preventDefault();
-                            }
-                        } else {
-                            if (key < 96 || key > 105) {
-                                event.preventDefault();
-                            }
-                        }
-                    }
-                }
-            });
-
-            $("#attempts").keyup(function() {
-                //validateAttempts();
-            });
-            
-            $("body").keydown(function (event) {
-                switch (event.keyCode) {
-                    case 77:
-                        if ($("#shotMade").attr("checked")) {
-                            $("#shotMade").removeAttr("checked");
-                        } else {
-                            $("#shotMade").attr("checked", "checked");
-                        }
-                        break;
-                }
-            });
-        });
-
-        function validateAttempts() {
-            if (par > 0) {
-                var currentValue = parseInt($("#attempts").val());
-            
-                if (isNaN(currentValue)) {
-                    $("#attempts").val("");
-                } else if (currentValue > par) {
-                    $("#attempts").val(par);
-                } else {
-                    $("#attempts").val(currentValue);
-                }
-            }
+          }
         }
+
+  $(function () {
+    if(lastAttempt === 1 || par === 1) {
+      $("#attempts").val(1);
+    }
+
+    $("#attempts").focus();
+
+    $("#attempts").keydown(function (e) {
+      var key = e.charCode || e.keyCode || 0;
+
+      if (key == 8 || key == 9 || key == 46 || (key >= 37 && key <= 40) || (key >= 48 && key <= 57) || (key >= 96 && key <= 105)) {
+        // Ignore
+      } else {
+        if (key != 13) {
+          if (key < 95) {
+            if (key < 48 || key > 57) {
+              event.preventDefault();
+            }
+          } else {
+            if (key < 96 || key > 105) {
+              event.preventDefault();
+            }
+          }
+        }
+      }
+    });
+
+    $("#attempts").keyup(function() {
+      //validateAttempts();
+    });
+            
+    $("body").keydown(function (event) {
+      switch (event.keyCode) {
+        case 77:
+          if ($("#shotMade").attr("checked")) {
+            $("#shotMade").removeAttr("checked");
+          } else {
+            $("#shotMade").attr("checked", "checked");
+          }
+          break;
+      }
+    });
+  });
+
+  function validateAttempts() {
+    if (par > 0) {
+      var currentValue = parseInt($("#attempts").val());
+            
+      if (isNaN(currentValue)) {
+        $("#attempts").val("");
+      } else if (currentValue > par) {
+        $("#attempts").val(par);
+      } else {
+        $("#attempts").val(currentValue);
+      }
+    }
+  }
   </script>
 }

@@ -45,7 +45,7 @@ namespace BolfTracker.Web
 
             routes.MapRoute("Statistics", "stats", new { controller = "Statistics", action = "Index" });
 
-            routes.MapRoute("Landing", "", new { controller = "Ranking", action = "Index" });
+            //routes.MapRoute("Landing", "", new { controller = "Home", action = "Index" });
 
             routes.MapRoute("Default", "{controller}/{action}", new { controller = "Home", action = "Index" });
         }
