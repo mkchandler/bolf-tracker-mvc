@@ -5,35 +5,18 @@
 <div class="page-header">
   <h1>@Model.MonthName @Model.Year Rankings</h1>
 </div>
-<h2>
-  Player Rankings</h2>
+<h2>Player Rankings</h2>
 <table class="table table-bordered table-striped" id="rankings">
   <thead>
     <tr>
-      <th style="width: 120px; text-align: left" title="Player">
-        Player
-      </th>
-      <th style="width: 35px; text-align: right" title="Wins">
-        W
-      </th>
-      <th style="width: 35px; text-align: right" title="Losses">
-        L
-      </th>
-      <th style="width: 55px; text-align: right" title="Winning Percentage">
-        PCT
-      </th>
-      <th style="width: 40px; text-align: right" title="Games Back">
-        GB
-      </th>
-      <th style="width: 40px; text-align: right" title="Total Points">
-        P
-      </th>
-      <th style="width: 40px; text-align: right" title="Points Per Game">
-        PPG
-      </th>
-      <th style="width: 40px; text-align: right" title="Last 10 Record">
-        L10
-      </th>
+      <th style="width: 120px; text-align: left" title="Player">Player</th>
+      <th style="width: 35px; text-align: right" title="Wins">W</th>
+      <th style="width: 35px; text-align: right" title="Losses">L</th>
+      <th style="width: 55px; text-align: right" title="Winning Percentage">PCT</th>
+      <th style="width: 40px; text-align: right" title="Games Back">GB</th>
+      <th style="width: 40px; text-align: right" title="Total Points">P</th>
+      <th style="width: 40px; text-align: right" title="Points Per Game">PPG</th>
+      <th style="width: 40px; text-align: right" title="Last 10 Record">L10</th>
     </tr>
   </thead>
   <tbody>
@@ -62,29 +45,16 @@
 </table>
 @if (Model.IneligibleRankings.Any())
 {
-  <h2>
-    Ineligible Player Rankings</h2>
+  <h2>Ineligible Player Rankings</h2>
   <table class="table table-bordered table-striped">
     <thead>
       <tr>
-        <th style="width: 120px; text-align: left" title="Player">
-          Player
-        </th>
-        <th style="width: 35px; text-align: right" title="Wins">
-          W
-        </th>
-        <th style="width: 35px; text-align: right" title="Losses">
-          L
-        </th>
-        <th style="width: 55px; text-align: right" title="Winning Percentage">
-          PCT
-        </th>
-        <th style="width: 40px; text-align: right" title="Points">
-          P
-        </th>
-        <th style="width: 40px; text-align: right" title="Points Per Game">
-          PPG
-        </th>
+        <th style="width: 120px; text-align: left" title="Player">Player </th>
+        <th style="width: 35px; text-align: right" title="Wins">W </th>
+        <th style="width: 35px; text-align: right" title="Losses">L </th>
+        <th style="width: 55px; text-align: right" title="Winning Percentage">PCT </th>
+        <th style="width: 40px; text-align: right" title="Points">P </th>
+        <th style="width: 40px; text-align: right" title="Points Per Game">PPG </th>
       </tr>
     </thead>
     <tbody>
@@ -108,12 +78,13 @@
     </tbody>
   </table>
   <p>
-    Eligibility Line: @Model.EligibilityLine Games</p>
+    Eligibility Line: @Model.EligibilityLine Games
+  </p>
 }
 @section javascript
 {
   <script src="@Url.Content("~/js/jquery.tablesorter.min.js")" type="text/javascript"></script>
   <script type="text/javascript">
-    $("#rankings").tablesorter();
+  $("#rankings").tablesorter();
   </script>
 }

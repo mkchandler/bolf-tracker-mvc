@@ -8,10 +8,12 @@ namespace BolfTracker.Web.Controllers
     public class HomeController : Controller
     {
         private readonly IRankingService _rankingService;
+        private readonly IPlayerService _playerService;
 
-        public HomeController(IRankingService rankingService)
+        public HomeController(IRankingService rankingService, IPlayerService playerService)
         {
             _rankingService = rankingService;
+            _playerService = playerService;
         }
 
         public ActionResult Index()
@@ -19,10 +21,10 @@ namespace BolfTracker.Web.Controllers
             int rankingsYear = DateTime.Today.Year;
             int rankingsMonth = DateTime.Today.Month;
 
-            int eligibilityLine = _rankingService.GetEligibilityLine(rankingsMonth, rankingsYear);
             var rankings = _rankingService.GetRankings(rankingsMonth, rankingsYear);
+            var playerStatistics = _playerService.GetPlayerStatistics(rankingsMonth, rankingsYear);
 
-            return View("Home", new HomeViewModel());
+            return View("Home", new HomeViewModel(rankings, playerStatistics));
         }
     }
 }
