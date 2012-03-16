@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 
 using BolfTracker.Models;
@@ -30,7 +31,8 @@ namespace BolfTracker.Infrastructure.EntityFramework
         {
             using (var context = new BolfTrackerContext())
             {
-                context.ShotTypes.Add(model);
+                context.ShotTypes.Attach(model);
+                context.Entry(model).State = EntityState.Added;
                 context.SaveChanges();
             }
         }

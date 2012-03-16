@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using BolfTracker.Infrastructure;
 using BolfTracker.Models;
 using BolfTracker.Repositories;
 
@@ -167,9 +166,7 @@ namespace BolfTracker.Services
 
         public void Delete(int id)
         {
-            var shot = _shotRepository.GetById(id);
-
-            _shotRepository.Delete(shot);
+            _shotRepository.Delete(id);
         }
     }
 }

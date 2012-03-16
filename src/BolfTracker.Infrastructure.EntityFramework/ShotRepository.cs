@@ -6,6 +6,8 @@ using System.Linq;
 using BolfTracker.Models;
 using BolfTracker.Repositories;
 
+using Dapper;
+
 namespace BolfTracker.Infrastructure.EntityFramework
 {
     public class ShotRepository : IShotRepository
@@ -63,24 +65,19 @@ namespace BolfTracker.Infrastructure.EntityFramework
             using (var context = new BolfTrackerContext())
             {
                 // Add the actual shot data to the database
-                context.Shots.Add(model);
-
-                // But lets not add all of the supporting data, it already exists in the database
-                context.Entry(model.Game).State = EntityState.Unchanged;
-                context.Entry(model.Hole).State = EntityState.Unchanged;
-                context.Entry(model.Player).State = EntityState.Unchanged;
-                context.Entry(model.ShotType).State = EntityState.Unchanged;
-
+                context.Shots.Attach(model);
+                context.Entry(model).State = EntityState.Added;
                 context.SaveChanges();
             }
         }
 
-        public void Delete(Shot model)
+        public void Delete(int id)
         {
-            using (var context = new BolfTrackerContext())
+            using (var connection = BolfTrackerDbConnection.GetProfiledConnection())
             {
-                context.Shots.Remove(model);
-                context.SaveChanges();
+                connection.Open();
+
+                connection.Execute("DELETE FROM Shot WHERE Id = @Id", new { Id = id });
             }
         }
     }

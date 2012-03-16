@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Dapper">
+      <HintPath>..\packages\Dapper.1.8\lib\net40\Dapper.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=4.3.1.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.4.3.1\lib\net40\EntityFramework.dll</HintPath>
@@ -67,24 +70,18 @@
     <Compile Include="Configuration\RankingConfiguration.cs" />
     <Compile Include="Configuration\ShotConfiguration.cs" />
     <Compile Include="Configuration\ShotTypeConfiguration.cs" />
-    <Compile Include="Database.cs" />
-    <Compile Include="DatabaseFactory.cs" />
     <Compile Include="GameRepository.cs" />
     <Compile Include="GameStatisticsRepository.cs" />
     <Compile Include="HoleRepository.cs" />
     <Compile Include="HoleStatisticsRepository.cs" />
-    <Compile Include="IDatabaseFactory.cs" />
     <Compile Include="PlayerCareerStatisticsRepository.cs" />
     <Compile Include="PlayerGameStatisticsRepository.cs" />
     <Compile Include="PlayerHoleStatisticsRepository.cs" />
     <Compile Include="PlayerRepository.cs" />
     <Compile Include="PlayerStatisticsRepository.cs" />
     <Compile Include="RankingRepository.cs" />
-    <Compile Include="RepositoryBase.cs" />
     <Compile Include="ShotRepository.cs" />
     <Compile Include="ShotTypeRepository.cs" />
-    <Compile Include="SqlMapper.cs" />
-    <Compile Include="UnitOfWork.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BolfTracker.Core\BolfTracker.Core.csproj">

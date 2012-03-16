@@ -61,7 +61,8 @@ namespace BolfTracker.Infrastructure.EntityFramework
         {
             using (var context = new BolfTrackerContext())
             {
-                context.Players.Add(model);
+                context.Players.Attach(model);
+                context.Entry(model).State = EntityState.Added;
                 context.SaveChanges();
             }
         }

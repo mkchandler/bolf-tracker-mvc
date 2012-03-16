@@ -8,7 +8,6 @@ using BolfTracker.Models;
 
 namespace BolfTracker.Web
 {
-    // WARNING: This class is a mess right now and needs to be cleaned up.  Beware all ye who enter.  I warned you.
     public class GamePanelViewModel
     {
         private int? _currentHole;
@@ -45,7 +44,7 @@ namespace BolfTracker.Web
                 }
                 else
                 {
-                    _gameFinalized = Game.GameStatistics != null;
+                    _gameFinalized = Game.GameStatistics.Any();
 
                     return _gameFinalized.Value;
                 }
