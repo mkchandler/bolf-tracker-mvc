@@ -8,22 +8,27 @@ using BolfTracker.Models;
 
 namespace BolfTracker.Web
 {
-    // WARNING: This class is a mess right now and needs to be cleaned up.  Beware all ye who enter.  I warned you.
     public class GamePanelViewModel
     {
         private int? _currentHole;
         private int? _pointsAvailable;
         private bool? _gameFinalized;
 
-        public GamePanelViewModel(Game game, IEnumerable<Player> allPlayers, IEnumerable<Hole> allHoles)
+        public GamePanelViewModel(Game game, IEnumerable<Shot> shots, IEnumerable<Player> allPlayers, IEnumerable<Hole> allHoles)
         {
             Game = game;
-
-            _allPlayers = allPlayers.ToList();
-            _allHoles = allHoles.ToList();
+            Shots = shots;
+            _allPlayers = allPlayers;
+            _allHoles = allHoles;
         }
 
         public Game Game
+        {
+            get;
+            private set;
+        }
+
+        public IEnumerable<Shot> Shots
         {
             get;
             private set;
@@ -52,7 +57,7 @@ namespace BolfTracker.Web
         {
             get
             {
-                return _activePlayers ?? (_activePlayers = Game.Shots.Select(s => s.Player).Distinct());
+                return _activePlayers ?? (_activePlayers = Shots.Select(s => s.Player).Distinct());
             }
         }
 
@@ -61,12 +66,12 @@ namespace BolfTracker.Web
             var playerResult = new Player();
             int currentHole = GetCurrentHole();
 
-            if (Game.Shots.Any())
+            if (Shots.Any())
             {
                 var activePlayers = ActivePlayers;
                 var playersDescending = GetCurrentActivePlayers(activePlayers, includeOvertime: false);
 
-                var duplicatePlayers = Game.Shots.GroupBy(s => s.Player.Id).Where(p => p.Count() > 1);
+                var duplicatePlayers = Shots.GroupBy(s => s.Player.Id).Where(p => p.Count() > 1);
 
                 // Check to see if we've had any duplicate players yet (if so, that means we can determine the order)
                 if (duplicatePlayers.Any())
@@ -79,7 +84,7 @@ namespace BolfTracker.Web
                         if (!playersWhoCanWin.Any() || playersWhoCanWin.Count() >= playersDescending.Count())
                         {
                             // If all of the players can win, we will go in normal order
-                            var lastPlayerToShoot = Game.Shots.Where(s => s.Game.Id == Game.Id).OrderByDescending(s => s.Id).Select(s => s.Player).First();
+                            var lastPlayerToShoot = Shots.Where(s => s.Game.Id == Game.Id).OrderByDescending(s => s.Id).Select(s => s.Player).First();
 
                             var playerList = playersDescending.Reverse().ToList();
 
@@ -94,7 +99,7 @@ namespace BolfTracker.Web
 
                             foreach (var player in playersWhoCanWin)
                             {
-                                var playerCurrentHoleShots = Game.Shots.Where(s => s.Player.Id == player.Player.Id && s.Game.Id == Game.Id && s.Hole.Id == currentHole);
+                                var playerCurrentHoleShots = Shots.Where(s => s.Player.Id == player.Player.Id && s.Game.Id == Game.Id && s.Hole.Id == currentHole);
 
                                 if (!playerCurrentHoleShots.Any())
                                 {
@@ -110,7 +115,7 @@ namespace BolfTracker.Web
                                 // that cannot win need to take a shot to push them
                                 foreach (var player in playersDescending)
                                 {
-                                    if (!Game.Shots.Any(s => s.Player.Id == player.Id && s.Hole.Id == currentHole))
+                                    if (!Shots.Any(s => s.Player.Id == player.Id && s.Hole.Id == currentHole))
                                     {
                                         if (!playersWhoCanWin.Any(l => l.Player.Id == player.Id))
                                         {
@@ -148,7 +153,7 @@ namespace BolfTracker.Web
                     // If we can't determine the order, just get the next player who has not gone already
                     foreach (var player in _allPlayers)
                     {
-                        if (!activePlayers.Contains(player))
+                        if (!activePlayers.Any(p => p.Id == player.Id))
                         {
                             return player;
                         }
@@ -179,7 +184,7 @@ namespace BolfTracker.Web
                 }
 
                 // TODO: The part where we check for holes less than 10 will need to change when we implement the new hole logic
-                foreach (var shot in Game.Shots.Where(query).OrderByDescending(s => s.Id))
+                foreach (var shot in Shots.Where(query).OrderByDescending(s => s.Id))
                 {
                     if (!currentActivePlayers.Any(p => p.Id == shot.Player.Id))
                     {
@@ -209,7 +214,7 @@ namespace BolfTracker.Web
                 var leader = leaderboard.First();
 
                 // This is the leader's points not counting any temporary points scored on the current hole
-                var leaderPoints = Game.Shots.Where(s => s.Player.Id == leader.Player.Id && s.Hole.Id < currentHole).Sum(s => s.Points);
+                var leaderPoints = Shots.Where(s => s.Player.Id == leader.Player.Id && s.Hole.Id < currentHole).Sum(s => s.Points);
 
                 if (leaderboard.Count(l => l.Points > leaderPoints) > 1)
                 {
@@ -224,7 +229,7 @@ namespace BolfTracker.Web
                 {
                     // If the player has already gone on this hole and made the shot then we need to 
                     // subtract those points for the next calculation
-                    var newPlayerCurrentHoleShot = Game.Shots.Where(s => s.Player.Id == player.Player.Id && s.Hole.Id == currentHole && s.Points > 0);
+                    var newPlayerCurrentHoleShot = Shots.Where(s => s.Player.Id == player.Player.Id && s.Hole.Id == currentHole && s.Points > 0);
 
                     int playerCurrentHolePoints = newPlayerCurrentHoleShot.Any() ? newPlayerCurrentHoleShot.First().Points : 0;
 
@@ -245,10 +250,10 @@ namespace BolfTracker.Web
         {
             _currentHole = 1;
 
-            if (Game.Shots.Any())
+            if (Shots.Any())
             {
-                _currentHole = Game.Shots.Max(s => s.Hole.Id);
-                var holeShots = Game.Shots.Where(s => s.Hole.Id == _currentHole.Value).ToList();
+                _currentHole = Shots.Max(s => s.Hole.Id);
+                var holeShots = Shots.Where(s => s.Hole.Id == _currentHole.Value).ToList();
 
                 if (_currentHole.Value == 1)
                 {
@@ -284,7 +289,7 @@ namespace BolfTracker.Web
                     // TODO: This needs to change to a MAX function for hole number when the new hole/overtime logic is added
                     if (_currentHole.Value >= 10)
                     {
-                        var newHoleShots = Game.Shots.Where(s => s.Hole.Id == _currentHole.Value).ToList();
+                        var newHoleShots = Shots.Where(s => s.Hole.Id == _currentHole.Value).ToList();
 
                         if (newHoleShots.Count(s => s.Attempts == 1 && s.ShotMade) > 1)
                         {
@@ -330,7 +335,7 @@ namespace BolfTracker.Web
             else
             {
                 int totalPoints = _allHoles.Where(h => h.Id <= currentHole).Sum(h => h.Par);
-                int totalPointsTaken = Game.Shots.Where(s => s.Hole.Id < currentHole).Sum(s => s.Points);
+                int totalPointsTaken = Shots.Where(s => s.Hole.Id < currentHole).Sum(s => s.Points);
 
                 _pointsAvailable = totalPoints - totalPointsTaken;
 
@@ -350,7 +355,7 @@ namespace BolfTracker.Web
 
                     foreach (var player in ActivePlayers)
                     {
-                        var playerShots = Game.Shots.Where(s => s.Player.Id == player.Id).ToList();
+                        var playerShots = Shots.Where(s => s.Player.Id == player.Id).ToList();
 
                         leaderboard.Add(new LeaderboardViewModel(player, playerShots, Game));
                     }

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using BolfTracker.Infrastructure;
 using BolfTracker.Models;
 using BolfTracker.Repositories;
 
@@ -15,16 +14,14 @@ namespace BolfTracker.Services
         private readonly IPlayerRepository _playerRepository;
         private readonly IRankingRepository _rankingRepository;
         private readonly IPlayerGameStatisticsRepository _playerGameStatisticsRepository;
-        private readonly IUnitOfWork _unitOfWork;
 
-        public RankingService(IGameRepository gameRepository, IShotRepository shotRepository, IPlayerRepository playerRepository, IRankingRepository rankingRepository, IPlayerGameStatisticsRepository playerGameStatisticsRepository, IUnitOfWork unitOfWork)
+        public RankingService(IGameRepository gameRepository, IShotRepository shotRepository, IPlayerRepository playerRepository, IRankingRepository rankingRepository, IPlayerGameStatisticsRepository playerGameStatisticsRepository)
         {
             _gameRepository = gameRepository;
             _shotRepository = shotRepository;
             _playerRepository = playerRepository;
             _rankingRepository = rankingRepository;
             _playerGameStatisticsRepository = playerGameStatisticsRepository;
-            _unitOfWork = unitOfWork;
         }
 
         public IEnumerable<Ranking> GetRankings(int month, int year)
@@ -141,7 +138,7 @@ namespace BolfTracker.Services
                 _rankingRepository.Add(ranking);
             }
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         private int DetermineEligibilityLine(IEnumerable<Game> games, IEnumerable<Player> players, IEnumerable<PlayerGameStatistics> playerGameStatistics)

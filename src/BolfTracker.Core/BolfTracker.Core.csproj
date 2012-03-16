@@ -41,7 +41,6 @@
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Common\CheckArgument.cs" />
-    <Compile Include="Infrastructure\IUnitOfWork.cs" />
     <Compile Include="Models\Game.cs" />
     <Compile Include="Models\GameStatistics.cs" />
     <Compile Include="Models\Hole.cs" />

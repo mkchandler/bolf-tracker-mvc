@@ -3,7 +3,7 @@ using System.Data.Entity.ModelConfiguration;
 
 using BolfTracker.Models;
 
-namespace BolfTracker.Infrastructure.EntityFramework.Configuration
+namespace BolfTracker.Infrastructure.EntityFramework
 {
     public class GameConfiguration : EntityTypeConfiguration<Game>
     {

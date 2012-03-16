@@ -11,5 +11,7 @@ namespace BolfTracker.Repositories
         IEnumerable<Player> GetByGame(int gameId);
 
         IEnumerable<Player> GetActiveByMonthAndYear(int month, int year);
+
+        void Update(Player player);
     }
 }

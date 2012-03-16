@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using BolfTracker.Infrastructure;
 using BolfTracker.Models;
 using BolfTracker.Repositories;
 
@@ -19,7 +18,6 @@ namespace BolfTracker.Services
         private readonly IGameStatisticsRepository _gameStatisticsRepository;
         private readonly IPlayerGameStatisticsRepository _playerGameStatisticsRepository;
         private readonly IPlayerCareerStatisticsRepository _playerCareerStatisticsRepository;
-        private readonly IUnitOfWork _unitOfWork;
 
         // TODO: Really need to figure out a better way to do this
         private const int ShotTypeMake = 1;
@@ -28,7 +26,7 @@ namespace BolfTracker.Services
         private const int ShotTypeSteal = 4;
         private const int ShotTypeSugarFreeSteal = 5;
 
-        public PlayerService(IPlayerRepository playerRepository, IHoleRepository holeRepository, IShotRepository shotRepository, IGameRepository gameRepository, IPlayerStatisticsRepository playerStatisticsRepository, IPlayerHoleStatisticsRepository playerHoleStatisticsRepository, IGameStatisticsRepository gameStatisticsRepository, IPlayerGameStatisticsRepository playerGameStatisticsRepository, IPlayerCareerStatisticsRepository playerCareerStatisticsRepository, IUnitOfWork unitOfWork)
+        public PlayerService(IPlayerRepository playerRepository, IHoleRepository holeRepository, IShotRepository shotRepository, IGameRepository gameRepository, IPlayerStatisticsRepository playerStatisticsRepository, IPlayerHoleStatisticsRepository playerHoleStatisticsRepository, IGameStatisticsRepository gameStatisticsRepository, IPlayerGameStatisticsRepository playerGameStatisticsRepository, IPlayerCareerStatisticsRepository playerCareerStatisticsRepository)
         {
             _playerRepository = playerRepository;
             _holeRepository = holeRepository;
@@ -39,7 +37,6 @@ namespace BolfTracker.Services
             _gameStatisticsRepository = gameStatisticsRepository;
             _playerGameStatisticsRepository = playerGameStatisticsRepository;
             _playerCareerStatisticsRepository = playerCareerStatisticsRepository;
-            _unitOfWork = unitOfWork;
         }
 
         public Player GetPlayer(int id)
@@ -61,7 +58,6 @@ namespace BolfTracker.Services
             var player = new Player() { Name = name };
 
             _playerRepository.Add(player);
-            _unitOfWork.Commit();
 
             return player;
         }
@@ -69,10 +65,9 @@ namespace BolfTracker.Services
         public Player Update(int id, string name)
         {
             var player = _playerRepository.GetById(id);
-
             player.Name = name;
 
-            _unitOfWork.Commit();
+            _playerRepository.Update(player);
 
             return player;
         }
@@ -82,8 +77,6 @@ namespace BolfTracker.Services
             Check.Argument.IsNotZeroOrNegative(id, "id");
 
             _playerRepository.Delete(_playerRepository.GetById(id));
-
-            _unitOfWork.Commit();
         }
 
         public void CalculatePlayerStatistics()
@@ -130,8 +123,6 @@ namespace BolfTracker.Services
             }
 
             CalculatePlayerHoleStatistics(month, year);
-
-            _unitOfWork.Commit();
         }
 
         private void CalculatePlayerCareerStatistics(Player player)
@@ -140,8 +131,6 @@ namespace BolfTracker.Services
 
             var playerCareerStatistics = CalculatePlayerCareerStatistics(player, playerCareerGameStatistics);
             _playerCareerStatisticsRepository.Add(playerCareerStatistics);
-
-            _unitOfWork.Commit();
         }
 
         public void CalculatePlayerHoleStatistics(int month, int year)
@@ -182,8 +171,6 @@ namespace BolfTracker.Services
                     }
                 }
             }
-
-            _unitOfWork.Commit();
         }
 
         public PlayerStatistics GetPlayerStatistics(int playerId, int month, int year)
@@ -243,7 +230,7 @@ namespace BolfTracker.Services
 
         public IEnumerable<PlayerCareerStatistics> GetPlayerCareerStatistics()
         {
-            return _playerCareerStatisticsRepository.All().ToList();
+            return _playerCareerStatisticsRepository.All();
         }
 
         public IEnumerable<PlayerHoleStatistics> GetPlayerHoleStatistics(int month, int year)

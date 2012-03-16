@@ -1,5 +1,4 @@
-﻿using BolfTracker.Infrastructure;
-using BolfTracker.Repositories;
+﻿using BolfTracker.Repositories;
 using BolfTracker.Services;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -17,7 +16,6 @@ namespace BolfTracker.UnitTests.Services
         private Mock<IPlayerStatisticsRepository> _playerStatisticsRepository;
         private Mock<IPlayerHoleStatisticsRepository> _playerHoleStatisticsRepository;
         private Mock<IGameStatisticsRepository> _gameStatisticsRepository;
-        private Mock<IUnitOfWork> _unitOfWork;
 
         //private PlayerService _playerService;
 
@@ -28,9 +26,6 @@ namespace BolfTracker.UnitTests.Services
             _playerStatisticsRepository = new Mock<IPlayerStatisticsRepository>();
             _playerHoleStatisticsRepository = new Mock<IPlayerHoleStatisticsRepository>();
             _gameStatisticsRepository = new Mock<IGameStatisticsRepository>();
-            _unitOfWork = new Mock<IUnitOfWork>();
-
-            //_playerService = new PlayerService(_playerRepository.Object, _playerStatisticsRepository.Object, _playerHoleStatisticsRepository.Object, _gameStatisticsRepository.Object, _unitOfWork.Object);
         }
 
         [TestMethod]
