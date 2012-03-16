@@ -1,37 +1,84 @@
 ﻿using System.Collections.Generic;
+using System.Data;
 using System.Data.Entity;
 using System.Linq;
 
 using BolfTracker.Models;
 using BolfTracker.Repositories;
 
+using Dapper;
+
 namespace BolfTracker.Infrastructure.EntityFramework
 {
-    public class ShotRepository : RepositoryBase<Shot>, IShotRepository
+    public class ShotRepository : IShotRepository
     {
-        public ShotRepository(IDatabaseFactory databaseFactory) : base(databaseFactory)
+        public Shot GetById(int id)
         {
+            using (var context = new BolfTrackerContext())
+            {
+                var shot = context.Shots.SingleOrDefault(s => s.Id == id);
+
+                return shot;
+            }
         }
 
         public IEnumerable<Shot> GetByGame(int gameId)
         {
-            var shots = Database.Shots.Include(shot => shot.ShotType).Include(shot => shot.Hole).Include(shot => shot.Player).Include(shot => shot.Player).Where(shot => shot.Game.Id == gameId).ToList();
+            using (var context = new BolfTrackerContext())
+            {
+                var shots = context.Shots.Include(shot => shot.ShotType).Include(shot => shot.Hole).Include(shot => shot.Player).Include(shot => shot.Game).Where(shot => shot.Game.Id == gameId).ToList();
 
-            return shots;
+                return shots;
+            }
         }
 
         public IEnumerable<Shot> GetByMonthAndYear(int month, int year)
         {
-            var shots = Database.Shots.Include(shot => shot.ShotType).Include(shot => shot.Hole).Include(shot => shot.Player).Where(shot => shot.Game.Date.Month == month && shot.Game.Date.Year == year).ToList();
+            using (var context = new BolfTrackerContext())
+            {
+                var shots = context.Shots.Include(shot => shot.ShotType).Include(shot => shot.Hole).Include(shot => shot.Player).Include(shot => shot.Game).Where(shot => shot.Game.Date.Month == month && shot.Game.Date.Year == year).ToList();
 
-            return shots;
+                return shots;
+            }
         }
 
         public IEnumerable<Shot> GetByGameAndPlayer(int gameId, int playerId)
         {
-            var shots = Database.Shots.Include(shot => shot.ShotType).Include(shot => shot.Hole).Include(shot => shot.Player).Where(shot => shot.Game.Id == gameId && shot.Player.Id == playerId).ToList();
+            using (var context = new BolfTrackerContext())
+            {
+                var shots = context.Shots.Include(shot => shot.ShotType).Include(shot => shot.Hole).Include(shot => shot.Player).Include(shot => shot.Game).Where(shot => shot.Game.Id == gameId && shot.Player.Id == playerId).ToList();
 
-            return shots;
+                return shots;
+            }
+        }
+
+        public IEnumerable<Shot> All()
+        {
+            using (var context = new BolfTrackerContext())
+            {
+                return context.Shots.ToList();
+            }
+        }
+
+        public void Add(Shot model)
+        {
+            using (var context = new BolfTrackerContext())
+            {
+                // Add the actual shot data to the database
+                context.Shots.Attach(model);
+                context.Entry(model).State = EntityState.Added;
+                context.SaveChanges();
+            }
+        }
+
+        public void Delete(int id)
+        {
+            using (var connection = BolfTrackerDbConnection.GetProfiledConnection())
+            {
+                connection.Open();
+
+                connection.Execute("DELETE FROM Shot WHERE Id = @Id", new { Id = id });
+            }
         }
     }
 }

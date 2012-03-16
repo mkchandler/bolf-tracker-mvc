@@ -3,11 +3,11 @@ using System.Data.Entity.ModelConfiguration;
 
 using BolfTracker.Models;
 
-namespace BolfTracker.Infrastructure.EntityFramework.Configuration
+namespace BolfTracker.Infrastructure.EntityFramework
 {
     public class RankingConfiguration : EntityTypeConfiguration<Ranking>
     {
-        public RankingConfiguration()
+        public RankingConfiguration() : base()
         {
             HasKey(r => r.Id);
 

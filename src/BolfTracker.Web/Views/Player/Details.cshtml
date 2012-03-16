@@ -3,11 +3,7 @@
   ViewBag.Title = Model.Player.Name + " - Bolf Tracker";
 }
 <div class="page-header">
-  <div class="row">
-    <div class="span16">
-      <h1>@Model.Player.Name</h1>
-    </div>
-  </div>
+  <h1>@Model.Player.Name</h1>
 </div>
 <h2>
   Monthly Statistics</h2>
@@ -44,7 +40,7 @@ else
 }
 @section javascript
 {
-  <script src="@Url.Content("~/scripts/jquery.tablesorter.min.js")" type="text/javascript"></script>
+  <script src="@Url.Content("~/js/jquery.tablesorter.min.js")" type="text/javascript"></script>
   <script type="text/javascript">
     $("#monthly-stats, #hole-stats").tablesorter();
   </script>

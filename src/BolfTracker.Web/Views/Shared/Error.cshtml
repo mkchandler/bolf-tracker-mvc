@@ -2,17 +2,17 @@
 @{
   ViewBag.Title = "Error - Bolf Tracker";
 }
-<h1>
-  Uh oh, something bad happened.</h1>
-<h2>
-  I would blame Chris.</h2>
+<h1>Uh oh, something bad happened.</h1>
+<h2>I would blame Chris.</h2>
 @if (HttpContext.Current.Request.IsLocal)
 { 
   <hr />
   <p>
-    <strong>Message</strong></p>
+    <strong>Message</strong>
+  </p>
   <pre>@Model.Exception.Message</pre>
   <p>
-    <strong>Stack Trace</strong></p>
+    <strong>Stack Trace</strong>
+  </p>
   <pre>@Model.Exception.StackTrace</pre>
-} 
+}

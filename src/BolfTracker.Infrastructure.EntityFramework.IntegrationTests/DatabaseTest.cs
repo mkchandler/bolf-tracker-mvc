@@ -6,9 +6,6 @@ namespace BolfTracker.Infrastructure.EntityFramework.IntegrationTests
 {
     public abstract class DatabaseTest : IDisposable
     {
-        protected readonly DatabaseFactory DatabaseFactory;
-        protected readonly UnitOfWork UnitOfWork;
-
         protected DatabaseTest()
         {
             ConnectionStringSettings connectionStringSettings = ConfigurationManager.ConnectionStrings["BolfTracker"];
@@ -17,10 +14,6 @@ namespace BolfTracker.Infrastructure.EntityFramework.IntegrationTests
             var connectionString = connectionStringSettings.ConnectionString;
 
             var providerFactory = DbProviderFactories.GetFactory(providerName);
-
-            DatabaseFactory = new DatabaseFactory(providerFactory, connectionString);
-
-            UnitOfWork = new UnitOfWork(DatabaseFactory);
         }
 
         public virtual void Dispose()

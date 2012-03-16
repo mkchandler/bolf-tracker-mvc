@@ -3,15 +3,11 @@
   ViewBag.Title = "Holes - Bolf Tracker";
 }
 <div class="page-header">
-  <div class="row">
-    <div class="span8">
-      <h1>
-        Hole Statistics</h1>
-    </div>
-  </div>
+  <h1>
+    Hole Statistics</h1>
 </div>
 <h2>@Model.MonthName @Model.Year Hole Statistics</h2>
-<table class="condensed-table bordered-table striped-table" id="current-month-stats">
+<table class="table table-condensed table-bordered table-striped" id="current-month-stats">
   <thead>
     <tr>
       <th title="Hole">
@@ -137,7 +133,7 @@
 </table>*@
 @section javascript
 {
-  <script src="@Url.Content("~/scripts/jquery.tablesorter.min.js")" type="text/javascript"></script>
+  <script src="@Url.Content("~/js/jquery.tablesorter.min.js")" type="text/javascript"></script>
   <script type="text/javascript">
     $("#current-month-stats, #lifetime-stats").tablesorter();
   </script>

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
 using System.Linq;
 
 using BolfTracker.Models;
@@ -9,15 +11,21 @@ using Dapper;
 
 namespace BolfTracker.Infrastructure.EntityFramework
 {
-    public class GameRepository : RepositoryBase<Game>, IGameRepository
+    public class GameRepository : IGameRepository
     {
-        public GameRepository(IDatabaseFactory databaseFactory) : base(databaseFactory)
+        public Game GetById(int id)
         {
+            using (var context = new BolfTrackerContext())
+            {
+                var game = context.Games.Include(g => g.GameStatistics).SingleOrDefault(g => g.Id == id);
+
+                return game;
+            }
         }
 
         public IEnumerable<Tuple<int, int>> GetActiveMonthsAndYears()
         {
-            using (var connection = DatabaseFactory.GetProfiledConnection())
+            using (var connection = BolfTrackerDbConnection.GetProfiledConnection())
             {
                 connection.Open();
 
@@ -37,7 +45,7 @@ namespace BolfTracker.Infrastructure.EntityFramework
 
         public IEnumerable<Game> GetAllFinalized()
         {
-            using (var connection = DatabaseFactory.GetProfiledConnection())
+            using (var connection = BolfTrackerDbConnection.GetProfiledConnection())
             {
                 connection.Open();
 
@@ -51,7 +59,7 @@ namespace BolfTracker.Infrastructure.EntityFramework
 
         public IEnumerable<Game> GetByMonthAndYear(int month, int year)
         {
-            using (var connection = DatabaseFactory.GetProfiledConnection())
+            using (var connection = BolfTrackerDbConnection.GetProfiledConnection())
             {
                 connection.Open();
 
@@ -65,7 +73,7 @@ namespace BolfTracker.Infrastructure.EntityFramework
 
         public IEnumerable<Game> GetFinalizedByMonthAndYear(int month, int year)
         {
-            using (var connection = DatabaseFactory.GetProfiledConnection())
+            using (var connection = BolfTrackerDbConnection.GetProfiledConnection())
             {
                 connection.Open();
 
@@ -74,6 +82,33 @@ namespace BolfTracker.Infrastructure.EntityFramework
                 var games = connection.Query<Game>(query, new { Month = month, Year = year }).ToList();
 
                 return games;
+            }
+        }
+
+        public IEnumerable<Game> All()
+        {
+            using (var context = new BolfTrackerContext())
+            {
+                return context.Games.ToList();
+            }
+        }
+
+        public void Add(Game model)
+        {
+            using (var context = new BolfTrackerContext())
+            {
+                context.Games.Attach(model);
+                context.Entry(model).State = EntityState.Added;
+                context.SaveChanges();
+            }
+        }
+
+        public void Delete(Game model)
+        {
+            using (var context = new BolfTrackerContext())
+            {
+                context.Games.Remove(model);
+                context.SaveChanges();
             }
         }
     }

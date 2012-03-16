@@ -2,15 +2,16 @@
 @{
   ViewBag.Title = "Edit Player - Bolf Tracker";
 }
-<h1>
-  Edit Player</h1>
-@using (Html.BeginForm("Edit", "Player", FormMethod.Post, new { @class = "form-stacked" }))
+<div class="page-header">
+  <h1>
+    Edit Player</h1>
+</div>
+@using (Html.BeginForm("Edit", "Player", FormMethod.Post))
 {
-  <fieldset>
-    <legend></legend>
-    @Html.HiddenFor(model => model.Id)
-    @Html.LabelFor(model => model.Name)
-    @Html.EditorFor(model => model.Name)
-  </fieldset>
-  <input type="submit" value="Save" class="btn primary" />
+  @Html.HiddenFor(model => model.Id)
+  @Html.LabelFor(model => model.Name)
+  @Html.EditorFor(model => model.Name)
+  <div>
+    <input type="submit" class="btn btn-primary" value="Save" />
+  </div>
 } 

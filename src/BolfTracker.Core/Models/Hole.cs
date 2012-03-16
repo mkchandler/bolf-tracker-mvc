@@ -17,30 +17,30 @@ namespace BolfTracker.Models
         }
 
         [Required]
-        public virtual int Id
+        public int Id
         {
             get;
             set;
         }
 
         [Required]
-        public virtual int Par
+        public int Par
         {
             get;
             set;
         }
 
-        public virtual ICollection<Shot> Shots
+        public ICollection<Shot> Shots
         {
             get { return _shots; }
         }
 
-        public virtual ICollection<HoleStatistics> HoleStatistics
+        public ICollection<HoleStatistics> HoleStatistics
         {
             get { return _holeStatistics; }
         }
 
-        public virtual ICollection<PlayerHoleStatistics> PlayerHoleStatistics
+        public ICollection<PlayerHoleStatistics> PlayerHoleStatistics
         {
             get { return _playerHoleStatistics; }
         }

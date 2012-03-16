@@ -21,13 +21,13 @@ namespace BolfTracker.Models
             _rankings = new List<Ranking>();
         }
 
-        public virtual int Id
+        public int Id
         {
             get;
             set;
         }
 
-        public virtual string Name
+        public string Name
         {
             get;
             set;
@@ -41,38 +41,38 @@ namespace BolfTracker.Models
             }
         }
         
-        public virtual string Initials
+        public string Initials
         {
             get;
             set;
         }
 
-        public virtual ICollection<Shot> Shots
+        public ICollection<Shot> Shots
         {
             get { return _shots; }
         }
 
-        public virtual ICollection<PlayerStatistics> PlayerStatistics
+        public ICollection<PlayerStatistics> PlayerStatistics
         {
             get { return _playerStatistics; }
         }
 
-        public virtual ICollection<PlayerHoleStatistics> PlayerHoleStatistics
+        public ICollection<PlayerHoleStatistics> PlayerHoleStatistics
         {
             get { return _playerHoleStatistics; }
         }
 
-        public virtual ICollection<PlayerGameStatistics> PlayerGameStatistics
+        public ICollection<PlayerGameStatistics> PlayerGameStatistics
         {
             get { return _playerGameStatistics; }
         }
 
-        public virtual ICollection<PlayerCareerStatistics> PlayerCareerStatistics
+        public ICollection<PlayerCareerStatistics> PlayerCareerStatistics
         {
             get { return _playerCareerStatistics; }
         }
 
-        public virtual ICollection<Ranking> Rankings
+        public ICollection<Ranking> Rankings
         {
             get { return _rankings; }
         }
