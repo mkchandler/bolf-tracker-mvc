@@ -162,6 +162,8 @@ namespace BolfTracker.Services
 
             shot.Points = points;
             shot.ShotType = shotType;
+
+            _shotRepository.Update(shot);
         }
 
         public void Delete(int id)
