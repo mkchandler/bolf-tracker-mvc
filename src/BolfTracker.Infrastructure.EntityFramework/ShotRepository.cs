@@ -74,6 +74,7 @@ namespace BolfTracker.Infrastructure.EntityFramework
         {
             using (var context = new BolfTrackerContext())
             {
+                context.Shots.Attach(shot);
                 context.Entry<Shot>(shot).State = EntityState.Modified;
                 context.SaveChanges();
             }
