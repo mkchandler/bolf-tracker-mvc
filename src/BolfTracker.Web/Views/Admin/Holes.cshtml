@@ -5,8 +5,7 @@
 <div class="page-header">
   <div class="row">
     <div class="span8">
-      <h1>
-        League Manager</h1>
+      <h1>League Manager</h1>
     </div>
   </div>
 </div>
@@ -20,24 +19,16 @@
     <table class="table table-condensed table-bordered table-striped">
       <thead>
         <tr>
-          <th>
-            Number
-          </th>
-          <th>
-            Par
-          </th>
+          <th>Number</th>
+          <th>Par</th>
         </tr>
       </thead>
       <tbody>
         @foreach (var item in Model)
         {
           <tr>
-            <td>
-              @item.Id
-            </td>
-            <td>
-              @item.Par
-            </td>
+            <td>@item.Id</td>
+            <td>@item.Par</td>
           </tr>
         }
       </tbody>

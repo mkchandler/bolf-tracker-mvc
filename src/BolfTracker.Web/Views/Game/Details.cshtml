@@ -31,8 +31,10 @@
         using (Html.BeginForm("Create", "Score", FormMethod.Post))
         {
       @Html.HiddenFor(m => m.Game.Id)
-      <label for="player">Player</label>@Html.DropDownListFor(m => m.Player, Model.AllPlayers)
-      <label for="hole">Hole</label>@Html.DropDownListFor(m => m.Hole, Model.AllHoles, new { @id = "currentHole" })
+      <label for="player">Player</label>
+      @Html.DropDownListFor(m => m.Player, Model.AllPlayers)
+      <label for="hole">Hole</label>
+      @Html.DropDownListFor(m => m.Hole, Model.AllHoles, new { @id = "currentHole" })
       <label for="attempts">Attempts</label>
       <input type="number" name="attempts" id="attempts" autocomplete="off" />
       <label for="shotMade" class="checkbox">

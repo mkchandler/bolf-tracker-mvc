@@ -3,138 +3,41 @@
   ViewBag.Title = "Holes - Bolf Tracker";
 }
 <div class="page-header">
-  <h1>
-    Hole Statistics</h1>
+  <h1>Hole Statistics</h1>
 </div>
 <h2>@Model.MonthName @Model.Year Hole Statistics</h2>
 <table class="table table-condensed table-bordered table-striped" id="current-month-stats">
   <thead>
     <tr>
-      <th title="Hole">
-        Hole
-      </th>
-      <th title="Shots Made">
-        Made
-      </th>
-      <th title="Attempts">
-        Attempts
-      </th>
-      <th title="Shooting Percentage">
-        Shooting %
-      </th>
-      <th title="Points">
-        Points
-      </th>
-      <th title="Pushes">
-        Pushes
-      </th>
-      <th title="Steals">
-        Steals
-      </th>
-      <th title="Sugar Free Steals">
-        SFS
-      </th>
+      <th title="Hole">Hole</th>
+      <th title="Shots Made">Made</th>
+      <th title="Attempts">Attempts</th>
+      <th title="Shooting Percentage">Shooting %</th>
+      <th title="Points">Points</th>
+      <th title="Pushes">Pushes</th>
+      <th title="Steals">Steals</th>
+      <th title="Sugar Free Steals">SFS</th>
     </tr>
   </thead>
   <tbody>
     @foreach (var item in Model.MonthHoleStatistics)
     {
       <tr>
-        <td>
-          @item.Hole.Id
-        </td>
-        <td>
-          @item.ShotsMade
-        </td>
-        <td>
-          @item.Attempts
-        </td>
-        <td>
-          @item.ShootingPercentage
-        </td>
-        <td>
-          @item.PointsScored
-        </td>
-        <td>
-          @item.Pushes
-        </td>
-        <td>
-          @item.Steals
-        </td>
-        <td>
-          @item.SugarFreeSteals
-        </td>
+        <td>@item.Hole.Id</td>
+        <td>@item.ShotsMade</td>
+        <td>@item.Attempts</td>
+        <td>@item.ShootingPercentage</td>
+        <td>@item.PointsScored</td>
+        <td>@item.Pushes</td>
+        <td>@item.Steals</td>
+        <td>@item.SugarFreeSteals</td>
       </tr>
     }
   </tbody>
 </table>
-@*<h2>
-  Lifetime Hole Statistics</h2>
-<table class="condensed-table bordered-table striped-table" id="lifetime-stats">
-  <thead>
-    <tr>
-      <th title="Hole">
-        Hole
-      </th>
-      <th title="Shots Made">
-        Made
-      </th>
-      <th title="Attempts">
-        Attempts
-      </th>
-      <th title="Shooting Percentage">
-        Shooting %
-      </th>
-      <th title="Points">
-        Points
-      </th>
-      <th title="Pushes">
-        Pushes
-      </th>
-      <th title="Steals">
-        Steals
-      </th>
-      <th title="Sugar Free Steals">
-        SFS
-      </th>
-    </tr>
-  </thead>
-  <tbody>
-    @foreach (var item in Model.LifetimeHoleStatistics)
-    {
-      <tr>
-        <td>
-          
-        </td>
-        <td>
-          @item.ShotsMade
-        </td>
-        <td>
-          @item.Attempts
-        </td>
-        <td>
-          @String.Format("{0:#.###}", item.ShootingPercentage)
-        </td>
-        <td>
-          @item.PointsScored
-        </td>
-        <td>
-          @item.Pushes
-        </td>
-        <td>
-          @item.Steals
-        </td>
-        <td>
-          @item.SugarFreeSteals
-        </td>
-      </tr>
-    }
-  </tbody>
-</table>*@
-@section javascript
-{
+@section javascript {
   <script src="@Url.Content("~/js/jquery.tablesorter.min.js")" type="text/javascript"></script>
   <script type="text/javascript">
-    $("#current-month-stats, #lifetime-stats").tablesorter();
+  $("#current-month-stats, #lifetime-stats").tablesorter();
   </script>
 }
