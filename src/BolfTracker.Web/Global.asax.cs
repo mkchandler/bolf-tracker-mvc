@@ -45,8 +45,6 @@ namespace BolfTracker.Web
 
             routes.MapRoute("Statistics", "stats", new { controller = "Statistics", action = "Index" });
 
-            //routes.MapRoute("Landing", "", new { controller = "Home", action = "Index" });
-
             routes.MapRoute("Default", "{controller}/{action}", new { controller = "Home", action = "Index" });
         }
 
@@ -65,9 +63,6 @@ namespace BolfTracker.Web
             IUnityContainer container = GetUnityContainer();
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }
-
-        //private static readonly Func<LifetimeManager> transient = () => new TransientLifetimeManager();
-        //private static readonly Func<LifetimeManager> singleton = () => new ContainerControlledLifetimeManager();
 
         private IUnityContainer GetUnityContainer()
         {
@@ -94,13 +89,6 @@ namespace BolfTracker.Web
                      .RegisterType<IPlayerGameStatisticsRepository, PlayerGameStatisticsRepository>(new HttpContextLifetimeManager<IPlayerGameStatisticsRepository>())
                      .RegisterType<IPlayerCareerStatisticsRepository, PlayerCareerStatisticsRepository>(new HttpContextLifetimeManager<IPlayerCareerStatisticsRepository>())
                      .RegisterType<IShotTypeRepository, ShotTypeRepository>(new HttpContextLifetimeManager<IShotTypeRepository>());
-
-            // Set up and register the database provider
-            //ConnectionStringSettings connectionStringSettings = ConfigurationManager.ConnectionStrings["BolfTracker"];
-            //DbProviderFactory databaseProviderFactory = DbProviderFactories.GetFactory(connectionStringSettings.ProviderName);
-
-            //container.RegisterInstance(databaseProviderFactory);
-            //container.RegisterType<IDatabaseFactory, DatabaseFactory>(new HttpContextLifetimeManager<IDatabaseFactory>(), new InjectionConstructor(typeof(DbProviderFactory), connectionStringSettings.ConnectionString));
 
             return container;
         }
