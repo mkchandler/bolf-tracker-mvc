@@ -141,17 +141,16 @@ else
     Game has not started.
   </p> 
 }
-@section javascript
-{
+@section javascript {
   <script type="text/javascript">
   var par = 0;
   var lastAttempt = 0;
         @{
           var currentHole = Model.GetCurrentHole();
           @:par = @Model.Holes.FirstOrDefault(h => h.Id == currentHole).Par;
-          if (Model.Game.Shots.Any())
+          if (Model.Shots.Any())
           {
-            var lastShotAttempt = Model.Game.Shots.LastOrDefault(s => s.Hole.Id == currentHole);
+            var lastShotAttempt = Model.Shots.LastOrDefault(s => s.Hole.Id == currentHole);
             if (lastShotAttempt != null)
             {
               @:lastAttempt = @lastShotAttempt.Attempts;
