@@ -53,7 +53,7 @@
       @foreach (var ranking in Model.IneligibleRankings)
       { 
         <tr>
-          <td>@Html.ActionLink(ranking.Player.Name, "Details", "Player", new { id = ranking.Player.Id }, null)</td>
+          <td>@Html.ActionLink(ranking.Player.Name, "Details", "Player", new { id = ranking.Player.Id, name = ranking.Player.UrlFriendlyName }, null)</td>
           <td style="text-align: right">@ranking.Wins</td>
           <td style="text-align: right">@ranking.Losses</td>
           <td style="text-align: right">@ranking.WinningPercentage</td>
@@ -70,6 +70,8 @@
 @section javascript {
   <script src="@Url.Content("~/js/jquery.tablesorter.min.js")" type="text/javascript"></script>
   <script type="text/javascript">
-  $("#rankings").tablesorter();
+  $(function() {
+    $("#rankings").tablesorter()
+  }
   </script>
 }
