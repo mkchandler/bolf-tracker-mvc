@@ -41,6 +41,8 @@ else
 @section javascript {
   <script src="@Url.Content("~/js/jquery.tablesorter.min.js")" type="text/javascript"></script>
   <script type="text/javascript">
-  $("#monthly-stats, #hole-stats").tablesorter();
+  $(function () {
+    $("#monthly-stats, #hole-stats").tablesorter();
+  });
   </script>
 }
