@@ -16,7 +16,9 @@ namespace BolfTracker.Repositories
 
         IEnumerable<Shot> All();
 
-        void Add(Shot model);
+        void Add(Shot shot);
+
+        void Update(Shot shot);
 
         void Delete(int id);
     }

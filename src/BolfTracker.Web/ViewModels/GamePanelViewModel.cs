@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Objects;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -357,7 +356,7 @@ namespace BolfTracker.Web
                     {
                         var playerShots = Shots.Where(s => s.Player.Id == player.Id).ToList();
 
-                        leaderboard.Add(new LeaderboardViewModel(player, playerShots, Game));
+                        leaderboard.Add(new LeaderboardViewModel(player, playerShots, Game, Shots));
                     }
 
                     _leaderboard = leaderboard.OrderByDescending(l => l.Points);
@@ -408,15 +407,15 @@ namespace BolfTracker.Web
 
     public class LeaderboardViewModel
     {
-        public LeaderboardViewModel(Player player, IEnumerable<Shot> playerShots, Game game)
+        public LeaderboardViewModel(Player player, IEnumerable<Shot> playerShots, Game game, IEnumerable<Shot> shots)
         {
             Player = player;
             Points = playerShots.Sum(s => s.Points);
             ShotsMade = playerShots.Count(s => s.ShotMade);
             Attempts = playerShots.Sum(s => s.Attempts);
             ShootingPercentage = Decimal.Round(Convert.ToDecimal(ShotsMade) / Convert.ToDecimal(Attempts), 2, MidpointRounding.AwayFromZero);
-            Steals = game.Shots.Count(s => s.Player.Id == player.Id && (s.ShotType.Id == 4 || s.ShotType.Id == 5));
-            Pushes = game.Shots.Count(s => s.Player.Id == player.Id && s.ShotType.Id == 3);
+            Steals = shots.Count(s => s.Player.Id == player.Id && (s.ShotType.Id == 4 || s.ShotType.Id == 5));
+            Pushes = shots.Count(s => s.Player.Id == player.Id && s.ShotType.Id == 3);
         }
 
         public Player Player

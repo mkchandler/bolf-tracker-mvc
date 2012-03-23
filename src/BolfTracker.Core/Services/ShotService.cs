@@ -49,15 +49,16 @@ namespace BolfTracker.Services
         public void Create(int gameId, int playerId, int holeId, int attempts, bool shotMade)
         {
             var game = _gameRepository.GetById(gameId);
+            var shots = _shotRepository.GetByGame(gameId);
             var player = _playerRepository.GetById(playerId);
             var hole = _holeRepository.GetById(holeId);
 
             var allHoles = _holeRepository.All();
             var allShotTypes = _shotTypeRepository.All();
 
-            int playerCurrentPoints = game.Shots.Where(s => s.Player.Id == player.Id).Sum(s => s.Points);
+            int playerCurrentPoints = shots.Where(s => s.Player.Id == player.Id).Sum(s => s.Points);
             int totalPoints = allHoles.Where(h => h.Id <= hole.Id).Sum(h => h.Par);
-            int totalPointsTaken = game.Shots.Sum(s => s.Points);
+            int totalPointsTaken = shots.Sum(s => s.Points);
             int pointsAvailable = totalPoints - totalPointsTaken;
 
             var currentShot = new Shot
@@ -70,7 +71,7 @@ namespace BolfTracker.Services
             };
 
             // If first shot of the game, logic is easy
-            if (!game.Shots.Any())
+            if (!shots.Any())
             {
                 if (currentShot.ShotMade)
                 {
@@ -90,10 +91,10 @@ namespace BolfTracker.Services
                 if (currentShot.ShotMade)
                 {
                     // First lets check if it is the first shot of the current hole
-                    if (game.Shots.Any(s => s.Hole.Id == currentShot.Hole.Id && s.ShotMade == true))
+                    if (shots.Any(s => s.Hole.Id == currentShot.Hole.Id && s.ShotMade == true))
                     {
                         // If it's not the first shot, figure out if it is a push
-                        var currentLowestShotMade = game.Shots.Where(s => s.Hole.Id == currentShot.Hole.Id && s.ShotMade == true).OrderBy(s => s.Attempts).First();
+                        var currentLowestShotMade = shots.Where(s => s.Hole.Id == currentShot.Hole.Id && s.ShotMade == true).OrderBy(s => s.Attempts).First();
 
                         if (currentLowestShotMade.Attempts == currentShot.Attempts)
                         {
@@ -110,19 +111,19 @@ namespace BolfTracker.Services
                             // TODO: Need to account for StainlessSteals here
 
                             // First figure out if the hole had been pushed, because then it will be a "Sugar-Free Steal"
-                            if (game.Shots.Any(s => s.Hole.Id == currentShot.Hole.Id && s.ShotType.Id == ShotTypePush))
+                            if (shots.Any(s => s.Hole.Id == currentShot.Hole.Id && s.ShotType.Id == ShotTypePush))
                             {
                                 // This is a sugar-free steal
                                 currentShot.ShotType = allShotTypes.Single(st => st.Id == ShotTypeSugarFreeSteal);
                                 currentShot.Points = pointsAvailable;
 
                                 // Reset the person who had a push to just be a "Make" now
-                                var playerWithPush = game.Shots.Single(s => s.Hole.Id == currentShot.Hole.Id && s.ShotType.Id == ShotTypePush);
+                                var playerWithPush = shots.Single(s => s.Hole.Id == currentShot.Hole.Id && s.ShotType.Id == ShotTypePush);
                                 Update(playerWithPush.Id, 0, allShotTypes.Single(st => st.Id == ShotTypeMake));
                             }
                             else
                             {
-                                var playerWithPoints = game.Shots.Single(s => s.Hole.Id == currentShot.Hole.Id && s.Points > 0);
+                                var playerWithPoints = shots.Single(s => s.Hole.Id == currentShot.Hole.Id && s.Points > 0);
                                 
                                 // This is a regular steal
                                 currentShot.ShotType = allShotTypes.Single(st => st.Id == ShotTypeSteal);
@@ -162,6 +163,8 @@ namespace BolfTracker.Services
 
             shot.Points = points;
             shot.ShotType = shotType;
+
+            _shotRepository.Update(shot);
         }
 
         public void Delete(int id)

@@ -60,14 +60,23 @@ namespace BolfTracker.Infrastructure.EntityFramework
             }
         }
 
-        public void Add(Shot model)
+        public void Add(Shot shot)
         {
             using (var context = new BolfTrackerContext())
             {
-                // Add the actual shot data to the database
-                context.Shots.Attach(model);
-                context.Entry(model).State = EntityState.Added;
+                context.Shots.Attach(shot);
+                context.Entry(shot).State = EntityState.Added;
                 context.SaveChanges();
+            }
+        }
+
+        public void Update(Shot shot)
+        {
+            using (var connection = BolfTrackerDbConnection.GetProfiledConnection())
+            {
+                connection.Open();
+
+                connection.Execute("UPDATE Shot SET Points = @Points, ShotTypeId = @ShotTypeId WHERE Id = @Id", new { Id = shot.Id, Points = shot.Points, ShotTypeId = shot.ShotType.Id });
             }
         }
 

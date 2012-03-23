@@ -5,8 +5,7 @@
 <div class="page-header">
   <div class="row">
     <div class="span8">
-      <h1>
-        League Manager</h1>
+      <h1>League Manager</h1>
     </div>
   </div>
 </div>
@@ -20,23 +19,16 @@
     <table class="table table-condensed table-bordered table-striped">
       <thead>
         <tr>
-          <th>
-            Name
-          </th>
-          <th>
-          </th>
+          <th>Name</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
         @foreach (var player in Model)
         {
           <tr>
-            <td>
-              @Html.ActionLink(player.Name, "Details", "Player", new { id = player.Id, name = player.UrlFriendlyName }, null)
-            </td>
-            <td>
-              @Html.ActionLink("Edit", "Edit", "Player", new { id = player.Id }, null)
-            </td>
+            <td>@Html.ActionLink(player.Name, "Details", "Player", new { id = player.Id, name = player.UrlFriendlyName }, null)</td>
+            <td>@Html.ActionLink("Edit", "Edit", "Player", new { id = player.Id }, null)</td>
           </tr>
         }
       </tbody>
