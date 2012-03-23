@@ -72,11 +72,11 @@ namespace BolfTracker.Infrastructure.EntityFramework
 
         public void Update(Shot shot)
         {
-            using (var context = new BolfTrackerContext())
+            using (var connection = BolfTrackerDbConnection.GetProfiledConnection())
             {
-                context.Shots.Attach(shot);
-                context.Entry<Shot>(shot).State = EntityState.Modified;
-                context.SaveChanges();
+                connection.Open();
+
+                connection.Execute("UPDATE Shot SET Points = @Points, ShotTypeId = @ShotTypeId WHERE Id = @Id", new { Id = shot.Id, Points = shot.Points, ShotTypeId = shot.ShotType.Id });
             }
         }
 
