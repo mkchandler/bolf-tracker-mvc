@@ -1,6 +1,4 @@
-﻿using System;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using System.Web.Routing;
 
 using BolfTracker.Infrastructure.EntityFramework;
@@ -69,51 +67,28 @@ namespace BolfTracker.Web
             IUnityContainer container = new UnityContainer();
 
             // Register all of the needed services
-            container.RegisterType<IPlayerService, PlayerService>(new HttpContextLifetimeManager<IPlayerService>())
-                     .RegisterType<IGameService, GameService>(new HttpContextLifetimeManager<IGameService>())
-                     .RegisterType<IHoleService, HoleService>(new HttpContextLifetimeManager<IHoleService>())
-                     .RegisterType<IShotService, ShotService>(new HttpContextLifetimeManager<IShotService>())
-                     .RegisterType<IShotTypeService, ShotTypeService>(new HttpContextLifetimeManager<IShotTypeService>())
-                     .RegisterType<IRankingService, RankingService>(new HttpContextLifetimeManager<IRankingService>());
+            container.RegisterType<IPlayerService, PlayerService>()
+                     .RegisterType<IGameService, GameService>()
+                     .RegisterType<IHoleService, HoleService>()
+                     .RegisterType<IShotService, ShotService>()
+                     .RegisterType<IShotTypeService, ShotTypeService>()
+                     .RegisterType<IRankingService, RankingService>();
 
             // Register all of the needed repositories
-            container.RegisterType<IGameRepository, GameRepository>(new HttpContextLifetimeManager<IGameRepository>())
-                     .RegisterType<IPlayerRepository, PlayerRepository>(new HttpContextLifetimeManager<IPlayerRepository>())
-                     .RegisterType<IHoleRepository, HoleRepository>(new HttpContextLifetimeManager<IHoleRepository>())
-                     .RegisterType<IShotRepository, ShotRepository>(new HttpContextLifetimeManager<IShotRepository>())
-                     .RegisterType<IRankingRepository, RankingRepository>(new HttpContextLifetimeManager<IRankingRepository>())
-                     .RegisterType<IGameStatisticsRepository, GameStatisticsRepository>(new HttpContextLifetimeManager<IGameStatisticsRepository>())
-                     .RegisterType<IPlayerStatisticsRepository, PlayerStatisticsRepository>(new HttpContextLifetimeManager<IPlayerStatisticsRepository>())
-                     .RegisterType<IHoleStatisticsRepository, HoleStatisticsRepository>(new HttpContextLifetimeManager<IHoleStatisticsRepository>())
-                     .RegisterType<IPlayerHoleStatisticsRepository, PlayerHoleStatisticsRepository>(new HttpContextLifetimeManager<IPlayerHoleStatisticsRepository>())
-                     .RegisterType<IPlayerGameStatisticsRepository, PlayerGameStatisticsRepository>(new HttpContextLifetimeManager<IPlayerGameStatisticsRepository>())
-                     .RegisterType<IPlayerCareerStatisticsRepository, PlayerCareerStatisticsRepository>(new HttpContextLifetimeManager<IPlayerCareerStatisticsRepository>())
-                     .RegisterType<IShotTypeRepository, ShotTypeRepository>(new HttpContextLifetimeManager<IShotTypeRepository>());
+            container.RegisterType<IGameRepository, GameRepository>()
+                     .RegisterType<IPlayerRepository, PlayerRepository>()
+                     .RegisterType<IHoleRepository, HoleRepository>()
+                     .RegisterType<IShotRepository, ShotRepository>()
+                     .RegisterType<IRankingRepository, RankingRepository>()
+                     .RegisterType<IGameStatisticsRepository, GameStatisticsRepository>()
+                     .RegisterType<IPlayerStatisticsRepository, PlayerStatisticsRepository>()
+                     .RegisterType<IHoleStatisticsRepository, HoleStatisticsRepository>()
+                     .RegisterType<IPlayerHoleStatisticsRepository, PlayerHoleStatisticsRepository>()
+                     .RegisterType<IPlayerGameStatisticsRepository, PlayerGameStatisticsRepository>()
+                     .RegisterType<IPlayerCareerStatisticsRepository, PlayerCareerStatisticsRepository>()
+                     .RegisterType<IShotTypeRepository, ShotTypeRepository>();
 
             return container;
-        }
-    }
-
-    public class HttpContextLifetimeManager<T> : LifetimeManager, IDisposable
-    {
-        public override object GetValue()
-        {
-            return HttpContext.Current.Items[typeof(T).AssemblyQualifiedName];
-        }
-
-        public override void RemoveValue()
-        {
-            HttpContext.Current.Items.Remove(typeof(T).AssemblyQualifiedName);
-        }
-
-        public override void SetValue(object newValue)
-        {
-            HttpContext.Current.Items[typeof(T).AssemblyQualifiedName] = newValue;
-        }
-
-        public void Dispose()
-        {
-            RemoveValue();
         }
     }
 }
