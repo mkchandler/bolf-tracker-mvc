@@ -52,18 +52,6 @@ namespace BolfTracker.Web.App_Start
                 }
             };
 
-
-            // TODO: You can control who sees the profiling information
-            /*
-            context.AuthenticateRequest += (sender, e) =>
-            {
-                if (!CurrentUserIsAllowedToSeeProfiler())
-                {
-                    MvcMiniProfiler.MiniProfiler.Stop(discardResults: true);
-                }
-            };
-            */
-
             context.EndRequest += (sender, e) =>
             {
                 MiniProfiler.Stop();
