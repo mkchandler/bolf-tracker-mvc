@@ -36,7 +36,7 @@
       <label for="hole">Hole</label>
       @Html.DropDownListFor(m => m.Hole, Model.AllHoles, new { @id = "currentHole" })
       <label for="attempts">Attempts</label>
-      <input type="number" name="attempts" id="attempts" autocomplete="off" />
+      <input type="text" pattern="[0-9]*" name="attempts" id="attempts" autocomplete="off" />
       <label for="shotMade" class="checkbox">
         <input type="checkbox" name="shotMade" id="shotMade" />
         Shot Made
