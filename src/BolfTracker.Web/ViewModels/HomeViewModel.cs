@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 using BolfTracker.Models;
@@ -11,6 +13,23 @@ namespace BolfTracker.Web
         {
             _latestMonthRankings = latestMonthRankings;
             _latestMonthPlayerStatistics = latestMonthPlayerStatistics;
+        }
+
+        public string LatestMonthDisplay
+        {
+            get
+            {
+                var rankingRecord = _latestMonthRankings.FirstOrDefault();
+
+                if (rankingRecord != null)
+                {
+                    return CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(rankingRecord.Month) + " " + rankingRecord.Year;
+                }
+                else
+                {
+                    return String.Empty;
+                }
+            }
         }
 
         private IEnumerable<Ranking> _latestMonthRankings;
