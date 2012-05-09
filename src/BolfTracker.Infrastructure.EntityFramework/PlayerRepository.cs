@@ -43,9 +43,12 @@ namespace BolfTracker.Infrastructure.EntityFramework
         {
             using (var context = new BolfTrackerContext())
             {
-                var players = context.Shots.Where(shot => shot.Game.Date.Month == month && shot.Game.Date.Year == year).Select(shot => shot.Player).Distinct().ToList();
+                var players = (from pgs in context.PlayerGameStatistics
+                               where pgs.Game.Date.Month == month
+                                  && pgs.Game.Date.Year == year
+                               select pgs.Player).Distinct();
 
-                return players;
+                return players.ToList();
             }
         }
 

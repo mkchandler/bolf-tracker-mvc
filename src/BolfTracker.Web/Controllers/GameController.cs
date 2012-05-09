@@ -86,11 +86,6 @@ namespace BolfTracker.Web.Controllers
                 _gameService.CalculateGameStatistics(gameId);
             }
 
-            using (profiler.Step("Calculate rankings"))
-            {
-                _rankingService.CalculateRankings(game.Date.Month, game.Date.Year);
-            }
-
             using (profiler.Step("Calculate player statistics"))
             {
                 _playerService.CalculatePlayerStatistics(game.Date.Month, game.Date.Year, true);
@@ -99,6 +94,11 @@ namespace BolfTracker.Web.Controllers
             using (profiler.Step("Calculate hole statistics"))
             {
                 _holeService.CalculateHoleStatistics(game.Date.Month, game.Date.Year);
+            }
+
+            using (profiler.Step("Calculate rankings"))
+            {
+                _rankingService.CalculateRankings(game.Date.Month, game.Date.Year);
             }
 
             return RedirectToAction("Details", new { id = gameId });
