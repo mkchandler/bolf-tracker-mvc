@@ -57,7 +57,6 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="DatabaseTest.cs" />
     <Compile Include="GameRepositoryTests.cs" />
     <Compile Include="GameStatisticsRepositoryTests.cs" />
     <Compile Include="HoleRepositoryTests.cs" />
@@ -65,9 +64,10 @@
     <Compile Include="ObjectMother.cs" />
     <Compile Include="PlayerHoleStatisticsRepositoryTests.cs" />
     <Compile Include="PlayerRepositoryTests.cs" />
+    <Compile Include="PlayerRivalryStatisticsRepositoryTests.cs" />
     <Compile Include="PlayerStatisticsRepositoryTests.cs" />
     <Compile Include="RankingRepositoryTests.cs" />
-    <Compile Include="ScoreRepositoryTests.cs" />
+    <Compile Include="ShotRepositoryTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BolfTracker.Core\BolfTracker.Core.csproj">
@@ -81,6 +81,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

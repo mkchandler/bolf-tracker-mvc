@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace BolfTracker.Infrastructure.EntityFramework.IntegrationTests
 {
     [TestClass]
-    public class GameRepositoryTests : DatabaseTest
+    public class GameRepositoryTests
     {
         private GameRepository _repository;
         private TransactionScope _transaction;
@@ -29,7 +29,6 @@ namespace BolfTracker.Infrastructure.EntityFramework.IntegrationTests
             var game = ObjectMother.CreateGame();
 
             _repository.Add(game);
-            UnitOfWork.Commit();
 
             Assert.AreNotEqual(0, game.Id);
         }

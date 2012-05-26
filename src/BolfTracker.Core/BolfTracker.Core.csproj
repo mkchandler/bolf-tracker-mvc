@@ -50,6 +50,7 @@
     <Compile Include="Models\PlayerCareerStatistics.cs" />
     <Compile Include="Models\PlayerGameStatistics.cs" />
     <Compile Include="Models\PlayerHoleStatistics.cs" />
+    <Compile Include="Models\PlayerRivalryStatistics.cs" />
     <Compile Include="Models\PlayerStatistics.cs" />
     <Compile Include="Models\Ranking.cs" />
     <Compile Include="Models\Shot.cs" />
@@ -62,6 +63,7 @@
     <Compile Include="Repositories\IPlayerGameStatisticsRepository.cs" />
     <Compile Include="Repositories\IPlayerHoleStatisticsRepository.cs" />
     <Compile Include="Repositories\IPlayerRepository.cs" />
+    <Compile Include="Repositories\IPlayerRivalryStatisticsRepository.cs" />
     <Compile Include="Repositories\IPlayerStatisticsRepository.cs" />
     <Compile Include="Repositories\IRankingRepository.cs" />
     <Compile Include="Repositories\IRepository.cs" />

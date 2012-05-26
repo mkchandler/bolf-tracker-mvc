@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace BolfTracker.Infrastructure.EntityFramework.IntegrationTests
 {
     [TestClass]
-    public class PlayerRepositoryTests : DatabaseTest
+    public class PlayerRepositoryTests
     {
         private PlayerRepository _repository;
         private TransactionScope _transaction;
@@ -30,23 +30,8 @@ namespace BolfTracker.Infrastructure.EntityFramework.IntegrationTests
             var player = ObjectMother.CreatePlayer();
 
             _repository.Add(player);
-            UnitOfWork.Commit();
 
             Assert.AreNotEqual(0, player.Id);
-        }
-
-        [TestMethod]
-        public void Should_be_able_to_delete_player()
-        {
-            var player = ObjectMother.CreatePlayer();
-
-            _repository.Add(player);
-            UnitOfWork.Commit();
-
-            _repository.Delete(player);
-            UnitOfWork.Commit();
-
-            Assert.IsNull(_repository.GetById(player.Id));
         }
 
         [TestMethod]
@@ -59,7 +44,6 @@ namespace BolfTracker.Infrastructure.EntityFramework.IntegrationTests
 
             _repository.Add(player1);
             _repository.Add(player2);
-            UnitOfWork.Commit();
 
             Assert.IsTrue(_repository.All().Count() == initialCount + 2);
         }
@@ -70,7 +54,6 @@ namespace BolfTracker.Infrastructure.EntityFramework.IntegrationTests
             var player = ObjectMother.CreatePlayer();
 
             _repository.Add(player);
-            UnitOfWork.Commit();
 
             Assert.IsNotNull(_repository.GetById(player.Id));
         }
@@ -82,7 +65,6 @@ namespace BolfTracker.Infrastructure.EntityFramework.IntegrationTests
             var player = ObjectMother.CreatePlayer();
 
             _repository.Add(player);
-            UnitOfWork.Commit();
 
             Assert.IsNotNull(_repository.GetByName(player.Name));
         }

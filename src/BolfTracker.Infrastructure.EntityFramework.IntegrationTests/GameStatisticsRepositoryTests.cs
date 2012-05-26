@@ -5,15 +5,17 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace BolfTracker.Infrastructure.EntityFramework.IntegrationTests
 {
     [TestClass]
-    public class GameStatisticsRepositoryTests : DatabaseTest
+    public class GameStatisticsRepositoryTests
     {
-        private GameStatisticsRepository _repository;
+        private GameRepository _gameRepository;
+        private GameStatisticsRepository _gameStatisticsRepository;
         private TransactionScope _transaction;
 
         [TestInitialize]
         public void Initialize()
         {
-            _repository = new GameStatisticsRepository();
+            _gameRepository = new GameRepository();
+            _gameStatisticsRepository = new GameStatisticsRepository();
             _transaction = new TransactionScope(TransactionScopeOption.RequiresNew);
         }
 
@@ -26,10 +28,11 @@ namespace BolfTracker.Infrastructure.EntityFramework.IntegrationTests
         [TestMethod]
         public void Should_be_able_to_add_game_statistics()
         {
-            var gameStatistics = ObjectMother.CreateGameStatistics();
+            var game = ObjectMother.CreateGame();
+            _gameRepository.Add(game);
 
-            _repository.Add(gameStatistics);
-            UnitOfWork.Commit();
+            var gameStatistics = ObjectMother.CreateGameStatistics(game);
+            _gameStatisticsRepository.Add(gameStatistics);
 
             Assert.AreNotEqual(0, gameStatistics.Id);
         }

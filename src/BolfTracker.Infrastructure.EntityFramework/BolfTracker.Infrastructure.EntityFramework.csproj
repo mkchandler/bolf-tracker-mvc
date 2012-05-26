@@ -66,6 +66,7 @@
     <Compile Include="Configuration\PlayerConfiguration.cs" />
     <Compile Include="Configuration\PlayerGameStatisticsConfiguration.cs" />
     <Compile Include="Configuration\PlayerHoleStatisticsConfiguration.cs" />
+    <Compile Include="Configuration\PlayerRivalryStatisticsConfiguration.cs" />
     <Compile Include="Configuration\PlayerStatisticsConfiguration.cs" />
     <Compile Include="Configuration\RankingConfiguration.cs" />
     <Compile Include="Configuration\ShotConfiguration.cs" />
@@ -78,6 +79,7 @@
     <Compile Include="PlayerGameStatisticsRepository.cs" />
     <Compile Include="PlayerHoleStatisticsRepository.cs" />
     <Compile Include="PlayerRepository.cs" />
+    <Compile Include="PlayerRivalryStatisticsRepository.cs" />
     <Compile Include="PlayerStatisticsRepository.cs" />
     <Compile Include="RankingRepository.cs" />
     <Compile Include="ShotRepository.cs" />

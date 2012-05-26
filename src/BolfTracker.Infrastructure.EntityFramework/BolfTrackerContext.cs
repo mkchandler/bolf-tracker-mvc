@@ -1,6 +1,5 @@
 ﻿using System.Configuration;
 using System.Data.Entity;
-using System.Data.Entity.ModelConfiguration.Conventions;
 
 using BolfTracker.Models;
 
@@ -16,6 +15,7 @@ namespace BolfTracker.Infrastructure.EntityFramework
         public DbSet<Player> Players { get; set; }
         public DbSet<PlayerGameStatistics> PlayerGameStatistics { get; set; }
         public DbSet<PlayerHoleStatistics> PlayerHoleStatistics { get; set; }
+        public DbSet<PlayerRivalryStatistics> PlayerRivalryStatistics { get; set; }
         public DbSet<PlayerStatistics> PlayerStatistics { get; set; }
         public DbSet<Ranking> Rankings { get; set; }
         public DbSet<Shot> Shots { get; set; }
@@ -37,6 +37,7 @@ namespace BolfTracker.Infrastructure.EntityFramework
             modelBuilder.Configurations.Add<Player>(new PlayerConfiguration());
             modelBuilder.Configurations.Add<PlayerGameStatistics>(new PlayerGameStatisticsConfiguration());
             modelBuilder.Configurations.Add<PlayerHoleStatistics>(new PlayerHoleStatisticsConfiguration());
+            modelBuilder.Configurations.Add<PlayerRivalryStatistics>(new PlayerRivalryStatisticsConfiguration());
             modelBuilder.Configurations.Add<PlayerStatistics>(new PlayerStatisticsConfiguration());
             modelBuilder.Configurations.Add<Ranking>(new RankingConfiguration());
             modelBuilder.Configurations.Add<Shot>(new ShotConfiguration());

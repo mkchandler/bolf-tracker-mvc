@@ -9,6 +9,8 @@ namespace BolfTracker.Models
         private readonly ICollection<PlayerHoleStatistics> _playerHoleStatistics;
         private readonly ICollection<PlayerGameStatistics> _playerGameStatistics;
         private readonly ICollection<PlayerCareerStatistics> _playerCareerStatistics;
+        private readonly ICollection<PlayerRivalryStatistics> _playerRivalryStatistics;
+        private readonly ICollection<PlayerRivalryStatistics> _affectedPlayerRivalryStatistics;
         private readonly ICollection<Ranking> _rankings;
 
         public Player()
@@ -18,6 +20,8 @@ namespace BolfTracker.Models
             _playerHoleStatistics = new List<PlayerHoleStatistics>();
             _playerGameStatistics = new List<PlayerGameStatistics>();
             _playerCareerStatistics = new List<PlayerCareerStatistics>();
+            _playerRivalryStatistics = new List<PlayerRivalryStatistics>();
+            _affectedPlayerRivalryStatistics = new List<PlayerRivalryStatistics>();
             _rankings = new List<Ranking>();
         }
 
@@ -70,6 +74,16 @@ namespace BolfTracker.Models
         public ICollection<PlayerCareerStatistics> PlayerCareerStatistics
         {
             get { return _playerCareerStatistics; }
+        }
+
+        public ICollection<PlayerRivalryStatistics> PlayerRivalryStatistics
+        {
+            get { return _playerRivalryStatistics; }
+        }
+
+        public ICollection<PlayerRivalryStatistics> AffectedPlayerRivalryStatistics
+        {
+            get { return _affectedPlayerRivalryStatistics; }
         }
 
         public ICollection<Ranking> Rankings

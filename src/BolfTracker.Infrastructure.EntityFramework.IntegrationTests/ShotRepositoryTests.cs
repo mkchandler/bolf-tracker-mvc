@@ -1,23 +1,28 @@
 ﻿using System;
 using System.Transactions;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BolfTracker.Infrastructure.EntityFramework.IntegrationTests
 {
     [TestClass]
-    public class PlayerHoleStatisticsRepositoryTests
+    public class ShotRepositoryTests
     {
-        private PlayerRepository _playerRepository;
+        private GameRepository _gameRepository;
         private HoleRepository _holeRepository;
-        private PlayerHoleStatisticsRepository _playerHoleStatisticsRepository;
+        private PlayerRepository _playerRepository;
+        private ShotTypeRepository _shotTypeRepository;
+        private ShotRepository _shotRepository;
         private TransactionScope _transaction;
 
         [TestInitialize]
         public void Initialize()
         {
-            _playerRepository = new PlayerRepository();
+            _gameRepository = new GameRepository();
             _holeRepository = new HoleRepository();
-            _playerHoleStatisticsRepository = new PlayerHoleStatisticsRepository();
+            _playerRepository = new PlayerRepository();
+            _shotTypeRepository = new ShotTypeRepository();
+            _shotRepository = new ShotRepository();
             _transaction = new TransactionScope(TransactionScopeOption.RequiresNew);
         }
 
@@ -28,18 +33,24 @@ namespace BolfTracker.Infrastructure.EntityFramework.IntegrationTests
         }
 
         [TestMethod]
-        public void Should_be_able_to_add_player_hole_statistics()
+        public void Should_be_able_to_add_score()
         {
+            var game = ObjectMother.CreateGame();
+            _gameRepository.Add(game);
+
             var player = ObjectMother.CreatePlayer();
             _playerRepository.Add(player);
+
+            var shotType = ObjectMother.CreateShotType();
+            _shotTypeRepository.Add(shotType);
 
             var hole = ObjectMother.CreateHole(Int32.MaxValue);
             _holeRepository.Add(hole);
 
-            var playerHoleStatistics = ObjectMother.CreatePlayerHoleStatistics(player, hole);
-            _playerHoleStatisticsRepository.Add(playerHoleStatistics);
+            var shot = ObjectMother.CreateShot(game, player, shotType, hole);
+            _shotRepository.Add(shot);
 
-            Assert.AreNotEqual(0, playerHoleStatistics.Id);
+            Assert.AreNotEqual(0, shot.Id);
         }
     }
 }
