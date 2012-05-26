@@ -133,7 +133,7 @@ namespace BolfTracker.Services
 
                 playerGameStatistics.Game = game;
                 playerGameStatistics.Player = player;
-                playerGameStatistics.Points = playerShots.Sum(s => s.Points);
+                playerGameStatistics.Points = playerShots.Where(s => s.ShotType.Id != ShotTypePush).Sum(s => s.Points);
                 playerGameStatistics.ShotsMade = playerShots.Count(s => s.ShotMade);
                 playerGameStatistics.Attempts = playerShots.Sum(s => s.Attempts);
                 playerGameStatistics.ShootingPercentage = Decimal.Round((decimal)playerGameStatistics.ShotsMade / (decimal)playerGameStatistics.Attempts, 3, MidpointRounding.AwayFromZero);
@@ -162,7 +162,7 @@ namespace BolfTracker.Services
 
             gameStatistics.OvertimeCount = (gameShots.Max(s => s.Hole.Id) > 10) ? 1 : 0;
             gameStatistics.PlayerCount = gameShots.Select(s => s.Player.Id).Distinct().Count();
-            gameStatistics.Points = gameShots.Sum(s => s.Points);
+            gameStatistics.Points = gameShots.Where(s => s.ShotType.Id != ShotTypePush).Sum(s => s.Points);
             gameStatistics.ShotsMade = gameShots.Count(s => s.ShotMade);
             gameStatistics.Attempts = gameShots.Sum(s => s.Attempts);
             gameStatistics.ShotsMissed = gameStatistics.Attempts - gameStatistics.ShotsMade;

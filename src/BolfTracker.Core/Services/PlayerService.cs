@@ -161,7 +161,7 @@ namespace BolfTracker.Services
                             playerHoleStatistics.ShotsMade = playerHoleShots.Count(s => s.ShotMade);
                             playerHoleStatistics.Attempts = playerHoleShots.Sum(s => s.Attempts);
                             playerHoleStatistics.ShootingPercentage = Decimal.Round((decimal)playerHoleStatistics.ShotsMade / (decimal)playerHoleStatistics.Attempts, 3, MidpointRounding.AwayFromZero);
-                            playerHoleStatistics.PointsScored = playerHoleShots.Sum(s => s.Points);
+                            playerHoleStatistics.PointsScored = playerHoleShots.Where(s => s.ShotType.Id != ShotTypePush).Sum(s => s.Points);
                             playerHoleStatistics.Pushes = playerHoleShots.Count(s => s.ShotType.Id == ShotTypePush);
                             playerHoleStatistics.Steals = playerHoleShots.Count(s => s.ShotType.Id == ShotTypeSteal);
                             playerHoleStatistics.SugarFreeSteals = playerHoleShots.Count(s => s.ShotType.Id == ShotTypeSugarFreeSteal);
