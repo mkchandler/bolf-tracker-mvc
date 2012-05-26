@@ -86,6 +86,7 @@ namespace BolfTracker.Web
                      .RegisterType<IPlayerHoleStatisticsRepository, PlayerHoleStatisticsRepository>()
                      .RegisterType<IPlayerGameStatisticsRepository, PlayerGameStatisticsRepository>()
                      .RegisterType<IPlayerCareerStatisticsRepository, PlayerCareerStatisticsRepository>()
+                     .RegisterType<IPlayerRivalryStatisticsRepository, PlayerRivalryStatisticsRepository>()
                      .RegisterType<IShotTypeRepository, ShotTypeRepository>();
 
             return container;

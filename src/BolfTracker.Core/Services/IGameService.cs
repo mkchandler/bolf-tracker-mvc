@@ -22,5 +22,11 @@ namespace BolfTracker.Services
         void CalculateGameStatistics(int gameId);
 
         void CalculateGameStatistics(int month, int year);
+
+        void CalculatePlayerRivalryStatistics();
+
+        void CalculatePlayerRivalryStatistics(int gameId);
+
+        void CalculatePlayerRivalryStatistics(int month, int year);
     }
 }

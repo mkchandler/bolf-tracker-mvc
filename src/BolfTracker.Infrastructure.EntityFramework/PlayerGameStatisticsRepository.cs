@@ -93,9 +93,7 @@ namespace BolfTracker.Infrastructure.EntityFramework
             using (var connection = BolfTrackerDbConnection.GetProfiledConnection())
             {
                 connection.Open();
-
                 string command = "DELETE FROM PlayerGameStatistics";
-
                 connection.Execute(command);
             }
         }
@@ -105,9 +103,7 @@ namespace BolfTracker.Infrastructure.EntityFramework
             using (var connection = BolfTrackerDbConnection.GetProfiledConnection())
             {
                 connection.Open();
-
                 string command = "DELETE PlayerGameStatistics FROM PlayerGameStatistics pgs INNER JOIN Game g ON g.Id = pgs.GameId WHERE (DATEPART (month, g.[Date])) = @Month AND (DATEPART (year, g.[Date])) = @Year";
-
                 connection.Execute(command, new { Month = month, Year = year });
             }
         }

@@ -14,19 +14,21 @@ namespace BolfTracker.Services
         private readonly IPlayerRepository _playerRepository;
         private readonly IGameStatisticsRepository _gameStatisticsRepository;
         private readonly IPlayerGameStatisticsRepository _playerGameStatisticsRepository;
+        private readonly IPlayerRivalryStatisticsRepository _playerRivalryStatisticsRepository;
 
         // TODO: Really need to figure out a better way to do this
         private const int ShotTypePush = 3;
         private const int ShotTypeSteal = 4;
         private const int ShotTypeSugarFreeSteal = 5;
 
-        public GameService(IGameRepository gameRepository, IShotRepository shotRepository, IPlayerRepository playerRepository, IGameStatisticsRepository gameStatisticsRepository, IPlayerGameStatisticsRepository playerGameStatisticsRepository)
+        public GameService(IGameRepository gameRepository, IShotRepository shotRepository, IPlayerRepository playerRepository, IGameStatisticsRepository gameStatisticsRepository, IPlayerGameStatisticsRepository playerGameStatisticsRepository, IPlayerRivalryStatisticsRepository playerRivalryStatisticsRepository)
         {
             _gameRepository = gameRepository;
             _shotRepository = shotRepository;
             _playerRepository = playerRepository;
             _gameStatisticsRepository = gameStatisticsRepository;
             _playerGameStatisticsRepository = playerGameStatisticsRepository;
+            _playerRivalryStatisticsRepository = playerRivalryStatisticsRepository;
         }
 
         public Game GetGame(int id)
@@ -69,7 +71,7 @@ namespace BolfTracker.Services
 
         public void CalculateGameStatistics()
         {
-            var games = _gameRepository.All().ToList();
+            var games = _gameRepository.GetAllFinalized().ToList();
 
             if (games.Any())
             {
@@ -173,6 +175,66 @@ namespace BolfTracker.Services
             _gameStatisticsRepository.Add(gameStatistics);
         }
 
+        public void CalculatePlayerRivalryStatistics()
+        {
+            var games = _gameRepository.GetAllFinalized().ToList();
+
+            if (games.Any())
+            {
+                DeletePlayerRivalryStatistics();
+
+                foreach (var game in games)
+                {
+                    CalculatePlayerRivalryStatistics(game.Id);
+                }
+            }
+        }
+
+        public void CalculatePlayerRivalryStatistics(int month, int year)
+        {
+            Check.Argument.IsNotZeroOrNegative(month, "month");
+            Check.Argument.IsNotZeroOrNegative(year, "year");
+
+            var games = _gameRepository.GetFinalizedByMonthAndYear(month, year);
+
+            if (games.Any())
+            {
+                DeletePlayerRivalryStatistics(month, year);
+
+                foreach (var game in games)
+                {
+                    CalculatePlayerRivalryStatistics(game.Id);
+                }
+            }
+        }
+
+        public void CalculatePlayerRivalryStatistics(int gameId)
+        {
+            DeletePlayerRivalryStatistics(gameId);
+
+            var shots = _shotRepository.GetByGame(gameId);
+
+            foreach (var shot in shots)
+            {
+                if (shot.ShotType.Id >= 3) // TODO: This is probably not future proof
+                {
+                    var currentHoleShots = shots.Where(s => s.Hole.Id == shot.Hole.Id && s.Id < shot.Id).OrderByDescending(s => s.Id);
+                    var affectedShot = currentHoleShots.First(s => s.ShotMade);
+
+                    var playerRivalryStatistic = new PlayerRivalryStatistics();
+                    playerRivalryStatistic.Game = shot.Game;
+                    playerRivalryStatistic.Player = shot.Player;
+                    playerRivalryStatistic.AffectedPlayer = affectedShot.Player;
+                    playerRivalryStatistic.Hole = shot.Hole;
+                    playerRivalryStatistic.ShotType = shot.ShotType;
+                    playerRivalryStatistic.Attempts = shot.Attempts;
+                    playerRivalryStatistic.Points = shot.Points;
+
+                    _playerRivalryStatisticsRepository.Add(playerRivalryStatistic);
+                }
+            }
+        }
+
         private void DeleteGameStatistics()
         {
             _gameStatisticsRepository.DeleteAll();
@@ -183,6 +245,21 @@ namespace BolfTracker.Services
         {
             _gameStatisticsRepository.DeleteByMonthAndYear(month, year);
             _playerGameStatisticsRepository.DeleteByMonthAndYear(month, year);
+        }
+
+        private void DeletePlayerRivalryStatistics()
+        {
+            _playerRivalryStatisticsRepository.DeleteAll();
+        }
+
+        private void DeletePlayerRivalryStatistics(int month, int year)
+        {
+            _playerRivalryStatisticsRepository.DeleteByMonthAndYear(month, year);
+        }
+
+        private void DeletePlayerRivalryStatistics(int gameId)
+        {
+            _playerRivalryStatisticsRepository.DeleteByGame(gameId);
         }
     }
 }

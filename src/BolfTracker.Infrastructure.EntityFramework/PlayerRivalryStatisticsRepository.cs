@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
+
 using BolfTracker.Models;
 using BolfTracker.Repositories;
+
+using Dapper;
 
 namespace BolfTracker.Infrastructure.EntityFramework
 {
@@ -38,6 +39,36 @@ namespace BolfTracker.Infrastructure.EntityFramework
         public IEnumerable<PlayerRivalryStatistics> All()
         {
             throw new NotImplementedException();
+        }
+
+        public void DeleteAll()
+        {
+            using (var connection = BolfTrackerDbConnection.GetProfiledConnection())
+            {
+                connection.Open();
+                string command = "DELETE FROM PlayerRivalryStatistics";
+                connection.Execute(command);
+            }
+        }
+
+        public void DeleteByMonthAndYear(int month, int year)
+        {
+            using (var connection = BolfTrackerDbConnection.GetProfiledConnection())
+            {
+                connection.Open();
+                string command = "DELETE PlayerRivalryStatistics FROM PlayerRivalryStatistics prs INNER JOIN Game g ON g.Id = prs.GameId WHERE (DATEPART (month, g.[Date])) = @Month AND (DATEPART (year, g.[Date])) = @Year";
+                connection.Execute(command, new { Month = month, Year = year });
+            }
+        }
+
+        public void DeleteByGame(int gameId)
+        {
+            using (var connection = BolfTrackerDbConnection.GetProfiledConnection())
+            {
+                connection.Open();
+                string command = "DELETE FROM PlayerRivalryStatistics WHERE GameId = @GameId";
+                connection.Execute(command, new { GameId = gameId });
+            }
         }
     }
 }
