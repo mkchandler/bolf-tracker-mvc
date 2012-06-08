@@ -83,7 +83,10 @@
     @if (!Model.GameFinalized)
     { 
       <p>
-        <span>Points Available: @Model.PointsAvailable</span>
+        Points Available: @Model.PointsAvailable
+      </p>
+      <p>
+        Next Up: @Model.GetNextPlayer().Name
       </p>
     }
   </div>
@@ -143,8 +146,8 @@ else
 }
 @section javascript {
   <script type="text/javascript">
-  var par = 0;
-  var lastAttempt = 0;
+    var par = 0;
+    var lastAttempt = 0;
 @{
   var currentHole = Model.GetCurrentHole();
   @:par = @Model.Holes.FirstOrDefault(h => h.Id == currentHole).Par;
@@ -158,44 +161,44 @@ else
   }
 }
 
-  $(function () {
-    if (lastAttempt === 1 || par === 1) {
-      $("#attempts").val(1);
-    }
+    $(function () {
+      if (lastAttempt === 1 || par === 1) {
+        $("#attempts").val(1);
+      }
 
-    $("#attempts").focus();
+      $("#attempts").focus();
 
-    $("#attempts").keydown(function (e) {
-      var key = e.charCode || e.keyCode || 0;
+      $("#attempts").keydown(function (e) {
+        var key = e.charCode || e.keyCode || 0;
 
-      if (key == 8 || key == 9 || key == 46 || (key >= 37 && key <= 40) || (key >= 48 && key <= 57) || (key >= 96 && key <= 105)) {
-        // Ignore
-      } else {
-        if (key != 13) {
-          if (key < 95) {
-            if (key < 48 || key > 57) {
-              event.preventDefault();
-            }
-          } else {
-            if (key < 96 || key > 105) {
-              event.preventDefault();
+        if (key == 8 || key == 9 || key == 46 || (key >= 37 && key <= 40) || (key >= 48 && key <= 57) || (key >= 96 && key <= 105)) {
+          // Ignore
+        } else {
+          if (key != 13) {
+            if (key < 95) {
+              if (key < 48 || key > 57) {
+                event.preventDefault();
+              }
+            } else {
+              if (key < 96 || key > 105) {
+                event.preventDefault();
+              }
             }
           }
         }
-      }
-    });
+      });
             
-    $("body").keydown(function (event) {
-      switch (event.keyCode) {
-        case 77:
-          if ($("#shotMade").attr("checked")) {
-            $("#shotMade").removeAttr("checked");
-          } else {
-            $("#shotMade").attr("checked", "checked");
-          }
-          break;
-      }
+      $("body").keydown(function (event) {
+        switch (event.keyCode) {
+          case 77:
+            if ($("#shotMade").attr("checked")) {
+              $("#shotMade").removeAttr("checked");
+            } else {
+              $("#shotMade").attr("checked", "checked");
+            }
+            break;
+        }
+      });
     });
-  });
   </script>
 }

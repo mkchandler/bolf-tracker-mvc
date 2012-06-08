@@ -163,6 +163,24 @@ namespace BolfTracker.Web
             return playerResult;
         }
 
+        public Player GetNextPlayer()
+        {
+            var activePlayers = ActivePlayers;
+            var playersDescending = GetCurrentActivePlayers(activePlayers, includeOvertime: false).ToList();
+
+            var currentPlayer = GetCurrentPlayer();
+            var currentPlayerIndex = playersDescending.IndexOf(currentPlayer);
+
+            if (currentPlayerIndex == playersDescending.Count - 1)
+            {
+                return playersDescending[currentPlayerIndex - 1];
+            }
+            else
+            {
+                return playersDescending[0];
+            }
+        }
+
         private IEnumerable<Player> _currentActivePlayers = null;
 
         private IEnumerable<Player> GetCurrentActivePlayers(IEnumerable<Player> gamePlayers, bool includeOvertime)
