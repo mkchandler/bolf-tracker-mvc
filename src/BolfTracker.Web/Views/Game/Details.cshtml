@@ -86,7 +86,7 @@
         Points Available: @Model.PointsAvailable
       </p>
       <p>
-        Next Up: @Model.GetNextPlayer().Name
+        Next Up (beta): @(Model.GetCurrentHole() >= 10 ? "?" : Model.GetNextPlayer().Name)
       </p>
     }
   </div>

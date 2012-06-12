@@ -167,18 +167,36 @@ namespace BolfTracker.Web
         {
             var activePlayers = ActivePlayers;
             var playersDescending = GetCurrentActivePlayers(activePlayers, includeOvertime: false).ToList();
+            var duplicatePlayers = Shots.GroupBy(s => s.Player.Id).Where(p => p.Count() > 1);
 
-            var currentPlayer = GetCurrentPlayer();
-            var currentPlayerIndex = playersDescending.IndexOf(currentPlayer);
-
-            if (currentPlayerIndex == playersDescending.Count - 1)
+            // Check to see if we've had any duplicate players yet (if so, that means we can determine the order)
+            if (duplicatePlayers.Any())
             {
-                return playersDescending[currentPlayerIndex - 1];
+                var currentPlayer = GetCurrentPlayer();
+                var currentPlayerIndex = playersDescending.IndexOf(currentPlayer);
+
+                if (currentPlayerIndex == playersDescending.Count - 1)
+                {
+                    return playersDescending[currentPlayerIndex - 1];
+                }
+                else
+                {
+                    return playersDescending[0];
+                }
             }
             else
             {
-                return playersDescending[0];
+                // If we can't determine the order, just get the next player who has not gone already
+                foreach (var player in _allPlayers)
+                {
+                    if (!activePlayers.Any(p => p.Id == player.Id))
+                    {
+                        return player;
+                    }
+                }
             }
+
+            return new Player();
         }
 
         private IEnumerable<Player> _currentActivePlayers = null;
@@ -317,7 +335,7 @@ namespace BolfTracker.Web
                         else
                         {
                             // NOTE: Anything going off of x.Player.Shots is runs a shitload of queries... avoid
-                            var playersWhoCanWin = GetPlayersWhoCanWin(_currentHole.Value).Where(g => Game.Shots.Count(s => s.Hole.Id == _currentHole.Value && !s.ShotMade && s.Player.Id == g.Player.Id) == 0);
+                            var playersWhoCanWin = GetPlayersWhoCanWin(_currentHole.Value).Where(g => Shots.Count(s => s.Hole.Id == _currentHole.Value && !s.ShotMade && s.Player.Id == g.Player.Id) == 0);
 
                             if (playersWhoCanWin.Count() == 0)
                             {
