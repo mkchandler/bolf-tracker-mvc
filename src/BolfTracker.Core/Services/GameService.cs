@@ -106,71 +106,75 @@ namespace BolfTracker.Services
 
             var game = _gameRepository.GetById(gameId);
             var gameShots = _shotRepository.GetByGame(gameId);
-            var players = _playerRepository.GetByGame(gameId);
 
-            int maxPoints = 0;
-
-            // The first thing that we want to calculate is the max number of points scored (the winner's points). This way 
-            // we can easily determine who the winner is later when actually adding the stats to the repository.
-            foreach (var player in players)
+            // Watch out for games that were created but never started
+            if (gameShots.Any())
             {
-                int playerPoints = gameShots.Where(s => s.Player.Id == player.Id).Sum(s => s.Points);
+                var players = _playerRepository.GetByGame(gameId);
 
-                if (playerPoints > maxPoints)
-                {
-                    maxPoints = playerPoints;
-                }
-            }
-
-            // Calculate all of the game statistics for each player individually
-            foreach (var player in players)
-            {
-                var playerGameStatistics = new PlayerGameStatistics();
-
-                var playerShots = gameShots.Where(s => s.Player.Id == player.Id);
-
-                playerGameStatistics.Game = game;
-                playerGameStatistics.Player = player;
-                playerGameStatistics.Points = playerShots.Sum(s => s.Points);
-                playerGameStatistics.ShotsMade = playerShots.Count(s => s.ShotMade);
-                playerGameStatistics.Attempts = playerShots.Sum(s => s.Attempts);
-                playerGameStatistics.ShootingPercentage = Decimal.Round((decimal)playerGameStatistics.ShotsMade / (decimal)playerGameStatistics.Attempts, 3, MidpointRounding.AwayFromZero);
-                playerGameStatistics.Pushes = playerShots.Count(s => s.ShotType.Id == ShotTypePush);
-                playerGameStatistics.Steals = playerShots.Count(s => s.ShotType.Id == ShotTypeSteal);
-                playerGameStatistics.SugarFreeSteals = playerShots.Count(s => s.ShotType.Id == ShotTypeSugarFreeSteal);
-                playerGameStatistics.Winner = (playerGameStatistics.Points == maxPoints);
-                playerGameStatistics.OvertimeWin = playerShots.Max(s => s.Hole.Id > 10 && playerGameStatistics.Winner);
-
+                int maxPlayerPoints = 0;
+                int maxHole = gameShots.Max(s => s.Hole.Id);
                 int totalGamePoints = gameShots.Sum(s => s.Points);
 
-                playerGameStatistics.Shutout = playerGameStatistics.Points == totalGamePoints;
-                playerGameStatistics.PerfectGame = playerGameStatistics.Shutout && (playerGameStatistics.ShotsMade == playerGameStatistics.Attempts);
+                // The first thing that we want to calculate is the max number of points scored (the winner's points). This way 
+                // we can easily determine who the winner is later when actually adding the stats to the repository.
+                foreach (var player in players)
+                {
+                    int playerPoints = gameShots.Where(s => s.Player.Id == player.Id).Sum(s => s.Points);
 
-                _playerGameStatisticsRepository.Add(playerGameStatistics);
+                    if (playerPoints > maxPlayerPoints)
+                    {
+                        maxPlayerPoints = playerPoints;
+                    }
+                }
+
+                // Calculate all of the game statistics for each player individually
+                foreach (var player in players)
+                {
+                    var playerShots = gameShots.Where(s => s.Player.Id == player.Id);
+                    var playerGameStatistics = new PlayerGameStatistics();
+
+                    playerGameStatistics.Game = game;
+                    playerGameStatistics.Player = player;
+                    playerGameStatistics.Points = playerShots.Sum(s => s.Points);
+                    playerGameStatistics.ShotsMade = playerShots.Count(s => s.ShotMade);
+                    playerGameStatistics.Attempts = playerShots.Sum(s => s.Attempts);
+                    playerGameStatistics.ShootingPercentage = Decimal.Round((decimal)playerGameStatistics.ShotsMade / (decimal)playerGameStatistics.Attempts, 3, MidpointRounding.AwayFromZero);
+                    playerGameStatistics.Pushes = playerShots.Count(s => s.ShotType.Id == ShotTypePush);
+                    playerGameStatistics.Steals = playerShots.Count(s => s.ShotType.Id == ShotTypeSteal);
+                    playerGameStatistics.SugarFreeSteals = playerShots.Count(s => s.ShotType.Id == ShotTypeSugarFreeSteal);
+                    playerGameStatistics.Winner = (playerGameStatistics.Points == maxPlayerPoints);
+                    playerGameStatistics.OvertimeWin = playerShots.Max(s => s.Hole.Id > 10 && playerGameStatistics.Winner);
+                    playerGameStatistics.GameWinningSteal = playerShots.Any(s => s.Hole.Id == maxHole && (s.ShotType.Id == ShotTypeSteal || s.ShotType.Id == ShotTypeSugarFreeSteal));
+                    playerGameStatistics.Shutout = playerGameStatistics.Points == totalGamePoints;
+                    playerGameStatistics.PerfectGame = playerGameStatistics.Shutout && (playerGameStatistics.ShotsMade == playerGameStatistics.Attempts);
+
+                    _playerGameStatisticsRepository.Add(playerGameStatistics);
+                }
+
+                // Calculate the total stats for the game
+                var gameStatistics = new GameStatistics();
+
+                gameStatistics.Game = game;
+                gameStatistics.HoleCount = maxHole;
+
+                // if HoleCount mod NumberOfHoles = 0 --> OvertimeCount = HoleCount / NumberOfHoles
+                // else OvertimeCount = (HoleCount - (HoleCount mod NumberOfHoles)) / NumberOfHoles
+
+                gameStatistics.OvertimeCount = (maxHole > 10) ? 1 : 0;
+                gameStatistics.PlayerCount = gameShots.Select(s => s.Player.Id).Distinct().Count();
+                gameStatistics.Points = gameShots.Sum(s => s.Points);
+                gameStatistics.ShotsMade = gameShots.Count(s => s.ShotMade);
+                gameStatistics.Attempts = gameShots.Sum(s => s.Attempts);
+                gameStatistics.ShotsMissed = gameStatistics.Attempts - gameStatistics.ShotsMade;
+                gameStatistics.ShootingPercentage = Decimal.Round((decimal)gameStatistics.ShotsMade / (decimal)gameStatistics.Attempts, 3, MidpointRounding.AwayFromZero);
+                gameStatistics.Pushes = gameShots.Count(s => s.ShotType.Id == ShotTypePush);
+                gameStatistics.Steals = gameShots.Count(s => s.ShotType.Id == ShotTypeSteal);
+                gameStatistics.SugarFreeSteals = gameShots.Count(s => s.ShotType.Id == ShotTypeSugarFreeSteal);
+                gameStatistics.StainlessSteals = gameShots.Count(s => (s.ShotType.Id == ShotTypeSteal || s.ShotType.Id == ShotTypeSugarFreeSteal) && s.ShotMade && s.Attempts == 1);
+
+                _gameStatisticsRepository.Add(gameStatistics);
             }
-
-            // Calculate the total stats for the game
-            var gameStatistics = new GameStatistics();
-
-            gameStatistics.Game = game;
-            gameStatistics.HoleCount = gameShots.Select(s => s.Hole.Id).Distinct().Count();
-
-            // if HoleCount mod NumberOfHoles = 0 --> OvertimeCount = HoleCount / NumberOfHoles
-            // else OvertimeCount = (HoleCount - (HoleCount mod NumberOfHoles)) / NumberOfHoles
-
-            gameStatistics.OvertimeCount = (gameShots.Max(s => s.Hole.Id) > 10) ? 1 : 0;
-            gameStatistics.PlayerCount = gameShots.Select(s => s.Player.Id).Distinct().Count();
-            gameStatistics.Points = gameShots.Sum(s => s.Points);
-            gameStatistics.ShotsMade = gameShots.Count(s => s.ShotMade);
-            gameStatistics.Attempts = gameShots.Sum(s => s.Attempts);
-            gameStatistics.ShotsMissed = gameStatistics.Attempts - gameStatistics.ShotsMade;
-            gameStatistics.ShootingPercentage = Decimal.Round((decimal)gameStatistics.ShotsMade / (decimal)gameStatistics.Attempts, 3, MidpointRounding.AwayFromZero);
-            gameStatistics.Pushes = gameShots.Count(s => s.ShotType.Id == ShotTypePush);
-            gameStatistics.Steals = gameShots.Count(s => s.ShotType.Id == ShotTypeSteal);
-            gameStatistics.SugarFreeSteals = gameShots.Count(s => s.ShotType.Id == ShotTypeSugarFreeSteal);
-            gameStatistics.StainlessSteals = gameShots.Count(s => (s.ShotType.Id == ShotTypeSteal || s.ShotType.Id == ShotTypeSugarFreeSteal) && s.ShotMade && s.Attempts == 1);
-
-            _gameStatisticsRepository.Add(gameStatistics);
         }
 
         private void DeleteGameStatistics()
