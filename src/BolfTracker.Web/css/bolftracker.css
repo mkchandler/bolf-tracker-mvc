@@ -10,6 +10,10 @@ body {
   margin-bottom: 0;
 }
 
+.navbar .brand {
+  color: #fff;
+}
+
 .page-header {
   margin: 0 0 15px 0;
   border-bottom: 1px solid #DDD;
