@@ -1,40 +1,5 @@
-﻿html, body {
-  background: url('../img/background.png');
-}
-
-body {
-  margin-top: 20px;
-}
-
-.navbar-fixed-top {
-  margin-bottom: 0;
-}
-
-.navbar .brand {
-  color: #fff;
-}
-
-.page-header {
-  margin: 0 0 15px 0;
-  border-bottom: 1px solid #DDD;
-  padding-bottom: 4px;
-}
-
-  .page-header h1 {
-    margin-bottom: 8px;
-  }
-
-.content {
-  background-color: #fff;
-  padding: 20px;
-  margin: 20px -20px 0 -20px;
-  min-height: 500px;
-  -webkit-border-radius: 0 0 5px 5px;
-  -moz-border-radius: 0 0 5px 5px;
-  border-radius: 0 0 5px 5px;
-  -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.15);
-  -moz-box-shadow: 0 1px 2px rgba(0,0,0,.15);
-  box-shadow: 0 1px 2px rgba(0,0,0,.15);
+﻿body {
+  padding-top: 60px;
 }
 
 table .header {
@@ -53,6 +18,7 @@ table .header {
 
 table .headerSortUp, table .headerSortDown {
   background-color: rgba(141, 192, 219, 0.25);
+  -webkit-text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
 }
 
@@ -83,7 +49,8 @@ table .headerSortUp:after {
 
 footer {
   color: #777;
-  margin: 0;
-  border-top: 0px;
-  padding: 20px 0 15px 0;
+  margin-top: 40px;
+  padding: 40px 0 40px 0;
+  border-top: 1px solid #E5E5E5;
+  background-color: whiteSmoke;
 }
