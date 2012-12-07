@@ -109,7 +109,7 @@
       </tr>
     </thead>
     <tbody>
-      @foreach (var score in Model.Shots.OrderBy(s => s.Id))
+      @foreach (var score in Model.Shots.OrderByDescending(s => s.Id))
       {
         <tr>
           <td>@score.Hole.Id</td>

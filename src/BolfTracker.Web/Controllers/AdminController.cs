@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
+
 using BolfTracker.Services;
-using MvcMiniProfiler;
 
 namespace BolfTracker.Web.Controllers
 {
@@ -68,10 +64,12 @@ namespace BolfTracker.Web.Controllers
             if (month == 0 && year == 0)
             {
                 _gameService.CalculateGameStatistics();
+                _gameService.CalculatePlayerRivalryStatistics();
             }
             else
             {
                 _gameService.CalculateGameStatistics(month, year);
+                _gameService.CalculatePlayerRivalryStatistics(month, year);
             }
 
             return RedirectToAction("Index");
@@ -81,18 +79,13 @@ namespace BolfTracker.Web.Controllers
         [Authorize]
         public ActionResult CalculatePlayerStatistics(int month, int year)
         {
-            var profiler = MiniProfiler.Current;
-
-            using (profiler.Step("Calculate player statistics"))
+            if (month == 0 && year == 0)
             {
-                if (month == 0 && year == 0)
-                {
-                    _playerService.CalculatePlayerStatistics();
-                }
-                else
-                {
-                    _playerService.CalculatePlayerStatistics(month, year, true);
-                }
+                _playerService.CalculatePlayerStatistics();
+            }
+            else
+            {
+                _playerService.CalculatePlayerStatistics(month, year, true);
             }
 
             return RedirectToAction("Index");

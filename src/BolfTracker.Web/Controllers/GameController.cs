@@ -4,8 +4,6 @@ using System.Web.Mvc;
 using BolfTracker.Models;
 using BolfTracker.Services;
 
-using MvcMiniProfiler;
-
 namespace BolfTracker.Web.Controllers
 {
     public class GameController : Controller
@@ -77,29 +75,13 @@ namespace BolfTracker.Web.Controllers
         [Authorize]
         public ActionResult Finalize(int gameId)
         {
-            var profiler = MiniProfiler.Current;
-
             var game = _gameService.GetGame(gameId);
 
-            using (profiler.Step("Calculate game statistics"))
-            {
-                _gameService.CalculateGameStatistics(gameId);
-            }
-
-            using (profiler.Step("Calculate player statistics"))
-            {
-                _playerService.CalculatePlayerStatistics(game.Date.Month, game.Date.Year, true);
-            }
-
-            using (profiler.Step("Calculate hole statistics"))
-            {
-                _holeService.CalculateHoleStatistics(game.Date.Month, game.Date.Year);
-            }
-
-            using (profiler.Step("Calculate rankings"))
-            {
-                _rankingService.CalculateRankings(game.Date.Month, game.Date.Year);
-            }
+            _gameService.CalculateGameStatistics(gameId);
+            _gameService.CalculatePlayerRivalryStatistics(gameId);
+            _playerService.CalculatePlayerStatistics(game.Date.Month, game.Date.Year, true);
+            _holeService.CalculateHoleStatistics(game.Date.Month, game.Date.Year);
+            _rankingService.CalculateRankings(game.Date.Month, game.Date.Year);
 
             return RedirectToAction("Details", new { id = gameId });
         }

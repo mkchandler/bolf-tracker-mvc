@@ -13,6 +13,13 @@ namespace BolfTracker.Web
         private int? _pointsAvailable;
         private bool? _gameFinalized;
 
+        // TODO: Really need to figure out a better way to do this
+        private const int ShotTypeMake = 1;
+        private const int ShotTypeMiss = 2;
+        private const int ShotTypePush = 3;
+        private const int ShotTypeSteal = 4;
+        private const int ShotTypeSugarFreeSteal = 5;
+
         public GamePanelViewModel(Game game, IEnumerable<Shot> shots, IEnumerable<Player> allPlayers, IEnumerable<Hole> allHoles)
         {
             Game = game;
@@ -443,10 +450,17 @@ namespace BolfTracker.Web
 
     public class LeaderboardViewModel
     {
+        // TODO: Really need to figure out a better way to do this
+        private const int ShotTypeMake = 1;
+        private const int ShotTypeMiss = 2;
+        private const int ShotTypePush = 3;
+        private const int ShotTypeSteal = 4;
+        private const int ShotTypeSugarFreeSteal = 5;
+
         public LeaderboardViewModel(Player player, IEnumerable<Shot> playerShots, Game game, IEnumerable<Shot> shots)
         {
             Player = player;
-            Points = playerShots.Sum(s => s.Points);
+            Points = playerShots.Where(s => s.ShotType.Id != ShotTypePush).Sum(s => s.Points);
             ShotsMade = playerShots.Count(s => s.ShotMade);
             Attempts = playerShots.Sum(s => s.Attempts);
             ShootingPercentage = Decimal.Round(Convert.ToDecimal(ShotsMade) / Convert.ToDecimal(Attempts), 2, MidpointRounding.AwayFromZero);

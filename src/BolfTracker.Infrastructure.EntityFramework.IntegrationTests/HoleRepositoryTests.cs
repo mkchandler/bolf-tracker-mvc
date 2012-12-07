@@ -7,7 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace BolfTracker.Infrastructure.EntityFramework.IntegrationTests
 {
     [TestClass]
-    public class HoleRepositoryTests : DatabaseTest
+    public class HoleRepositoryTests
     {
         private HoleRepository _repository;
         private TransactionScope _transaction;
@@ -35,7 +35,6 @@ namespace BolfTracker.Infrastructure.EntityFramework.IntegrationTests
 
             _repository.Add(hole1);
             _repository.Add(hole2);
-            UnitOfWork.Commit();
 
             Assert.IsTrue(_repository.All().Count() == initialCount + 2);
         }

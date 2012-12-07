@@ -1,19 +1,21 @@
-﻿using System.Transactions;
-
+﻿using System;
+using System.Transactions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BolfTracker.Infrastructure.EntityFramework.IntegrationTests
 {
     [TestClass]
-    public class HoleStatisticsRepositoryTests : DatabaseTest
+    public class HoleStatisticsRepositoryTests
     {
-        private HoleStatisticsRepository _repository;
+        private HoleRepository _holeRepository;
+        private HoleStatisticsRepository _holeStatisticsRepository;
         private TransactionScope _transaction;
 
         [TestInitialize]
         public void Initialize()
         {
-            _repository = new HoleStatisticsRepository();
+            _holeRepository = new HoleRepository();
+            _holeStatisticsRepository = new HoleStatisticsRepository();
             _transaction = new TransactionScope(TransactionScopeOption.RequiresNew);
         }
 
@@ -26,10 +28,11 @@ namespace BolfTracker.Infrastructure.EntityFramework.IntegrationTests
         [TestMethod]
         public void Should_be_able_to_add_hole_statistics()
         {
-            var holeStatistics = ObjectMother.CreateHoleStatistics();
+            var hole = ObjectMother.CreateHole(Int32.MaxValue);
+            _holeRepository.Add(hole);
 
-            _repository.Add(holeStatistics);
-            UnitOfWork.Commit();
+            var holeStatistics = ObjectMother.CreateHoleStatistics(hole);
+            _holeStatisticsRepository.Add(holeStatistics);
 
             Assert.AreNotEqual(0, holeStatistics.Id);
         }

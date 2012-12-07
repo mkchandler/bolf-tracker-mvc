@@ -8,12 +8,14 @@ namespace BolfTracker.Models
         private readonly ICollection<Shot> _shots;
         private readonly ICollection<HoleStatistics> _holeStatistics;
         private readonly ICollection<PlayerHoleStatistics> _playerHoleStatistics;
+        private readonly ICollection<PlayerRivalryStatistics> _playerRivalryStatistics;
 
         public Hole()
         {
             _shots = new List<Shot>();
             _holeStatistics = new List<HoleStatistics>();
             _playerHoleStatistics = new List<PlayerHoleStatistics>();
+            _playerRivalryStatistics = new List<PlayerRivalryStatistics>();
         }
 
         [Required]
@@ -43,6 +45,11 @@ namespace BolfTracker.Models
         public ICollection<PlayerHoleStatistics> PlayerHoleStatistics
         {
             get { return _playerHoleStatistics; }
+        }
+
+        public ICollection<PlayerRivalryStatistics> PlayerRivalryStatistics
+        {
+            get { return _playerRivalryStatistics; }
         }
     }
 }

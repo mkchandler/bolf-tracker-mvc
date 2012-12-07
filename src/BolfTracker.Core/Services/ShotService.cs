@@ -100,6 +100,7 @@ namespace BolfTracker.Services
                         {
                             // This is a push
                             currentShot.ShotType = allShotTypes.Single(st => st.Id == ShotTypePush);
+                            currentShot.Points = pointsAvailable;
 
                             // Zero out other player's points that this player pushed.
                             Update(currentLowestShotMade.Id, 0, allShotTypes.Single(st => st.Id == ShotTypeMake));
