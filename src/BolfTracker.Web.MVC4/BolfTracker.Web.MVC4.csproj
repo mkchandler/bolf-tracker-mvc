@@ -184,19 +184,6 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="css\Site.css" />
-    <Content Include="img\accent.png" />
-    <Content Include="img\bullet.png" />
-    <Content Include="img\heroAccent.png" />
-    <Content Include="img\orderedList0.png" />
-    <Content Include="img\orderedList1.png" />
-    <Content Include="img\orderedList2.png" />
-    <Content Include="img\orderedList3.png" />
-    <Content Include="img\orderedList4.png" />
-    <Content Include="img\orderedList5.png" />
-    <Content Include="img\orderedList6.png" />
-    <Content Include="img\orderedList7.png" />
-    <Content Include="img\orderedList8.png" />
-    <Content Include="img\orderedList9.png" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Account\_ChangePasswordPartial.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
@@ -216,6 +203,7 @@
     <Content Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="img\" />
     <Folder Include="js\" />
     <Folder Include="ViewModels\" />
   </ItemGroup>
