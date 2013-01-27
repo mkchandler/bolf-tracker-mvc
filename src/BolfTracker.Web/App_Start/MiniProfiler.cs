@@ -4,8 +4,9 @@ using System.Web.Mvc;
 
 using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 
-using MvcMiniProfiler;
-using MvcMiniProfiler.MVCHelpers;
+using StackExchange.Profiling;
+using StackExchange.Profiling.MVCHelpers;
+using StackExchange.Profiling.SqlFormatters;
 
 [assembly: WebActivator.PreApplicationStartMethod(typeof(BolfTracker.Web.App_Start.MiniProfilerPackage), "PreStart")]
 [assembly: WebActivator.PostApplicationStartMethod(typeof(BolfTracker.Web.App_Start.MiniProfilerPackage), "PostStart")]
@@ -15,7 +16,7 @@ namespace BolfTracker.Web.App_Start
     {
         public static void PreStart()
         {
-            MiniProfiler.Settings.SqlFormatter = new MvcMiniProfiler.SqlFormatters.SqlServerFormatter();
+            MiniProfiler.Settings.SqlFormatter = new SqlServerFormatter();
 
             MiniProfilerEF.Initialize();
 

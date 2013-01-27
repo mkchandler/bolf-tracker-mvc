@@ -4,8 +4,6 @@ using System.Web.Mvc;
 
 using BolfTracker.Services;
 
-using MvcMiniProfiler;
-
 namespace BolfTracker.Web.Controllers
 {
     public class RankingController : Controller
