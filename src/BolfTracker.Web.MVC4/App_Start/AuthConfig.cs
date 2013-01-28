@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Web.WebPages.OAuth;
-using BolfTracker.Web.MVC4.Models;
+using BolfTracker.Web.Models;
 
-namespace BolfTracker.Web.MVC4
+namespace BolfTracker.Web
 {
     public static class AuthConfig
     {

@@ -1,0 +1,59 @@
+﻿@{
+  ViewBag.Title = "Statistics - League Manager - Bolf Tracker";
+}
+<div class="page-header">
+  <div class="row">
+    <div class="span8">
+      <h1>League Manager</h1>
+    </div>
+  </div>
+</div>
+<ul class="nav nav-tabs">
+  <li class="active">@Html.ActionLink("Statistics", "Index", "Admin")</li>
+  <li>@Html.ActionLink("Players", "Players", "Admin")</li>
+  <li>@Html.ActionLink("Holes", "Holes", "Admin")</li>
+</ul>
+<h2>Calculate Game Statistics <small>Calculates game statistics for month and year or zero for all.</small></h2>
+@using (Html.BeginForm("CalculateGameStatistics", "Admin", FormMethod.Post))
+{ 
+  <label for="game-stats-month">Month</label>
+  <input type="number" name="month" id="game-stats-month" value="@DateTime.Today.Month" />
+  <label for="game-stats-year">Year</label>
+  <input type="number" name="year" id="game-stats-year" value="@DateTime.Today.Year" />
+  <div>
+    <input type="submit" value="Calculate" class="btn" />
+  </div>
+}
+<h2>Calculate Rankings <small>Calculates rankings for month and year or zero for all.</small></h2>
+@using (Html.BeginForm("CalculateRankings", "Admin", FormMethod.Post))
+{ 
+  <label for="rankings-month">Month</label>
+  <input type="number" name="month" id="rankings-month" value="@DateTime.Today.Month" />
+  <label for="rankings-year">Year</label>
+  <input type="number" name="year" id="rankings-year" value="@DateTime.Today.Year" />
+  <div>
+    <input type="submit" value="Calculate" class="btn" />
+  </div>
+}
+<h2>Calculate Player Statistics <small>Calculates player statistics for month and year or zero for all.</small></h2>
+@using (Html.BeginForm("CalculatePlayerStatistics", "Admin", FormMethod.Post))
+{ 
+  <label for="player-stats-month">Month</label>
+  <input type="number" name="month" id="player-stats-month" value="@DateTime.Today.Month" />
+  <label for="player-stats-year">Year</label>
+  <input type="number" name="year" id="player-stats-year" value="@DateTime.Today.Year" />
+  <div>
+    <input type="submit" value="Calculate" class="btn" />
+  </div>
+}
+<h2>Calculate Hole Statistics <small>Calculates hole statistics for month and year or zero for all.</small></h2>
+@using (Html.BeginForm("CalculateHoleStatistics", "Admin", FormMethod.Post))
+{ 
+  <label for="hole-stats-month">Month</label>
+  <input type="number" name="month" id="hole-stats-month" value="@DateTime.Today.Month" />
+  <label for="hole-stats-year">Year</label>
+  <input type="number" name="year" id="hole-stats-year" value="@DateTime.Today.Year" />
+  <div>
+    <input type="submit" value="Calculate" class="btn" />
+  </div>
+}

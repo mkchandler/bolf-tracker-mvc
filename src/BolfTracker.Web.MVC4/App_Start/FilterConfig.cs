@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Mvc;
 
-namespace BolfTracker.Web.MVC4
+namespace BolfTracker.Web
 {
     public class FilterConfig
     {

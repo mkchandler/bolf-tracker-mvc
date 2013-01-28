@@ -1,32 +1,30 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
-namespace BolfTracker.Web.MVC4.Controllers
+using BolfTracker.Services;
+
+namespace BolfTracker.Web.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IRankingService _rankingService;
+        private readonly IPlayerService _playerService;
+
+        public HomeController(IRankingService rankingService, IPlayerService playerService)
+        {
+            _rankingService = rankingService;
+            _playerService = playerService;
+        }
+
         public ActionResult Index()
         {
-            ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
+            int rankingsYear = DateTime.Today.Year;
+            int rankingsMonth = DateTime.Today.Month;
 
-            return View();
-        }
+            var rankings = _rankingService.GetRankings(rankingsMonth, rankingsYear);
+            var playerStatistics = _playerService.GetPlayerStatistics(rankingsMonth, rankingsYear);
 
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your app description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
+            return View("Home", new HomeViewModel(rankings, playerStatistics));
         }
     }
 }

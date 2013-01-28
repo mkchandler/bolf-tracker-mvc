@@ -1,48 +1,61 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <title>@ViewBag.Title - My ASP.NET MVC Application</title>
-        <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-        <meta name="viewport" content="width=device-width" />
-        @Styles.Render("~/Content/css")
-        @Scripts.Render("~/bundles/modernizr")
-    </head>
-    <body>
-        <header>
-            <div class="content-wrapper">
-                <div class="float-left">
-                    <p class="site-title">@Html.ActionLink("your logo here", "Index", "Home")</p>
-                </div>
-                <div class="float-right">
-                    <section id="login">
-                        @Html.Partial("_LoginPartial")
-                    </section>
-                    <nav>
-                        <ul id="menu">
-                            <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                            <li>@Html.ActionLink("About", "About", "Home")</li>
-                            <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                        </ul>
-                    </nav>
-                </div>
-            </div>
-        </header>
-        <div id="body">
-            @RenderSection("featured", required: false)
-            <section class="content-wrapper main-content clear-fix">
-                @RenderBody()
-            </section>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>@ViewBag.Title</title>
+  <link href="@Url.Content("~/css/bolftracker.css")" rel="stylesheet">
+  <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet">
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+  @StackExchange.Profiling.MiniProfiler.RenderIncludes()
+  @if (!HttpContext.Current.Request.IsLocal)
+  {
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-27886560-1']);
+      _gaq.push(['_trackPageview']);
+      (function () {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+  }
+</head>
+<body>
+  <div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></a>
+        @Html.ActionLink("Bolf Tracker", "Index", "Home", null, new { @class = "brand" })
+        <div class="nav-collapse collapse">
+          <ul class="nav">
+            <li>@Html.ActionLink("Rankings", "Index", "Ranking")</li>
+            <li>@Html.ActionLink("Games", "Index", "Game")</li>
+            <li>@Html.ActionLink("Players", "Index", "Player")</li>
+            <li>@Html.ActionLink("Holes", "Index", "Hole")</li>
+          </ul>
+          <ul class="nav pull-right">
+            @if (HttpContext.Current.User.Identity.IsAuthenticated)
+            { <li>@Html.ActionLink("League Manager", "Index", "Admin")</li> }
+            <li>@(HttpContext.Current.User.Identity.IsAuthenticated ? Html.ActionLink("Logout", "SignOut", "Player") : Html.ActionLink("Login", "Login", "Player"))</li>
+          </ul>
         </div>
-        <footer>
-            <div class="content-wrapper">
-                <div class="float-left">
-                    <p>&copy; @DateTime.Now.Year - My ASP.NET MVC Application</p>
-                </div>
-            </div>
-        </footer>
-
-        @Scripts.Render("~/bundles/jquery")
-        @RenderSection("scripts", required: false)
-    </body>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    @RenderBody()
+  </div>
+  <footer>
+    <div class="container">
+      <p>
+        Designed and built by <a href="http://twitter.com/mkchandler">@@mkchandler</a>&nbsp;and friends.<br />
+        Code licensed under the <a href="https://github.com/mkchandler/bolf-tracker-mvc/blob/master/LICENSE">MIT License</a>&nbsp;and is available on <a href="https://github.com/mkchandler/bolf-tracker-mvc">GitHub</a>.
+      </p>
+    </div>
+  </footer>
+  <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
+  @RenderSection("javascript", required: false)
+</body>
 </html>

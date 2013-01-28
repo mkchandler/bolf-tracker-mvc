@@ -1,6 +1,6 @@
 ﻿using System.Web.Http;
 
-namespace BolfTracker.Web.MVC4
+namespace BolfTracker.Web
 {
     public static class WebApiConfig
     {

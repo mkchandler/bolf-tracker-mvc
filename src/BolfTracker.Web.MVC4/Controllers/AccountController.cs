@@ -8,10 +8,10 @@ using System.Web.Security;
 using DotNetOpenAuth.AspNet;
 using Microsoft.Web.WebPages.OAuth;
 using WebMatrix.WebData;
-using BolfTracker.Web.MVC4.Filters;
-using BolfTracker.Web.MVC4.Models;
+using BolfTracker.Web.Filters;
+using BolfTracker.Web.Models;
 
-namespace BolfTracker.Web.MVC4.Controllers
+namespace BolfTracker.Web.Controllers
 {
     [Authorize]
     [InitializeSimpleMembership]

@@ -6,7 +6,7 @@ using System.Data.Entity;
 using System.Globalization;
 using System.Web.Security;
 
-namespace BolfTracker.Web.MVC4.Models
+namespace BolfTracker.Web.Models
 {
     public class UsersContext : DbContext
     {
