@@ -80,6 +80,11 @@
     <Compile Include="GameStatisticsRepository.cs" />
     <Compile Include="HoleRepository.cs" />
     <Compile Include="HoleStatisticsRepository.cs" />
+    <Compile Include="Migrations\201302021720394_UpdatePlayerTable.cs" />
+    <Compile Include="Migrations\201302021720394_UpdatePlayerTable.Designer.cs">
+      <DependentUpon>201302021720394_UpdatePlayerTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PlayerCareerStatisticsRepository.cs" />
     <Compile Include="PlayerGameStatisticsRepository.cs" />
     <Compile Include="PlayerHoleStatisticsRepository.cs" />
@@ -97,11 +102,15 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201302021720394_UpdatePlayerTable.resx">
+      <DependentUpon>201302021720394_UpdatePlayerTable.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
