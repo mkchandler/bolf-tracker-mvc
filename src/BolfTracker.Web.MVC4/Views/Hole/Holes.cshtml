@@ -36,10 +36,10 @@
   </tbody>
 </table>
 @section javascript {
-  <script src="@Url.Content("~/js/jquery.tablesorter.min.js")" type="text/javascript"></script>
-  <script type="text/javascript">
-  $(function () {
-    $("#current-month-stats, #lifetime-stats").tablesorter();
-  });
+  <script src="@Url.Content("~/js/jquery.tablesorter.min.js")"></script>
+  <script>
+    $(function () {
+      $("#current-month-stats, #lifetime-stats").tablesorter();
+    });
   </script>
 }
