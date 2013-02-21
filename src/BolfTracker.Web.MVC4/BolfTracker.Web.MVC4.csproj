@@ -209,6 +209,8 @@
     <Content Include="css\bootstrap.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="js\jquery-1.9.1.js" />
+    <Content Include="js\jquery-1.9.1.min.js" />
     <Content Include="js\jquery.tablesorter.js" />
     <Content Include="js\jquery.tablesorter.min.js" />
     <Content Include="Web.config" />
