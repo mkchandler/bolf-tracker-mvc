@@ -5,8 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>@ViewBag.Title</title>
   @Styles.Render("~/bundles/css")
-  @if (!HttpContext.Current.Request.IsLocal)
-  {
+  @if (!HttpContext.Current.Request.IsLocal) {
     <script type="text/javascript">
       var _gaq = _gaq || [];
       _gaq.push(['_setAccount', 'UA-27886560-1']);
@@ -52,7 +51,6 @@
       </p>
     </div>
   </footer>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
   @RenderSection("javascript", required: false)
 </body>
 </html>
