@@ -32,8 +32,7 @@
             <li>@Html.ActionLink("Holes", "Index", "Hole")</li>
           </ul>
           <ul class="nav pull-right">
-            @if (HttpContext.Current.User.Identity.IsAuthenticated)
-            { <li>@Html.ActionLink("League Manager", "Index", "Admin")</li> }
+            @if (HttpContext.Current.User.Identity.IsAuthenticated) { <li>@Html.ActionLink("League Manager", "Index", "Admin")</li> }
             <li>@(HttpContext.Current.User.Identity.IsAuthenticated ? Html.ActionLink("Logout", "SignOut", "Player") : Html.ActionLink("Login", "Login", "Player"))</li>
           </ul>
         </div>
@@ -51,7 +50,6 @@
       </p>
     </div>
   </footer>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
   @Scripts.Render("~/bundles/js")
   @RenderSection("javascript", required: false)
 </body>
