@@ -1,6 +1,3 @@
-USE [BolfTracker]
-GO
-
 SET ANSI_NULLS ON
 GO
 
