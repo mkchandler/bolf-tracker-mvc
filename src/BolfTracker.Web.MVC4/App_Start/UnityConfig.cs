@@ -5,7 +5,7 @@ using BolfTracker.Repositories;
 using BolfTracker.Services;
 
 using Microsoft.Practices.Unity;
-using Unity.Mvc3;
+using Unity.Mvc4;
 
 namespace BolfTracker.Web
 {
