@@ -4,22 +4,18 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>@ViewBag.Title</title>
-  <link href="@Url.Content("~/css/bolftracker.css")" rel="stylesheet">
-  <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet">
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-  @MvcMiniProfiler.MiniProfiler.RenderIncludes()
-  @if (!HttpContext.Current.Request.IsLocal)
-  {
-    <script type="text/javascript">
-      var _gaq = _gaq || [];
-      _gaq.push(['_setAccount', 'UA-27886560-1']);
-      _gaq.push(['_trackPageview']);
-      (function () {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-      })();
-    </script>
+  @Styles.Render("~/bundles/css")
+  @if (!HttpContext.Current.Request.IsLocal) {
+  <script>
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-27886560-1']);
+    _gaq.push(['_trackPageview']);
+    (function () {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
   }
 </head>
 <body>
@@ -36,8 +32,7 @@
             <li>@Html.ActionLink("Holes", "Index", "Hole")</li>
           </ul>
           <ul class="nav pull-right">
-            @if (HttpContext.Current.User.Identity.IsAuthenticated)
-            { <li>@Html.ActionLink("League Manager", "Index", "Admin")</li> }
+            @if (HttpContext.Current.User.Identity.IsAuthenticated) { <li>@Html.ActionLink("League Manager", "Index", "Admin")</li> }
             <li>@(HttpContext.Current.User.Identity.IsAuthenticated ? Html.ActionLink("Logout", "SignOut", "Player") : Html.ActionLink("Login", "Login", "Player"))</li>
           </ul>
         </div>
@@ -50,12 +45,12 @@
   <footer>
     <div class="container">
       <p>
-        Designed and built by <a href="http://twitter.com/mkchandler">@@mkchandler</a>&nbsp;and friends.<br />
+        Designed and built by <a href="http://twitter.com/mkchandler">@@mkchandler</a>&nbsp;and friends.<br>
         Code licensed under the <a href="https://github.com/mkchandler/bolf-tracker-mvc/blob/master/LICENSE">MIT License</a>&nbsp;and is available on <a href="https://github.com/mkchandler/bolf-tracker-mvc">GitHub</a>.
       </p>
     </div>
   </footer>
-  <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
+  @Scripts.Render("~/bundles/js")
   @RenderSection("javascript", required: false)
 </body>
 </html>

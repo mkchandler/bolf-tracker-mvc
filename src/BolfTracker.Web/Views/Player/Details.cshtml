@@ -12,9 +12,7 @@
 }
 else
 { 
-  <p>
-    Monthly player stats not yet available.
-  </p>
+  <p>Monthly player stats not yet available.</p>
 }
 <h2>Career Statistics</h2>
 @if (Model.PlayerStatistics != null)
@@ -23,9 +21,7 @@ else
 }
 else
 { 
-  <p>
-    Career player stats not yet available.
-  </p>
+  <p>Career player stats not yet available.</p>
 }
 <h2>@Model.MonthName @Model.Year Hole Statistics</h2>
 @if (Model.PlayerHoleStatistics != null && Model.PlayerHoleStatistics.Any())
@@ -34,15 +30,12 @@ else
 }
 else
 { 
-  <p>
-    Monthly player hole stats not yet available.
-  </p>
+  <p>Monthly player hole stats not yet available.</p>
 }
 @section javascript {
-  <script src="@Url.Content("~/js/jquery.tablesorter.min.js")" type="text/javascript"></script>
-  <script type="text/javascript">
-  $(function () {
-    $("#monthly-stats, #hole-stats").tablesorter();
-  });
+  <script>
+    $(function () {
+      $("#monthly-stats, #hole-stats").tablesorter();
+    });
   </script>
 }

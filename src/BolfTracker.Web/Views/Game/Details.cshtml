@@ -82,12 +82,8 @@
     }
     @if (!Model.GameFinalized)
     { 
-      <p>
-        Points Available: @Model.PointsAvailable
-      </p>
-      <p>
-        Next Up (beta): @(Model.GetCurrentHole() >= 10 ? "?" : Model.GetNextPlayer().Name)
-      </p>
+      <p>Points Available: @Model.PointsAvailable</p>
+      <p>Next Up (beta): @(Model.GetCurrentHole() >= 10 ? "?" : Model.GetNextPlayer().Name)</p>
     }
   </div>
 </div>
@@ -140,12 +136,10 @@
 }
 else
 { 
-  <p>
-    Game has not started.
-  </p> 
+  <p>Game has not started.</p> 
 }
 @section javascript {
-  <script type="text/javascript">
+  <script>
     var par = 0;
     var lastAttempt = 0;
 @{

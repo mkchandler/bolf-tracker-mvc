@@ -45,7 +45,7 @@ namespace BolfTracker.Web.Controllers
             {
                 _holeService.CreateHole(holeNumber, par);
 
-                return RedirectToAction("Index");
+                return RedirectToAction("Holes", "Admin");
             }
             catch
             {

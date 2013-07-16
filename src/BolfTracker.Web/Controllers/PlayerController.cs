@@ -54,7 +54,7 @@ namespace BolfTracker.Web.Controllers
             {
                 _playerService.Create(name);
 
-                return RedirectToAction("Index");
+                return RedirectToAction("Players", "Admin");
             }
             catch
             {
@@ -78,7 +78,7 @@ namespace BolfTracker.Web.Controllers
             {
                 _playerService.Update(id, name);
 
-                return RedirectToAction("Index");
+                return RedirectToAction("Players", "Admin");
             }
             catch
             {
