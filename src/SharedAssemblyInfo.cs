@@ -9,4 +9,4 @@ using System.Runtime.InteropServices;
 
 [assembly: AssemblyVersion("0.10.0")]
 [assembly: AssemblyFileVersion("0.10.0")]
-[assembly: AssemblyInformationalVersion("0.10.0-beta")]
+[assembly: AssemblyInformationalVersion("0.10.0")]
