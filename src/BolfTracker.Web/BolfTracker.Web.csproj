@@ -210,7 +210,6 @@
     <Compile Include="Controllers\RankingController.cs" />
     <Compile Include="Controllers\ScoreController.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
-    <Compile Include="GlimpseSecurityPolicy.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
