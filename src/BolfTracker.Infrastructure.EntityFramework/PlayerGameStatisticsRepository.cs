@@ -16,7 +16,7 @@ namespace BolfTracker.Infrastructure.EntityFramework
         {
             using (var context = new BolfTrackerContext())
             {
-                var playerGameStatistics = context.PlayerGameStatistics.SingleOrDefault(pgs => pgs.Id == id);
+                var playerGameStatistics = context.PlayerGameStatistics.Include(pgs => pgs.Game).SingleOrDefault(pgs => pgs.Id == id);
 
                 return playerGameStatistics;
             }
@@ -83,6 +83,7 @@ namespace BolfTracker.Infrastructure.EntityFramework
         {
             using (var context = new BolfTrackerContext())
             {
+                context.PlayerGameStatistics.Attach(model);
                 context.PlayerGameStatistics.Remove(model);
                 context.SaveChanges();
             }
