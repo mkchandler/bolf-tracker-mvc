@@ -85,5 +85,13 @@ namespace BolfTracker.Web.Controllers
 
             return RedirectToAction("Details", new { id = gameId });
         }
+
+        public ActionResult UnFinalize(int gameId)
+        {
+            var game = _gameService.GetGame(gameId);
+            
+
+            return RedirectToAction("Details", new { id = gameId });
+        }
     }
 }

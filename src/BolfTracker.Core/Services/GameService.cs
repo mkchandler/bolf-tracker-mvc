@@ -241,6 +241,16 @@ namespace BolfTracker.Services
             }
         }
 
+        public IEnumerable<GameStatistics> GetGameStatistics(int gameId)
+        {
+            return null;
+        }
+
+        public IEnumerable<PlayerGameStatistics> GetPlayerGameStatistics(int gameId)
+        {
+            return null;
+        }
+
         private void DeleteGameStatistics()
         {
             _gameStatisticsRepository.DeleteAll();
