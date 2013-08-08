@@ -71,6 +71,13 @@ namespace BolfTracker.Web.Controllers
             return RedirectToAction("Details", new { id = game.Id });
         }
 
+        public ActionResult Delete(int gameId)
+        {
+            _gameService.DeleteGame(gameId);
+
+            return RedirectToAction("Index", new { year = DateTime.Today.Year, month = DateTime.Today.Month });
+        }
+
         [HttpPost]
         [Authorize]
         public ActionResult Finalize(int gameId)

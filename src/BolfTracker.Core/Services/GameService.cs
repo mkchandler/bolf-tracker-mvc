@@ -66,7 +66,8 @@ namespace BolfTracker.Services
         {
             Check.Argument.IsNotZeroOrNegative(id, "id");
 
-            throw new NotImplementedException();
+            var game = _gameRepository.GetById(id);
+            _gameRepository.Delete(game);
         }
 
         public void CalculateGameStatistics()

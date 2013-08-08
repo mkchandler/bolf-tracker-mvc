@@ -14,16 +14,27 @@
         {
           using (Html.BeginForm("UnFinalize", "Game", FormMethod.Post))
           {
-        @Html.Hidden("gameId", Model.Game.Id)
-        <input type="submit" class="btn pull-right" value="Un-Finalize Game" />
+            @Html.Hidden("gameId", Model.Game.Id)
+            <input type="submit" class="btn pull-right" value="Un-Finalize Game" />
           }
         }
         else
         {
-          using (Html.BeginForm("Finalize", "Game", FormMethod.Post))
+          if (Model.Shots.Any())
           {
-        @Html.Hidden("gameId", Model.Game.Id)
-        <input type="submit" class="btn pull-right" value="Finalize Game" />
+              using (Html.BeginForm("Finalize", "Game", FormMethod.Post))
+              {
+                @Html.Hidden("gameId", Model.Game.Id)
+                <input type="submit" class="btn pull-right" value="Finalize Game" />
+              }
+          }
+          else
+          {
+              using (Html.BeginForm("Delete", "Game", FormMethod.Post))
+              {
+                @Html.Hidden("gameId", Model.Game.Id)
+                <input type="submit" class="btn btn-danger pull-right" value="Delete Game" />
+              }
           }
         }
       }
