@@ -86,10 +86,22 @@ namespace BolfTracker.Web.Controllers
             return RedirectToAction("Details", new { id = gameId });
         }
 
+        [HttpPost]
+        [Authorize]
         public ActionResult UnFinalize(int gameId)
         {
             var game = _gameService.GetGame(gameId);
             
+            // Delete game and player game statistics
+            _gameService.DeleteGameStatistics(gameId);
+
+            // Delete player rivalry statistics for the game
+            _gameService.DeletePlayerRivalryStatistics(gameId);
+
+            // Recalculate the stats for the month (and career) without taking into account this game
+            _playerService.CalculatePlayerStatistics(game.Date.Month, game.Date.Year, true);
+            _holeService.CalculateHoleStatistics(game.Date.Month, game.Date.Year);
+            _rankingService.CalculateRankings(game.Date.Month, game.Date.Year);
 
             return RedirectToAction("Details", new { id = gameId });
         }

@@ -10,7 +10,15 @@
     <div class="span6">
       @if (HttpContext.Current.User.Identity.IsAuthenticated)
       {
-        if (!Model.GameFinalized)
+        if (Model.GameFinalized)
+        {
+          using (Html.BeginForm("UnFinalize", "Game", FormMethod.Post))
+          {
+        @Html.Hidden("gameId", Model.Game.Id)
+        <input type="submit" class="btn pull-right" value="Un-Finalize Game" />
+          }
+        }
+        else
         {
           using (Html.BeginForm("Finalize", "Game", FormMethod.Post))
           {

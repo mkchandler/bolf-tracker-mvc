@@ -108,5 +108,15 @@ namespace BolfTracker.Infrastructure.EntityFramework
                 connection.Execute(command, new { Month = month, Year = year });
             }
         }
+
+        public void DeleteByGame(int gameId)
+        {
+            using (var connection = BolfTrackerDbConnection.GetProfiledConnection())
+            {
+                connection.Open();
+                string command = "DELETE FROM PlayerGameStatistics WHERE GameId = @GameId";
+                connection.Execute(command, new { GameId = gameId });
+            }
+        }
     }
 }

@@ -15,5 +15,7 @@ namespace BolfTracker.Repositories
         void DeleteAll();
 
         void DeleteByMonthAndYear(int month, int year);
+
+        void DeleteByGame(int gameId);
     }
 }
