@@ -2,13 +2,13 @@
 @{
   ViewBag.Title = "Bolf Tracker";
 }
-<div class="hero-unit">
+<div class="jumbotron">
   <h1>Bolf Tracker</h1>
   <p>Bolf is an office basketball game created by some of the brightest programmers around. Here you can track games, rankings and statistics down to the lowest level.</p>
   <p>@Html.ActionLink("Start a game now!", "Create", "Game", null, new { @class = "btn btn-primary btn-large" })</p>
 </div>
 <div class="row">
-  <div class="span6">
+  <div class="col-md-6">
     <div class="page-header">
       <h2>Rankings&nbsp;<small>@Model.LatestMonthDisplay</small></h2>
     </div>
@@ -37,7 +37,7 @@
     </table>
     <p><a href="@Url.Action("Index", "Ranking")">&raquo; View Complete Rankings</a></p>
   </div>
-  <div class="span6">
+  <div class="col-md-6">
     <div class="page-header">
       <h2>Players&nbsp;<small>@Model.LatestMonthDisplay</small></h2>
     </div>

@@ -4,10 +4,10 @@
 }
 <div class="page-header">
   <div class="row">
-    <div class="span6">
+    <div class="col-md-6">
       <h1>@Model.MonthName @Model.Year Games</h1>
     </div>
-    <div class="span6">
+    <div class="col-md-6">
       @if (HttpContext.Current.User.Identity.IsAuthenticated)
       {
         @Html.ActionLink("New Game", "Create", "Game", null, new { @class = "btn btn-primary pull-right" })
@@ -27,7 +27,7 @@
     @:<div class="row"> 
   }
   var pgs = Model.GetPlayerGameStatistics(item.Id);
-  <div class="span6">
+  <div class="col-md-6">
     <table class="table table-condensed table-bordered table-striped">
       <thead>
         <tr>

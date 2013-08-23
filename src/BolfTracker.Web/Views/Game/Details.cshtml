@@ -4,10 +4,10 @@
 }
 <div class="page-header">
   <div class="row">
-    <div class="span6">
+    <div class="col-md-6">
       <h1>Game Panel - @String.Format("{0:d}", Model.Game.Date)</h1>
     </div>
-    <div class="span6">
+    <div class="col-md-6">
       @if (HttpContext.Current.User.Identity.IsAuthenticated)
       {
         if (!Model.GameFinalized)
@@ -23,7 +23,7 @@
   </div>
 </div>
 <div class="row">
-  <div class="span6">
+  <div class="col-md-6">
     @if (HttpContext.Current.User.Identity.IsAuthenticated)
     {
       if (!Model.GameFinalized)
@@ -48,7 +48,7 @@
       }
     }
   </div>
-  <div class="span6">
+  <div class="col-md-6">
     <h2>Leaderboard</h2>
     @if (Model.Shots.Any())
     {
@@ -123,7 +123,7 @@
                   { 
                 @Html.Hidden("scoreId", score.Id)
                 @Html.Hidden("gameId", score.Game.Id)
-                <input type="submit" class="btn btn-danger btn-mini" value="Delete" />
+                <input type="submit" class="btn btn-danger btn-xs" value="Delete" />
                   }
                 }
               }
