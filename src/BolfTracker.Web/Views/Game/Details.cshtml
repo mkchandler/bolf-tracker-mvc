@@ -52,29 +52,31 @@
     <h2>Leaderboard</h2>
     @if (Model.Shots.Any())
     {
-      <table id="leaderboard" class=" table table-bordered table-striped">
-        <thead>
-          <tr>
-            <th title="Player">Player</th>
-            <th title="Points">Points</th>
-            <th title="Shooting Percentage">Shooting %</th>
-            <th title="Steals">Steals</th>
-            <th title="Pushes">Pushes</th>
-          </tr>
-        </thead>
-        <tbody>
-          @foreach (var player in Model.Leaderboard)
-          {
-            <tr>
-              <td>@Html.ActionLink(player.Player.Name, "Details", "Player", new { id = player.Player.Id, name = player.Player.UrlFriendlyName }, null)</td>
-              <td>@player.Points</td>
-              <td>@player.ShotsMade/@player.Attempts (@player.ShootingPercentage.ToString("P0"))</td>
-              <td>@player.Steals</td>
-              <td>@player.Pushes</td>
-            </tr>
-          }
-        </tbody>
-      </table>
+        <div class="table-responsive">
+            <table id="leaderboard" class=" table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th title="Player">Player</th>
+                        <th title="Points">Points</th>
+                        <th title="Shooting Percentage">Shooting %</th>
+                        <th title="Steals">Steals</th>
+                        <th title="Pushes">Pushes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var player in Model.Leaderboard)
+                    {
+                        <tr>
+                            <td>@Html.ActionLink(player.Player.Name, "Details", "Player", new { id = player.Player.Id, name = player.Player.UrlFriendlyName }, null)</td>
+                            <td>@player.Points</td>
+                            <td>@player.ShotsMade/@player.Attempts (@player.ShootingPercentage.ToString("P0"))</td>
+                            <td>@player.Steals</td>
+                            <td>@player.Pushes</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     }
     else
     {
@@ -90,49 +92,51 @@
 <h2>Hole History</h2>
 @if (Model.Shots.Any())
 {
-  int lastShot = Model.Shots.Max(s => s.Id);        
-  <table class="table table-condensed table-bordered table-striped">
-    <thead>
-      <tr>
-        <th title="Hole" style="width: 50px; text-align: left;">Hole</th>
-        <th title="Player" style="width: 150px; text-align: left;">Player</th>
-        <th title="Attempts" style="width: 85px; text-align: left;">Attempts</th>
-        <th title="Result" style="width: 200px; text-align: left;">Result</th>
-        @if (!Model.GameFinalized)
-        {
-          <th></th>
-        }
-      </tr>
-    </thead>
-    <tbody>
-      @foreach (var score in Model.Shots.OrderByDescending(s => s.Id))
-      {
-        <tr>
-          <td>@score.Hole.Id</td>
-          <td>@score.Player.Name</td>
-          <td>@score.Attempts</td>
-          <td>@score.ShotType.Name</td>
-          @if (!Model.GameFinalized)
-          {
-            <td>
-              @if (HttpContext.Current.User.Identity.IsAuthenticated)
-              {
-                if (score.Id == lastShot && !Model.GameFinalized)
+  int lastShot = Model.Shots.Max(s => s.Id);     
+    <div class="table-responsive">   
+        <table class="table table-condensed table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th title="Hole" style="width: 50px; text-align: left;">Hole</th>
+                    <th title="Player" style="width: 150px; text-align: left;">Player</th>
+                    <th title="Attempts" style="width: 85px; text-align: left;">Attempts</th>
+                    <th title="Result" style="width: 200px; text-align: left;">Result</th>
+                    @if (!Model.GameFinalized)
+                    {
+                        <th></th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var score in Model.Shots.OrderByDescending(s => s.Id))
                 {
-                  using (Html.BeginForm("Delete", "Score", FormMethod.Post, new { @style = "margin: 0;" }))
-                  { 
-                @Html.Hidden("scoreId", score.Id)
-                @Html.Hidden("gameId", score.Game.Id)
-                <input type="submit" class="btn btn-danger btn-xs" value="Delete" />
-                  }
+                    <tr>
+                        <td>@score.Hole.Id</td>
+                        <td>@score.Player.Name</td>
+                        <td>@score.Attempts</td>
+                        <td>@score.ShotType.Name</td>
+                        @if (!Model.GameFinalized)
+                        {
+                            <td>
+                                @if (HttpContext.Current.User.Identity.IsAuthenticated)
+                                {
+                                    if (score.Id == lastShot && !Model.GameFinalized)
+                                    {
+                                        using (Html.BeginForm("Delete", "Score", FormMethod.Post, new { @style = "margin: 0;" }))
+                                        { 
+                                            @Html.Hidden("scoreId", score.Id)
+                                            @Html.Hidden("gameId", score.Game.Id)
+                                            <input type="submit" class="btn btn-danger btn-xs" value="Delete" />
+                                        }
+                                    }
+                                }
+                            </td>
+                        }
+                    </tr>
                 }
-              }
-            </td>
-          }
-        </tr>
-      }
-    </tbody>
-  </table>
+            </tbody>
+        </table>
+    </div>
 }
 else
 { 

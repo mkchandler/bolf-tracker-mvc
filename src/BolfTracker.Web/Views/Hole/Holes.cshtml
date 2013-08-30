@@ -6,35 +6,37 @@
   <h1>Hole Statistics</h1>
 </div>
 <h2>@Model.MonthName @Model.Year Hole Statistics</h2>
-<table class="table table-condensed table-bordered table-striped" id="current-month-stats">
-  <thead>
-    <tr>
-      <th title="Hole">Hole</th>
-      <th title="Shots Made">Made</th>
-      <th title="Attempts">Attempts</th>
-      <th title="Shooting Percentage">Shooting %</th>
-      <th title="Points">Points</th>
-      <th title="Pushes">Pushes</th>
-      <th title="Steals">Steals</th>
-      <th title="Sugar Free Steals">SFS</th>
-    </tr>
-  </thead>
-  <tbody>
-    @foreach (var item in Model.MonthHoleStatistics)
-    {
-      <tr>
-        <td>@item.Hole.Id</td>
-        <td>@item.ShotsMade</td>
-        <td>@item.Attempts</td>
-        <td>@item.ShootingPercentage</td>
-        <td>@item.PointsScored</td>
-        <td>@item.Pushes</td>
-        <td>@item.Steals</td>
-        <td>@item.SugarFreeSteals</td>
-      </tr>
-    }
-  </tbody>
-</table>
+<div class="table-responsive">
+    <table class="table table-condensed table-bordered table-striped" id="current-month-stats">
+        <thead>
+            <tr>
+                <th title="Hole">Hole</th>
+                <th title="Shots Made">Made</th>
+                <th title="Attempts">Attempts</th>
+                <th title="Shooting Percentage">Shooting %</th>
+                <th title="Points">Points</th>
+                <th title="Pushes">Pushes</th>
+                <th title="Steals">Steals</th>
+                <th title="Sugar Free Steals">SFS</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.MonthHoleStatistics)
+            {
+                <tr>
+                    <td>@item.Hole.Id</td>
+                    <td>@item.ShotsMade</td>
+                    <td>@item.Attempts</td>
+                    <td>@item.ShootingPercentage</td>
+                    <td>@item.PointsScored</td>
+                    <td>@item.Pushes</td>
+                    <td>@item.Steals</td>
+                    <td>@item.SugarFreeSteals</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
 @section javascript {
   <script>
     $(function () {
