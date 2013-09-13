@@ -5,25 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>@ViewBag.Title</title>
   @Styles.Render("~/bundles/css")
-  @if (!HttpContext.Current.Request.IsLocal)
-  {
-    <script>
-      var _gaq = _gaq || [];
-      _gaq.push(['_setAccount', 'UA-27886560-1']);
-      _gaq.push(['_trackPageview']);
-      (function () {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-      })();
-    </script>
+  @if (!HttpContext.Current.Request.IsLocal) {
+  <script>
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-27886560-1']);
+    _gaq.push(['_trackPageview']);
+    (function () {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
   }
 </head>
 <body>
   <div class="navbar navbar-default navbar-fixed-top">
     <div class="container">
       <div class="navbar-header">
-        k
         @Html.ActionLink("Bolf Tracker", "Index", "Home", null, new { @class = "navbar-brand" })
       </div>
       <div class="navbar-collapse collapse">
@@ -34,15 +32,13 @@
           <li @(ViewBag.Section == "Hole" ? "class=active" : "")>@Html.ActionLink("Holes", "Index", "Hole")</li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-          @if (HttpContext.Current.User.Identity.IsAuthenticated)
-          {
-            <li @(ViewBag.Section == "League" ? "class=active" : "")>@Html.ActionLink("League Manager", "Index", "Admin")</li> }
+          @if (HttpContext.Current.User.Identity.IsAuthenticated) {
+          <li @(ViewBag.Section == "League" ? "class=active" : "")>@Html.ActionLink("League Manager", "Index", "Admin")</li>
+          }
           <li>@(HttpContext.Current.User.Identity.IsAuthenticated ? Html.ActionLink("Logout", "SignOut", "Player") : Html.ActionLink("Login", "Login", "Player"))</li>
-
         </ul>
       </div>
     </div>
-
   </div>
   <div class="container">
     @RenderBody()
