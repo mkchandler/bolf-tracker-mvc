@@ -8,87 +8,87 @@
 </div>
 <h2>@Model.MonthName @Model.Year Player Statistics</h2>
 <div class="table-responsive">
-    <table class="table table-condensed table-bordered table-striped" id="current-month-stats">
-        <thead>
-            <tr>
-                <th title="Player">Player</th>
-                <th title="Wins">W</th>
-                <th title="Losses">L</th>
-                <th title="Winning Percentage">Win %</th>
-                <th title="Shots Made ">Made</th>
-                <th title="Attempts">Attempts</th>
-                <th title="Shooting Percentage">Shooting %</th>
-                <th title="Points">Points</th>
-                <th title="Points Per Game">PPG</th>
-                <th title="Pushes">Pushes</th>
-                <th title="Pushes Per Game">Pushes/PG</th>
-                <th title="Steals">Steals</th>
-                <th title="Sugar-Free Steals">SFS</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var player in Model.PlayerStatistics)
-            {
-                <tr>
-                    <td>@Html.ActionLink(player.Player.Name, "Details", new { id = player.Player.Id, name = player.Player.UrlFriendlyName })</td>
-                    <td>@player.Wins</td>
-                    <td>@player.Losses</td>
-                    <td>@player.WinningPercentage</td>
-                    <td>@player.ShotsMade</td>
-                    <td>@player.Attempts</td>
-                    <td>@player.ShootingPercentage</td>
-                    <td>@player.Points</td>
-                    <td>@player.PointsPerGame</td>
-                    <td>@player.Pushes</td>
-                    <td>@player.PushesPerGame</td>
-                    <td>@player.Steals</td>
-                    <td>@player.SugarFreeSteals</td>
-                </tr>
-            }
-        </tbody>
-    </table>
+  <table class="table table-condensed table-bordered table-striped" id="current-month-stats">
+    <thead>
+      <tr>
+        <th title="Player">Player</th>
+        <th title="Wins">W</th>
+        <th title="Losses">L</th>
+        <th title="Winning Percentage">Win %</th>
+        <th title="Shots Made ">Made</th>
+        <th title="Attempts">Attempts</th>
+        <th title="Shooting Percentage">Shooting %</th>
+        <th title="Points">Points</th>
+        <th title="Points Per Game">PPG</th>
+        <th title="Pushes">Pushes</th>
+        <th title="Pushes Per Game">Pushes/PG</th>
+        <th title="Steals">Steals</th>
+        <th title="Sugar-Free Steals">SFS</th>
+      </tr>
+    </thead>
+    <tbody>
+      @foreach (var player in Model.PlayerStatistics)
+      {
+        <tr>
+          <td>@Html.ActionLink(player.Player.Name, "Details", new { id = player.Player.Id, name = player.Player.UrlFriendlyName })</td>
+          <td>@player.Wins</td>
+          <td>@player.Losses</td>
+          <td>@player.WinningPercentage</td>
+          <td>@player.ShotsMade</td>
+          <td>@player.Attempts</td>
+          <td>@player.ShootingPercentage</td>
+          <td>@player.Points</td>
+          <td>@player.PointsPerGame</td>
+          <td>@player.Pushes</td>
+          <td>@player.PushesPerGame</td>
+          <td>@player.Steals</td>
+          <td>@player.SugarFreeSteals</td>
+        </tr>
+      }
+    </tbody>
+  </table>
 </div>
 <h2>Career Player Statistics</h2>
 <div class="table-responsive">
-    <table class="table table-condensed table-bordered table-striped" id="career-stats">
-        <thead>
-            <tr>
-                <th title="Player">Player</th>
-                <th title="Wins">W</th>
-                <th title="Losses">L</th>
-                <th title="Winning Percentage">Win %</th>
-                <th title="Shots Made ">Made</th>
-                <th title="Attempts">Attempts</th>
-                <th title="Shooting Percentage">Shooting %</th>
-                <th title="Points">Points</th>
-                <th title="Points Per Game">PPG</th>
-                <th title="Pushes">Pushes</th>
-                <th title="Pushes Per Game">Pushes/PG</th>
-                <th title="Steals">Steals</th>
-                <th title="Sugar-Free Steals">SFS</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var player in Model.PlayerCareerStatistics)
-            {
-                <tr>
-                    <td>@Html.ActionLink(player.Player.Name, "Details", new { id = player.Player.Id, name = player.Player.UrlFriendlyName })</td>
-                    <td>@player.Wins</td>
-                    <td>@player.Losses</td>
-                    <td>@player.WinningPercentage</td>
-                    <td>@player.ShotsMade</td>
-                    <td>@player.Attempts</td>
-                    <td>@player.ShootingPercentage</td>
-                    <td>@player.Points</td>
-                    <td>@player.PointsPerGame</td>
-                    <td>@player.Pushes</td>
-                    <td>@player.PushesPerGame</td>
-                    <td>@player.Steals</td>
-                    <td>@player.SugarFreeSteals</td>
-                </tr>
-            }
-        </tbody>
-    </table>
+  <table class="table table-condensed table-bordered table-striped" id="career-stats">
+    <thead>
+      <tr>
+        <th title="Player">Player</th>
+        <th title="Wins">W</th>
+        <th title="Losses">L</th>
+        <th title="Winning Percentage">Win %</th>
+        <th title="Shots Made ">Made</th>
+        <th title="Attempts">Attempts</th>
+        <th title="Shooting Percentage">Shooting %</th>
+        <th title="Points">Points</th>
+        <th title="Points Per Game">PPG</th>
+        <th title="Pushes">Pushes</th>
+        <th title="Pushes Per Game">Pushes/PG</th>
+        <th title="Steals">Steals</th>
+        <th title="Sugar-Free Steals">SFS</th>
+      </tr>
+    </thead>
+    <tbody>
+      @foreach (var player in Model.PlayerCareerStatistics)
+      {
+        <tr>
+          <td>@Html.ActionLink(player.Player.Name, "Details", new { id = player.Player.Id, name = player.Player.UrlFriendlyName })</td>
+          <td>@player.Wins</td>
+          <td>@player.Losses</td>
+          <td>@player.WinningPercentage</td>
+          <td>@player.ShotsMade</td>
+          <td>@player.Attempts</td>
+          <td>@player.ShootingPercentage</td>
+          <td>@player.Points</td>
+          <td>@player.PointsPerGame</td>
+          <td>@player.Pushes</td>
+          <td>@player.PushesPerGame</td>
+          <td>@player.Steals</td>
+          <td>@player.SugarFreeSteals</td>
+        </tr>
+      }
+    </tbody>
+  </table>
 </div>
 @section javascript {
   <script src="@Url.Content("~/js/jquery.tablesorter.min.js")"></script>

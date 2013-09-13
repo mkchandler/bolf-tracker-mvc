@@ -9,67 +9,67 @@
 </div>
 <div class="row">
   <div class="col-md-6">
-      <div class="page-header">
-          <h2>Rankings&nbsp;<small>@Model.LatestMonthDisplay</small></h2>
-      </div>
-      <div class="table-responsive">
-          <table class="table table-bordered table-striped table-condensed">
-              <thead>
-                  <tr>
-                      <th title="Player">Player</th>
-                      <th style="text-align: right;" title="Wins">Wins</th>
-                      <th style="text-align: right;" title="Losses">Losses</th>
-                      <th style="text-align: right;" title="Winning Percentage">Winning %</th>
-                      <th style="text-align: right;" title="Last 10 Record">Last 10</th>
-                  </tr>
-              </thead>
-              <tbody>
-                  @foreach (var ranking in Model.LatestMonthRankings)
-                  {
-                      <tr>
-                          <td>@Html.ActionLink(ranking.Player.Name, "Details", "Player", new { id = ranking.Player.Id, name = ranking.Player.UrlFriendlyName }, null)</td>
-                          <td style="text-align: right;">@ranking.Wins</td>
-                          <td style="text-align: right;">@ranking.Losses</td>
-                          <td style="text-align: right;">@ranking.WinningPercentage</td>
-                          <td style="text-align: right;">@ranking.LastTenWins-@ranking.LastTenLosses</td>
-                      </tr>
-                  }
-              </tbody>
-          </table>
-      </div>
+    <div class="page-header">
+      <h2>Rankings&nbsp;<small>@Model.LatestMonthDisplay</small></h2>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-bordered table-striped table-condensed">
+        <thead>
+          <tr>
+            <th title="Player">Player</th>
+            <th style="text-align: right;" title="Wins">Wins</th>
+            <th style="text-align: right;" title="Losses">Losses</th>
+            <th style="text-align: right;" title="Winning Percentage">Winning %</th>
+            <th style="text-align: right;" title="Last 10 Record">Last 10</th>
+          </tr>
+        </thead>
+        <tbody>
+          @foreach (var ranking in Model.LatestMonthRankings)
+          {
+            <tr>
+              <td>@Html.ActionLink(ranking.Player.Name, "Details", "Player", new { id = ranking.Player.Id, name = ranking.Player.UrlFriendlyName }, null)</td>
+              <td style="text-align: right;">@ranking.Wins</td>
+              <td style="text-align: right;">@ranking.Losses</td>
+              <td style="text-align: right;">@ranking.WinningPercentage</td>
+              <td style="text-align: right;">@ranking.LastTenWins-@ranking.LastTenLosses</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
     <p><a href="@Url.Action("Index", "Ranking")">&raquo; View Complete Rankings</a></p>
   </div>
   <div class="col-md-6">
-      <div class="page-header">
-          <h2>Players&nbsp;<small>@Model.LatestMonthDisplay</small></h2>
-      </div>
-      <div class="table-responsive">
-          <table class="table table-bordered table-striped table-condensed">
-              <thead>
-                  <tr>
-                      <th title="Player">Player</th>
-                      <th style="text-align: right;" title="Shooting Percentage">Shooting %</th>
-                      <th style="text-align: right;" title="Points">Points</th>
-                      <th style="text-align: right;" title="Points Per Game">PPG</th>
-                      <th style="text-align: right;" title="Pushes">Pushes</th>
-                      <th style="text-align: right;" title="Steals">Steals</th>
-                  </tr>
-              </thead>
-              <tbody>
-                  @foreach (var player in Model.LatestMonthPlayerStatistics)
-                  {
-                      <tr>
-                          <td>@Html.ActionLink(player.Player.Name, "Details", "Player", new { id = player.Player.Id, name = player.Player.UrlFriendlyName }, null)</td>
-                          <td style="text-align: right;">@player.ShootingPercentage</td>
-                          <td style="text-align: right;">@player.Points</td>
-                          <td style="text-align: right;">@player.PointsPerGame</td>
-                          <td style="text-align: right;">@player.Pushes</td>
-                          <td style="text-align: right;">@player.Steals</td>
-                      </tr>
-                  }
-              </tbody>
-          </table>
-      </div>
+    <div class="page-header">
+      <h2>Players&nbsp;<small>@Model.LatestMonthDisplay</small></h2>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-bordered table-striped table-condensed">
+        <thead>
+          <tr>
+            <th title="Player">Player</th>
+            <th style="text-align: right;" title="Shooting Percentage">Shooting %</th>
+            <th style="text-align: right;" title="Points">Points</th>
+            <th style="text-align: right;" title="Points Per Game">PPG</th>
+            <th style="text-align: right;" title="Pushes">Pushes</th>
+            <th style="text-align: right;" title="Steals">Steals</th>
+          </tr>
+        </thead>
+        <tbody>
+          @foreach (var player in Model.LatestMonthPlayerStatistics)
+          {
+            <tr>
+              <td>@Html.ActionLink(player.Player.Name, "Details", "Player", new { id = player.Player.Id, name = player.Player.UrlFriendlyName }, null)</td>
+              <td style="text-align: right;">@player.ShootingPercentage</td>
+              <td style="text-align: right;">@player.Points</td>
+              <td style="text-align: right;">@player.PointsPerGame</td>
+              <td style="text-align: right;">@player.Pushes</td>
+              <td style="text-align: right;">@player.Steals</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
     <p><a href="@Url.Action("Index", "Player")">&raquo; View Complete Player Statistics</a></p>
   </div>
 </div>
