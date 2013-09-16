@@ -66,7 +66,8 @@ namespace BolfTracker.Services
         {
             Check.Argument.IsNotZeroOrNegative(id, "id");
 
-            throw new NotImplementedException();
+            var game = _gameRepository.GetById(id);
+            _gameRepository.Delete(game);
         }
 
         public void CalculateGameStatistics()
@@ -241,6 +242,16 @@ namespace BolfTracker.Services
             }
         }
 
+        public IEnumerable<GameStatistics> GetGameStatistics(int gameId)
+        {
+            return null;
+        }
+
+        public IEnumerable<PlayerGameStatistics> GetPlayerGameStatistics(int gameId)
+        {
+            return null;
+        }
+
         private void DeleteGameStatistics()
         {
             _gameStatisticsRepository.DeleteAll();
@@ -253,6 +264,12 @@ namespace BolfTracker.Services
             _playerGameStatisticsRepository.DeleteByMonthAndYear(month, year);
         }
 
+        public void DeleteGameStatistics(int gameId)
+        {
+            _gameStatisticsRepository.DeleteByGame(gameId);
+            _playerGameStatisticsRepository.DeleteByGame(gameId);
+        }
+
         private void DeletePlayerRivalryStatistics()
         {
             _playerRivalryStatisticsRepository.DeleteAll();
@@ -263,7 +280,7 @@ namespace BolfTracker.Services
             _playerRivalryStatisticsRepository.DeleteByMonthAndYear(month, year);
         }
 
-        private void DeletePlayerRivalryStatistics(int gameId)
+        public void DeletePlayerRivalryStatistics(int gameId)
         {
             _playerRivalryStatisticsRepository.DeleteByGame(gameId);
         }

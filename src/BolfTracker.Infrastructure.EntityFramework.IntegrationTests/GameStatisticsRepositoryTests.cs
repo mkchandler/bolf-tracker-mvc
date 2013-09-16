@@ -26,7 +26,7 @@ namespace BolfTracker.Infrastructure.EntityFramework.IntegrationTests
         }
 
         [TestMethod]
-        public void Should_be_able_to_add_game_statistics()
+        public void ShouldBeAbleToAddGameStatistics()
         {
             var game = ObjectMother.CreateGame();
             _gameRepository.Add(game);
@@ -35,6 +35,20 @@ namespace BolfTracker.Infrastructure.EntityFramework.IntegrationTests
             _gameStatisticsRepository.Add(gameStatistics);
 
             Assert.AreNotEqual(0, gameStatistics.Id);
+        }
+
+        [TestMethod]
+        public void ShouldBeAbleToDeleteGameStatistics()
+        {
+            var game = ObjectMother.CreateGame();
+            _gameRepository.Add(game);
+
+            var gameStatistics = ObjectMother.CreateGameStatistics(game);
+            _gameStatisticsRepository.Add(gameStatistics);
+            _gameStatisticsRepository.Delete(gameStatistics);
+
+            Assert.IsNotNull(_gameRepository.GetById(game.Id));
+            Assert.IsNull(_gameStatisticsRepository.GetById(gameStatistics.Id));
         }
     }
 }
