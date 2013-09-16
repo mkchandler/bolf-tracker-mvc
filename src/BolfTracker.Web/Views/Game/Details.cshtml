@@ -31,20 +31,26 @@
       {
         using (Html.BeginForm("Create", "Score", FormMethod.Post))
         {
-      @Html.HiddenFor(m => m.Game.Id)
-      <label for="player">Player</label>
-      @Html.DropDownListFor(m => m.Player, Model.AllPlayers)
-      <label for="hole">Hole</label>
-      @Html.DropDownListFor(m => m.Hole, Model.AllHoles, new { @id = "currentHole" })
-      <label for="attempts">Attempts</label>
-      <input type="text" pattern="[0-9]*" name="attempts" id="attempts" autocomplete="off" />
-      <label for="shotMade" class="checkbox">
-        <input type="checkbox" name="shotMade" id="shotMade" />
-        Shot Made
-      </label>
-      <div class="form-actions">
-        <input type="submit" class="btn btn-primary" value="Save Shot" />
-      </div>
+          @Html.HiddenFor(m => m.Game.Id)
+          <div class="form-group">
+            <label for="player">Player</label>
+            @Html.DropDownListFor(m => m.Player, Model.AllPlayers, new { @class = "form-control" })
+          </div>
+          <div class="form-group">
+            <label for="hole">Hole</label>
+            @Html.DropDownListFor(m => m.Hole, Model.AllHoles, new { @id = "currentHole", @class = "form-control" })
+          </div>
+          <div class="form-group">
+            <label for="attempts">Attempts</label>
+            <input type="text" pattern="[0-9]*" name="attempts" id="attempts" class="form-control" autocomplete="off" />
+          </div>
+          <div class="form-group">
+            <label for="shotMade" class="checkbox">
+              <input type="checkbox" name="shotMade" id="shotMade" />
+              Shot Made
+            </label>
+          </div>
+          <input type="submit" class="btn btn-primary" value="Save Shot" />
         }
       }
     }
