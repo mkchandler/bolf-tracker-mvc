@@ -3,7 +3,7 @@
 }
 <div class="page-header">
   <div class="row">
-    <div class="span8">
+    <div class="col-md-8">
       <h1>League Manager</h1>
     </div>
   </div>
@@ -21,7 +21,7 @@
   <label for="game-stats-year">Year</label>
   <input type="number" name="year" id="game-stats-year" value="@DateTime.Today.Year" />
   <div>
-    <input type="submit" value="Calculate" class="btn" />
+    <input type="submit" value="Calculate" class="btn btn-default" />
   </div>
 }
 <h2>Calculate Rankings <small>Calculates rankings for month and year or zero for all.</small></h2>
@@ -32,7 +32,7 @@
   <label for="rankings-year">Year</label>
   <input type="number" name="year" id="rankings-year" value="@DateTime.Today.Year" />
   <div>
-    <input type="submit" value="Calculate" class="btn" />
+    <input type="submit" value="Calculate" class="btn btn-default" />
   </div>
 }
 <h2>Calculate Player Statistics <small>Calculates player statistics for month and year or zero for all.</small></h2>
@@ -43,7 +43,7 @@
   <label for="player-stats-year">Year</label>
   <input type="number" name="year" id="player-stats-year" value="@DateTime.Today.Year" />
   <div>
-    <input type="submit" value="Calculate" class="btn" />
+    <input type="submit" value="Calculate" class="btn btn-default" />
   </div>
 }
 <h2>Calculate Hole Statistics <small>Calculates hole statistics for month and year or zero for all.</small></h2>
@@ -54,6 +54,6 @@
   <label for="hole-stats-year">Year</label>
   <input type="number" name="year" id="hole-stats-year" value="@DateTime.Today.Year" />
   <div>
-    <input type="submit" value="Calculate" class="btn" />
+    <input type="submit" value="Calculate" class="btn btn-default" />
   </div>
 }

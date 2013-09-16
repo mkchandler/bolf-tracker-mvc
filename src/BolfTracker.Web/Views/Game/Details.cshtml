@@ -1,13 +1,14 @@
 ﻿@model BolfTracker.Web.GamePanelViewModel
 @{
   ViewBag.Title = "Game Panel - Bolf Tracker";
+  ViewBag.Section = "Game";
 }
 <div class="page-header">
   <div class="row">
-    <div class="span6">
+    <div class="col-md-6">
       <h1>Game Panel - @String.Format("{0:d}", Model.Game.Date)</h1>
     </div>
-    <div class="span6">
+    <div class="col-md-6">
       @if (HttpContext.Current.User.Identity.IsAuthenticated)
       {
         if (!Model.GameFinalized)
@@ -23,58 +24,66 @@
   </div>
 </div>
 <div class="row">
-  <div class="span6">
+  <div class="col-md-6">
     @if (HttpContext.Current.User.Identity.IsAuthenticated)
     {
       if (!Model.GameFinalized)
       {
         using (Html.BeginForm("Create", "Score", FormMethod.Post))
         {
-      @Html.HiddenFor(m => m.Game.Id)
-      <label for="player">Player</label>
-      @Html.DropDownListFor(m => m.Player, Model.AllPlayers)
-      <label for="hole">Hole</label>
-      @Html.DropDownListFor(m => m.Hole, Model.AllHoles, new { @id = "currentHole" })
-      <label for="attempts">Attempts</label>
-      <input type="text" pattern="[0-9]*" name="attempts" id="attempts" autocomplete="off" />
-      <label for="shotMade" class="checkbox">
-        <input type="checkbox" name="shotMade" id="shotMade" />
-        Shot Made
-      </label>
-      <div class="form-actions">
-        <input type="submit" class="btn btn-primary" value="Save Shot" />
-      </div>
+          @Html.HiddenFor(m => m.Game.Id)
+          <div class="form-group">
+            <label for="player">Player</label>
+            @Html.DropDownListFor(m => m.Player, Model.AllPlayers, new { @class = "form-control" })
+          </div>
+          <div class="form-group">
+            <label for="hole">Hole</label>
+            @Html.DropDownListFor(m => m.Hole, Model.AllHoles, new { @id = "currentHole", @class = "form-control" })
+          </div>
+          <div class="form-group">
+            <label for="attempts">Attempts</label>
+            <input type="text" pattern="[0-9]*" name="attempts" id="attempts" class="form-control" autocomplete="off" />
+          </div>
+          <div class="form-group">
+            <label for="shotMade" class="checkbox">
+              <input type="checkbox" name="shotMade" id="shotMade" />
+              Shot Made
+            </label>
+          </div>
+          <input type="submit" class="btn btn-primary" value="Save Shot" />
         }
       }
     }
   </div>
-  <div class="span6">
+  <div class="col-md-6">
     <h2>Leaderboard</h2>
     @if (Model.Shots.Any())
     {
-      <table id="leaderboard" class=" table table-bordered table-striped">
-        <thead>
-          <tr>
-            <th title="Player">Player</th>
-            <th title="Points">Points</th>
-            <th title="Shooting Percentage">Shooting %</th>
-            <th title="Steals">Steals</th>
-            <th title="Pushes">Pushes</th>
-          </tr>
-        </thead>
-        <tbody>
-          @foreach (var player in Model.Leaderboard)
-          {
+      <div class="table-responsive">
+        <table id="leaderboard" class=" table table-bordered table-striped">
+          <thead>
             <tr>
-              <td>@Html.ActionLink(player.Player.Name, "Details", "Player", new { id = player.Player.Id, name = player.Player.UrlFriendlyName }, null)</td>
-              <td>@player.Points</td>
-              <td>@player.ShotsMade/@player.Attempts (@player.ShootingPercentage.ToString("P0"))</td>
-              <td>@player.Steals</td>
-              <td>@player.Pushes</td>
+              <th title="Player">Player</th>
+              <th title="Points">Points</th>
+              <th title="Shooting Percentage">Shooting %</th>
+              <th title="Steals">Steals</th>
+              <th title="Pushes">Pushes</th>
             </tr>
-          }
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            @foreach (var player in Model.Leaderboard)
+            {
+              <tr>
+                <td>@Html.ActionLink(player.Player.Name, "Details", "Player", new { id = player.Player.Id, name = player.Player.UrlFriendlyName }, null)</td>
+                <td>@player.Points</td>
+                <td>@player.ShotsMade/@player.Attempts (@player.ShootingPercentage.ToString("P0"))</td>
+                <td>@player.Steals</td>
+                <td>@player.Pushes</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
     }
     else
     {
@@ -90,52 +99,54 @@
 <h2>Hole History</h2>
 @if (Model.Shots.Any())
 {
-  int lastShot = Model.Shots.Max(s => s.Id);        
-  <table class="table table-condensed table-bordered table-striped">
-    <thead>
-      <tr>
-        <th title="Hole" style="width: 50px; text-align: left;">Hole</th>
-        <th title="Player" style="width: 150px; text-align: left;">Player</th>
-        <th title="Attempts" style="width: 85px; text-align: left;">Attempts</th>
-        <th title="Result" style="width: 200px; text-align: left;">Result</th>
-        @if (!Model.GameFinalized)
-        {
-          <th></th>
-        }
-      </tr>
-    </thead>
-    <tbody>
-      @foreach (var score in Model.Shots.OrderByDescending(s => s.Id))
-      {
+  int lastShot = Model.Shots.Max(s => s.Id);
+  <div class="table-responsive">
+    <table class="table table-condensed table-bordered table-striped">
+      <thead>
         <tr>
-          <td>@score.Hole.Id</td>
-          <td>@score.Player.Name</td>
-          <td>@score.Attempts</td>
-          <td>@score.ShotType.Name</td>
+          <th title="Hole" style="width: 50px; text-align: left;">Hole</th>
+          <th title="Player" style="width: 150px; text-align: left;">Player</th>
+          <th title="Attempts" style="width: 85px; text-align: left;">Attempts</th>
+          <th title="Result" style="width: 200px; text-align: left;">Result</th>
           @if (!Model.GameFinalized)
           {
-            <td>
-              @if (HttpContext.Current.User.Identity.IsAuthenticated)
-              {
-                if (score.Id == lastShot && !Model.GameFinalized)
-                {
-                  using (Html.BeginForm("Delete", "Score", FormMethod.Post, new { @style = "margin: 0;" }))
-                  { 
-                @Html.Hidden("scoreId", score.Id)
-                @Html.Hidden("gameId", score.Game.Id)
-                <input type="submit" class="btn btn-danger btn-mini" value="Delete" />
-                  }
-                }
-              }
-            </td>
+            <th></th>
           }
         </tr>
-      }
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        @foreach (var score in Model.Shots.OrderByDescending(s => s.Id))
+        {
+          <tr>
+            <td>@score.Hole.Id</td>
+            <td>@score.Player.Name</td>
+            <td>@score.Attempts</td>
+            <td>@score.ShotType.Name</td>
+            @if (!Model.GameFinalized)
+            {
+              <td>
+                @if (HttpContext.Current.User.Identity.IsAuthenticated)
+                {
+                  if (score.Id == lastShot && !Model.GameFinalized)
+                  {
+                    using (Html.BeginForm("Delete", "Score", FormMethod.Post, new { @style = "margin: 0;" }))
+                    {
+                      @Html.Hidden("scoreId", score.Id)
+                      @Html.Hidden("gameId", score.Game.Id)
+                      <input type="submit" class="btn btn-danger btn-xs" value="Delete" />
+                    }
+                  }
+                }
+              </td>
+            }
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
 }
 else
-{ 
+{
   <p>Game has not started.</p> 
 }
 @section javascript {

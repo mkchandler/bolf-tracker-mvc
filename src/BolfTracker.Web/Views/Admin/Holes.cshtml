@@ -4,7 +4,7 @@
 }
 <div class="page-header">
   <div class="row">
-    <div class="span8">
+    <div class="col-md-8">
       <h1>League Manager</h1>
     </div>
   </div>
@@ -15,24 +15,26 @@
   <li class="active">@Html.ActionLink("Holes", "Holes", "Admin")</li>
 </ul>
 <div class="row">
-  <div class="span6">
-    <table class="table table-condensed table-bordered table-striped">
-      <thead>
-        <tr>
-          <th>Number</th>
-          <th>Par</th>
-        </tr>
-      </thead>
-      <tbody>
-        @foreach (var item in Model)
-        {
+  <div class="col-md-6">
+    <div class="table-responsive">
+      <table class="table table-condensed table-bordered table-striped">
+        <thead>
           <tr>
-            <td>@item.Id</td>
-            <td>@item.Par</td>
+            <th>Number</th>
+            <th>Par</th>
           </tr>
-        }
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          @foreach (var item in Model)
+          {
+            <tr>
+              <td>@item.Id</td>
+              <td>@item.Par</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
 <p>

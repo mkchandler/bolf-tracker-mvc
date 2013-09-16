@@ -1,13 +1,14 @@
 ﻿@model BolfTracker.Web.GamesViewModel
 @{
   ViewBag.Title = Model.MonthName + " " + Model.Year + " Games - Bolf Tracker";
+  ViewBag.Section = "Game";
 }
 <div class="page-header">
   <div class="row">
-    <div class="span6">
+    <div class="col-md-6">
       <h1>@Model.MonthName @Model.Year Games</h1>
     </div>
-    <div class="span6">
+    <div class="col-md-6">
       @if (HttpContext.Current.User.Identity.IsAuthenticated)
       {
         @Html.ActionLink("New Game", "Create", "Game", null, new { @class = "btn btn-primary pull-right" })
@@ -24,33 +25,35 @@
   if (i % 2 != 0)
   {
     needsClosingDiv = true;
-    @:<div class="row"> 
+@:<div class="row">
   }
   var pgs = Model.GetPlayerGameStatistics(item.Id);
-  <div class="span6">
-    <table class="table table-condensed table-bordered table-striped">
-      <thead>
-        <tr>
-          <th>@Html.ActionLink(String.Format("{0:d}", item.Date), "Details", new { id = item.Id })</th>
-          <th title="Points">Points</th>
-          <th title="Shooting Percentage">Shooting %</th>
-          <th title="Pushes">Pushes</th>
-          <th title="Steals">Steals</th>
-        </tr>
-      </thead>
-      <tbody>
-        @foreach (var player in pgs)
-        {
+  <div class="col-md-6">
+    <div class="table-responsive">
+      <table class="table table-condensed table-bordered table-striped">
+        <thead>
           <tr>
-            <td>@Html.ActionLink(player.Player.Name, "Details", "Player", new { id = player.Player.Id, name = player.Player.UrlFriendlyName }, null)</td>
-            <td>@player.Points</td>
-            <td>@player.ShootingPercentage</td>
-            <td>@player.Pushes</td>
-            <td>@player.Steals</td>
+            <th>@Html.ActionLink(String.Format("{0:d}", item.Date), "Details", new { id = item.Id })</th>
+            <th title="Points">Points</th>
+            <th title="Shooting Percentage">Shooting %</th>
+            <th title="Pushes">Pushes</th>
+            <th title="Steals">Steals</th>
           </tr>
-        }
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          @foreach (var player in pgs)
+          {
+            <tr>
+              <td>@Html.ActionLink(player.Player.Name, "Details", "Player", new { id = player.Player.Id, name = player.Player.UrlFriendlyName }, null)</td>
+              <td>@player.Points</td>
+              <td>@player.ShootingPercentage</td>
+              <td>@player.Pushes</td>
+              <td>@player.Steals</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
   </div>
   if (i % 2 == 0)
   {
@@ -61,5 +64,5 @@
 }
 @if (needsClosingDiv)
 {
-  @:</div>
+@:</div>
 }
