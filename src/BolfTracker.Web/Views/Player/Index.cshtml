@@ -49,6 +49,7 @@
   </table>
 </div>
 <h2>Career Player Statistics</h2>
+<a data-toggle="modal" href="#myModal" class="btn btn-default btn-sm" onclick="getChart('ShotsMade', true)"><span class="glyphicon glyphicon-arrow-left"></span></a>
 <div class="table-responsive">
     <table class="table table-condensed table-bordered table-striped" id="career-stats">
         <thead>
@@ -90,28 +91,40 @@
         </tbody>
     </table>
 </div>
-<a data-toggle="modal" href="#myModal" class="btn btn-primary btn-lg">Launch demo modal</a>
 
   <!-- Modal -->
-  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal fade" id="myModal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title">Modal title</h4>
+            <h4 class="modal-title">Player Statistics</h4>
+            <div class="btn-group">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    Action <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li><a onclick="getChart('ShotsMade', false);" href="#">Shots Made</a></li>
+                    <li><a onclick="getChart('Wins', false);" href="#">Wins</a></li>
+                    <li><a onclick="getChart('Points', false);" href="#">Points</a></li>
+                    <li><a onclick="getChart('Pushes', false);" href="#">Pushes</a></li>
+                    <li><a onclick="getChart('Steals', false);" href="#">Steals</a></li>
+                </ul>
+            </div>
         </div>
         <div class="modal-body">
           <div id="chart"></div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
+          
         </div>
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
   </div>
 @section javascript {
-  <script src="@Url.Content("~/js/jquery.tablesorter.min.js")"></script>
+    <script src="@Url.Content("~/js/jquery.tablesorter.min.js")"></script>
+    
   <script>
     $(function () {
       $("#current-month-stats, #career-stats").tablesorter();
