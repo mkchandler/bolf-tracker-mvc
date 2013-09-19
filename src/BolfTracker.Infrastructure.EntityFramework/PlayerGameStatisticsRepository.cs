@@ -16,7 +16,7 @@ namespace BolfTracker.Infrastructure.EntityFramework
         {
             using (var context = new BolfTrackerContext())
             {
-                var playerGameStatistics = context.PlayerGameStatistics.SingleOrDefault(pgs => pgs.Id == id);
+                var playerGameStatistics = context.PlayerGameStatistics.Include(pgs => pgs.Game).SingleOrDefault(pgs => pgs.Id == id);
 
                 return playerGameStatistics;
             }
@@ -83,6 +83,7 @@ namespace BolfTracker.Infrastructure.EntityFramework
         {
             using (var context = new BolfTrackerContext())
             {
+                context.PlayerGameStatistics.Attach(model);
                 context.PlayerGameStatistics.Remove(model);
                 context.SaveChanges();
             }
@@ -105,6 +106,16 @@ namespace BolfTracker.Infrastructure.EntityFramework
                 connection.Open();
                 string command = "DELETE PlayerGameStatistics FROM PlayerGameStatistics pgs INNER JOIN Game g ON g.Id = pgs.GameId WHERE (DATEPART (month, g.[Date])) = @Month AND (DATEPART (year, g.[Date])) = @Year";
                 connection.Execute(command, new { Month = month, Year = year });
+            }
+        }
+
+        public void DeleteByGame(int gameId)
+        {
+            using (var connection = BolfTrackerDbConnection.GetProfiledConnection())
+            {
+                connection.Open();
+                string command = "DELETE FROM PlayerGameStatistics WHERE GameId = @GameId";
+                connection.Execute(command, new { GameId = gameId });
             }
         }
     }

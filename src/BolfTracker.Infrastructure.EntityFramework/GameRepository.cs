@@ -107,6 +107,7 @@ namespace BolfTracker.Infrastructure.EntityFramework
         {
             using (var context = new BolfTrackerContext())
             {
+                context.Games.Attach(model);
                 context.Games.Remove(model);
                 context.SaveChanges();
             }

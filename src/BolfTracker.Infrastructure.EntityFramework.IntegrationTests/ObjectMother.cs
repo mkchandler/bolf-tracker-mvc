@@ -65,6 +65,28 @@ namespace BolfTracker.Infrastructure.EntityFramework.IntegrationTests
             };
         }
 
+        public static PlayerGameStatistics CreatePlayerGameStatistics(Game game, Player player)
+        {
+            return new PlayerGameStatistics
+            {
+                Game = game,
+                Player = player,
+                Points = 8,
+                Winner = true,
+                OvertimeWin = false,
+                ShotsMade = 7,
+                Attempts = 5,
+                ShootingPercentage = 0.234M,
+                Pushes = 4,
+                Steals = 3,
+                SugarFreeSteals = 2,
+                StainlessSteals = 1,
+                GameWinningSteal = false,
+                Shutout = true,
+                PerfectGame = false
+            };
+        }
+
         public static PlayerStatistics CreatePlayerStatistics(Player player)
         {
             return new PlayerStatistics
