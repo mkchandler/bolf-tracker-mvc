@@ -18,40 +18,46 @@
   </script>
   }
 </head>
-<body>
-  <div class="navbar navbar-default navbar-fixed-top">
-    <div class="container">
-      <div class="navbar-header">
-        @Html.ActionLink("Bolf Tracker", "Index", "Home", null, new { @class = "navbar-brand" })
-      </div>
-      <div class="navbar-collapse collapse">
-        <ul class="nav navbar-nav">
-          <li @(ViewBag.Section == "Ranking" ? "class=active" : "")>@Html.ActionLink("Rankings", "Index", "Ranking")</li>
-          <li @(ViewBag.Section == "Game" ? "class=active" : "")>@Html.ActionLink("Games", "Index", "Game")</li>
-          <li @(ViewBag.Section == "Player" ? "class=active" : "")>@Html.ActionLink("Players", "Index", "Player")</li>
-          <li @(ViewBag.Section == "Hole" ? "class=active" : "")>@Html.ActionLink("Holes", "Index", "Hole")</li>
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
-          @if (HttpContext.Current.User.Identity.IsAuthenticated) {
-          <li @(ViewBag.Section == "League" ? "class=active" : "")>@Html.ActionLink("League Manager", "Index", "Admin")</li>
-          }
-          <li>@(HttpContext.Current.User.Identity.IsAuthenticated ? Html.ActionLink("Logout", "SignOut", "Player") : Html.ActionLink("Login", "Login", "Player"))</li>
-        </ul>
+    <body style="padding-top: 0px;">
+        <div class="navbar navbar-default navbar-static-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          @Html.ActionLink("Bolf Tracker", "Index", "Home", null, new { @class = "navbar-brand" })
+        </div>
+        <div class="navbar-collapse collapse" style="height: 1px;">
+            <ul class="nav navbar-nav">
+                <li @(ViewBag.Section == "Ranking" ? "class=active" : "")>@Html.ActionLink("Rankings", "Index", "Ranking")</li>
+                <li @(ViewBag.Section == "Game" ? "class=active" : "")>@Html.ActionLink("Games", "Index", "Game")</li>
+                <li @(ViewBag.Section == "Player" ? "class=active" : "")>@Html.ActionLink("Players", "Index", "Player")</li>
+                <li @(ViewBag.Section == "Hole" ? "class=active" : "")>@Html.ActionLink("Holes", "Index", "Hole")</li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                @if (HttpContext.Current.User.Identity.IsAuthenticated) {
+                    <li @(ViewBag.Section == "League" ? "class=active" : "")>@Html.ActionLink("League Manager", "Index", "Admin")</li>
+                }
+                <li>@(HttpContext.Current.User.Identity.IsAuthenticated ? Html.ActionLink("Logout", "SignOut", "Player") : Html.ActionLink("Login", "Login", "Player"))</li>
+            </ul>
+        </div><!--/.nav-collapse -->
       </div>
     </div>
-  </div>
-  <div class="container">
-    @RenderBody()
-  </div>
-  <footer>
-    <div class="container">
-      <p>
-        Designed and built by <a href="http://twitter.com/mkchandler">@@mkchandler</a>&nbsp;and friends.<br>
-        Code licensed under the <a href="https://github.com/mkchandler/bolf-tracker-mvc/blob/master/LICENSE">MIT License</a>&nbsp;and is available on <a href="https://github.com/mkchandler/bolf-tracker-mvc">GitHub</a>.
-      </p>
-    </div>
-  </footer>
-  @Scripts.Render("~/bundles/js")
-  @RenderSection("javascript", required: false)
-</body>
+        
+        <div class="container">
+            @RenderBody()
+        </div>
+        <footer>
+            <div class="container">
+                <p>
+                    Designed and built by <a href="http://twitter.com/mkchandler">@@mkchandler</a>&nbsp;and friends.<br>
+                                                                                                                    Code licensed under the <a href="https://github.com/mkchandler/bolf-tracker-mvc/blob/master/LICENSE">MIT License</a>&nbsp;and is available on <a href="https://github.com/mkchandler/bolf-tracker-mvc">GitHub</a>.
+                </p>
+            </div>
+        </footer>
+        @Scripts.Render("~/bundles/js")
+        @RenderSection("javascript", required: false)
+    </body>
 </html>
