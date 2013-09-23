@@ -22,10 +22,13 @@ function px(s) {
 
 
 //// UI
-function getChart(d, generate) {
+function getChart(d) {
     if (parameter === d)
         return;
 
+    var generate=false;
+    if (data == null || data.length == 0)
+        generate = true;
     parameter = d;
     GetData(generate);
 }
@@ -41,7 +44,7 @@ function updateScale() {
 }
 
 function updateChart(generate) {
-    //updateScale();
+    updateScale();
     
     if (generate)
         generateChart();
@@ -68,9 +71,6 @@ function updateChart(generate) {
 }
 
 function generateChart() {
-    //data = filterPlayers(csv);
-
-    //$("#chart").empty();
     updateScale();
 
     var players = d3.select('#chart')
@@ -103,15 +103,6 @@ function generateChart() {
       .classed('value', true)
       .text(function (d) { return (d[parameter]); });
 
-    //// Menu
-    //d3.select('#menu')
-    //  .selectAll('div')
-    //  .data(menu)
-    //  .enter()
-    //  .append('div')
-    //  .text(function (d) { return d.name; })
-    //  .classed('selected', function (d, i) { return i == 0; })
-    //  .on('click', menuClick);
 }
 
  function GetData(generate) {
