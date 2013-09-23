@@ -50,51 +50,86 @@
 </div>
 <h2>Career Player Statistics</h2>
 <div class="table-responsive">
-  <table class="table table-condensed table-bordered table-striped" id="career-stats">
-    <thead>
-      <tr>
-        <th title="Player">Player</th>
-        <th title="Wins">W</th>
-        <th title="Losses">L</th>
-        <th title="Winning Percentage">Win %</th>
-        <th title="Shots Made ">Made</th>
-        <th title="Attempts">Attempts</th>
-        <th title="Shooting Percentage">Shooting %</th>
-        <th title="Points">Points</th>
-        <th title="Points Per Game">PPG</th>
-        <th title="Pushes">Pushes</th>
-        <th title="Pushes Per Game">Pushes/PG</th>
-        <th title="Steals">Steals</th>
-        <th title="Sugar-Free Steals">SFS</th>
-      </tr>
-    </thead>
-    <tbody>
-      @foreach (var player in Model.PlayerCareerStatistics)
-      {
-        <tr>
-          <td>@Html.ActionLink(player.Player.Name, "Details", new { id = player.Player.Id, name = player.Player.UrlFriendlyName })</td>
-          <td>@player.Wins</td>
-          <td>@player.Losses</td>
-          <td>@player.WinningPercentage</td>
-          <td>@player.ShotsMade</td>
-          <td>@player.Attempts</td>
-          <td>@player.ShootingPercentage</td>
-          <td>@player.Points</td>
-          <td>@player.PointsPerGame</td>
-          <td>@player.Pushes</td>
-          <td>@player.PushesPerGame</td>
-          <td>@player.Steals</td>
-          <td>@player.SugarFreeSteals</td>
-        </tr>
-      }
-    </tbody>
-  </table>
+    <table class="table table-condensed table-bordered table-striped" id="career-stats">
+        <thead>
+            <tr>
+                <th title="Player">Player</th>
+                <th title="Wins">W</th>
+                <th title="Losses">L</th>
+                <th title="Winning Percentage">Win %</th>
+                <th title="Shots Made ">Made</th>
+                <th title="Attempts">Attempts</th>
+                <th title="Shooting Percentage">Shooting %</th>
+                <th title="Points">Points</th>
+                <th title="Points Per Game">PPG</th>
+                <th title="Pushes">Pushes</th>
+                <th title="Pushes Per Game">Pushes/PG</th>
+                <th title="Steals">Steals</th>
+                <th title="Sugar-Free Steals">SFS</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var player in Model.PlayerCareerStatistics)
+            {
+                <tr>
+                    <td>@Html.ActionLink(player.Player.Name, "Details", new { id = player.Player.Id, name = player.Player.UrlFriendlyName })</td>
+                    <td>@player.Wins</td>
+                    <td>@player.Losses</td>
+                    <td>@player.WinningPercentage</td>
+                    <td>@player.ShotsMade</td>
+                    <td>@player.Attempts</td>
+                    <td>@player.ShootingPercentage</td>
+                    <td>@player.Points</td>
+                    <td>@player.PointsPerGame</td>
+                    <td>@player.Pushes</td>
+                    <td>@player.PushesPerGame</td>
+                    <td>@player.Steals</td>
+                    <td>@player.SugarFreeSteals</td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>
+<div class="panel-group" id="accordion">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a onclick="getChart('ShotsMade')" class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseChart">
+                    View Chart
+                </a>
+            </h4>
+        </div>
+        <div id="collapseChart" class="panel-collapse collapse">
+            <div class="panel-body" style="min-height: 200px; max-height: 400px; overflow: auto">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                        Stat Type <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a onclick="getChart('ShotsMade');" href="#">Shots Made</a></li>
+                        <li><a onclick="getChart('Wins');" href="#">Wins</a></li>
+                        <li><a onclick="getChart('Points');" href="#">Points</a></li>
+                        <li><a onclick="getChart('Pushes');" href="#">Pushes</a></li>
+                        <li><a onclick="getChart('Steals');" href="#">Steals</a></li>
+                    </ul>
+                </div>
+                <div style="padding-top: 20px;" id="chart"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
 @section javascript {
-  <script src="@Url.Content("~/js/jquery.tablesorter.min.js")"></script>
+    <script src="@Url.Content("~/js/jquery.tablesorter.min.js")"></script>
+    
   <script>
     $(function () {
-      $("#current-month-stats, #career-stats").tablesorter();
+        $("#current-month-stats, #career-stats").tablesorter();
+        $(".dropdown-menu li a").click(function () {
+
+            $(".btn:first-child").html($(this).text() + " <span class='caret'></span>");
+            
+        });
     });
   </script>
 }
