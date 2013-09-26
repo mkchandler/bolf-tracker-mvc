@@ -31,6 +31,7 @@ function getChart(d) {
         generate = true;
     parameter = d;
     GetData(generate);
+    return false;
 }
 
 
