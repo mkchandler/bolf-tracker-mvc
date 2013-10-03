@@ -1,5 +1,13 @@
-﻿body {
-  padding-top: 60px;
+﻿html, body {
+  height: 100%;
+}
+
+#wrap {
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  margin: 0 auto -61px;
+  padding: 0 0 61px;
 }
 
 table .header {
@@ -48,9 +56,11 @@ table .headerSortUp:after {
 }
 
 footer {
-  color: #777;
-  margin-top: 40px;
-  padding: 40px 0 40px 0;
-  border-top: 1px solid #E5E5E5;
-  background-color: whiteSmoke;
+  height: 60px;
+  border-top: 1px solid #e5e5e5;
+  background-color: #f5f5f5;
 }
+
+  footer p {
+    margin: 20px 0;
+  }
