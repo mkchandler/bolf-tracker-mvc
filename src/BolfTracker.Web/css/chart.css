@@ -15,7 +15,7 @@ div.player {
 div.label {
 	float: left;
 	/*position: absolute;*/
-	width: 95px;
+	width: 120px;
 	font-size: 12px;
 	text-align: right;
 	padding: 4px 5px 0 0;

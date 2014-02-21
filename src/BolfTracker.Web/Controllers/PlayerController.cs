@@ -31,70 +31,8 @@ namespace BolfTracker.Web.Controllers
 
         public JsonResult GetPlayerStatisticsJson()
         {
-            //var stats = new List<PlayerCareerStatistics>();
-            //stats.Add(new PlayerCareerStatistics
-            //{
-            //    Player = new Player { Name = "Eh-Hole" },
-            //    Wins = 325,
-            //    Losses = 456,
-            //    ShotsMade = 4212,
-            //    Attempts = 13740,
-            //    ShootingPercentage = (decimal)0.307,
-            //    Points = 8124,
-            //    PointsPerGame = (decimal)10.4,
-            //    Pushes = 1224,
-            //    Steals = 291,
-            //    SugarFreeSteals = 57
-            //});
-
-            //stats.Add(new PlayerCareerStatistics
-            //{
-            //    Player = new Player { Name = "Furia Rojo" },
-            //    Wins = 208,
-            //    Losses = 484,
-            //    ShotsMade = 3339,
-            //    Attempts = 12369,
-            //    ShootingPercentage = (decimal)0.27,
-            //    Points = 5713,
-            //    PointsPerGame = (decimal)8.3,
-            //    Pushes = 944,
-            //    Steals = 221,
-            //    SugarFreeSteals = 40
-            //});
-
-            //stats.Add(new PlayerCareerStatistics
-            //{
-            //    Player = new Player { Name = "I Know Bitnezz" },
-            //    Wins = 171,
-            //    Losses = 625,
-            //    ShotsMade = 3052,
-            //    Attempts = 14449,
-            //    ShootingPercentage = (decimal)0.21,
-            //    Points = 4889,
-            //    PointsPerGame = (decimal)6.1,
-            //    Pushes = 871,
-            //    Steals = 160,
-            //    SugarFreeSteals = 30
-            //});
-
-            //var json =
-            //    stats.Select(
-            //        a =>
-            //        new
-            //        {
-            //            a.Player.Name,
-            //            a.ShotsMade,
-            //            a.ShotsMissed,
-            //            a.ShootingPercentage,
-            //            a.Points,
-            //            a.PointsPerGame,
-            //            a.Wins,
-            //            a.Pushes,
-            //            a.Steals,
-            //            a.SugarFreeSteals
-            //        });
-            //return Json(json, JsonRequestBehavior.AllowGet);
             return Json( _playerService.GetPlayerCareerStatistics()
+                .OrderBy(a=>a.Player.Name)
                 .Select(
                     a =>
                     new
