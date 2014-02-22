@@ -243,7 +243,6 @@
     <Content Include="js\jquery.tablesorter.js" />
     <Content Include="js\jquery.tablesorter.min.js" />
     <Content Include="LICENSE.txt" />
-    <Content Include="Scripts\chart.js" />
     <Content Include="Scripts\d3.v3.js" />
     <Content Include="Scripts\d3.v3.min.js" />
     <Content Include="Web.config">

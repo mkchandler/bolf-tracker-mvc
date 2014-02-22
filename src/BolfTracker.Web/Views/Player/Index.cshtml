@@ -119,6 +119,10 @@
     </div>
 </div>
 
+@D3Chart.GenerateChart(@Url.Action("GetPlayerStatisticsJson") , "~/Player/ChartMenu")
+
+
+
 @section javascript {
     <script src="@Url.Content("~/js/jquery.tablesorter.min.js")"></script>
     
