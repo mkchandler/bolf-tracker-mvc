@@ -69,7 +69,7 @@
               Shot Made
             </label>
           </div>
-          <input type="submit" class="btn btn-primary" value="Save Shot" />
+          <input type="submit" id="btn-save-shot" data-loading-text="Saving..." class="btn btn-primary" value="Save Shot" />
         }
       }
     }
@@ -152,7 +152,7 @@
                     {
                       @Html.Hidden("scoreId", score.Id)
                       @Html.Hidden("gameId", score.Game.Id)
-                      <input type="submit" class="btn btn-danger btn-xs" value="Delete" />
+                      <input type="submit"  class="btn btn-danger btn-xs" value="Delete" />
                     }
                   }
                 }
@@ -223,6 +223,13 @@ else
             break;
         }
       });
+
+      $("#btn-save-shot").on("click", function()
+      {
+          var btn = $(this);
+          btn.button('loading');
+      });
+
     });
   </script>
 }
