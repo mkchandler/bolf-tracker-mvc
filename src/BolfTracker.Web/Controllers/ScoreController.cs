@@ -85,5 +85,18 @@ namespace BolfTracker.Web.Controllers
                 return View();
             }
         }
+
+        public ActionResult DeleteToShot( int gameId, int shotId)
+        {
+            try
+            {
+                _shotService.DeleteToShot(gameId, shotId);
+                return RedirectToAction("Details", "Game", new { id = gameId });
+            }
+            catch 
+            {
+                return View();
+            }
+        }
     }
 }

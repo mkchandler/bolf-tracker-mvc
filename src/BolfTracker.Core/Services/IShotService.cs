@@ -15,5 +15,7 @@ namespace BolfTracker.Services
         void Update(int id, int points, ShotType shotType);
 
         void Delete(int id);
+
+        void DeleteToShot(int gameId, int shotId);
     }
 }

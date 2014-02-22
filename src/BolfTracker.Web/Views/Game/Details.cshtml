@@ -52,8 +52,8 @@
         {
           @Html.HiddenFor(m => m.Game.Id)
           <div class="form-group">
-            <label for="player">Player</label>
-            @Html.DropDownListFor(m => m.Player, Model.AllPlayers, new { @class = "form-control" })
+            <label for="player">Player</label> <a class="btn btn-sm btn-default" href="javascript:selectFirstPlayer();">First Player</a>
+            @Html.DropDownListFor(m => m.Player, Model.AllPlayers, new { @class = "form-control player-list" })
           </div>
           <div class="form-group">
             <label for="hole">Hole</label>
@@ -154,7 +154,15 @@
                       @Html.Hidden("gameId", score.Game.Id)
                       <input type="submit" class="btn btn-danger btn-xs" value="Delete" />
                     }
-                  }
+                  } else if(score.Id != lastShot && !Model.GameFinalized)
+                        {
+                            using (Html.BeginForm("DeleteToShot", "Score", FormMethod.Post, new { @style = "margin: 0;" }))
+                            {
+                                @Html.Hidden("gameId", score.Game.Id)
+                                @Html.Hidden("shotId", @score.Id)
+                                <input type="submit" class="btn btn-danger btn-xs" value="Delete To Shot" />
+                            }
+                        } 
                 }
               </td>
             }
@@ -172,6 +180,7 @@ else
   <script>
     var par = 0;
     var lastAttempt = 0;
+    var firstPlayerId = 0;
 @{
   var currentHole = Model.GetCurrentHole();
   @:par = @Model.Holes.FirstOrDefault(h => h.Id == currentHole).Par;
@@ -182,6 +191,11 @@ else
     {
       @:lastAttempt = @lastShotAttempt.Attempts;
     }
+  }
+  
+  if(Model.ActivePlayers.Any())
+  {
+      @:firstPlayerId = @Model.ActivePlayers.First().Id;
   }
 }
 
@@ -224,5 +238,10 @@ else
         }
       });
     });
+
+    function selectFirstPlayer()
+    {
+        $('.player-list').val(firstPlayerId);
+    }
   </script>
 }
