@@ -21,6 +21,7 @@ namespace BolfTracker.Infrastructure.EntityFramework
         public DbSet<Shot> Shots { get; set; }
         public DbSet<ShotType> ShotTypes { get; set; }
 
+        public DbSet<PlayerBadges> PlayerBadges { get; set; }
         public BolfTrackerContext() : base(ConfigurationManager.ConnectionStrings["BolfTracker"].ConnectionString)
         {
             Configuration.LazyLoadingEnabled = false;
@@ -42,6 +43,7 @@ namespace BolfTracker.Infrastructure.EntityFramework
             modelBuilder.Configurations.Add<Ranking>(new RankingConfiguration());
             modelBuilder.Configurations.Add<Shot>(new ShotConfiguration());
             modelBuilder.Configurations.Add<ShotType>(new ShotTypeConfiguration());
+            modelBuilder.Configurations.Add<PlayerBadges>(new PlayerBadgesConfiguration());
         }
     }
 }

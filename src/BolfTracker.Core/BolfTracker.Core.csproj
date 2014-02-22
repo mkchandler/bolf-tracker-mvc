@@ -44,12 +44,14 @@
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Common\CheckArgument.cs" />
+    <Compile Include="Models\Badge.cs" />
     <Compile Include="Models\Game.cs" />
     <Compile Include="Models\GameStatistics.cs" />
     <Compile Include="Models\Hole.cs" />
     <Compile Include="Models\HoleStatistics.cs" />
     <Compile Include="Models\IEntity.cs" />
     <Compile Include="Models\Player.cs" />
+    <Compile Include="Models\PlayerBadges.cs" />
     <Compile Include="Models\PlayerCareerStatistics.cs" />
     <Compile Include="Models\PlayerGameStatistics.cs" />
     <Compile Include="Models\PlayerHoleStatistics.cs" />
@@ -62,6 +64,7 @@
     <Compile Include="Repositories\IGameStatisticsRepository.cs" />
     <Compile Include="Repositories\IHoleRepository.cs" />
     <Compile Include="Repositories\IHoleStatisticsRepository.cs" />
+    <Compile Include="Repositories\IPlayerBadgesRepository.cs" />
     <Compile Include="Repositories\IPlayerCareerStatisticsRepository.cs" />
     <Compile Include="Repositories\IPlayerGameStatisticsRepository.cs" />
     <Compile Include="Repositories\IPlayerHoleStatisticsRepository.cs" />
