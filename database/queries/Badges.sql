@@ -43,3 +43,25 @@ SELECT *
 FROM PlayerGameStatistics
 WHERE Steals >= 3
 
+-- "King of the Front" - Win all points on the first half of holes but don't win
+SELECT S.GameId, S.PlayerId
+FROM Shot S
+INNER JOIN PlayerGameStatistics PGS ON PGS.PlayerId = S.PlayerId AND PGS.GameId = S.GameId
+WHERE S.HoleId <= 5 AND PGS.Winner = 0
+GROUP BY S.GameId, S.PlayerId
+HAVING SUM(S.Points) = 12
+ORDER BY 1 DESC
+
+-- "King of the Front" - How many times each player has received this badge
+SELECT P.Name, COUNT(K.PlayerId) AS BadgeCount
+FROM (
+	SELECT S.GameId, S.PlayerId
+	FROM Shot S
+	INNER JOIN PlayerGameStatistics PGS ON PGS.PlayerId = S.PlayerId AND PGS.GameId = S.GameId
+	WHERE S.HoleId <= 5 AND PGS.Winner = 0
+	GROUP BY S.GameId, S.PlayerId
+	HAVING SUM(S.Points) = 12) K
+INNER JOIN Player P ON P.Id = K.PlayerId
+GROUP BY P.Name, K.PlayerId
+ORDER BY 2 DESC
+
