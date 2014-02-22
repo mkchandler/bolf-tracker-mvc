@@ -15,7 +15,7 @@ namespace BolfTracker.Services
         Player Update(int id, string name);
 
         void Delete(int id);
-
+        IEnumerable<PlayerBadges> GetPlayerBadges(int playerId);
         void CalculatePlayerStatistics();
 
         void CalculatePlayerStatistics(int month, int year, bool calculateCareerStatistics);

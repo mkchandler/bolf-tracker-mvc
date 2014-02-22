@@ -14,6 +14,7 @@ namespace BolfTracker.Web
             Year = year;
             _playerStatistics = playerStatistics;
             _playerCareerStatistics = playerCareerStatistics;
+      
         }
 
         public int Month
@@ -49,5 +50,7 @@ namespace BolfTracker.Web
         {
             get { return _playerCareerStatistics.OrderByDescending(ps => ps.ShootingPercentage); }
         }
+
+       
     }
 }

@@ -96,6 +96,7 @@
       <DependentUpon>201402221740167_AddPlayerBadges.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="PlayerBadgesRepository.cs" />
     <Compile Include="PlayerCareerStatisticsRepository.cs" />
     <Compile Include="PlayerGameStatisticsRepository.cs" />
     <Compile Include="PlayerHoleStatisticsRepository.cs" />

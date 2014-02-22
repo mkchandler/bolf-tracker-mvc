@@ -7,7 +7,8 @@ using BolfTracker.Models;
 
 namespace BolfTracker.Repositories
 {
-    interface IPlayerBadgesRepository : IRepository<PlayerBadges>
+   public interface IPlayerBadgesRepository : IRepository<PlayerBadges>
     {
+        IEnumerable<PlayerBadges> GetByPlayer(int playerId);
     }
 }
