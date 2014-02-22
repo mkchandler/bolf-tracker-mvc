@@ -7,6 +7,7 @@ namespace BolfTracker.Infrastructure.EntityFramework
 {
     public class BolfTrackerContext : DbContext
     {
+        public DbSet<Badge> Badges { get; set; }
         public DbSet<Game> Games { get; set; }
         public DbSet<GameStatistics> GameStatistics { get; set; }
         public DbSet<Hole> Holes { get; set; }
@@ -20,8 +21,8 @@ namespace BolfTracker.Infrastructure.EntityFramework
         public DbSet<Ranking> Rankings { get; set; }
         public DbSet<Shot> Shots { get; set; }
         public DbSet<ShotType> ShotTypes { get; set; }
-
         public DbSet<PlayerBadges> PlayerBadges { get; set; }
+
         public BolfTrackerContext() : base(ConfigurationManager.ConnectionStrings["BolfTracker"].ConnectionString)
         {
             Configuration.LazyLoadingEnabled = false;
@@ -30,6 +31,7 @@ namespace BolfTracker.Infrastructure.EntityFramework
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            modelBuilder.Configurations.Add<Badge>(new BadgeConfiguration());
             modelBuilder.Configurations.Add<Game>(new GameConfiguration());
             modelBuilder.Configurations.Add<GameStatistics>(new GameStatisticsConfiguration());
             modelBuilder.Configurations.Add<Hole>(new HoleConfiguration());

@@ -7,13 +7,13 @@ namespace BolfTracker.Infrastructure.EntityFramework.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.0.0-rc1-20726")]
-    public sealed partial class addplayerbadges : IMigrationMetadata
+    public sealed partial class AddPlayerBadges : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(addplayerbadges));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(AddPlayerBadges));
         
         string IMigrationMetadata.Id
         {
-            get { return "201402221638242_add-player-badges"; }
+            get { return "201402221740167_AddPlayerBadges"; }
         }
         
         string IMigrationMetadata.Source

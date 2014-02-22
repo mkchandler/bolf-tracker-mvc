@@ -68,6 +68,7 @@
     </Compile>
     <Compile Include="BolfTrackerContext.cs" />
     <Compile Include="BolfTrackerDbConnection.cs" />
+    <Compile Include="Configuration\BadgeConfiguration.cs" />
     <Compile Include="Configuration\GameConfiguration.cs" />
     <Compile Include="Configuration\GameStatisticsConfiguration.cs" />
     <Compile Include="Configuration\HoleConfiguration.cs" />
@@ -90,9 +91,9 @@
     <Compile Include="Migrations\201302021720394_UpdatePlayerTable.Designer.cs">
       <DependentUpon>201302021720394_UpdatePlayerTable.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201402221638242_add-player-badges.cs" />
-    <Compile Include="Migrations\201402221638242_add-player-badges.Designer.cs">
-      <DependentUpon>201402221638242_add-player-badges.cs</DependentUpon>
+    <Compile Include="Migrations\201402221740167_AddPlayerBadges.cs" />
+    <Compile Include="Migrations\201402221740167_AddPlayerBadges.Designer.cs">
+      <DependentUpon>201402221740167_AddPlayerBadges.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PlayerCareerStatisticsRepository.cs" />
@@ -121,8 +122,8 @@
     <EmbeddedResource Include="Migrations\201302021720394_UpdatePlayerTable.resx">
       <DependentUpon>201302021720394_UpdatePlayerTable.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201402221638242_add-player-badges.resx">
-      <DependentUpon>201402221638242_add-player-badges.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201402221740167_AddPlayerBadges.resx">
+      <DependentUpon>201402221740167_AddPlayerBadges.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
