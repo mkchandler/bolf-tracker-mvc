@@ -1,20 +1,63 @@
 ﻿@model IList<BolfTracker.Models.PlayerBadges>
+@{
+    int ndx = 0;
+    string activeRow = " active";
+    }
+    <div class="container">
+        <div class="col-md-12">
+     
+
+            <div class="well">
+                <div id="myCarousel" class="carousel slide">
+                    <div class="carousel-inner">
+                        @foreach (var badge in Model)
+                        {
+                            ndx++;
+                            if (ndx == 1)
+                            {
+
+                                @:<div class="item  @activeRow">
+                                    @:<div class="row">
+                            activeRow = "";
+                            }
+
+                            <div class="col-sm-3">
+                                <div class="thumbnail">
+                                    <legend>@badge.Badge.Name</legend>
+                                    <img class="img-responsive" src="~/img/trophy.png" />
+                                    <p>@badge.Badge.Description</p>
+                                </div>
+                            </div>
 
 
-@foreach(var badge in Model)
-{
-    <div>
-   </div>    
-    
-    
-    <div class="row">
-  <div class="col-xs-6 col-md-3">
-      <a href="#" class="thumbnail">
-          <div class=" glyphicon glyphicon-star">@badge.Badge.Name</div>
-         
-      </a>
+
+                            if (ndx == 4)
+                            {
+                                ndx = 0;
+                                @:</div>
+                            @:</div>
+
+
+                            }
+
+                        }
+                        @{
+                            if (ndx != 4 && ndx != 0)
+                            {
+                                ndx = 0;
+                                @:</div>
+                           @:</div>
+                            
+                        }
+                    }
+                    </div>
+                    <!--/carousel-inner--> <a class="left carousel-control" href="#myCarousel" data-slide="prev">‹</a>
+
+                    <a class="right carousel-control" href="#myCarousel" data-slide="next">›</a>
+                </div>
+                <!--/myCarousel-->
+            </div>
+            <!--/well-->
   </div>
-  ...
 </div>
-    
-}
+
