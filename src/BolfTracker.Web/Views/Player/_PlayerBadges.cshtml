@@ -8,7 +8,7 @@
      
 
             <div class="well">
-                <div id="myCarousel" class="carousel slide">
+                <div id="myCarousel" class="carousel slide" data-ride="carousel">
                     <div class="carousel-inner">
                         @foreach (var badge in Model)
                         {
@@ -38,6 +38,8 @@
                             @:</div>
 
 
+
+
                             }
 
                         }
@@ -46,10 +48,11 @@
                             {
                                 ndx = 0;
                                 @:</div>
-                           @:</div>
-                            
-                        }
-                    }
+                            @:</div>
+
+                            }
+                        }                          
+                   
                     </div>
                     <!--/carousel-inner--> <a class="left carousel-control" href="#myCarousel" data-slide="prev">‹</a>
 
