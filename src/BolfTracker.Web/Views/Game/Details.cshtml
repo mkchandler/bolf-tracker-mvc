@@ -152,7 +152,7 @@
                     {
                       @Html.Hidden("scoreId", score.Id)
                       @Html.Hidden("gameId", score.Game.Id)
-                      <input type="submit"  class="btn btn-danger btn-xs" value="Delete" />
+                      <input type="submit" class="btn btn-danger btn-xs" value="Delete" />
                     }
                   }
                 }
@@ -224,12 +224,9 @@ else
         }
       });
 
-      $("#btn-save-shot").on("click", function()
-      {
-          var btn = $(this);
-          btn.button('loading');
+      $("#btn-save-shot").on("click", function() {
+          $(this).button("loading");
       });
-
     });
   </script>
 }
