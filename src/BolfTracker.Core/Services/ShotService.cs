@@ -125,7 +125,7 @@ namespace BolfTracker.Services
                             else
                             {
                                 var playerWithPoints = shots.Single(s => s.Hole.Id == currentShot.Hole.Id && s.Points > 0);
-                                
+
                                 // This is a regular steal
                                 currentShot.ShotType = allShotTypes.Single(st => st.Id == ShotTypeSteal);
                                 currentShot.Points = playerWithPoints.Points;
@@ -171,6 +171,28 @@ namespace BolfTracker.Services
         public void Delete(int id)
         {
             _shotRepository.Delete(id);
+        }
+
+        public void DeleteToShot(int gameId, int shotId)
+        {
+            var shots = _shotRepository.GetByGame(gameId);
+            var shotToDelete = _shotRepository.GetById(shotId);
+
+            // Get shots to reapply after deleting, do this if the shot we are deleting may be a steal from a previous push
+            // that is no longer identified as a push.
+            var shotsToReapply = shots.Where(s => s.Hole.Id == shotToDelete.Hole.Id && s.Id < shotToDelete.Id).ToList();
+
+            // Now find first shot on this hole and delete to there
+            var firstShotOnHole = shots.Where(s => s.Hole.Id == shotToDelete.Hole.Id).Min(s => s.Id);
+
+            // Delete all shots up this the first shot on the hole where the shot to be deleted was shot (yep, makes no sense)
+            _shotRepository.DeleteToShot(gameId, firstShotOnHole);
+
+            // Reapply the shots on the hole that we really don't want to delete so the shot type and score will be correct.
+            foreach (var shot in shotsToReapply.OrderBy(s => s.Id))
+            {
+                Create(shot.Game.Id, shot.Player.Id, shot.Hole.Id, shot.Attempts, shot.ShotMade);
+            }
         }
     }
 }
