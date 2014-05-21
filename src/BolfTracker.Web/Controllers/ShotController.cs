@@ -30,14 +30,6 @@ namespace BolfTracker.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Delete(int scoreId, int gameId)
-        {
-            _shotService.Delete(scoreId);
-
-            return RedirectToAction("Details", "Game", new { id = gameId });
-        }
-
-        [HttpPost]
         public ActionResult DeleteToShot(int gameId, int shotId)
         {
             _shotService.DeleteToShot(gameId, shotId);

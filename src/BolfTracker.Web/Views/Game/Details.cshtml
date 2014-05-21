@@ -146,24 +146,12 @@
               <td>
                 @if (HttpContext.Current.User.Identity.IsAuthenticated)
                 {
-                  if (score.Id == lastShot && !Model.GameFinalized)
+                  using (Html.BeginForm("DeleteToShot", "Shot", FormMethod.Post, new { @style = "margin: 0;" }))
                   {
-                    using (Html.BeginForm("Delete", "Shot", FormMethod.Post, new { @style = "margin: 0;" }))
-                    {
-                      @Html.Hidden("scoreId", score.Id)
-                      @Html.Hidden("gameId", score.Game.Id)
-                      <input type="submit" class="btn btn-danger btn-xs" value="Delete" />
-                    }
+                    @Html.Hidden("gameId", score.Game.Id)
+                    @Html.Hidden("shotId", @score.Id)
+                    <input type="submit" class="btn btn-danger btn-xs" value="Delete To Shot" />
                   }
-                  else if (score.Id != lastShot && !Model.GameFinalized)
-                  {
-                    using (Html.BeginForm("DeleteToShot", "Shot", FormMethod.Post, new { @style = "margin: 0;" }))
-                    {
-                      @Html.Hidden("gameId", score.Game.Id)
-                      @Html.Hidden("shotId", @score.Id)
-                      <input type="submit" class="btn btn-danger btn-xs" value="Delete To Shot" />
-                    }
-                  } 
                 }
               </td>
             }
