@@ -69,7 +69,7 @@
               Shot Made
             </label>
           </div>
-          <input type="submit" class="btn btn-primary" value="Save Shot" />
+          <input type="submit" id="btn-save-shot" data-loading-text="Saving..." class="btn btn-primary" value="Save Shot" />
         }
       }
     }
@@ -222,6 +222,10 @@ else
             }
             break;
         }
+      });
+
+      $("#btn-save-shot").on("click", function() {
+          $(this).button("loading");
       });
     });
   </script>
