@@ -13,16 +13,14 @@ namespace BolfTracker.Web.Controllers
         private readonly IHoleService _holeService;
         private readonly IPlayerService _playerService;
         private readonly IRankingService _rankingService;
-        private readonly IShotTypeService _scoreTypeService;
 
-        public GameController(IGameService gameService, IShotService shotService, IHoleService holeService, IPlayerService playerService, IRankingService rankingService, IShotTypeService scoreTypeService)
+        public GameController(IGameService gameService, IShotService shotService, IHoleService holeService, IPlayerService playerService, IRankingService rankingService)
         {
             _gameService = gameService;
             _shotService = shotService;
             _holeService = holeService;
             _playerService = playerService;
             _rankingService = rankingService;
-            _scoreTypeService = scoreTypeService;
         }
 
         public ActionResult Index(int? year, int? month)

@@ -21,5 +21,7 @@ namespace BolfTracker.Repositories
         void Update(Shot shot);
 
         void Delete(int id);
+
+        void DeleteToShot(int gameId, int shotId);
     }
 }

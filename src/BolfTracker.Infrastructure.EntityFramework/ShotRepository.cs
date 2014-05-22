@@ -16,7 +16,7 @@ namespace BolfTracker.Infrastructure.EntityFramework
         {
             using (var context = new BolfTrackerContext())
             {
-                var shot = context.Shots.SingleOrDefault(s => s.Id == id);
+                var shot = context.Shots.Include(s => s.ShotType).Include(s => s.Hole).Include(s => s.Player).Include(s => s.Game).SingleOrDefault(s => s.Id == id);
 
                 return shot;
             }
@@ -87,6 +87,16 @@ namespace BolfTracker.Infrastructure.EntityFramework
                 connection.Open();
 
                 connection.Execute("DELETE FROM Shot WHERE Id = @Id", new { Id = id });
+            }
+        }
+
+        public void DeleteToShot(int gameId, int shotId)
+        {
+            using (var connection = BolfTrackerDbConnection.GetProfiledConnection())
+            {
+                connection.Open();
+
+                connection.Execute("DELETE FROM Shot WHERE Id >= @Id and GameId = @GameId", new { Id = shotId, GameId = gameId });
             }
         }
     }
