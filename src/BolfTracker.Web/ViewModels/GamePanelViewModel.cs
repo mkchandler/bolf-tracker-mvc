@@ -116,8 +116,8 @@ namespace BolfTracker.Web
                             var playersWhoCannotWin = new List<Player>();
 
                             if (playersWhoCanStillWin.Count == 0)
-                            {   
-                                if(HoleIsPushed(currentHole))
+                            {
+                                if (HoleIsPushed(currentHole))
                                 {
                                     return playersWhoCanStillWin.First().Player;
                                 }
@@ -432,8 +432,8 @@ namespace BolfTracker.Web
         }
 
         public bool HoleIsPushed(int hole)
-        { 
-            return Shots.Any(s => s.Hole.Id == hole && s.ShotType.Id == ShotTypePush);             
+        {
+            return Shots.Any(s => s.Hole.Id == hole && s.ShotType.Id == ShotTypePush);
         }
 
         public IEnumerable<Hole> Holes
