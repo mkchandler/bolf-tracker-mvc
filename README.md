@@ -3,6 +3,7 @@ Bolf Tracker
 
 Bolf Tracker is a site that keeps tracks of scores and statistics for the office basketball game of Bolf.
 
+[![Build status](https://ci.appveyor.com/api/projects/status/3htfaks4dg50n80b)](https://ci.appveyor.com/project/mkchandler/bolf-tracker-mvc-366)
 
 Usage
 -----
