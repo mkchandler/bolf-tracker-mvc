@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
+using System.Linq;
 using System.Web.Mvc;
 using System.Web.Security;
-
+using BolfTracker.Models;
 using BolfTracker.Services;
 
 namespace BolfTracker.Web.Controllers
@@ -26,6 +28,28 @@ namespace BolfTracker.Web.Controllers
 
             return View(new PlayersViewModel(month, year, playerStatistics, playerCareerStatistics));
         }
+
+        public JsonResult GetPlayerStatisticsJson()
+        {
+            return Json( _playerService.GetPlayerCareerStatistics()
+                .OrderBy(a=>a.Player.Name)
+                .Select(
+                    a =>
+                    new
+                    {
+                        a.Player.Name,
+                        a.ShotsMade,
+                        a.ShotsMissed,
+                        a.ShootingPercentage,
+                        a.Points,
+                        a.PointsPerGame,
+                        a.Wins,
+                        a.Pushes,
+                        a.Steals,
+                        a.SugarFreeSteals
+                    }), JsonRequestBehavior.AllowGet);
+        }
+
 
         public ActionResult Details(int id, string name)
         {
