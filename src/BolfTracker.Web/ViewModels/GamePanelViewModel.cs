@@ -117,6 +117,11 @@ namespace BolfTracker.Web
 
                             if (playersWhoCanStillWin.Count == 0)
                             {
+                                if (HoleIsPushed(currentHole))
+                                {
+                                    return playersWhoCanStillWin.First().Player;
+                                }
+
                                 // This means that one of the players who could win made a shot, so all of the people 
                                 // that cannot win need to take a shot to push them
                                 foreach (var player in playersDescending)
@@ -333,7 +338,7 @@ namespace BolfTracker.Web
                     {
                         var newHoleShots = Shots.Where(s => s.Hole.Id == _currentHole.Value).ToList();
 
-                        if (newHoleShots.Count(s => s.Attempts == 1 && s.ShotMade) > 1)
+                        if (newHoleShots.Count(s => s.Attempts == 1 && s.ShotMade) > 1 || HoleIsPushed(_currentHole.Value))
                         {
                             // Two people have made the shot in 1, move on to the next
                             _currentHole++;
@@ -424,6 +429,11 @@ namespace BolfTracker.Web
 
                 return _allPlayers.Select(player => new SelectListItem() { Text = player.Name, Value = player.Id.ToString(), Selected = (player.Id == currentPlayer.Id) }).ToList();
             }
+        }
+
+        public bool HoleIsPushed(int hole)
+        {
+            return Shots.Any(s => s.Hole.Id == hole && s.ShotType.Id == ShotTypePush);
         }
 
         public IEnumerable<Hole> Holes
