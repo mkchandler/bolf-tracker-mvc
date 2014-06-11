@@ -11,7 +11,6 @@ Usage
 The following frameworks are required to run Bolf Tracker:
 
 * .NET Framework 4.5
-* ASP.NET MVC 4
 
 The database is built to run on SQL Server 2008 R2 Express.
 
@@ -46,7 +45,7 @@ A list of additional contributors can be viewed here: https://github.com/mkchand
 Copyright and license
 ---------------------
 
-Copyright 2013 Matt Chandler and contributors
+Copyright 2014 Matt Chandler and contributors
 
 Licensed under the MIT License (the "License"); you may not use this work except in compliance with the License. You may obtain a copy of the License in the LICENSE file, or at:
 
