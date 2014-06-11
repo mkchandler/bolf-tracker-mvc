@@ -12,6 +12,7 @@ namespace BolfTracker.Models
         private readonly ICollection<PlayerRivalryStatistics> _playerRivalryStatistics;
         private readonly ICollection<PlayerRivalryStatistics> _affectedPlayerRivalryStatistics;
         private readonly ICollection<Ranking> _rankings;
+        private readonly ICollection<PlayerBadges> _playerBadges;
 
         public Player()
         {
@@ -23,6 +24,7 @@ namespace BolfTracker.Models
             _playerRivalryStatistics = new List<PlayerRivalryStatistics>();
             _affectedPlayerRivalryStatistics = new List<PlayerRivalryStatistics>();
             _rankings = new List<Ranking>();
+            _playerBadges = new List<PlayerBadges>();
         }
 
         public int Id
@@ -89,6 +91,11 @@ namespace BolfTracker.Models
         public ICollection<Ranking> Rankings
         {
             get { return _rankings; }
+        }
+
+        public ICollection<PlayerBadges> PlayerBadges
+        {
+            get { return _playerBadges; }
         }
     }
 }

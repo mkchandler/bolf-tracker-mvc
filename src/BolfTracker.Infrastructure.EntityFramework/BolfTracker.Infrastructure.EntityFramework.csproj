@@ -68,10 +68,12 @@
     </Compile>
     <Compile Include="BolfTrackerContext.cs" />
     <Compile Include="BolfTrackerDbConnection.cs" />
+    <Compile Include="Configuration\BadgeConfiguration.cs" />
     <Compile Include="Configuration\GameConfiguration.cs" />
     <Compile Include="Configuration\GameStatisticsConfiguration.cs" />
     <Compile Include="Configuration\HoleConfiguration.cs" />
     <Compile Include="Configuration\HoleStatisticsConfiguration.cs" />
+    <Compile Include="Configuration\PlayerBadgesConfiguration.cs" />
     <Compile Include="Configuration\PlayerCareerStatisticsConfiguration.cs" />
     <Compile Include="Configuration\PlayerConfiguration.cs" />
     <Compile Include="Configuration\PlayerGameStatisticsConfiguration.cs" />
@@ -89,7 +91,12 @@
     <Compile Include="Migrations\201302021720394_UpdatePlayerTable.Designer.cs">
       <DependentUpon>201302021720394_UpdatePlayerTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201402221740167_AddPlayerBadges.cs" />
+    <Compile Include="Migrations\201402221740167_AddPlayerBadges.Designer.cs">
+      <DependentUpon>201402221740167_AddPlayerBadges.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="PlayerBadgesRepository.cs" />
     <Compile Include="PlayerCareerStatisticsRepository.cs" />
     <Compile Include="PlayerGameStatisticsRepository.cs" />
     <Compile Include="PlayerHoleStatisticsRepository.cs" />
@@ -116,6 +123,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201302021720394_UpdatePlayerTable.resx">
       <DependentUpon>201302021720394_UpdatePlayerTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201402221740167_AddPlayerBadges.resx">
+      <DependentUpon>201402221740167_AddPlayerBadges.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

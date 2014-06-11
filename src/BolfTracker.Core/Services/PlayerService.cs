@@ -18,6 +18,7 @@ namespace BolfTracker.Services
         private readonly IGameStatisticsRepository _gameStatisticsRepository;
         private readonly IPlayerGameStatisticsRepository _playerGameStatisticsRepository;
         private readonly IPlayerCareerStatisticsRepository _playerCareerStatisticsRepository;
+        private readonly IPlayerBadgesRepository _playerBadgeRepository;
 
         // TODO: Really need to figure out a better way to do this
         private const int ShotTypeMake = 1;
@@ -26,7 +27,7 @@ namespace BolfTracker.Services
         private const int ShotTypeSteal = 4;
         private const int ShotTypeSugarFreeSteal = 5;
 
-        public PlayerService(IPlayerRepository playerRepository, IHoleRepository holeRepository, IShotRepository shotRepository, IGameRepository gameRepository, IPlayerStatisticsRepository playerStatisticsRepository, IPlayerHoleStatisticsRepository playerHoleStatisticsRepository, IGameStatisticsRepository gameStatisticsRepository, IPlayerGameStatisticsRepository playerGameStatisticsRepository, IPlayerCareerStatisticsRepository playerCareerStatisticsRepository)
+        public PlayerService(IPlayerRepository playerRepository, IHoleRepository holeRepository, IShotRepository shotRepository, IGameRepository gameRepository, IPlayerStatisticsRepository playerStatisticsRepository, IPlayerHoleStatisticsRepository playerHoleStatisticsRepository, IGameStatisticsRepository gameStatisticsRepository, IPlayerGameStatisticsRepository playerGameStatisticsRepository, IPlayerCareerStatisticsRepository playerCareerStatisticsRepository, IPlayerBadgesRepository playerBadgeRepository)
         {
             _playerRepository = playerRepository;
             _holeRepository = holeRepository;
@@ -37,6 +38,7 @@ namespace BolfTracker.Services
             _gameStatisticsRepository = gameStatisticsRepository;
             _playerGameStatisticsRepository = playerGameStatisticsRepository;
             _playerCareerStatisticsRepository = playerCareerStatisticsRepository;
+            _playerBadgeRepository = playerBadgeRepository;
         }
 
         public Player GetPlayer(int id)
@@ -77,6 +79,12 @@ namespace BolfTracker.Services
             Check.Argument.IsNotZeroOrNegative(id, "id");
 
             _playerRepository.Delete(_playerRepository.GetById(id));
+        }
+
+        public IEnumerable<PlayerBadges> GetPlayerBadges(int id)
+        {
+            Check.Argument.IsNotZeroOrNegative(id, "id");
+            return _playerBadgeRepository.GetByPlayer(id);
         }
 
         public void CalculatePlayerStatistics()

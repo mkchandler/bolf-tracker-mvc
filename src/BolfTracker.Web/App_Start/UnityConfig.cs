@@ -29,7 +29,8 @@ namespace BolfTracker.Web
                      .RegisterType<IShotService, ShotService>()
                      .RegisterType<IShotTypeService, ShotTypeService>()
                      .RegisterType<IRankingService, RankingService>();
-
+                     
+                        
             // Register all of the needed repositories
             container.RegisterType<IGameRepository, GameRepository>()
                      .RegisterType<IPlayerRepository, PlayerRepository>()
@@ -43,7 +44,8 @@ namespace BolfTracker.Web
                      .RegisterType<IPlayerGameStatisticsRepository, PlayerGameStatisticsRepository>()
                      .RegisterType<IPlayerCareerStatisticsRepository, PlayerCareerStatisticsRepository>()
                      .RegisterType<IPlayerRivalryStatisticsRepository, PlayerRivalryStatisticsRepository>()
-                     .RegisterType<IShotTypeRepository, ShotTypeRepository>();         
+                     .RegisterType<IShotTypeRepository, ShotTypeRepository>()
+                     .RegisterType<IPlayerBadgesRepository,PlayerBadgesRepository>();         
 
             return container;
         }
