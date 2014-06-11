@@ -25,6 +25,8 @@ namespace BolfTracker.Infrastructure.EntityFramework
         {
             Configuration.LazyLoadingEnabled = false;
             Configuration.ValidateOnSaveEnabled = false;
+
+            Database.SetInitializer<BolfTrackerContext>(null);
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
