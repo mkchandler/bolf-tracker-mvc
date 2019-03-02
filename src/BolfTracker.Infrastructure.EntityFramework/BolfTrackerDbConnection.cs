@@ -1,5 +1,4 @@
-﻿using System.Configuration;
-using System.Data.Common;
+﻿using System.Data.Common;
 using System.Data.SqlClient;
 
 namespace BolfTracker.Infrastructure.EntityFramework
@@ -8,7 +7,7 @@ namespace BolfTracker.Infrastructure.EntityFramework
     {
         public static DbConnection GetProfiledConnection()
         {
-            var connection = new SqlConnection(ConfigurationManager.ConnectionStrings["BolfTracker"].ConnectionString);
+            var connection = new SqlConnection(ConnectionString.Build());
 
             // Wrap the connection with a profiling connection that tracks timings
             return new StackExchange.Profiling.Data.ProfiledDbConnection(connection, StackExchange.Profiling.MiniProfiler.Current);
