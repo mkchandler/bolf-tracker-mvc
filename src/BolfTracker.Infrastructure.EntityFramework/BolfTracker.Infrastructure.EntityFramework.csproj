@@ -81,6 +81,7 @@
     <Compile Include="Configuration\RankingConfiguration.cs" />
     <Compile Include="Configuration\ShotConfiguration.cs" />
     <Compile Include="Configuration\ShotTypeConfiguration.cs" />
+    <Compile Include="ConnectionString.cs" />
     <Compile Include="GameRepository.cs" />
     <Compile Include="GameStatisticsRepository.cs" />
     <Compile Include="HoleRepository.cs" />

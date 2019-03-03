@@ -1,6 +1,4 @@
-﻿using System.Configuration;
-using System.Data.Entity;
-
+﻿using System.Data.Entity;
 using BolfTracker.Models;
 
 namespace BolfTracker.Infrastructure.EntityFramework
@@ -21,7 +19,7 @@ namespace BolfTracker.Infrastructure.EntityFramework
         public DbSet<Shot> Shots { get; set; }
         public DbSet<ShotType> ShotTypes { get; set; }
 
-        public BolfTrackerContext() : base(ConfigurationManager.ConnectionStrings["BolfTracker"].ConnectionString)
+        public BolfTrackerContext() : base(ConnectionString.Build())
         {
             Configuration.LazyLoadingEnabled = false;
             Configuration.ValidateOnSaveEnabled = false;
