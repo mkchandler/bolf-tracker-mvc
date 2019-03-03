@@ -1,5 +1,4 @@
 ﻿using System.Data.Entity;
-
 using BolfTracker.Models;
 
 namespace BolfTracker.Infrastructure.EntityFramework
