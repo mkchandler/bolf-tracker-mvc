@@ -34,7 +34,7 @@ namespace BolfTracker.Infrastructure.EntityFramework
 
         public IEnumerable<PlayerGameStatistics> GetByMonthAndYear(int month, int year)
         {
-            using (var connection = BolfTrackerDbConnection.GetProfiledConnection())
+            using (var connection = BolfTrackerDbConnection.GetConnection())
             {
                 connection.Open();
 
@@ -91,7 +91,7 @@ namespace BolfTracker.Infrastructure.EntityFramework
 
         public void DeleteAll()
         {
-            using (var connection = BolfTrackerDbConnection.GetProfiledConnection())
+            using (var connection = BolfTrackerDbConnection.GetConnection())
             {
                 connection.Open();
                 string command = "DELETE FROM PlayerGameStatistics";
@@ -101,7 +101,7 @@ namespace BolfTracker.Infrastructure.EntityFramework
 
         public void DeleteByMonthAndYear(int month, int year)
         {
-            using (var connection = BolfTrackerDbConnection.GetProfiledConnection())
+            using (var connection = BolfTrackerDbConnection.GetConnection())
             {
                 connection.Open();
                 string command = "DELETE PlayerGameStatistics FROM PlayerGameStatistics pgs INNER JOIN Game g ON g.Id = pgs.GameId WHERE (DATEPART (month, g.[Date])) = @Month AND (DATEPART (year, g.[Date])) = @Year";
@@ -111,7 +111,7 @@ namespace BolfTracker.Infrastructure.EntityFramework
 
         public void DeleteByGame(int gameId)
         {
-            using (var connection = BolfTrackerDbConnection.GetProfiledConnection())
+            using (var connection = BolfTrackerDbConnection.GetConnection())
             {
                 connection.Open();
                 string command = "DELETE FROM PlayerGameStatistics WHERE GameId = @GameId";

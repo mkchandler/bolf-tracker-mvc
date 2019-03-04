@@ -25,7 +25,7 @@ namespace BolfTracker.Infrastructure.EntityFramework
 
         public IEnumerable<Tuple<int, int>> GetActiveMonthsAndYears()
         {
-            using (var connection = BolfTrackerDbConnection.GetProfiledConnection())
+            using (var connection = BolfTrackerDbConnection.GetConnection())
             {
                 connection.Open();
 
@@ -45,7 +45,7 @@ namespace BolfTracker.Infrastructure.EntityFramework
 
         public IEnumerable<Game> GetAllFinalized()
         {
-            using (var connection = BolfTrackerDbConnection.GetProfiledConnection())
+            using (var connection = BolfTrackerDbConnection.GetConnection())
             {
                 connection.Open();
 
@@ -59,7 +59,7 @@ namespace BolfTracker.Infrastructure.EntityFramework
 
         public IEnumerable<Game> GetByMonthAndYear(int month, int year)
         {
-            using (var connection = BolfTrackerDbConnection.GetProfiledConnection())
+            using (var connection = BolfTrackerDbConnection.GetConnection())
             {
                 connection.Open();
 
@@ -73,7 +73,7 @@ namespace BolfTracker.Infrastructure.EntityFramework
 
         public IEnumerable<Game> GetFinalizedByMonthAndYear(int month, int year)
         {
-            using (var connection = BolfTrackerDbConnection.GetProfiledConnection())
+            using (var connection = BolfTrackerDbConnection.GetConnection())
             {
                 connection.Open();
 

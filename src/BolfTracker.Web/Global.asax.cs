@@ -10,11 +10,7 @@ namespace BolfTracker.Web
         {
             MvcHandler.DisableMvcResponseHeader = true;
 
-            ViewEngines.Engines.Clear();
-            ViewEngines.Engines.Add(new RazorViewEngine());
-
-            AreaRegistration.RegisterAllAreas();
-
+            DependencyConfig.RegisterDependencies();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);

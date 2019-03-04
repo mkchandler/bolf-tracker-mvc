@@ -25,7 +25,7 @@ namespace BolfTracker.Infrastructure.EntityFramework
 
         public IEnumerable<HoleStatistics> All()
         {
-            using (var connection = BolfTrackerDbConnection.GetProfiledConnection())
+            using (var connection = BolfTrackerDbConnection.GetConnection())
             {
                 connection.Open();
 

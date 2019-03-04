@@ -5,12 +5,9 @@ namespace BolfTracker.Infrastructure.EntityFramework
 {
     public class BolfTrackerDbConnection
     {
-        public static DbConnection GetProfiledConnection()
+        public static DbConnection GetConnection()
         {
-            var connection = new SqlConnection(ConnectionString.Build());
-
-            // Wrap the connection with a profiling connection that tracks timings
-            return new StackExchange.Profiling.Data.ProfiledDbConnection(connection, StackExchange.Profiling.MiniProfiler.Current);
+            return new SqlConnection(ConnectionString.Build());
         }
     }
 }

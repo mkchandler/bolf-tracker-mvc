@@ -45,7 +45,7 @@ namespace BolfTracker.Infrastructure.EntityFramework
 
         public int GetEligibilityLine(int month, int year)
         {
-            using (var connection = BolfTrackerDbConnection.GetProfiledConnection())
+            using (var connection = BolfTrackerDbConnection.GetConnection())
             {
                 connection.Open();
 

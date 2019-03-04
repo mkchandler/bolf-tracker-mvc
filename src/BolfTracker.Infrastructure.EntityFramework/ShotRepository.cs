@@ -72,7 +72,7 @@ namespace BolfTracker.Infrastructure.EntityFramework
 
         public void Update(Shot shot)
         {
-            using (var connection = BolfTrackerDbConnection.GetProfiledConnection())
+            using (var connection = BolfTrackerDbConnection.GetConnection())
             {
                 connection.Open();
 
@@ -82,7 +82,7 @@ namespace BolfTracker.Infrastructure.EntityFramework
 
         public void Delete(int id)
         {
-            using (var connection = BolfTrackerDbConnection.GetProfiledConnection())
+            using (var connection = BolfTrackerDbConnection.GetConnection())
             {
                 connection.Open();
 
@@ -92,7 +92,7 @@ namespace BolfTracker.Infrastructure.EntityFramework
 
         public void DeleteToShot(int gameId, int shotId)
         {
-            using (var connection = BolfTrackerDbConnection.GetProfiledConnection())
+            using (var connection = BolfTrackerDbConnection.GetConnection())
             {
                 connection.Open();
 
