@@ -1,5 +1,4 @@
-﻿using System.Web;
-using System.Web.Optimization;
+﻿using System.Web.Optimization;
 
 namespace BolfTracker.Web
 {
@@ -8,13 +7,13 @@ namespace BolfTracker.Web
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/js")
-                   .Include("~/js/jquery-1.9.1.js")
-                   .Include("~/js/bootstrap.js")
-                   .Include("~/js/jquery.tablesorter.js"));
+                   .Include("~/scripts/jquery-3.3.1.js")
+                   .Include("~/scripts/bootstrap.js")
+                   .Include("~/scripts/jquery.tablesorter.js"));
 
             bundles.Add(new StyleBundle("~/bundles/css")
-                   .Include("~/css/bootstrap.css")
-                   .Include("~/css/bolftracker.css"));
+                   .Include("~/content/bootstrap.css")
+                   .Include("~/content/bolftracker.css"));
         }
     }
 }
